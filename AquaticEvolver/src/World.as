@@ -70,6 +70,8 @@ package {
 		public var screenY:int; // The y coordinate of the upper left corner of the screen.
 		public var screenWidth:int;
 		public var screenHeight:int;
+		public var defaultHealth:int;
+		public var defaultSpeed:Number;
 		
 		public function World()	{
 			// Set up the screen properties (or are they camera properties?)
@@ -77,9 +79,11 @@ package {
 			this.screenY = 0;
 			this.screenWidth = 500;
 			this.screenHeight = 400;
+			this.defaultHealth = 10;
+			this.defaultSpeed = 5.0;
 			
 			var playerPhenotypes:Array = new Array(); // TODO: fill this in.
-			this.player = new Creature(this.screenWidth / 2, this.screenHeight / 2, 5.0, 10, 10, playerPhenotypes); 
+			this.player = new Creature(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, playerPhenotypes); 
 			this.enemies = new Array();
 			
 			// Construct the Box 2D world (in which all simulation happens)
@@ -111,7 +115,7 @@ package {
 				newX = Math.random() * (this.screenX + 2 * xBuffer) - xBuffer;
 				newY = Math.random() > 0.5 ? -yBuffer : this.screenY + yBuffer;
 			}
-			this.enemies.push(new Creature(newX, newY, 5.0, 10, 10, enemyPhenotypes)); 
+			this.enemies.push(new Creature(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, enemyPhenotypes)); 
 		}
 		
 		// Checks that all enemies are still on screen.
