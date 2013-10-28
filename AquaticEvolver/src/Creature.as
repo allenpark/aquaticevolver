@@ -3,6 +3,7 @@ package {
 	public class Creature {
 		public var x:int;
 		public var y:int;
+		public var speed:Number;
 		public var health:int;
 		public var maxHealth:int;
 		public var phenotypes:Array;
@@ -10,9 +11,10 @@ package {
 		// "attacking", "running", "wandering". Change this.update() if this is changed. 
 		public var mode:String;
 		
-		public function Creature(x:int, y:int, health:int, maxHealth:int, phenotypes:Array) {
+		public function Creature(x:int, y:int, speed:Number, health:int, maxHealth:int, phenotypes:Array) {
 			this.x = x;
 			this.y = y;
+			this.speed = speed;
 			this.health = health;
 			this.maxHealth = maxHealth;
 			this.phenotypes = phenotypes;

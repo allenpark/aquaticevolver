@@ -15,7 +15,7 @@ package {
 			this.screenHeight = 400;
 			
 			var playerPhenotypes:Array = new Array(); // TODO: fill this in.
-			this.player = new Creature(this.screenWidth / 2, this.screenHeight / 2, 10, 10, playerPhenotypes); 
+			this.player = new Creature(this.screenWidth / 2, this.screenHeight / 2, 5.0, 10, 10, playerPhenotypes); 
 			this.enemies = new Array();
 		}
 		
