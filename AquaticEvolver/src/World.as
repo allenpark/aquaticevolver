@@ -79,7 +79,7 @@ package {
 			this.screenHeight = 400;
 			
 			var playerPhenotypes:Array = new Array(); // TODO: fill this in.
-			this.player = new Creature(this.screenWidth / 2, this.screenHeight / 2, 10, 10, playerPhenotypes); 
+			this.player = new Creature(this.screenWidth / 2, this.screenHeight / 2, 5.0, 10, 10, playerPhenotypes); 
 			this.enemies = new Array();
 			
 			// Construct the Box 2D world (in which all simulation happens)
@@ -97,12 +97,25 @@ package {
 		}
 		
 		// Creates an enemy randomly slightly off screen.
-		public function createEnemy():void {
-			// TODO: fill this in.
+		public function createEnemy(xBuffer: int = 0, yBuffer: int = 0):void {
+			// TODO: fill enemyPhenotypes in.
+			var enemyPhenotypes:Array = new Array();
+			var newX:Number;
+			var newY:Number;
+			if (Math.random() > 0.5) {
+				// On the vertical edges.
+				newX = Math.random() > 0.5 ? -xBuffer : this.screenX + xBuffer;
+				newY = Math.random() * (this.screenY + 2 * yBuffer) - yBuffer;
+			} else {
+				// On the horizontal edges.
+				newX = Math.random() * (this.screenX + 2 * xBuffer) - xBuffer;
+				newY = Math.random() > 0.5 ? -yBuffer : this.screenY + yBuffer;
+			}
+			this.enemies.push(new Creature(newX, newY, 5.0, 10, 10, enemyPhenotypes)); 
 		}
 		
 		// Checks that all enemies are still on screen.
-		public function checkEnemiesInScreen():void {
+		public function removeEnemiesNotOnScreen():void {
 			var enemyXBuffer:int = 20;
 			var enemyYBuffer:int = 20;
 			for (var i:int = this.enemies.length - 1; i >= 0; i--) {
@@ -126,6 +139,10 @@ package {
 			this.player.update();
 			for (var i:int = 0; i < this.enemies.length; i++) {
 				this.enemies[i].update();
+			}
+			this.removeEnemiesNotOnScreen();
+			if (Math.random() < 0.01) {
+				this.createEnemy();
 			}
 		}
 		
