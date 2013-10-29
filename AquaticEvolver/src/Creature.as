@@ -6,31 +6,31 @@ package {
 		public var speed:Number;
 		public var health:int;
 		public var maxHealth:int;
-		public var phenotypes:Array;
+		public var adaptations:Array;
 		public var attacks:Array;
-		public var attackingWith:Phenotype; // null if not attacking right now.
+		public var attackingWith:Adaptation; // null if not attacking right now.
 		// Legal values of mode include:
 		// "attacking", "running", "wandering". Change this.update() if this is changed. 
 		public var mode:String;
 		
-		public function Creature(x:int, y:int, speed:Number, health:int, maxHealth:int, phenotypes:Array) {
+		public function Creature(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array) {
 			this.x = x;
 			this.y = y;
 			this.speed = speed;
 			this.health = health;
 			this.maxHealth = maxHealth;
-			this.phenotypes = phenotypes;
+			this.adaptations = adaptations;
 			this.attacks = new Array();
 			this.attackingWith = null;
-			for (var i:int = 0; i < this.phenotypes.length; i++) {
-				var phenotype:Phenotype = this.phenotypes[i];
-				if (phenotype.isAttack()) {
-					this.attacks.push(phenotype);
+			for (var i:int = 0; i < this.adaptations.length; i++) {
+				var adaptation:Adaptation = this.adaptations[i];
+				if (adaptation.isAttack) {
+					this.attacks.push(adaptation);
 				}
 			}
 		}
 		
-		public function pickRandomAttack():Phenotype {
+		public function pickRandomAttack():Adaptation {
 			return this.attacks[Math.floor(Math.random() * this.attacks.length)];
 		}
 		
@@ -60,7 +60,7 @@ package {
 		
 		// Handling when one of your appendages collides with an enemy body.
 		// Returns true iff the enemy has been killed.
-		public function handleAttackOn(phenotype:Phenotype, enemy:Creature):Boolean {
+		public function handleAttackOn(phenotype:Adaptation, enemy:Creature):Boolean {
 			var enemyAlive:Boolean = enemy.getAttacked(phenotype.attackPower);
 			if (!enemyAlive) {
 				this.inheritFrom(enemy);
@@ -89,8 +89,8 @@ package {
 		
 		// The creature (this) will inherit a trait from the parameter creature. 
 		public function inheritFrom(creature:Creature):void {
-			var selectedTrait:Phenotype = creature.selectTrait();
-			this.phenotypes.push(selectedTrait);
+			var selectedTrait:Adaptation = creature.selectTrait();
+			this.adaptations.push(selectedTrait);
 			if (selectedTrait.isAttack()) {
 				this.attacks.push(selectedTrait);
 			}
@@ -99,8 +99,8 @@ package {
 		}
 		
 		// Returns a random phenotype.
-		public function selectTrait():Phenotype {
-			return this.phenotypes[Math.floor(Math.random() * this.phenotypes.length)];
+		public function selectTrait():Adaptation {
+			return this.adaptations[Math.floor(Math.random() * this.adaptations.length)];
 		}
 	}
 }
