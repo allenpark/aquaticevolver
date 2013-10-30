@@ -90,6 +90,10 @@ package
 					pauseGroup.exists = false;
 				}
 			}
+			if(FlxG.keys.justPressed("G")){
+				FlxG.switchState(new GameOverState)
+				
+			}
 		}
 	}
 }
