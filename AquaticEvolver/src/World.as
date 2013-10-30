@@ -139,6 +139,8 @@ package {
 		}
 		
 		public function update() {
+			
+			
 			// TODO: do magic.
 			this.player.update();
 			for (var i:int = 0; i < this.enemies.length; i++) {
