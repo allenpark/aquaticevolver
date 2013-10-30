@@ -4,6 +4,9 @@ package
 	
 	public class PlayState extends FlxState
 	{
+		[Embed(source="res/DestinyOfADroplet.mp3")] 	public var droplet:Class;
+		[Embed(source="res/jump.mp3")] 	public var moveAction:Class;
+
 		public var player:FlxSprite;
 		public var paused:Boolean;
 		public var pauseGroup:FlxGroup;
@@ -13,6 +16,8 @@ package
 		
 		override public function create():void
 		{
+			FlxG.playMusic(droplet);
+			
 			FlxG.bgColor = 0xff3366ff;
 			FlxG.paused = false;
 			pauseGroup = new FlxGroup();
@@ -36,6 +41,7 @@ package
 		override public function update():void
 		{
 			if(!FlxG.paused){
+				//FlxG.playMusic(droplet);
 				// moving the player based on the arrow keys inputs
 				player.acceleration.x = 0;
 				if (FlxG.keys.LEFT && FlxG.keys.RIGHT)
@@ -57,8 +63,11 @@ package
 					player.acceleration.y = 0;
 				
 				// playing the correct animation
-				if (FlxG.keys.LEFT ||FlxG.keys.RIGHT || FlxG.keys.UP || FlxG.keys.DOWN)
+				if (FlxG.keys.LEFT ||FlxG.keys.RIGHT || FlxG.keys.UP || FlxG.keys.DOWN){
 					player.play("walk");
+					FlxG.play(moveAction,0.5,false);
+				}
+
 				else
 					player.play("idle");
 				
@@ -70,11 +79,13 @@ package
 			
 			if(FlxG.keys.justPressed("P")){
 				if(!FlxG.paused){
+					FlxG.music.pause();
 					FlxG.paused = true;
 					pauseGroup.revive();
 				} 
 				else {
 					FlxG.paused = false;
+					FlxG.music.resume();
 					pauseGroup.alive = false;
 					pauseGroup.exists = false;
 				}
