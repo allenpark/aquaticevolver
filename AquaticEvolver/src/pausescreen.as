@@ -1,20 +1,19 @@
 package
 {
 	import org.flixel.*;
-	public class pausescreen extends FlxGroup
+	public class PauseScreen extends FlxGroup
 	{
 		public var pauseGroup:FlxGroup;
-		public function pausescreen() 
+		public function pauseScreen():void
 		{
 			FlxG.bgColor = 0xff783629;
-
 		}
 		
 		override public function update():void
 		{			
 			FlxG.bgColor = 0xff783629;
-			if(FlxG.keys.justPressed("P")){
-				if(!FlxG.paused){
+			if (FlxG.keys.justPressed("P")) {
+				if(!FlxG.paused) {
 					FlxG.paused = true;
 					pauseGroup.revive();
 				} 
