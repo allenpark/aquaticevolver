@@ -93,7 +93,7 @@ package {
 		public function inheritFrom(creature:Creature):void {
 			var selectedTrait:Adaptation = creature.selectTrait();
 			this.adaptations.push(selectedTrait);
-			if (selectedTrait.isAttack()) {
+			if (selectedTrait.isAttack) {
 				this.attacks.push(selectedTrait);
 			}
 			
