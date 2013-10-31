@@ -1,10 +1,12 @@
 // ActionScript file
 package {	
-	public class Creature {
-		public var x:int;
-		public var y:int;
+	import org.flixel.FlxSprite;
+
+	public class Creature extends FlxSprite {
+		//public var x:int;
+		//public var y:int;
 		public var speed:Number;
-		public var health:int;
+		//public var health:int;
 		public var maxHealth:int;
 		public var adaptations:Array;
 		public var attacks:Array;
@@ -35,7 +37,7 @@ package {
 		}
 		
 		// This method is called often to update the state of the creature.
-		public function update():void {
+		override public function update():void {
 			switch (this.mode) {
 				case "attacking":
 					// TODO: Do stuff. ATTACK THY ENEMY!
@@ -83,7 +85,7 @@ package {
 			return false;
 		}
 		
-		public function alive():Boolean {
+		public function isAlive():Boolean {
 			return this.health > 0;
 		}
 		

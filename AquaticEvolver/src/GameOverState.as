@@ -1,7 +1,7 @@
 package
 {
 	import org.flixel.*;
-	import PlayState;
+	import World;
 	
 	public class GameOverState extends FlxState
 	{
@@ -11,15 +11,15 @@ package
 			
 			add(new FlxText(FlxG.width/2-30, FlxG.height/5,300,"GAME OVER"));
 			var playButton:FlxButton = new FlxButton(FlxG.width/2 -45, 3*FlxG.height/5, "Replay", replayCallback);
-			add (playButton);
+			add(playButton);
 			var creditButton:FlxButton = new FlxButton(FlxG.width/2 -45,4*FlxG.height/5, "Main Menu", mainMenuCallback);
-			add (creditButton);
+			add(creditButton);
 			
 
 		}
 		
 		public function replayCallback():void{
-			FlxG.switchState(new PlayState);
+			FlxG.switchState(new World);
 		}
 		public function mainMenuCallback():void{
 			FlxG.resetGame();

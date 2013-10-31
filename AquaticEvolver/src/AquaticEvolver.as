@@ -9,7 +9,7 @@ package
 		public function AquaticEvolver() 
 		{
 			super(320,240,MenuState,2);
-			//this.pause = new pausescreen();
+			// this.pause = new PauseScreen();
 			
 		}
 	}

@@ -29,8 +29,21 @@ package {
 	
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2World;
+	
+	import org.flixel.FlxG;
+	import org.flixel.FlxGroup;
+	import org.flixel.FlxState;
 
-	public class World {
+	public class World extends FlxState {
+		[Embed(source="res/DestinyOfADroplet.mp3")] 	public var droplet:Class;
+		[Embed(source="res/jump.mp3")] 	public var moveAction:Class;
+
+		public var paused:Boolean;
+		public var pauseGroup:FlxGroup;
+
+		[Embed(source='res/player.png')]
+		public static var ImgPlayer:Class;
+
 		
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
@@ -72,23 +85,6 @@ package {
 		public var screenHeight:int;
 		public var defaultHealth:int;
 		public var defaultSpeed:Number;
-		
-		public function World()	{
-			// Set up the screen properties (or are they camera properties?)
-			this.screenX = 0;
-			this.screenY = 0;
-			this.screenWidth = 500;
-			this.screenHeight = 400;
-			this.defaultHealth = 10;
-			this.defaultSpeed = 5.0;
-			
-			var playerPhenotypes:Array = new Array(); // TODO: fill this in.
-			this.player = new Creature(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, playerPhenotypes); 
-			this.enemies = new Array();
-			
-			// Construct the Box 2D world (in which all simulation happens)
-			createBox2DWorld();
-		}
 		
 		/**
 		 * Constructs and initializes the Box2D b2World.
@@ -138,8 +134,97 @@ package {
 			return inX && inY;
 		}
 		
-		public function update() {
+		override public function create():void
+		{
+			// Set up the screen properties (or are they camera properties?)
+			this.screenX = 0;
+			this.screenY = 0;
+			this.screenWidth = FlxG.width;
+			this.screenHeight = FlxG.height;
+			this.defaultHealth = 10;
+			this.defaultSpeed = 5.0;
 			
+			var playerPhenotypes:Array = new Array(); // TODO: fill this in.
+			//Create player (a red box)
+			this.player = new Creature(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, playerPhenotypes); 
+			this.enemies = new Array();
+			
+			// Construct the Box 2D world (in which all simulation happens)
+			this.createBox2DWorld();
+
+			FlxG.playMusic(droplet);
+			
+			FlxG.bgColor = 0xff3366ff;
+			FlxG.paused = false;
+			pauseGroup = new FlxGroup();
+			
+			//LOADING GRAPHIC
+			player.loadGraphic(ImgPlayer, true, true, 14, 15);
+			//SETTING ANIMATIONS
+			player.addAnimation("idle", [0]);
+			player.addAnimation("walk", [0, 1, 2, 1], 5);
+			
+			player.maxVelocity.x = 80;
+			player.maxVelocity.y = 80;
+			player.drag.x = player.maxVelocity.x * 2;
+			player.drag.y = player.maxVelocity.y * 2;
+			add(player);
+		}
+		
+		override public function update():void {
+			if (!FlxG.paused) {
+				//FlxG.playMusic(droplet);
+				// moving the player based on the arrow keys inputs
+				player.acceleration.x = 0;
+				if (FlxG.keys.LEFT && FlxG.keys.RIGHT)
+					player.acceleration.x = 0;
+				else if (FlxG.keys.LEFT)
+					player.acceleration.x = -player.maxVelocity.x * 4;
+				else if (FlxG.keys.RIGHT)
+					player.acceleration.x = player.maxVelocity.x * 4;
+				else
+					player.acceleration.x = 0;
+				
+				if (FlxG.keys.UP && FlxG.keys.DOWN)
+					player.acceleration.y = 0;
+				else if (FlxG.keys.UP)
+					player.acceleration.y = -player.maxVelocity.y * 4;
+				else if (FlxG.keys.DOWN)
+					player.acceleration.y = player.maxVelocity.y * 4;
+				else
+					player.acceleration.y = 0;
+				
+				// playing the correct animation
+				if (FlxG.keys.LEFT ||FlxG.keys.RIGHT || FlxG.keys.UP || FlxG.keys.DOWN){
+					player.play("walk");
+					FlxG.play(moveAction,0.5,false);
+				}
+					
+				else
+					player.play("idle");
+				
+				super.update();
+			}
+			else{
+				pauseGroup.update();
+			}
+			
+			if(FlxG.keys.justPressed("P")){
+				if(!FlxG.paused){
+					FlxG.music.pause();
+					FlxG.paused = true;
+					pauseGroup.revive();
+				} 
+				else {
+					FlxG.paused = false;
+					FlxG.music.resume();
+					pauseGroup.alive = false;
+					pauseGroup.exists = false;
+				}
+			}
+			if(FlxG.keys.justPressed("G")){
+				FlxG.switchState(new GameOverState)				
+			}			
 			
 			// TODO: do magic.
 			this.player.update();
@@ -152,7 +237,7 @@ package {
 			}
 		}
 		
-		public function display() {
+		public function display():void {
 			// TODO: more magic.
 			this.player.display();
 			for (var i:int = 0; i < this.enemies.length; i++) {
