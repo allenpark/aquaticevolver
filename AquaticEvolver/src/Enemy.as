@@ -6,7 +6,9 @@
  */ 
 package{
 	
+	import org.flixel.FlxG;
 	import org.flixel.FlxSprite;
+	import org.flixel.FlxText;
 	
 	public class Enemy extends Creature{
 		
@@ -53,11 +55,14 @@ package{
 		
 		public function moveAround():void{
 			//TODO Make the enemy randomly move around if it's not chasing/attacking/running away from another enemy
+			this.acceleration.x = Math.random() * 600 - 300;
+			this.acceleration.y = Math.random() * 600 - 300;
 		}
 		
 		override public function update():void
 		{
-			
+			this.moveAround();
+			super.update();
 		}
 	}
 }

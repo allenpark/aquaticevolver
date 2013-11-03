@@ -33,26 +33,7 @@ package {
 		
 		// This method is called often to update the state of the creature.
 		override public function update():void {
-			switch (this.mode) {
-				case "attacking":
-					// TODO: Do stuff. ATTACK THY ENEMY!
-					if (this.attackingWith != null) {
-						this.attackingWith = this.pickRandomAttack();
-						// TODO: start the animation of attacking somehow.
-						// Actual attacking is done in this.handleAttackOn, to be a callback
-						// upon a collision with an enemy body.
-					}
-					break;
-				case "running":
-					// TODO: Do stuff. Running away from an enemy.
-					break;
-				case "wandering":
-					// TODO: Do stuff. Just swimming around.
-					break;
-				default:
-					// TODO: Throw a tantrum, because it shouldn't be here.
-					break;
-			}
+			super.update();
 		}
 		
 		// Handling when one of your appendages collides with an enemy body.
