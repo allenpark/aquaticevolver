@@ -15,7 +15,19 @@ package {
 		// "attacking", "running", "wandering". Change this.update() if this is changed. 
 		public var mode:String;
 		
-		public function Creature(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array) {
+		public function Creature()
+		{
+			this.x = 0;
+			this.y = 0;
+			this.speed = 0;
+			this.health = 5;
+			this.maxHealth = 5;
+			this.adaptations = new Array();
+			this.attacks = new Array();
+			this.attackingWith = null;
+		}
+		
+		/*public function Creature(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array) {
 			this.x = x;
 			this.y = y;
 			this.speed = speed;
@@ -30,7 +42,7 @@ package {
 					this.attacks.push(adaptation);
 				}
 			}
-		}
+		}*/
 		
 		public function pickRandomAttack():Adaptation {
 			return this.attacks[Math.floor(Math.random() * this.attacks.length)];

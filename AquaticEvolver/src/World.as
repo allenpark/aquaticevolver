@@ -36,13 +36,9 @@ package {
 
 	public class World extends FlxState {
 		[Embed(source="res/DestinyOfADroplet.mp3")] 	public var droplet:Class;
-		[Embed(source="res/jump.mp3")] 	public var moveAction:Class;
 
 		public var paused:Boolean;
 		public var pauseGroup:FlxGroup;
-
-		[Embed(source='res/player.png')]
-		public static var ImgPlayer:Class;
 
 		
 		/**
@@ -111,7 +107,7 @@ package {
 				newX = Math.random() * (this.screenX + 2 * xBuffer) - xBuffer;
 				newY = Math.random() > 0.5 ? -yBuffer : this.screenY + yBuffer;
 			}
-			this.enemies.push(new Creature(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, enemyPhenotypes)); 
+			this.enemies.push(new Enemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, enemyPhenotypes)); 
 		}
 		
 		// Checks that all enemies are still on screen.
@@ -146,7 +142,7 @@ package {
 			
 			var playerPhenotypes:Array = new Array(); // TODO: fill this in.
 			//Create player (a red box)
-			this.player = new Creature(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, playerPhenotypes); 
+			this.player = new Player(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, playerPhenotypes); 
 			this.enemies = new Array();
 			
 			// Construct the Box 2D world (in which all simulation happens)
@@ -158,51 +154,11 @@ package {
 			FlxG.paused = false;
 			pauseGroup = new FlxGroup();
 			
-			//LOADING GRAPHIC
-			player.loadGraphic(ImgPlayer, true, true, 14, 15);
-			//SETTING ANIMATIONS
-			player.addAnimation("idle", [0]);
-			player.addAnimation("walk", [0, 1, 2, 1], 5);
-			
-			player.maxVelocity.x = 80;
-			player.maxVelocity.y = 80;
-			player.drag.x = player.maxVelocity.x * 2;
-			player.drag.y = player.maxVelocity.y * 2;
 			add(player);
 		}
 		
 		override public function update():void {
 			if (!FlxG.paused) {
-				//FlxG.playMusic(droplet);
-				// moving the player based on the arrow keys inputs
-				player.acceleration.x = 0;
-				if (FlxG.keys.LEFT && FlxG.keys.RIGHT)
-					player.acceleration.x = 0;
-				else if (FlxG.keys.LEFT)
-					player.acceleration.x = -player.maxVelocity.x * 4;
-				else if (FlxG.keys.RIGHT)
-					player.acceleration.x = player.maxVelocity.x * 4;
-				else
-					player.acceleration.x = 0;
-				
-				if (FlxG.keys.UP && FlxG.keys.DOWN)
-					player.acceleration.y = 0;
-				else if (FlxG.keys.UP)
-					player.acceleration.y = -player.maxVelocity.y * 4;
-				else if (FlxG.keys.DOWN)
-					player.acceleration.y = player.maxVelocity.y * 4;
-				else
-					player.acceleration.y = 0;
-				
-				// playing the correct animation
-				if (FlxG.keys.LEFT ||FlxG.keys.RIGHT || FlxG.keys.UP || FlxG.keys.DOWN){
-					player.play("walk");
-					FlxG.play(moveAction,0.5,false);
-				}
-					
-				else
-					player.play("idle");
-				
 				super.update();
 			}
 			else{
