@@ -158,6 +158,8 @@ package {
 			paused = new pausescreen;
 			
 			add(player);
+			
+			FlxG.camera.follow(player);
 		}
 		
 		override public function update():void {
