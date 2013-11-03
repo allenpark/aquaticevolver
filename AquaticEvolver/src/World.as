@@ -37,7 +37,7 @@ package {
 	public class World extends FlxState {
 		[Embed(source="res/DestinyOfADroplet.mp3")] 	public var droplet:Class;
 
-		public var paused:Boolean;
+		public var paused:pausescreen;
 		public var pauseGroup:FlxGroup;
 
 		
@@ -154,49 +154,51 @@ package {
 			
 			FlxG.bgColor = 0xff3366ff;
 			FlxG.paused = false;
-			pauseGroup = new FlxGroup();
+			paused = new pausescreen;
 			
 			add(player);
 		}
 		
 		override public function update():void {
-			if (!FlxG.paused) {
-				super.update();
-			}
-			else{
-				pauseGroup.update();
-			}
 			
-			if(FlxG.keys.justPressed("P")){
-				if(!FlxG.paused){
+			if (!paused.showing) {
+				
+				super.update();
+				
+				
+				
+				if(FlxG.keys.justPressed("P")){
+					paused = new pausescreen();
+					paused.displayPaused();
+
+					//player.kill();
+					//paused.finishCallback = dialogKill;
+					add(paused);		
 					FlxG.music.pause();
-					FlxG.paused = true;
-					pauseGroup.revive();
+
 				} 
-				else {
-					FlxG.paused = false;
-					FlxG.music.resume();
-					pauseGroup.alive = false;
-					pauseGroup.exists = false;
+				
+				
+				if(FlxG.keys.justPressed("G")){
+					FlxG.switchState(new GameOverState)				
+				}			
+			
+				// TODO: do magic.
+				this.player.update();
+				for (var i:int = 0; i < this.enemies.length; i++) {
+					this.enemies[i].update();
+					trace("x: " + this.enemies[i].x + "y: " + this.enemies[i].y);
+				}
+				this.removeEnemiesNotOnScreen();
+				if (Math.random() < 0.01) {
+					this.createEnemy();
 				}
 			}
-			if(FlxG.keys.justPressed("G")){
-				FlxG.switchState(new GameOverState)				
-			}			
-			
-			// TODO: do magic.
-			this.player.update();
-			for (var i:int = 0; i < this.enemies.length; i++) {
-				this.enemies[i].update();
-				trace("x: " + this.enemies[i].x + "y: " + this.enemies[i].y);
-			}
-			this.removeEnemiesNotOnScreen();
-			if (Math.random() < 0.01) {
-				this.createEnemy();
+			else{
+				paused.update();
 			}
 			
 		}
-		
 		public function display():void {
 			// TODO: more magic.
 			this.player.display();
