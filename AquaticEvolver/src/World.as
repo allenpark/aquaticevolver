@@ -33,12 +33,14 @@ package {
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxState;
+	import org.flixel.FlxText;
 
 	public class World extends FlxState {
 		[Embed(source="res/DestinyOfADroplet.mp3")] 	public var droplet:Class;
 
 		public var paused:pausescreen;
 		public var pauseGroup:FlxGroup;
+		public var debug:FlxText;
 
 		
 		/**
@@ -100,12 +102,12 @@ package {
 			var newY:Number;
 			if (Math.random() > 0.5) {
 				// On the vertical edges.
-				newX = Math.random() > 0.5 ? -xBuffer : this.screenWidth + xBuffer - 20; //TODO: the 20 should be the enemy width
-				newY = Math.random() * (this.screenHeight + 2 * yBuffer) - yBuffer;
+				newX = (Math.random() > 0.5 ? -xBuffer : this.screenWidth) + this.screenX;
+				newY = (Math.random() * (this.screenHeight + yBuffer) - yBuffer) + this.screenY;
 			} else {
 				// On the horizontal edges.
-				newX = Math.random() * (this.screenWidth + 2 * xBuffer) - xBuffer;
-				newY = Math.random() > 0.5 ? -yBuffer : this.screenHeight + yBuffer - 20; //TODO: the 20 should be the enemy height
+				newX = (Math.random() * (this.screenWidth + xBuffer) - xBuffer) + this.screenX;
+				newY = (Math.random() > 0.5 ? -yBuffer : this.screenHeight) + this.screenY;
 			}
 			var newEnemy:Enemy = new Enemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, enemyPhenotypes) 
 			this.enemies.push(newEnemy); 
@@ -113,12 +115,10 @@ package {
 		}
 		
 		// Checks that all enemies are still on screen.
-		public function removeEnemiesNotOnScreen():void {
-			var enemyXBuffer:int = 20;
-			var enemyYBuffer:int = 20;
+		public function removeEnemiesNotOnScreen(xBuffer:int = 0, yBuffer:int = 0):void {
 			for (var i:int = this.enemies.length - 1; i >= 0; i--) {
 				var enemy:Creature = this.enemies[i];
-				if (!this.inScreen(enemy.x, enemy.y, enemyXBuffer, enemyYBuffer)) {
+				if (!this.inScreen(enemy.x, enemy.y, xBuffer, yBuffer)) {
 					this.enemies.splice(i, 1);
 				}
 			}
@@ -146,6 +146,7 @@ package {
 			//Create player (a red box)
 			this.player = new Player(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, playerPhenotypes); 
 			this.enemies = new Array();
+			this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5,300,"num enemies: " + this.enemies.length);
 			
 			// Construct the Box 2D world (in which all simulation happens)
 			this.createBox2DWorld();
@@ -189,9 +190,14 @@ package {
 					this.enemies[i].update();
 					trace("x: " + this.enemies[i].x + "y: " + this.enemies[i].y);
 				}
-				this.removeEnemiesNotOnScreen();
-				if (Math.random() < 0.01) {
-					this.createEnemy();
+				this.debug.kill();
+				this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5,300,"num enemies: " + this.enemies.length); 
+				add(this.debug);
+				var enemyWidth:int = 15; // TODO: make this the enemy width and height.
+				var enemyHeight:int = 15;
+				this.removeEnemiesNotOnScreen(2 * enemyWidth, 2 * enemyHeight);
+				if (Math.random() < 0.02) {
+					this.createEnemy(enemyWidth, enemyHeight);
 				}
 			}
 			else{

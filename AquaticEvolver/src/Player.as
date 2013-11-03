@@ -39,7 +39,7 @@ package
 		override public function update():void
 		{
 			if (!FlxG.paused) {
-				//FlxG.playMusic(droplet);
+				// FlxG.playMusic(droplet);
 				// moving the player based on the arrow keys inputs
 				this.acceleration.x = 0;
 				if (FlxG.keys.LEFT && FlxG.keys.RIGHT)
