@@ -27,23 +27,6 @@ package {
 			this.attackingWith = null;
 		}
 		
-		/*public function Creature(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array) {
-			this.x = x;
-			this.y = y;
-			this.speed = speed;
-			this.health = health;
-			this.maxHealth = maxHealth;
-			this.adaptations = adaptations;
-			this.attacks = new Array();
-			this.attackingWith = null;
-			for (var i:int = 0; i < this.adaptations.length; i++) {
-				var adaptation:Adaptation = this.adaptations[i];
-				if (adaptation.isAttack) {
-					this.attacks.push(adaptation);
-				}
-			}
-		}*/
-		
 		public function pickRandomAttack():Adaptation {
 			return this.attacks[Math.floor(Math.random() * this.attacks.length)];
 		}

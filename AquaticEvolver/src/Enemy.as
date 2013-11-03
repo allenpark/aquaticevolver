@@ -55,5 +55,9 @@ package{
 			//TODO Make the enemy randomly move around if it's not chasing/attacking/running away from another enemy
 		}
 		
+		override public function update():void
+		{
+			
+		}
 	}
 }

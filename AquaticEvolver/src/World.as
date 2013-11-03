@@ -100,14 +100,16 @@ package {
 			var newY:Number;
 			if (Math.random() > 0.5) {
 				// On the vertical edges.
-				newX = Math.random() > 0.5 ? -xBuffer : this.screenX + xBuffer;
-				newY = Math.random() * (this.screenY + 2 * yBuffer) - yBuffer;
+				newX = Math.random() > 0.5 ? -xBuffer : this.screenWidth + xBuffer - 20; //TODO: the 20 should be the enemy width
+				newY = Math.random() * (this.screenHeight + 2 * yBuffer) - yBuffer;
 			} else {
 				// On the horizontal edges.
-				newX = Math.random() * (this.screenX + 2 * xBuffer) - xBuffer;
-				newY = Math.random() > 0.5 ? -yBuffer : this.screenY + yBuffer;
+				newX = Math.random() * (this.screenWidth + 2 * xBuffer) - xBuffer;
+				newY = Math.random() > 0.5 ? -yBuffer : this.screenHeight + yBuffer - 20; //TODO: the 20 should be the enemy height
 			}
-			this.enemies.push(new Enemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, enemyPhenotypes)); 
+			var newEnemy:Enemy = new Enemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, enemyPhenotypes) 
+			this.enemies.push(newEnemy); 
+			add(newEnemy);
 		}
 		
 		// Checks that all enemies are still on screen.
@@ -186,11 +188,13 @@ package {
 			this.player.update();
 			for (var i:int = 0; i < this.enemies.length; i++) {
 				this.enemies[i].update();
+				trace("x: " + this.enemies[i].x + "y: " + this.enemies[i].y);
 			}
 			this.removeEnemiesNotOnScreen();
 			if (Math.random() < 0.01) {
 				this.createEnemy();
 			}
+			
 		}
 		
 		public function display():void {
