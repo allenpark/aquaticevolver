@@ -109,7 +109,7 @@ package {
 				newX = (Math.random() * (this.screenWidth + xBuffer) - xBuffer) + this.screenX;
 				newY = (Math.random() > 0.5 ? -yBuffer : this.screenHeight) + this.screenY;
 			}
-			var newEnemy:Enemy = new Enemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, enemyPhenotypes) 
+			var newEnemy:Enemy = new Enemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, enemyPhenotypes);
 			this.enemies.push(newEnemy); 
 			add(newEnemy);
 		}
@@ -166,8 +166,6 @@ package {
 				
 				super.update();
 				
-				
-				
 				if(FlxG.keys.justPressed("P")){
 					paused = new pausescreen();
 					paused.displayPaused();
@@ -191,7 +189,7 @@ package {
 					trace("x: " + this.enemies[i].x + "y: " + this.enemies[i].y);
 				}
 				this.debug.kill();
-				this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5,300,"num enemies: " + this.enemies.length); 
+				this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5, 300, "num enemies: " + this.enemies.length); 
 				add(this.debug);
 				var enemyWidth:int = 15; // TODO: make this the enemy width and height.
 				var enemyHeight:int = 15;
@@ -199,17 +197,19 @@ package {
 				if (Math.random() < 0.02) {
 					this.createEnemy(enemyWidth, enemyHeight);
 				}
+				this.display();
 			}
 			else{
 				paused.update();
 			}
 			
 		}
+		
 		public function display():void {
 			// TODO: more magic.
-			this.player.display();
+			this.player.display(this);
 			for (var i:int = 0; i < this.enemies.length; i++) {
-				this.enemies[i].display();
+				this.enemies[i].display(this);
 			}
 		}
 	}

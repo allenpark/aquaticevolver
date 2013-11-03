@@ -11,20 +11,8 @@ package
 		public var moveAction:Class;
 		
 		public function Player(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array) {
-			this.x = x;
-			this.y = y;
-			this.speed = speed;
-			this.health = health;
-			this.maxHealth = maxHealth;
-			this.adaptations = adaptations;
-			this.attacks = new Array();
-			this.attackingWith = null;
-			for (var i:int = 0; i < this.adaptations.length; i++) {
-				var adaptation:Adaptation = this.adaptations[i];
-				if (adaptation.isAttack) {
-					this.attacks.push(adaptation);
-				}
-			}
+			super(x, y, speed, health, maxHealth, adaptations);
+			
 			this.maxVelocity.x = 80;
 			this.maxVelocity.y = 80;
 			this.drag.x = this.maxVelocity.x * 2;
@@ -36,6 +24,7 @@ package
 			this.addAnimation("idle", [0]);
 			this.addAnimation("walk", [0, 1, 2, 1], 5);
 		}
+		
 		override public function update():void
 		{
 			if (!FlxG.paused) {
