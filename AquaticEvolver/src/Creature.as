@@ -48,8 +48,16 @@ package {
 		
 		// This method is called often to update the state of the creature.
 		override public function update():void {
+			for (var i:int = 0; i < this.adaptations.length; i++) {
+				var adaptation:Adaptation = this.adaptations[i]; 
+				adaptation.x = this.x + 10 ;
+				adaptation.y = this.y ; 
+					
 			super.update();
+			
+			}
 		}
+		
 		
 		// Handling when one of your appendages collides with an enemy body.
 		// Returns true iff the enemy has been killed.

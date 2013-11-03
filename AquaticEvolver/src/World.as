@@ -41,6 +41,7 @@ package {
 		public var paused:pausescreen;
 		public var pauseGroup:FlxGroup;
 		public var debug:FlxText;
+		FlxG.debug = true ; 
 
 		
 		/**
@@ -83,6 +84,8 @@ package {
 		public var screenHeight:int;
 		public var defaultHealth:int;
 		public var defaultSpeed:Number;
+		public var player_adaptation_group :FlxGroup = new FlxGroup;// a group to keep track of player adaptations will not be added
+		public var enemy_group :FlxGroup =  new FlxGroup; 
 		
 		/**
 		 * Constructs and initializes the Box2D b2World.
@@ -93,6 +96,7 @@ package {
 			// changing it. --Nick Benson - 10/28/2013
 			box2dWorld = new b2World(GRAVITY, true);
 		}
+		
 		
 		// Creates an enemy randomly slightly off screen.
 		public function createEnemy(xBuffer: int = 0, yBuffer: int = 0):void {
@@ -110,6 +114,7 @@ package {
 				newY = (Math.random() > 0.5 ? -yBuffer : this.screenHeight) + this.screenY;
 			}
 			var newEnemy:Enemy = new Enemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, enemyPhenotypes);
+			enemy_group.add(newEnemy);
 			this.enemies.push(newEnemy); 
 			add(newEnemy);
 		}
@@ -120,6 +125,7 @@ package {
 				var enemy:Creature = this.enemies[i];
 				if (!this.inScreen(enemy.x, enemy.y, xBuffer, yBuffer)) {
 					this.enemies.splice(i, 1);
+					enemy.kill()
 				}
 			}
 		}
@@ -142,11 +148,15 @@ package {
 			this.defaultHealth = 10;
 			this.defaultSpeed = 5.0;
 			
+			
 			var playerPhenotypes:Array = new Array(); // TODO: fill this in.
 			//Create player (a red box)
 			this.player = new Player(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, playerPhenotypes); 
+			var start_adaptation : Adaptation = (new Adaptation('spike', player.x + 10, player.y, 0))
+			player.addAdaptation(start_adaptation)
 			this.enemies = new Array();
 			this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5,300,"num enemies: " + this.enemies.length);
+			
 			
 			// Construct the Box 2D world (in which all simulation happens)
 			this.createBox2DWorld();
@@ -160,6 +170,13 @@ package {
 			add(player);
 			
 			FlxG.camera.follow(player);
+			
+		}
+		public function hitEnemy( adaptation : Adaptation,enemy:Enemy):void {
+			if (enemy.getAttacked(adaptation.attackDamage)){
+			enemy.kill();
+			}
+			
 		}
 		
 		override public function update():void {
@@ -185,11 +202,17 @@ package {
 				}			
 			
 				// TODO: do magic.
-				this.player.update();
-				for (var i:int = 0; i < this.enemies.length; i++) {
-					this.enemies[i].update();
-					trace("x: " + this.enemies[i].x + "y: " + this.enemies[i].y);
+				
+				for (var i:int = 0; i < this.player.adaptations.length; i++) {
+					var adaptation:Adaptation = player.adaptations[i]; 
+					if (!(adaptation in player_adaptation_group.members)) 
+					{
+						this.add(adaptation);
+						player_adaptation_group.add(adaptation); 
+							
+					}
 				}
+				FlxG.collide( player_adaptation_group,enemy_group, hitEnemy); 
 				this.debug.kill();
 				this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5, 300, "num enemies: " + this.enemies.length); 
 				add(this.debug);
