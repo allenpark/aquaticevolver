@@ -202,7 +202,6 @@ package {
 				}			
 			
 				// TODO: do magic.
-				
 				for (var i:int = 0; i < this.player.adaptations.length; i++) {
 					var adaptation:Adaptation = player.adaptations[i]; 
 					if (!(adaptation in player_adaptation_group.members)) 
@@ -211,6 +210,10 @@ package {
 						player_adaptation_group.add(adaptation); 
 							
 					}
+                }
+				this.player.update();
+				for (var i:int = 0; i < this.enemies.length; i++) {
+				    this.enemies[i].updateMove(this.enemies);
 				}
 				FlxG.collide( player_adaptation_group,enemy_group, hitEnemy); 
 				this.debug.kill();

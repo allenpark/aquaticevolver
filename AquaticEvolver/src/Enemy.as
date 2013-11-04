@@ -8,8 +8,23 @@ package{
 	
 	public class Enemy extends Creature{
 		
+		[Embed(source='res/pacman.png')]
+		public static var ImgPacman:Class;
+		
+		[Embed(source='res/ghost.png')]
+		public static var ImgGhost:Class;
+        
+        var aggroRadius:int = 200;
+		
 		public function Enemy(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array) {
 			super(x, y, speed, health, maxHealth, adaptations);
+			this.attacks = new Array();
+			this.attackingWith = null;
+
+			this.maxVelocity.x = 80;
+			this.maxVelocity.y = 80;
+			this.drag.x = this.maxVelocity.x * 2;
+			this.drag.y = this.maxVelocity.y * 2;
 		}
 		
 		private function getRandomAdaptations(adaptations:Array, maxPower:int):Array{
@@ -27,13 +42,79 @@ package{
 			
 			return adaptArray;
 		}
+
+        public function updateMove(enemies:Array):void {
+            var weakestIndex:int   = 0;
+            var strongestIndex:int = 0;
+            var weakestStrength:int   = 0;
+            var strongestStrength:int = 0;
+            var score:int;
+            var seeSomething:Boolean = false;
+            for (var i:int = 0; i < enemies.length; i++) {
+                if (Math.sqrt(Math.pow(this.x - enemies[i].x, 2) +
+                              Math.pow(this.y - enemies[i].y, 2)) < aggroRadius) {
+                    seeSomething = true;
+                    score = enemies[i].health - this.health;
+                    if (score < weakestStrength) {
+                      weakestIndex = i;
+                      weakestStrength = score;
+                    }
+                    if (score > strongestStrength) {
+                      strongestIndex = i;
+                      strongestStrength = score;
+                    }
+                }
+            }
+            if (seeSomething) {
+              if (weakestStrength == 0) {
+                this.runAwayFromEnemy(enemies[weakestIndex]);
+              } else {
+                this.moveTowardsEnemy(enemies[strongestIndex]);
+              }
+            } else {
+              this.moveAround();
+            }
+			super.update();
+        }
 		
 		public function runAwayFromEnemy(enemy:Creature):void{
-			//TODO Make enemies run away from a given creature if they are much more powerful than them
+			this.loadGraphic(ImgPacman, true, true, 15, 14);
+            var dirX:int = (enemy.x - this.x)
+            var dirY:int = (enemy.y - this.y)
+            if (dirX < 0) {
+                this.acceleration.x = -this.maxVelocity.x * 4;
+            } else if (dirX > 0) {
+                this.acceleration.x = this.maxVelocity.x * 4;
+            } else {
+                this.acceleration.x = 0;
+            }
+            if (dirY < 0) {
+                this.acceleration.y = -this.maxVelocity.y * 4;
+            } else if (dirY > 0) {
+                this.acceleration.y = this.maxVelocity.y * 4;
+            } else {
+                this.acceleration.y = 0;
+            }
 		}
 		
-		public function attackEnemy(enemy:Creature):void{
-			//TODO Make enemies run towards enemies and attack them
+		public function moveTowardsEnemy(enemy:Creature):void{
+			this.loadGraphic(ImgGhost, true, true, 15, 14);
+            var dirX:int = (enemy.x - this.x)
+            var dirY:int = (enemy.y - this.y)
+            if (dirX < 0) {
+                this.acceleration.x = this.maxVelocity.x * 4;
+            } else if (dirX > 0) {
+                this.acceleration.x = -this.maxVelocity.x * 4;
+            } else {
+                this.acceleration.x = 0;
+            }
+            if (dirY < 0) {
+                this.acceleration.y = this.maxVelocity.y * 4;
+            } else if (dirY > 0) {
+                this.acceleration.y = -this.maxVelocity.y * 4;
+            } else {
+                this.acceleration.y = 0;
+            }
 		}
 		
 		public function moveAround():void{
@@ -44,8 +125,6 @@ package{
 		
 		override public function update():void
 		{
-			this.moveAround();
-			super.update();
 		}
 	}
 }
