@@ -141,8 +141,8 @@ package {
 		override public function create():void
 		{
 			// Set up the screen properties (or are they camera properties?)
-			this.screenX = 0;
-			this.screenY = 0;
+			this.screenX = FlxG.camera.scroll.x;
+			this.screenY = FlxG.camera.scroll.y;
 			this.screenWidth = FlxG.width;
 			this.screenHeight = FlxG.height;
 			this.defaultHealth = 10;
@@ -172,16 +172,25 @@ package {
 			FlxG.camera.follow(player);
 			
 		}
-		public function hitEnemy( adaptation : Adaptation,enemy:Enemy):void {
+		
+		public function hitEnemy(adaptation:Adaptation, enemy:Enemy):void {
 			if (enemy.getAttacked(adaptation.attackDamage)){
-			enemy.kill();
+				for (var i:int = 0; i < this.enemies.length; i++) {
+					if (enemy.equals(this.enemies[i])) {
+						this.enemies.splice(i, 1);
+						break;
+					}
+				}
+				enemy.kill();
+				//enemy.destroy();
 			}
-			
 		}
 		
 		override public function update():void {
 			
 			if (!paused.showing) {
+				this.screenX = FlxG.camera.scroll.x;
+				this.screenY = FlxG.camera.scroll.y;
 				
 				super.update();
 				
@@ -212,12 +221,15 @@ package {
 					}
                 }
 				this.player.update();
-				for (var i:int = 0; i < this.enemies.length; i++) {
-				    this.enemies[i].updateMove(this.enemies);
+				for (var j:int = 0; j < this.enemies.length; j++) {
+				    this.enemies[j].updateMove(this.enemies);
 				}
-				FlxG.collide( player_adaptation_group,enemy_group, hitEnemy); 
+				FlxG.collide(player_adaptation_group,enemy_group, hitEnemy); 
 				this.debug.kill();
-				this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5, 300, "num enemies: " + this.enemies.length); 
+				this.debug = new FlxText(this.screenX + FlxG.width/2-30, this.screenY + FlxG.height/5, 300, 
+					"num enemies: " + this.enemies.length);
+				//this.debug = new FlxText(this.screenX + FlxG.width/2-30, this.screenY + FlxG.height/5, 300, 
+					//"x: " + this.screenX + ", y: " + this.screenY);
 				add(this.debug);
 				var enemyWidth:int = 15; // TODO: make this the enemy width and height.
 				var enemyHeight:int = 15;

@@ -7,6 +7,7 @@ package {
 	public class Creature extends FlxSprite {
 		//public var x:int;
 		//public var y:int;
+		public var id:int;
 		public var speed:Number;
 		public var currentHealth:int;
 		public var maxHealth:int;
@@ -19,6 +20,7 @@ package {
 		public var mode:String;
 		
 		public function Creature(x:int=0, y:int=0, speed:Number=1, health:int=10, maxHealth:int=10, adaptations:Array=undefined) {
+			this.id = Math.random() * Number.MAX_VALUE;
 			this.x = x;
 			this.y = y;
 			this.speed = speed;
@@ -51,10 +53,8 @@ package {
 			for (var i:int = 0; i < this.adaptations.length; i++) {
 				var adaptation:Adaptation = this.adaptations[i]; 
 				adaptation.x = this.x + 10 ;
-				adaptation.y = this.y ; 
-					
-			super.update();
-			
+				adaptation.y = this.y ;
+				super.update();
 			}
 		}
 		
@@ -84,6 +84,7 @@ package {
 			if (this.currentHealth <= 0) {
 				this.currentHealth = 0;
 				this.healthDisplay.kill();
+				this.healthDisplay.destroy();
 				return true;
 			}
 			return false;
@@ -104,6 +105,10 @@ package {
 		// Returns a random phenotype.
 		public function selectTrait():Adaptation {
 			return this.adaptations[Math.floor(Math.random() * this.adaptations.length)];
+		}
+		
+		public function equals(creature:Creature):Boolean {
+			return this.id == creature.id;
 		}
 	}
 }
