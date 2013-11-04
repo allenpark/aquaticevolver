@@ -32,8 +32,10 @@ package {
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
+	import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
 	import org.flixel.FlxText;
+
 
 	public class World extends FlxState {
 		[Embed(source="res/DestinyOfADroplet.mp3")] 	public var droplet:Class;
@@ -42,8 +44,20 @@ package {
 		public var pauseGroup:FlxGroup;
 		public var debug:FlxText;
 		FlxG.debug = true ; 
+		// Added hearts to represent player health
+		[Embed(source = "res/life.png")] private var heartImage:Class;
+		// Using a temp player health until player health is working
+		// and updating
+		public var tempPlayerHealth:int = 5;
+		public var maxPlayerHealth:int = 10;
+
 
 		
+		/**
+		 * 
+		 * Array representing the health images
+		 */
+		public var lifeimage:Array = new Array();
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
 		 * -- Nick Benson - 10/28/2013
@@ -170,16 +184,23 @@ package {
 			
 			FlxG.bgColor = 0xff3366ff;
 			FlxG.paused = false;
+
 			paused = new pausescreen;
 			
 			add(player);
 			
 			FlxG.camera.follow(player);
+			for (var i:int = 0; i < maxPlayerHealth; i ++) {
+				lifeimage[i] = new FlxSprite(this.screenX + 220 + 20 * i, this.screenY + 220, heartImage); 
+			}
 			
 			//Box2D debug stuff
 			var debugDrawing:DebugDraw = new DebugDraw();
 			debugDrawing.debugDrawSetup(box2dWorld, RATIO, 1.0, 1, 0.5);
-			
+
+			for(var k:int=tempPlayerHealth - 1; k >= 0; k--){
+				 this.add(lifeimage[k]);
+			}
 		}
 		
 		public function hitEnemy(adaptation:Adaptation, enemy:Enemy):void {
@@ -193,6 +214,7 @@ package {
 				enemy.kill();
 				//enemy.destroy();
 			}
+
 		}
 		
 		override public function update():void {
@@ -254,7 +276,15 @@ package {
 			else{
 				paused.update();
 			}
+			// Updating the health right now
+			for (var i:int = 0; i < maxPlayerHealth; i ++) {
+				this.remove(lifeimage[i]);
+				lifeimage[i] = new FlxSprite(this.screenX + 220 + 20 * i, this.screenY + 220, heartImage); 
+			}
 			
+			for(var k:int=tempPlayerHealth - 1; k >= 0; k--){
+				this.add(lifeimage[k]);
+			}
 		}
 		
 		public function display():void {

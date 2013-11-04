@@ -2,4 +2,5 @@ AquaticEvolver/bin-debug/
 *.swp
 *~
 #*
+.DS_Store
 
