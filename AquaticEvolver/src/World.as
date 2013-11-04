@@ -84,7 +84,6 @@ package {
 		public var screenHeight:int;
 		public var defaultHealth:int;
 		public var defaultSpeed:Number;
-		public var player_adaptation_group :FlxGroup = new FlxGroup;// a group to keep track of player adaptations will not be added
 		public var enemy_group :FlxGroup =  new FlxGroup; 
 		
 		/**
@@ -100,8 +99,6 @@ package {
 		
 		// Creates an enemy randomly slightly off screen.
 		public function createEnemy(xBuffer: int = 0, yBuffer: int = 0):void {
-			// TODO: fill enemyPhenotypes in.
-			var enemyPhenotypes:Array = new Array();
 			var newX:Number;
 			var newY:Number;
 			if (Math.random() > 0.5) {
@@ -113,8 +110,8 @@ package {
 				newX = (Math.random() * (this.screenWidth + xBuffer) - xBuffer) + this.screenX;
 				newY = (Math.random() > 0.5 ? -yBuffer : this.screenHeight) + this.screenY;
 			}
-			var newEnemy:Enemy = new Enemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, enemyPhenotypes);
-			enemy_group.add(newEnemy);
+			var newEnemy:Enemy = new Enemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth);
+			this.enemy_group.add(newEnemy);
 			this.enemies.push(newEnemy); 
 			add(newEnemy);
 		}
@@ -148,15 +145,13 @@ package {
 			this.defaultHealth = 10;
 			this.defaultSpeed = 5.0;
 			
-			
-			var playerPhenotypes:Array = new Array(); // TODO: fill this in.
 			//Create player (a red box)
-			this.player = new Player(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, playerPhenotypes); 
-			var start_adaptation : Adaptation = (new Adaptation('spike', player.x + 10, player.y, 0))
-			player.addAdaptation(start_adaptation)
+			this.player = new Player(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth); 
+			var start_adaptation : Adaptation = (new Adaptation('spike', player.x + 10, player.y, 0));
+			this.add(start_adaptation);
+			player.addAdaptation(start_adaptation);
 			this.enemies = new Array();
 			this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5,300,"num enemies: " + this.enemies.length);
-			
 			
 			// Construct the Box 2D world (in which all simulation happens)
 			this.createBox2DWorld();
@@ -211,20 +206,11 @@ package {
 				}			
 			
 				// TODO: do magic.
-				for (var i:int = 0; i < this.player.adaptations.length; i++) {
-					var adaptation:Adaptation = player.adaptations[i]; 
-					if (!(adaptation in player_adaptation_group.members)) 
-					{
-						this.add(adaptation);
-						player_adaptation_group.add(adaptation); 
-							
-					}
-                }
 				this.player.update();
 				for (var j:int = 0; j < this.enemies.length; j++) {
 				    this.enemies[j].updateMove(this.enemies);
 				}
-				FlxG.collide(player_adaptation_group,enemy_group, hitEnemy); 
+				//FlxG.collide(this.player.adaptationGroup, enemy_group, hitEnemy); 
 				this.debug.kill();
 				this.debug = new FlxText(this.screenX + FlxG.width/2-30, this.screenY + FlxG.height/5, 300, 
 					"num enemies: " + this.enemies.length);

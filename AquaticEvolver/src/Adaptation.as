@@ -2,7 +2,6 @@
 package {
 	import org.flixel.FlxSprite;
 
-	// TODO: Fill in this class or reduce it to just a string.
 	public class Adaptation extends FlxSprite {
 		[Embed(source='res/spike.png')]
 		public static var spikeImg:Class;
@@ -44,6 +43,11 @@ package {
 				case "tentacle":
 					break;
 			}
+		}
+		
+		public function setCoords(x:int, y:int):void {
+			this.x = x;
+			this.y = y;
 		}
 	}
 }

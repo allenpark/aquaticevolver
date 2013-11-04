@@ -16,15 +16,8 @@ package{
         
         var aggroRadius:int = 200;
 		
-		public function Enemy(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array) {
-			super(x, y, speed, health, maxHealth, adaptations);
-			this.attacks = new Array();
-			this.attackingWith = null;
-
-			this.maxVelocity.x = 80;
-			this.maxVelocity.y = 80;
-			this.drag.x = this.maxVelocity.x * 2;
-			this.drag.y = this.maxVelocity.y * 2;
+		public function Enemy(x:int, y:int, speed:Number, health:int, maxHealth:int) {
+			super(x, y, speed, health, maxHealth);
 		}
 		
 		private function getRandomAdaptations(adaptations:Array, maxPower:int):Array{
@@ -78,7 +71,7 @@ package{
         }
 		
 		public function runAwayFromEnemy(enemy:Creature):void{
-			this.loadGraphic(ImgPacman, true, true, 15, 14);
+			//this.loadGraphic(ImgPacman, true, true, 15, 14);
             var dirX:int = (enemy.x - this.x)
             var dirY:int = (enemy.y - this.y)
             if (dirX < 0) {
@@ -98,7 +91,7 @@ package{
 		}
 		
 		public function moveTowardsEnemy(enemy:Creature):void{
-			this.loadGraphic(ImgGhost, true, true, 15, 14);
+			//this.loadGraphic(ImgGhost, true, true, 15, 14);
             var dirX:int = (enemy.x - this.x)
             var dirY:int = (enemy.y - this.y)
             if (dirX < 0) {
