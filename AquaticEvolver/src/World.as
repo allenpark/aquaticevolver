@@ -32,8 +32,10 @@ package {
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
+	import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
 	import org.flixel.FlxText;
+
 
 	public class World extends FlxState {
 		[Embed(source="res/DestinyOfADroplet.mp3")] 	public var droplet:Class;
@@ -42,8 +44,20 @@ package {
 		public var pauseGroup:FlxGroup;
 		public var debug:FlxText;
 		FlxG.debug = true ; 
+		// Added hearts to represent player health
+		[Embed(source = "res/life.png")] private var heartImage:Class;
+		// Using a temp player health until player health is working
+		// and updating
+		public var tempPlayerHealth:int = 5;
+		public var maxPlayerHealth:int = 10;
+
 
 		
+		/**
+		 * 
+		 * Array representing the health images
+		 */
+		public var lifeimage:Array = new Array();
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
 		 * -- Nick Benson - 10/28/2013
@@ -89,7 +103,6 @@ package {
 		public var screenHeight:int;
 		public var defaultHealth:int;
 		public var defaultSpeed:Number;
-		public var player_adaptation_group :FlxGroup = new FlxGroup;// a group to keep track of player adaptations will not be added
 		public var enemy_group :FlxGroup =  new FlxGroup; 
 		
 		/**
@@ -105,8 +118,6 @@ package {
 		
 		// Creates an enemy randomly slightly off screen.
 		public function createEnemy(xBuffer: int = 0, yBuffer: int = 0):void {
-			// TODO: fill enemyPhenotypes in.
-			var enemyPhenotypes:Array = new Array();
 			var newX:Number;
 			var newY:Number;
 			if (Math.random() > 0.5) {
@@ -118,8 +129,8 @@ package {
 				newX = (Math.random() * (this.screenWidth + xBuffer) - xBuffer) + this.screenX;
 				newY = (Math.random() > 0.5 ? -yBuffer : this.screenHeight) + this.screenY;
 			}
-			var newEnemy:Enemy = new Enemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, enemyPhenotypes);
-			enemy_group.add(newEnemy);
+			var newEnemy:Enemy = new Enemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth);
+			this.enemy_group.add(newEnemy);
 			this.enemies.push(newEnemy); 
 			add(newEnemy);
 		}
@@ -153,15 +164,13 @@ package {
 			this.defaultHealth = 10;
 			this.defaultSpeed = 5.0;
 			
-			
-			var playerPhenotypes:Array = new Array(); // TODO: fill this in.
 			//Create player (a red box)
-			this.player = new Player(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, playerPhenotypes); 
-			var start_adaptation : Adaptation = (new Adaptation('spike', player.x + 10, player.y, 0))
-			player.addAdaptation(start_adaptation)
+			this.player = new Player(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth); 
+			var start_adaptation : Adaptation = (new Adaptation('spike', player.x + 10, player.y, 0));
+			this.add(start_adaptation);
+			player.addAdaptation(start_adaptation);
 			this.enemies = new Array();
 			this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5,300,"num enemies: " + this.enemies.length);
-			
 			
 			// Construct the Box 2D world (in which all simulation happens)
 			this.createBox2DWorld();
@@ -170,16 +179,23 @@ package {
 			
 			FlxG.bgColor = 0xff3366ff;
 			FlxG.paused = false;
+
 			paused = new pausescreen;
 			
 			add(player);
 			
 			FlxG.camera.follow(player);
+			for (var i:int = 0; i < maxPlayerHealth; i ++) {
+				lifeimage[i] = new FlxSprite(this.screenX + 220 + 20 * i, this.screenY + 220, heartImage); 
+			}
 			
 			//Box2D debug stuff
 			var debugDrawing:DebugDraw = new DebugDraw();
 			debugDrawing.debugDrawSetup(box2dWorld, RATIO, 1.0, 1, 0.5);
-			
+
+			for(var k:int=tempPlayerHealth - 1; k >= 0; k--){
+				 this.add(lifeimage[k]);
+			}
 		}
 		
 		public function hitEnemy(adaptation:Adaptation, enemy:Enemy):void {
@@ -193,6 +209,7 @@ package {
 				enemy.kill();
 				//enemy.destroy();
 			}
+
 		}
 		
 		override public function update():void {
@@ -223,20 +240,11 @@ package {
 				}			
 			
 				// TODO: do magic.
-				for (var i:int = 0; i < this.player.adaptations.length; i++) {
-					var adaptation:Adaptation = player.adaptations[i]; 
-					if (!(adaptation in player_adaptation_group.members)) 
-					{
-						this.add(adaptation);
-						player_adaptation_group.add(adaptation); 
-							
-					}
-                }
 				this.player.update();
 				for (var j:int = 0; j < this.enemies.length; j++) {
 				    this.enemies[j].updateMove(this.enemies);
 				}
-				FlxG.collide(player_adaptation_group,enemy_group, hitEnemy); 
+				FlxG.collide(this.player.adaptationGroup, enemy_group, hitEnemy); 
 				this.debug.kill();
 				this.debug = new FlxText(this.screenX + FlxG.width/2-30, this.screenY + FlxG.height/5, 300, 
 					"num enemies: " + this.enemies.length);
@@ -254,7 +262,15 @@ package {
 			else{
 				paused.update();
 			}
+			// Updating the health right now
+			for (var i:int = 0; i < maxPlayerHealth; i ++) {
+				this.remove(lifeimage[i]);
+				lifeimage[i] = new FlxSprite(this.screenX + 220 + 20 * i, this.screenY + 220, heartImage); 
+			}
 			
+			for(var k:int=tempPlayerHealth - 1; k >= 0; k--){
+				this.add(lifeimage[k]);
+			}
 		}
 		
 		public function display():void {

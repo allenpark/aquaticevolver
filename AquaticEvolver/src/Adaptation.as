@@ -5,6 +5,7 @@ package {
 
 	// TODO: Fill in this class or reduce it to just a string.
 	public class Adaptation extends FlxGroup {
+
 		[Embed(source='res/spike.png')]
 		public static var spikeImg:Class;
 		[Embed(source='res/tentacle.png')]
@@ -54,6 +55,11 @@ package {
 				case "tentacle":
 					break;
 			}
+		}
+		
+		public function setCoords(x:int, y:int):void {
+			this.x = x;
+			this.y = y;
 		}
 	}
 }

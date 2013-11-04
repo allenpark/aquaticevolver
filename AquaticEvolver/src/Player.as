@@ -10,13 +10,8 @@ package
 		[Embed(source="res/jump.mp3")] 	
 		public var moveAction:Class;
 		
-		public function Player(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array) {
-			super(x, y, speed, health, maxHealth, adaptations);
-			
-			this.maxVelocity.x = 80;
-			this.maxVelocity.y = 80;
-			this.drag.x = this.maxVelocity.x * 2;
-			this.drag.y = this.maxVelocity.y * 2;
+		public function Player(x:int, y:int, speed:Number, health:int, maxHealth:int) {
+			super(x, y, speed, health, maxHealth);
 			
 			//LOADING GRAPHIC
 			this.loadGraphic(ImgPlayer, true, true, 14, 15);

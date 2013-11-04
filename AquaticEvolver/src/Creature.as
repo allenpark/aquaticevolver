@@ -1,8 +1,6 @@
 // ActionScript file
 package {	
-	import org.flixel.FlxSprite;
-	import org.flixel.FlxState;
-	import org.flixel.FlxText;
+	import org.flixel.*;
 
 	public class Creature extends FlxSprite {
 		//public var x:int;
@@ -12,14 +10,13 @@ package {
 		public var currentHealth:int;
 		public var maxHealth:int;
 		public var healthDisplay:FlxText;
-		public var adaptations:Array;
-		public var attacks:Array;
+		public var adaptationGroup:FlxGroup;
 		public var attackingWith:Adaptation; // null if not attacking right now.
 		// Legal values of mode include:
 		// "attacking", "running", "wandering". Change this.update() if this is changed. 
 		public var mode:String;
 		
-		public function Creature(x:int=0, y:int=0, speed:Number=1, health:int=10, maxHealth:int=10, adaptations:Array=undefined) {
+		public function Creature(x:int=0, y:int=0, speed:Number=1, health:int=10, maxHealth:int=10) {
 			this.id = Math.random() * Number.MAX_VALUE;
 			this.x = x;
 			this.y = y;
@@ -27,37 +24,25 @@ package {
 			this.currentHealth = health;
 			this.maxHealth = maxHealth;
 			this.healthDisplay = new FlxText(0, 0, 1);
-			this.attacks = new Array();
 			this.attackingWith = null;
-			this.adaptations = adaptations || new Array();
-			for (var i:int = 0; i < this.adaptations.length; i++) {
-				if (this.adaptations[i].isAttack) {
-					this.attacks.push(this.adaptations[i]);
-				}
-			}
+			this.adaptationGroup = new FlxGroup();
+			
+			this.maxVelocity.x = 80;
+			this.maxVelocity.y = 80;
+			this.drag.x = this.maxVelocity.x * 2;
+			this.drag.y = this.maxVelocity.y * 2;
 		}
 		
 		public function addAdaptation(adapt:Adaptation):void {
-			this.adaptations.push(adapt);
-			if (adapt.isAttack) {
-				this.attacks.push(adapt);
-			}
-		}
-		
-		public function pickRandomAttack():Adaptation {
-			return this.attacks[Math.floor(Math.random() * this.attacks.length)];
+			this.adaptationGroup.add(adapt);
 		}
 		
 		// This method is called often to update the state of the creature.
 		override public function update():void {
-			for (var i:int = 0; i < this.adaptations.length; i++) {
-				var adaptation:Adaptation = this.adaptations[i]; 
-				adaptation.x = this.x + 10 ;
-				adaptation.y = this.y ;
-				super.update();
-			}
+			this.adaptationGroup.setAll("x", this.x + 10);
+			this.adaptationGroup.setAll("y", this.y);
+			super.update();
 		}
-		
 		
 		// Handling when one of your appendages collides with an enemy body.
 		// Returns true iff the enemy has been killed.
@@ -104,7 +89,7 @@ package {
 		
 		// Returns a random phenotype.
 		public function selectTrait():Adaptation {
-			return this.adaptations[Math.floor(Math.random() * this.adaptations.length)];
+			return Adaptation(this.adaptationGroup.getRandom());
 		}
 		
 		public function equals(creature:Creature):Boolean {
