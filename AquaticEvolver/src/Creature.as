@@ -83,6 +83,7 @@ package {
 			this.currentHealth -= damage;
 			if (this.currentHealth <= 0) {
 				this.currentHealth = 0;
+				this.healthDisplay.kill();
 				return true;
 			}
 			return false;
