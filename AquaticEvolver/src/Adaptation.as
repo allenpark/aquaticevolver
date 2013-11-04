@@ -18,6 +18,8 @@ package {
 			this.name = name;
 			this.angle = angle;
 			
+		
+			
 			switch (name) {
 				case "spike":
 					loadGraphic(spikeImg, true, true, 32, 32);
@@ -28,6 +30,10 @@ package {
 					loadGraphic(tentacleImg, true, true, 32, 32);
 					this.isAttack = true;
 					this.attackDamage = 1;
+					this.maxVelocity.x = 160;
+					this.maxVelocity.y = 160;
+					this.drag.x = this.maxVelocity.x * 2;
+					this.drag.y = this.maxVelocity.y * 2;
 					break;
 			}
 		}
