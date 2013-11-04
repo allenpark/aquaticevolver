@@ -244,7 +244,7 @@ package {
 				for (var j:int = 0; j < this.enemies.length; j++) {
 				    this.enemies[j].updateMove(this.enemies);
 				}
-				//FlxG.collide(this.player.adaptationGroup, enemy_group, hitEnemy); 
+				FlxG.collide(this.player.adaptationGroup, enemy_group, hitEnemy); 
 				this.debug.kill();
 				this.debug = new FlxText(this.screenX + FlxG.width/2-30, this.screenY + FlxG.height/5, 300, 
 					"num enemies: " + this.enemies.length);
