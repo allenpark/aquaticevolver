@@ -75,6 +75,11 @@ package {
 		 */
 		public var GRAVITY:b2Vec2 = new b2Vec2(0, 9.8);
 		
+		/**
+		 * 
+		 */
+		public const RATIO:Number = 100;
+		
 		/* We should probably refer to these as "cameraX", etc., unless it doesn't
 		 * actually mean what I think it means. -- Nick Benson - 10/28
 		 */
@@ -171,6 +176,10 @@ package {
 			
 			FlxG.camera.follow(player);
 			
+			//Box2D debug stuff
+			var debugDrawing:DebugDraw = new DebugDraw();
+			debugDrawing.debugDrawSetup(box2dWorld, RATIO, 1.0, 1, 0.5);
+			
 		}
 		
 		public function hitEnemy(adaptation:Adaptation, enemy:Enemy):void {
@@ -187,11 +196,14 @@ package {
 		}
 		
 		override public function update():void {
+			//Box2D debug stuff
+			if (AquaticEvolver.box2dDebug) {
+				box2dWorld.DrawDebugData();
+			}
 			
 			if (!paused.showing) {
 				this.screenX = FlxG.camera.scroll.x;
 				this.screenY = FlxG.camera.scroll.y;
-				
 				super.update();
 				
 				if(FlxG.keys.justPressed("P")){
