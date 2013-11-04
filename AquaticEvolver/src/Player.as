@@ -43,7 +43,6 @@ package
 					this.acceleration.y = this.maxVelocity.y * 4;
 				else
 					this.acceleration.y = 0;
-				FlxG.log(FlxG.mouse.pressed());
 				if (FlxG.mouse.justPressed()){
 					this.mode = "attacking";
 					//Note this is hacked together and won't make sense if it uses a non-attacking adaptation, but I don't expect to use these for long

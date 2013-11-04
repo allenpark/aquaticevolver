@@ -60,9 +60,14 @@ package {
 		public function display(state:FlxState):void {
 			// TODO: Make it be displayed somehow.
 			this.healthDisplay.kill();
+			if (this.currentHealth > 0){
 			this.healthDisplay = new FlxText(this.x - 5, this.y + 10, 50, this.currentHealth + "/" + this.maxHealth);
 			this.healthDisplay.size = 7;
 			state.add(this.healthDisplay);
+			}
+			else {
+				this.healthDisplay.destroy()
+			}
 		}
 		
 		// Reduces the creature health by damage and returns whether the creature has died or not.
