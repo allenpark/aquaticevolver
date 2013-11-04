@@ -69,7 +69,7 @@ package {
 		 * that are on the screen or near the screen in the game world.
 		 * -- Nick Benson - 10/28/2013
 		 */
-		public var enemies:Array;
+		public var enemyGroup:FlxGroup;
 		
 		/**
 		 * The box2D world, into which we must add all Box2D objects if
@@ -103,7 +103,6 @@ package {
 		public var screenHeight:int;
 		public var defaultHealth:int;
 		public var defaultSpeed:Number;
-		public var enemy_group :FlxGroup =  new FlxGroup; 
 		
 		/**
 		 * Constructs and initializes the Box2D b2World.
@@ -130,18 +129,17 @@ package {
 				newY = (Math.random() > 0.5 ? -yBuffer : this.screenHeight) + this.screenY;
 			}
 			var newEnemy:Enemy = new Enemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth);
-			this.enemy_group.add(newEnemy);
-			this.enemies.push(newEnemy); 
-			add(newEnemy);
+			this.enemyGroup.add(newEnemy);
+			this.add(newEnemy);
 		}
 		
 		// Checks that all enemies are still on screen.
 		public function removeEnemiesNotOnScreen(xBuffer:int = 0, yBuffer:int = 0):void {
-			for (var i:int = this.enemies.length - 1; i >= 0; i--) {
-				var enemy:Creature = this.enemies[i];
+			for (var i:int = this.enemyGroup.length - 1; i >= 0; i--) {
+				var enemy:Creature = this.enemyGroup.members[i];
 				if (!this.inScreen(enemy.x, enemy.y, xBuffer, yBuffer)) {
-					this.enemies.splice(i, 1);
-					enemy.kill()
+					this.enemyGroup.remove(enemy, true);
+					enemy.kill();
 				}
 			}
 		}
@@ -169,8 +167,8 @@ package {
 			var start_adaptation : Adaptation = (new Adaptation('spike', player.x + 10, player.y, 0));
 			this.add(start_adaptation);
 			player.addAdaptation(start_adaptation);
-			this.enemies = new Array();
-			this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5,300,"num enemies: " + this.enemies.length);
+			this.enemyGroup = new FlxGroup();
+			this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5,300,"num enemies: " + this.enemyGroup.length);
 			
 			// Construct the Box 2D world (in which all simulation happens)
 			this.createBox2DWorld();
@@ -200,14 +198,14 @@ package {
 		
 		public function hitEnemy(adaptation:Adaptation, enemy:Enemy):void {
 			if (enemy.getAttacked(adaptation.attackDamage)){
-				for (var i:int = 0; i < this.enemies.length; i++) {
-					if (enemy.equals(this.enemies[i])) {
-						this.enemies.splice(i, 1);
+				for (var i:int = 0; i < this.enemyGroup.length; i++) {
+					if (enemy.equals(this.enemyGroup.members[i])) {
+						this.enemyGroup.remove(this.enemyGroup.members[i], true);
 						break;
 					}
 				}
 				enemy.kill();
-				//enemy.destroy();
+				enemy.destroy();
 			}
 
 		}
@@ -241,13 +239,13 @@ package {
 			
 				// TODO: do magic.
 				this.player.update();
-				for (var j:int = 0; j < this.enemies.length; j++) {
-				    this.enemies[j].updateMove(this.enemies);
+				for (var j:int = 0; j < this.enemyGroup.length; j++) {
+				    this.enemyGroup.members[j].updateMove(this.enemyGroup);
 				}
-				FlxG.collide(this.player.adaptationGroup, enemy_group, hitEnemy); 
+				FlxG.collide(this.player.adaptationGroup, this.enemyGroup, hitEnemy); 
 				this.debug.kill();
 				this.debug = new FlxText(this.screenX + FlxG.width/2-30, this.screenY + FlxG.height/5, 300, 
-					"num enemies: " + this.enemies.length);
+					"num enemies: " + this.enemyGroup.length);
 				//this.debug = new FlxText(this.screenX + FlxG.width/2-30, this.screenY + FlxG.height/5, 300, 
 					//"x: " + this.screenX + ", y: " + this.screenY);
 				add(this.debug);
@@ -276,8 +274,8 @@ package {
 		public function display():void {
 			// TODO: more magic.
 			this.player.display(this);
-			for (var i:int = 0; i < this.enemies.length; i++) {
-				this.enemies[i].display(this);
+			for (var i:int = 0; i < this.enemyGroup.length; i++) {
+				this.enemyGroup.members[i].display(this);
 			}
 		}
 	}

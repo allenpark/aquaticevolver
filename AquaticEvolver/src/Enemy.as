@@ -5,6 +5,7 @@
  * and move around with some basic AI to interact with the world. 
  */ 
 package{
+	import org.flixel.FlxGroup;
 	
 	public class Enemy extends Creature{
 		
@@ -36,18 +37,18 @@ package{
 			return adaptArray;
 		}
 
-        public function updateMove(enemies:Array):void {
+        public function updateMove(enemyGroup:FlxGroup):void {
             var weakestIndex:int   = 0;
             var strongestIndex:int = 0;
             var weakestStrength:int   = 0;
             var strongestStrength:int = 0;
             var score:int;
             var seeSomething:Boolean = false;
-            for (var i:int = 0; i < enemies.length; i++) {
-                if (Math.sqrt(Math.pow(this.x - enemies[i].x, 2) +
-                              Math.pow(this.y - enemies[i].y, 2)) < aggroRadius) {
+            for (var i:int = 0; i < enemyGroup.length; i++) {
+                if (Math.sqrt(Math.pow(this.x - enemyGroup.members[i].x, 2) +
+                              Math.pow(this.y - enemyGroup.members[i].y, 2)) < aggroRadius) {
                     seeSomething = true;
-                    score = enemies[i].health - this.health;
+                    score = enemyGroup.members[i].health - this.health;
                     if (score < weakestStrength) {
                       weakestIndex = i;
                       weakestStrength = score;
@@ -60,9 +61,9 @@ package{
             }
             if (seeSomething) {
               if (weakestStrength == 0) {
-                this.runAwayFromEnemy(enemies[weakestIndex]);
+                this.runAwayFromEnemy(enemyGroup.members[weakestIndex]);
               } else {
-                this.moveTowardsEnemy(enemies[strongestIndex]);
+                this.moveTowardsEnemy(enemyGroup.members[strongestIndex]);
               }
             } else {
               this.moveAround();
