@@ -228,6 +228,7 @@ package {
 			}
 			if(FlxG.keys.justPressed("D")){
 				AquaticEvolver.box2dDebug = !AquaticEvolver.box2dDebug;
+				AquaticEvolver.DEBUG_SPRITE.visible = AquaticEvolver.box2dDebug;
 			}
 			
 			if (!paused.showing) {
