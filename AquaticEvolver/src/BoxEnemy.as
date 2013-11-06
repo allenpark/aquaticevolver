@@ -27,7 +27,6 @@ package
 			this.maxVelocity.y = 80;
 			this.drag.x = this.maxVelocity.x * 2;
 			this.drag.y = this.maxVelocity.y * 2;
-			this.createBody();
 		}
 		
 		private function getRandomAdaptations(adaptations:Array, maxPower:int):Array{
@@ -125,6 +124,10 @@ package
 			this.acceleration.x = Math.random() * 600 - 300;
 			this.acceleration.y = Math.random() * 600 - 300;
 		}
-		
+		override public function createBody():void
+		{
+			super.createBody();
+			trace("enemy made");
+		}
 	}
 }

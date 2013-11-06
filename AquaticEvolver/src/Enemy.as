@@ -6,6 +6,7 @@
  */ 
 package{
 	import org.flixel.FlxGroup;
+	import org.flixel.FlxState;
 	
 	public class Enemy extends Creature{
 		
@@ -68,7 +69,6 @@ package{
             } else {
               this.moveAround();
             }
-			super.update();
         }
 		
 		public function runAwayFromEnemy(enemy:Creature):void{

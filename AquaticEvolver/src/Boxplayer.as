@@ -1,12 +1,14 @@
 package
 {
-	import Box2D.Collision.*;
-	import Box2D.Collision.Shapes.*;
-	import Box2D.Common.Math.*;
-	import Box2D.Dynamics.*;
-	import org.flixel.*;
+	import Box2D.Collision.Shapes.b2PolygonShape;
+	import Box2D.Common.Math.b2Vec2;
+	import Box2D.Dynamics.b2Body;
+	import Box2D.Dynamics.b2BodyDef;
+	import Box2D.Dynamics.b2FixtureDef;
+	import Box2D.Dynamics.b2World;
 	
 	import org.flixel.FlxG;
+	import org.flixel.FlxState;
 	
 	public class Boxplayer extends Creature
 	{
@@ -17,7 +19,7 @@ package
 		public var moveAction:Class;
 		
 		public function Boxplayer(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array) {
-			super();
+			super(x, y, speed, health, maxHealth);
 			this.x = x;
 			this.y = y;
 			this.speed = speed;
@@ -34,7 +36,6 @@ package
 			//SETTING ANIMATIONS
 			this.addAnimation("idle", [0]);
 			this.addAnimation("walk", [0, 1, 2, 1], 5);
-			this.createBody();
 		}
 		override public function update():void
 		{
@@ -107,6 +108,11 @@ package
 			}
 			vec.Multiply(0.001);
 			return vec;
+		}
+		override public function createBody():void
+		{
+			super.createBody();
+			trace("player added");
 		}
 	}
 }

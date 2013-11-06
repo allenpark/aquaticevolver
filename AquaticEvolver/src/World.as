@@ -127,10 +127,12 @@ package {
 				// On the horizontal edges.
 				newX = (Math.random() * (this.screenWidth + xBuffer) - xBuffer) + this.screenX;
 				newY = (Math.random() > 0.5 ? -yBuffer : this.screenHeight) + this.screenY;
+
 			}
 			var newEnemy:BoxEnemy = new BoxEnemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array());
-			this.enemyGroup.add(newEnemy);
+			//this.enemyGroup.add(newEnemy);
 			this.add(newEnemy);
+			this.add(newEnemy.healthDisplay);
 		}
 		
 		// Checks that all enemies are still on screen.
@@ -140,6 +142,7 @@ package {
 				if (!this.inScreen(enemy.x, enemy.y, xBuffer, yBuffer)) {
 					this.enemyGroup.remove(enemy, true);
 					enemy.kill();
+					enemy.destroy();
 				}
 			}
 		}
@@ -154,7 +157,9 @@ package {
 		
 		override public function create():void
 		{
+			super.create();
 			// Set up the screen properties (or are they camera properties?)
+			FlxG.bgColor = 0xff000000;
 			this.screenX = FlxG.camera.scroll.x;
 			this.screenY = FlxG.camera.scroll.y;
 			this.screenWidth = FlxG.width;
@@ -167,14 +172,17 @@ package {
 			
 			//Create player (a red box)
 			this.player = new Boxplayer(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array()); 
+
 			var start_adaptation : Adaptation = (new Adaptation('tentacle', player.x + 10, player.y, 0));
 			this.add(start_adaptation);
 			player.addAdaptation(start_adaptation);
+			add(player);
+			
 			this.enemyGroup = new FlxGroup();
+			
 			this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5,300,"num enemies: " + this.enemyGroup.length);
+			this.add(this.debug);			
 			
-			
-
 			FlxG.playMusic(droplet);
 			
 			FlxG.bgColor = 0xff3366ff;
@@ -182,7 +190,7 @@ package {
 
 			paused = new pausescreen;
 			
-			add(player);
+			
 			
 			//FlxG.camera.follow(player);
 			for (var i:int = 0; i < maxPlayerHealth; i ++) {
@@ -190,6 +198,7 @@ package {
 			}
 			var newEnemy:BoxEnemy = new BoxEnemy(50, 50, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array());
 			add(newEnemy);
+			this.add(newEnemy.healthDisplay);
 			
 			//FlxG.camera.follow(player);
 			
@@ -208,19 +217,14 @@ package {
 		
 		public function hitEnemy(adaptation:Adaptation, enemy:Enemy):void {
 			if (enemy.getAttacked(adaptation.attackDamage)){
-				for (var i:int = 0; i < this.enemyGroup.length; i++) {
-					if (enemy.equals(this.enemyGroup.members[i])) {
-						this.enemyGroup.remove(this.enemyGroup.members[i], true);
-						break;
-					}
-				}
-				enemy.kill();
+				this.enemyGroup.remove(enemy, true);
 				enemy.destroy();
 			}
 
 		}
 		
 		override public function update():void {
+			super.update();
 			box2dWorld.Step(1.0/60.0, 10, 10);
 			//Box2D debug stuff
 			if (AquaticEvolver.box2dDebug) {
@@ -234,7 +238,6 @@ package {
 			if (!paused.showing) {
 				//this.screenX = FlxG.camera.scroll.x;
 				//this.screenY = FlxG.camera.scroll.y;
-				super.update();
 				
 				if(FlxG.keys.justPressed("P")){
 					paused = new pausescreen();
@@ -256,14 +259,15 @@ package {
 				this.player.update();
 				for (var j:int = 0; j < this.enemyGroup.length; j++) {
 				    this.enemyGroup.members[j].updateMove(this.enemyGroup);
+					this.enemyGroup.members[j].update();
 				}
-				FlxG.collide(this.player.adaptationGroup, this.enemyGroup, hitEnemy); 
-				this.debug.kill();
-				this.debug = new FlxText(this.screenX + FlxG.width/2-30, this.screenY + FlxG.height/5, 300, 
-					"num enemies: " + this.enemyGroup.length);
+				FlxG.collide(this.player.adaptationGroup, this.enemyGroup, hitEnemy);
+				this.debug.text = "num enemies: " + this.enemyGroup.length;
+				this.debug.x = this.screenX + FlxG.width/2-30;
+				this.debug.y = this.screenY + FlxG.height/5;
 				//this.debug = new FlxText(this.screenX + FlxG.width/2-30, this.screenY + FlxG.height/5, 300, 
 					//"x: " + this.screenX + ", y: " + this.screenY);
-				add(this.debug);
+				//add(this.debug);
 				var enemyWidth:int = 15; // TODO: make this the enemy width and height.
 				var enemyHeight:int = 15;
 				this.removeEnemiesNotOnScreen(2 * enemyWidth, 2 * enemyHeight);
