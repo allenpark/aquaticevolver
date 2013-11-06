@@ -43,7 +43,34 @@ package
 					this.acceleration.y = this.maxVelocity.y * 4;
 				else
 					this.acceleration.y = 0;
-				
+				if (FlxG.mouse.justPressed()){
+					this.mode = "attacking";
+					//Note this is hacked together and won't make sense if it uses a non-attacking adaptation, but I don't expect to use these for long
+					//it might make sense to make a subclass of adaptations of attack class that defines how the different appendages attack
+					this.attackingWith = this.adaptationGroup.members[0];
+				}
+				else if (FlxG.mouse.pressed() && this.attackingWith.name == "tentacle"){
+					var dirX:int = (this.attackingWith.x - FlxG.mouse.x)
+					var dirY:int = (this.attackingWith.y - FlxG.mouse.y)
+					if (dirX < 0) {
+						this.attackingWith.velocity.x = this.attackingWith.maxVelocity.x ;
+					} else if (dirX > 0) {
+						this.attackingWith.velocity.x = -this.attackingWith.maxVelocity.x ;
+					} else {
+						this.attackingWith.velocity.x = 0;
+					}
+					if (dirY < 0) {
+						this.attackingWith.velocity.y = this.attackingWith.maxVelocity.y ;
+					} else if (dirY > 0) {
+						this.attackingWith.velocity.y = -this.attackingWith.maxVelocity.y ;
+					} else {
+						this.attackingWith.velocity.y = 0;
+					}
+				}
+				else {
+					this.mode = null
+				}
+			
 				// playing the correct animation
 				if (FlxG.keys.LEFT ||FlxG.keys.RIGHT || FlxG.keys.UP || FlxG.keys.DOWN){
 					this.play("walk");
