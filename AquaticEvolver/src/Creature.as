@@ -43,12 +43,10 @@ package {
 		override public function update():void {
 			//			this.adaptationGroup.setAll("x", this.x + 10);
 			//			this.adaptationGroup.setAll("y", this.y);			
-			for (var i:int = 0; i < adaptationGroup.length; i++) {
-				//				adaptationGroup(i).update();		
-				if (!(this.mode == "attacking")){
-				}
-				super.update();
+			for (var i:int = 0; i < this.adaptationGroup.length; i++) {
+				this.adaptationGroup.members[i].update();
 			}
+			super.update();
 		}
 		
 		// Handling when one of your appendages collides with an enemy body.
