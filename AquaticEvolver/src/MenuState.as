@@ -11,6 +11,7 @@ package
 		
 		override public function create():void
 		{
+			super.create();
 			FlxG.bgColor = 0xffaaaaaa;
 			var menuText:FlxText = new FlxText(FlxG.width/2 - 48, FlxG.height/3, 100, "Aquatic Evolver!");
 			add(menuText);

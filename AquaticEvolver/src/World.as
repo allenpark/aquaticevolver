@@ -128,7 +128,7 @@ package {
 				newX = (Math.random() * (this.screenWidth + xBuffer) - xBuffer) + this.screenX;
 				newY = (Math.random() > 0.5 ? -yBuffer : this.screenHeight) + this.screenY;
 			}
-			var newEnemy:Enemy = new Enemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth);
+			var newEnemy:Enemy = new Enemy(this, newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth);
 			this.enemyGroup.add(newEnemy);
 			this.add(newEnemy);
 		}
@@ -155,7 +155,9 @@ package {
 		
 		override public function create():void
 		{
+			super.create();
 			// Set up the screen properties (or are they camera properties?)
+			FlxG.bgColor = 0xff000000;
 			this.screenX = FlxG.camera.scroll.x;
 			this.screenY = FlxG.camera.scroll.y;
 			this.screenWidth = FlxG.width;
@@ -164,12 +166,13 @@ package {
 			this.defaultSpeed = 5.0;
 			
 			//Create player (a red box)
-			this.player = new Player(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth); 
+			this.player = new Player(this, this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth); 
 			var start_adaptation : Adaptation = (new Adaptation('tentacle', player.x + 10, player.y, 0));
 			this.add(start_adaptation);
 			player.addAdaptation(start_adaptation);
 			this.enemyGroup = new FlxGroup();
 			this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5,300,"num enemies: " + this.enemyGroup.length);
+			this.add(this.debug);
 			
 			// Construct the Box 2D world (in which all simulation happens)
 			this.createBox2DWorld();
@@ -206,6 +209,7 @@ package {
 		}
 		
 		override public function update():void {
+			super.update();
 			//Box2D debug stuff
 			if (AquaticEvolver.box2dDebug) {
 				box2dWorld.DrawDebugData();
@@ -214,7 +218,6 @@ package {
 			if (!paused.showing) {
 				this.screenX = FlxG.camera.scroll.x;
 				this.screenY = FlxG.camera.scroll.y;
-				super.update();
 				
 				if(FlxG.keys.justPressed("P")){
 					paused = new pausescreen();
@@ -236,14 +239,15 @@ package {
 				this.player.update();
 				for (var j:int = 0; j < this.enemyGroup.length; j++) {
 				    this.enemyGroup.members[j].updateMove(this.enemyGroup);
+					this.enemyGroup.members[j].update();
 				}
-				FlxG.collide(this.player.adaptationGroup, this.enemyGroup, hitEnemy); 
-				this.debug.kill();
-				this.debug = new FlxText(this.screenX + FlxG.width/2-30, this.screenY + FlxG.height/5, 300, 
-					"num enemies: " + this.enemyGroup.length);
+				FlxG.collide(this.player.adaptationGroup, this.enemyGroup, hitEnemy);
+				this.debug.text = "num enemies: " + this.enemyGroup.length;
+				this.debug.x = this.screenX + FlxG.width/2-30;
+				this.debug.y = this.screenY + FlxG.height/5;
 				//this.debug = new FlxText(this.screenX + FlxG.width/2-30, this.screenY + FlxG.height/5, 300, 
 					//"x: " + this.screenX + ", y: " + this.screenY);
-				add(this.debug);
+				//add(this.debug);
 				var enemyWidth:int = 15; // TODO: make this the enemy width and height.
 				var enemyHeight:int = 15;
 				this.removeEnemiesNotOnScreen(2 * enemyWidth, 2 * enemyHeight);

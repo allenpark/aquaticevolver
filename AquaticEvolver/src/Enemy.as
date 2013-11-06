@@ -6,6 +6,7 @@
  */ 
 package{
 	import org.flixel.FlxGroup;
+	import org.flixel.FlxState;
 	
 	public class Enemy extends Creature{
 		
@@ -17,8 +18,8 @@ package{
         
         var aggroRadius:int = 200;
 		
-		public function Enemy(x:int, y:int, speed:Number, health:int, maxHealth:int) {
-			super(x, y, speed, health, maxHealth);
+		public function Enemy(state:FlxState, x:int, y:int, speed:Number, health:int, maxHealth:int) {
+			super(state, x, y, speed, health, maxHealth);
 		}
 		
 		private function getRandomAdaptations(adaptations:Array, maxPower:int):Array{
@@ -68,7 +69,6 @@ package{
             } else {
               this.moveAround();
             }
-			super.update();
         }
 		
 		public function runAwayFromEnemy(enemy:Creature):void{
