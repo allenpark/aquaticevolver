@@ -17,7 +17,7 @@ package
 		[Embed(source='res/ghost.png')]
 		public static var ImgGhost:Class;
 		
-		var aggroRadius:int = 200;
+		public var aggroRadius:int = 200;
 		
 		////////////////////////      box2d traits      ///////////////////////////
 		
