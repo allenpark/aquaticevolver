@@ -1,6 +1,7 @@
 package
 {
 	import org.flixel.FlxG;
+	import org.flixel.FlxState;
 	
 	public class Player extends Creature
 	{
@@ -10,8 +11,8 @@ package
 		[Embed(source="res/jump.mp3")] 	
 		public var moveAction:Class;
 		
-		public function Player(x:int, y:int, speed:Number, health:int, maxHealth:int) {
-			super(x, y, speed, health, maxHealth);
+		public function Player(state:FlxState, x:int, y:int, speed:Number, health:int, maxHealth:int) {
+			super(state, x, y, speed, health, maxHealth);
 			
 			//LOADING GRAPHIC
 			this.loadGraphic(ImgPlayer, true, true, 14, 15);
@@ -22,6 +23,7 @@ package
 		
 		override public function update():void
 		{
+			super.update();
 			if (!FlxG.paused) {
 				// FlxG.playMusic(droplet);
 				// moving the player based on the arrow keys inputs
@@ -68,7 +70,7 @@ package
 //					}
 				}
 				else {
-					this.mode = null
+					this.mode = null;
 				}
 			
 				// playing the correct animation
@@ -79,8 +81,6 @@ package
 					
 				else
 					this.play("idle");
-				
-				super.update();
 			}
 		}
 	}

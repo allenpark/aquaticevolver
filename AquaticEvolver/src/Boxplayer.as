@@ -1,12 +1,14 @@
 package
 {
-	import Box2D.Collision.*;
-	import Box2D.Collision.Shapes.*;
-	import Box2D.Common.Math.*;
-	import Box2D.Dynamics.*;
-	import org.flixel.*;
+	import Box2D.Collision.Shapes.b2PolygonShape;
+	import Box2D.Common.Math.b2Vec2;
+	import Box2D.Dynamics.b2Body;
+	import Box2D.Dynamics.b2BodyDef;
+	import Box2D.Dynamics.b2FixtureDef;
+	import Box2D.Dynamics.b2World;
 	
 	import org.flixel.FlxG;
+	import org.flixel.FlxState;
 	
 	public class Boxplayer extends Creature
 	{
@@ -34,8 +36,8 @@ package
 		//Default body type
 		public var _type:uint = b2Body.b2_dynamicBody;
 		
-		public function Boxplayer(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array, w:b2World) {
-			super();
+		public function Boxplayer(state:FlxState, x:int, y:int, speed:Number, health:int, maxHealth:int, w:b2World) {
+			super(state, x, y, speed, health, maxHealth);
 			this.x = x;
 			this.y = y;
 			this.speed = speed;

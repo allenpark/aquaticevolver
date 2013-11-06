@@ -37,8 +37,8 @@ package
 		//Default body type
 		public var _type:uint = b2Body.b2_dynamicBody;
 		
-		public function BoxEnemy(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array, w:b2World) {
-			super(x, y, speed, health, maxHealth);
+		public function BoxEnemy(state:FlxState, x:int, y:int, speed:Number, health:int, maxHealth:int, w:b2World) {
+			super(state, x, y, speed, health, maxHealth);
 			this.attackingWith = null;
 			
 			this.maxVelocity.x = 80;

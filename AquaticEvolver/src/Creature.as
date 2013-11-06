@@ -1,7 +1,7 @@
 // ActionScript file
 package {	
 	import org.flixel.*;
-	
+
 	public class Creature extends FlxSprite {
 		//public var x:int;
 		//public var y:int;
@@ -16,14 +16,16 @@ package {
 		// "attacking", "running", "wandering". Change this.update() if this is changed. 
 		public var mode:String;
 		
-		public function Creature(x:int=0, y:int=0, speed:Number=1, health:int=10, maxHealth:int=10) {
+		public function Creature(state:FlxState, x:int=0, y:int=0, speed:Number=1, health:int=10, maxHealth:int=10) {
 			this.id = Math.random() * Number.MAX_VALUE;
 			this.x = x;
 			this.y = y;
 			this.speed = speed;
 			this.currentHealth = health;
 			this.maxHealth = maxHealth;
-			this.healthDisplay = new FlxText(0, 0, 1);
+			this.healthDisplay = new FlxText(0, 0, 50);
+			this.healthDisplay.size = 7;
+			state.add(this.healthDisplay);
 			this.attackingWith = null;
 			this.adaptationGroup = new FlxGroup();
 			
@@ -40,14 +42,11 @@ package {
 		// This method is called often to update the state of the creature.
 		override public function update():void {
 			//			this.adaptationGroup.setAll("x", this.x + 10);
-			//			this.adaptationGroup.setAll("y", this.y);
-			
-			for (var i:int = 0; i < adaptationGroup.length; i++) {
-				//				adaptationGroup(i).update();		
-				if (!(this.mode == "attacking")){
-				}
-				super.update();
+			//			this.adaptationGroup.setAll("y", this.y);			
+			for (var i:int = 0; i < this.adaptationGroup.length; i++) {
+				this.adaptationGroup.members[i].update();
 			}
+			super.update();
 		}
 		
 		// Handling when one of your appendages collides with an enemy body.
@@ -63,15 +62,9 @@ package {
 		
 		public function display(state:FlxState):void {
 			// TODO: Make it be displayed somehow.
-			this.healthDisplay.kill();
-			if (this.currentHealth > 0){
-				this.healthDisplay = new FlxText(this.x - 5, this.y + 10, 50, this.currentHealth + "/" + this.maxHealth);
-				this.healthDisplay.size = 7;
-				state.add(this.healthDisplay);
-			}
-			else {
-				this.healthDisplay.destroy()
-			}
+			this.healthDisplay.x = this.x - 5;
+			this.healthDisplay.y = this.y + 10;
+			this.healthDisplay.text = this.currentHealth + "/" + this.maxHealth;
 		}
 		
 		// Reduces the creature health by damage and returns whether the creature has died or not.
@@ -79,11 +72,16 @@ package {
 			this.currentHealth -= damage;
 			if (this.currentHealth <= 0) {
 				this.currentHealth = 0;
-				this.healthDisplay.kill();
-				this.healthDisplay.destroy();
+				this.kill();
 				return true;
 			}
 			return false;
+		}
+		
+		override public function kill():void {
+			this.healthDisplay.kill();
+			this.healthDisplay.destroy();
+			super.kill();
 		}
 		
 		public function isAlive():Boolean {

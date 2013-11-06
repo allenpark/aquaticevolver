@@ -13,14 +13,18 @@ package{
 		public static var BubbleImg:Class;
 		
 		private var camera:FlxCamera;
+		
+		private var viewDistance:int;
+		
+		private var MAXSCROLLSPEED:int = 100;
 
 		
 		public function BackgroundObject(x:int , y:int, viewDistance:int, camera:FlxCamera){
 			
-//			this.loadGraphic(BubbleImg, false, false, 16, 16);
+			this.loadGraphic(BubbleImg, false, false);
 			
-			trace('Created background object');
-
+			this.viewDistance = viewDistance;
+			
 			this.x = x;
 			this.y = y;
 			//Setting background object's scroll factor for parallax scrolling
@@ -55,7 +59,7 @@ package{
 		
 		public function floatUpward():void{
 			this.velocity.x = 0;
-			this.velocity.y = 10;
+			this.velocity.y = -Math.round(MAXSCROLLSPEED/this.viewDistance);
 		}
 	}
 }
