@@ -16,25 +16,7 @@ package
 		[Embed(source="res/jump.mp3")] 	
 		public var moveAction:Class;
 		
-		////////////////////////      box2d traits      ///////////////////////////
-		
-		public var _fixDef:b2FixtureDef;
-		public var _bodyDef:b2BodyDef
-		public var _obj:b2Body;
-		
-		private var _world:b2World;
-		
-		//Physics params default value
-		public var _friction:Number = 0.8;
-		public var _restitution:Number = 0.3;
-		public var _density:Number = 0.7;
-		
-		//Default angle
-		public var _angle:Number = 0;
-		//Default body type
-		public var _type:uint = b2Body.b2_dynamicBody;
-		
-		public function Boxplayer(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array, w:b2World) {
+		public function Boxplayer(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array) {
 			super();
 			this.x = x;
 			this.y = y;
@@ -52,7 +34,6 @@ package
 			//SETTING ANIMATIONS
 			this.addAnimation("idle", [0]);
 			this.addAnimation("walk", [0, 1, 2, 1], 5);
-			this._world = w;
 			this.createBody();
 		}
 		override public function update():void
@@ -109,9 +90,6 @@ package
 					this.play("idle");
 			
 				_obj.ApplyImpulse(getForceVec(xDir, yDir), _obj.GetPosition());
-				x = ((_obj.GetPosition().x * World.RATIO) - width/2.0);
-				y = ((_obj.GetPosition().y * World.RATIO) - height/2.0);
-				angle = _obj.GetAngle() * (180 / Math.PI);
 				super.update();
 			}
 		}
@@ -129,30 +107,6 @@ package
 			}
 			vec.Multiply(0.001);
 			return vec;
-		}
-		
-		public function createBody():void
-		{            
-			var boxShape:b2PolygonShape = new b2PolygonShape();
-			boxShape.SetAsBox((width/2.0) / World.RATIO, (height/2.0) / World.RATIO);
-			
-			_fixDef = new b2FixtureDef();
-			_fixDef.density = _density;
-			_fixDef.restitution = _restitution;
-			_fixDef.friction = _friction;                        
-			_fixDef.shape = boxShape;
-			
-			_bodyDef = new b2BodyDef();
-			_bodyDef.position.Set((x + (width/2.0))/ World.RATIO, (y + (height/2.0)) / World.RATIO);
-			_bodyDef.angle = _angle * (Math.PI / 180);
-			_bodyDef.type = _type;
-			
-			_obj = _world.CreateBody(_bodyDef);
-			_obj.CreateFixture(_fixDef);
-			_obj.SetLinearDamping(3.0);
-			
-			FlxG.watch(_obj.GetPosition(), "x");
-			FlxG.watch(_obj.GetPosition(), "y");
 		}
 	}
 }

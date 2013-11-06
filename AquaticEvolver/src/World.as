@@ -76,7 +76,7 @@ package {
 		 * we want them to be a part of the simulation that Box2D runs.
 		 * -- Nick Benson - 10/28/2013
 		 */
-		public var box2dWorld:b2World;
+		public static var box2dWorld:b2World;
 		
 		/**
 		 * The pull of gravity. There is normal gravity underwater, but there are
@@ -128,7 +128,7 @@ package {
 				newX = (Math.random() * (this.screenWidth + xBuffer) - xBuffer) + this.screenX;
 				newY = (Math.random() > 0.5 ? -yBuffer : this.screenHeight) + this.screenY;
 			}
-			var newEnemy:BoxEnemy = new BoxEnemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array(), box2dWorld);
+			var newEnemy:BoxEnemy = new BoxEnemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array());
 			this.enemyGroup.add(newEnemy);
 			this.add(newEnemy);
 		}
@@ -166,7 +166,7 @@ package {
 			this.createBox2DWorld();
 			
 			//Create player (a red box)
-			this.player = new Boxplayer(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array(), box2dWorld); 
+			this.player = new Boxplayer(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array()); 
 			var start_adaptation : Adaptation = (new Adaptation('tentacle', player.x + 10, player.y, 0));
 			this.add(start_adaptation);
 			player.addAdaptation(start_adaptation);
@@ -188,7 +188,7 @@ package {
 			for (var i:int = 0; i < maxPlayerHealth; i ++) {
 				lifeimage[i] = new FlxSprite(this.screenX + 220 + 20 * i, this.screenY + 220, heartImage); 
 			}
-			var newEnemy:BoxEnemy = new BoxEnemy(50, 50, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array(), box2dWorld);
+			var newEnemy:BoxEnemy = new BoxEnemy(50, 50, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array());
 			add(newEnemy);
 			
 			//FlxG.camera.follow(player);
@@ -225,6 +225,9 @@ package {
 			//Box2D debug stuff
 			if (AquaticEvolver.box2dDebug) {
 				box2dWorld.DrawDebugData();
+			}
+			if(FlxG.keys.justPressed("D")){
+				AquaticEvolver.box2dDebug = !AquaticEvolver.box2dDebug;
 			}
 			
 			if (!paused.showing) {

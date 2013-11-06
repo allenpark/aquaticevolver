@@ -2,7 +2,7 @@
 package {	
 	import org.flixel.*;
 	
-	public class Creature extends FlxSprite {
+	public class Creature extends B2FlxSprite {
 		//public var x:int;
 		//public var y:int;
 		public var id:int;
@@ -46,8 +46,8 @@ package {
 				//				adaptationGroup(i).update();		
 				if (!(this.mode == "attacking")){
 				}
-				super.update();
 			}
+			super.update();
 		}
 		
 		// Handling when one of your appendages collides with an enemy body.
@@ -105,6 +105,13 @@ package {
 		
 		public function equals(creature:Creature):Boolean {
 			return this.id == creature.id;
+		}
+		
+		override public function createBody():void
+		{
+			super.createBody();
+			_obj.SetLinearDamping(3.0);
+			_obj.SetAngularDamping(3.0);
 		}
 	}
 }
