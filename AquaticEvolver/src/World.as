@@ -87,12 +87,12 @@ package {
 		 * is in m^2 / s^2.
 		 * -- Nick Benson - 10/28/2013
 		 */
-		public var GRAVITY:b2Vec2 = new b2Vec2(0, 9.8);
+		public var GRAVITY:b2Vec2 = new b2Vec2(0, 0);
 		
 		/**
 		 * 
 		 */
-		public const RATIO:Number = 100;
+		public static const RATIO:Number = 100.0;
 		
 		/* We should probably refer to these as "cameraX", etc., unless it doesn't
 		 * actually mean what I think it means. -- Nick Benson - 10/28
@@ -128,7 +128,7 @@ package {
 				newX = (Math.random() * (this.screenWidth + xBuffer) - xBuffer) + this.screenX;
 				newY = (Math.random() > 0.5 ? -yBuffer : this.screenHeight) + this.screenY;
 			}
-			var newEnemy:Enemy = new Enemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth);
+			var newEnemy:BoxEnemy = new BoxEnemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array(), box2dWorld);
 			this.enemyGroup.add(newEnemy);
 			this.add(newEnemy);
 		}
@@ -162,16 +162,18 @@ package {
 			this.defaultHealth = 10;
 			this.defaultSpeed = 5.0;
 			
+			// Construct the Box 2D world (in which all simulation happens)
+			this.createBox2DWorld();
+			
 			//Create player (a red box)
-			this.player = new Player(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth); 
+			this.player = new Boxplayer(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array(), box2dWorld); 
 			var start_adaptation : Adaptation = (new Adaptation('tentacle', player.x + 10, player.y, 0));
 			this.add(start_adaptation);
 			player.addAdaptation(start_adaptation);
 			this.enemyGroup = new FlxGroup();
 			this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5,300,"num enemies: " + this.enemyGroup.length);
 			
-			// Construct the Box 2D world (in which all simulation happens)
-			this.createBox2DWorld();
+			
 
 			FlxG.playMusic(droplet);
 			
@@ -182,10 +184,14 @@ package {
 			
 			add(player);
 			
-			FlxG.camera.follow(player);
+			//FlxG.camera.follow(player);
 			for (var i:int = 0; i < maxPlayerHealth; i ++) {
 				lifeimage[i] = new FlxSprite(this.screenX + 220 + 20 * i, this.screenY + 220, heartImage); 
 			}
+			var newEnemy:BoxEnemy = new BoxEnemy(50, 50, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array(), box2dWorld);
+			add(newEnemy);
+			
+			//FlxG.camera.follow(player);
 			
 			//Box2D debug stuff
 			var debugDrawing:DebugDraw = new DebugDraw();
@@ -194,6 +200,10 @@ package {
 			for(var k:int=tempPlayerHealth - 1; k >= 0; k--){
 				 this.add(lifeimage[k]);
 			}
+			FlxG.watch(player, "x");
+			FlxG.watch(player, "y");
+			FlxG.watch(player, "width");
+			FlxG.watch(player, "height");
 		}
 		
 		public function hitEnemy(adaptation:Adaptation, enemy:Enemy):void {
@@ -211,14 +221,15 @@ package {
 		}
 		
 		override public function update():void {
+			box2dWorld.Step(1.0/60.0, 10, 10);
 			//Box2D debug stuff
 			if (AquaticEvolver.box2dDebug) {
 				box2dWorld.DrawDebugData();
 			}
 			
 			if (!paused.showing) {
-				this.screenX = FlxG.camera.scroll.x;
-				this.screenY = FlxG.camera.scroll.y;
+				//this.screenX = FlxG.camera.scroll.x;
+				//this.screenY = FlxG.camera.scroll.y;
 				super.update();
 				
 				if(FlxG.keys.justPressed("P")){
@@ -253,7 +264,7 @@ package {
 				var enemyHeight:int = 15;
 				this.removeEnemiesNotOnScreen(2 * enemyWidth, 2 * enemyHeight);
 				if (Math.random() < 0.02) {
-					this.createEnemy(enemyWidth, enemyHeight);
+					//this.createEnemy(enemyWidth, enemyHeight);
 				}
 				this.display();
 			}
