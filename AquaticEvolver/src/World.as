@@ -140,6 +140,7 @@ package {
 				if (!this.inScreen(enemy.x, enemy.y, xBuffer, yBuffer)) {
 					this.enemyGroup.remove(enemy, true);
 					enemy.kill();
+					enemy.destroy();
 				}
 			}
 		}
@@ -198,13 +199,7 @@ package {
 		
 		public function hitEnemy(adaptation:Adaptation, enemy:Enemy):void {
 			if (enemy.getAttacked(adaptation.attackDamage)){
-				for (var i:int = 0; i < this.enemyGroup.length; i++) {
-					if (enemy.equals(this.enemyGroup.members[i])) {
-						this.enemyGroup.remove(this.enemyGroup.members[i], true);
-						break;
-					}
-				}
-				enemy.kill();
+				this.enemyGroup.remove(enemy, true);
 				enemy.destroy();
 			}
 

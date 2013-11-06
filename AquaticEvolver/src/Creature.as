@@ -68,11 +68,16 @@ package {
 			this.currentHealth -= damage;
 			if (this.currentHealth <= 0) {
 				this.currentHealth = 0;
-				this.healthDisplay.kill();
-				this.healthDisplay.destroy();
+				this.kill();
 				return true;
 			}
 			return false;
+		}
+		
+		override public function kill():void {
+			this.healthDisplay.kill();
+			this.healthDisplay.destroy();
+			super.kill();
 		}
 		
 		public function isAlive():Boolean {
