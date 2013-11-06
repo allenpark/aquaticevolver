@@ -13,13 +13,14 @@ package
 		public static var DEBUG_SPRITE:Sprite;
 		public var pause:FlxGroup;
 		//Box2D debug flag... set to false to turn off box2d debug drawings
-		public static var box2dDebug:Boolean = true;
+		public static var box2dDebug:Boolean = false;
 
 		public function AquaticEvolver() 
 		{
-			super(320,240,MenuState,2);
-			// this.pause = new PauseScreen();
 			
+			super(640,480,MenuState,1);
+			// this.pause = new PauseScreen();
+			forceDebugger = true;
 			//Box2D debug stuff
 			addEventListener(Event.ADDED_TO_STAGE, addedToStage);
 			
