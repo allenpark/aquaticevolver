@@ -30,6 +30,8 @@ package {
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2World;
 	
+	import flashx.textLayout.formats.BackgroundColor;
+	
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxSprite;
@@ -71,6 +73,11 @@ package {
 		 */
 		public var enemyGroup:FlxGroup;
 		
+		/**
+		 * Array of all background objects drawn on the world. To assure that we do not draw too
+		 * many at the same tiem
+		 */
+		public var backgroundGroup:FlxGroup;
 		/**
 		 * The box2D world, into which we must add all Box2D objects if
 		 * we want them to be a part of the simulation that Box2D runs.
@@ -114,6 +121,22 @@ package {
 			box2dWorld = new b2World(GRAVITY, true);
 		}
 		
+		public function drawBackgroundObject(xBuffer:int = 0, yBuffer: int =0):void{
+			var newX:Number;
+			var newY:Number;
+			// On the vertical edges.
+			newX = (Math.random() > 0.5 ? -xBuffer : this.screenWidth) + this.screenX;
+			newY = (Math.random() * (this.screenHeight + yBuffer) - yBuffer) + this.screenY;
+			
+			var viewDistance:int = Math.round(Math.random()*10)+2;
+			
+			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance);
+			backgroundObject.floatUpward();
+			
+			this.backgroundGroup.add(backgroundObject);
+			this.add(backgroundObject);			
+		}
+		
 		
 		// Creates an enemy randomly slightly off screen.
 		public function createEnemy(xBuffer: int = 0, yBuffer: int = 0):void {
@@ -131,6 +154,17 @@ package {
 			var newEnemy:Enemy = new Enemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth);
 			this.enemyGroup.add(newEnemy);
 			this.add(newEnemy);
+		}
+		
+		// Checks that all enemies are still on screen.
+		public function removeObjNotOnScreen(xBuffer:int = 0, yBuffer:int = 0):void {
+			for (var i:int = this.backgroundGroup.length - 1; i >= 0; i--) {
+				var object:BackgroundObject = this.backgroundGroup.members[i];
+				if (!this.inScreen(object.x, object.y, xBuffer, yBuffer)) {
+					this.backgroundGroup.remove(object, true);
+					object.kill();
+				}
+			}
 		}
 		
 		// Checks that all enemies are still on screen.
@@ -168,7 +202,9 @@ package {
 			this.add(start_adaptation);
 			player.addAdaptation(start_adaptation);
 			this.enemyGroup = new FlxGroup();
-			this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5,300,"num enemies: " + this.enemyGroup.length);
+			//Creating the background group to hold max of 10 background objects
+			this.backgroundGroup = new FlxGroup(10);
+			this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5,300,"num background: " + this.backgroundGroup.length);
 			
 			// Construct the Box 2D world (in which all simulation happens)
 			this.createBox2DWorld();
@@ -188,8 +224,8 @@ package {
 			}
 			
 			//Box2D debug stuff
-			var debugDrawing:DebugDraw = new DebugDraw();
-			debugDrawing.debugDrawSetup(box2dWorld, RATIO, 1.0, 1, 0.5);
+			//var debugDrawing:DebugDraw = new DebugDraw();
+			//debugDrawing.debugDrawSetup(box2dWorld, RATIO, 1.0, 1, 0.5);
 
 			for(var k:int=tempPlayerHealth - 1; k >= 0; k--){
 				 this.add(lifeimage[k]);
@@ -245,16 +281,22 @@ package {
 				FlxG.collide(this.player.adaptationGroup, this.enemyGroup, hitEnemy); 
 				this.debug.kill();
 				this.debug = new FlxText(this.screenX + FlxG.width/2-30, this.screenY + FlxG.height/5, 300, 
-					"num enemies: " + this.enemyGroup.length);
+					"num background: " + this.backgroundGroup.length);
 				//this.debug = new FlxText(this.screenX + FlxG.width/2-30, this.screenY + FlxG.height/5, 300, 
 					//"x: " + this.screenX + ", y: " + this.screenY);
 				add(this.debug);
 				var enemyWidth:int = 15; // TODO: make this the enemy width and height.
 				var enemyHeight:int = 15;
 				this.removeEnemiesNotOnScreen(2 * enemyWidth, 2 * enemyHeight);
-				if (Math.random() < 0.02) {
-					this.createEnemy(enemyWidth, enemyHeight);
+				//if (Math.random() < 0.02) {
+				//	this.createEnemy(enemyWidth, enemyHeight);
+				//}
+				var backgroundObjectWidth:int = 15;
+				var backgroundObjectHeight:int = 15;
+				if(Math.random() < 0.01 && this.backgroundGroup.length < 10){
+					this.drawBackgroundObject(backgroundObjectHeight, backgroundObjectWidth);
 				}
+				this.removeObjNotOnScreen(2*backgroundObjectHeight, 2*backgroundObjectWidth);
 				this.display();
 			}
 			else{
