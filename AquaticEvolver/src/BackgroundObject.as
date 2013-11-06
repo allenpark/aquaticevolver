@@ -1,6 +1,7 @@
 // ActionScript file
 package{
 
+	import org.flixel.FlxCamera;
 	import org.flixel.FlxSprite;
 	
 	/**
@@ -10,20 +11,39 @@ package{
 		
 		[Embed(source='res/BackgroundBubble.png')]
 		public static var BubbleImg:Class;
+		
+		private var camera:FlxCamera;
 
 		
-		public function BackgroundObject(x:int , y:int, viewDistance:int){
+		public function BackgroundObject(x:int , y:int, viewDistance:int, camera:FlxCamera){
+			
+//			this.loadGraphic(BubbleImg, false, false, 16, 16);
+			
+			trace('Created background object');
+
 			this.x = x;
 			this.y = y;
 			//Setting background object's scroll factor for parallax scrolling
 			this.scrollFactor.x = 10*(1.0/viewDistance);
 			this.scrollFactor.y = 10*(1.0/viewDistance);
 			//Adjusting the sprite's scale to appear smaller when further
-			this.scale.x = this.scale.y = 5*(1.0/viewDistance);
+			this.scale.x = this.scale.y = (Math.random()*5+1)*(1.0/viewDistance);
 			
-//			this.loadGraphic(BubbleImg);
+			this.alpha = 1.0/viewDistance;
 			
+			this.camera = camera;
+						
 			
+		}
+		
+		override public function update():void{
+			trace('Updating background object');
+			//Make sure that the object is still on the screen
+			if(!this.onScreen(camera)){
+				this.destroy();
+				this.kill(); 
+			}
+			super.update();
 		}
 		
 		
@@ -35,7 +55,7 @@ package{
 		
 		public function floatUpward():void{
 			this.velocity.x = 0;
-			this.velocity.y = 0;
+			this.velocity.y = 10;
 		}
 	}
 }

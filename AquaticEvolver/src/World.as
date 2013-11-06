@@ -125,15 +125,15 @@ package {
 			var newX:Number;
 			var newY:Number;
 			// On the vertical edges.
-			newX = (Math.random() > 0.5 ? -xBuffer : this.screenWidth) + this.screenX;
-			newY = (Math.random() * (this.screenHeight + yBuffer) - yBuffer) + this.screenY;
+			newX = (Math.random() * this.screenX);
+			newY = Math.random() > .5? -this.screenY : this.screenY;
 			
-			var viewDistance:int = Math.round(Math.random()*10)+2;
+			var viewDistance:int = Math.round(Math.random()*5)+5;
 			
-			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance);
+			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance, FlxG.camera);
 			backgroundObject.floatUpward();
 			
-			this.backgroundGroup.add(backgroundObject);
+//			this.backgroundGroup.add(backgroundObject);
 			this.add(backgroundObject);			
 		}
 		
@@ -157,15 +157,16 @@ package {
 		}
 		
 		// Checks that all enemies are still on screen.
-		public function removeObjNotOnScreen(xBuffer:int = 0, yBuffer:int = 0):void {
-			for (var i:int = this.backgroundGroup.length - 1; i >= 0; i--) {
-				var object:BackgroundObject = this.backgroundGroup.members[i];
-				if (!this.inScreen(object.x, object.y, xBuffer, yBuffer)) {
-					this.backgroundGroup.remove(object, true);
-					object.kill();
-				}
-			}
-		}
+//		public function removeObjNotOnScreen(xBuffer:int = 0, yBuffer:int = 0):void {
+//			for (var i:int = this.backgroundGroup.length - 1; i >= 0; i--) {
+//				var object:BackgroundObject = this.backgroundGroup.members[i];
+//				if (!this.inScreen(object.x, object.y, xBuffer, yBuffer)) {
+//					this.backgroundGroup.remove(object, true);
+//					object.kill();
+//					object.destroy();
+//				}
+//			}
+//		}
 		
 		// Checks that all enemies are still on screen.
 		public function removeEnemiesNotOnScreen(xBuffer:int = 0, yBuffer:int = 0):void {
@@ -293,10 +294,12 @@ package {
 				//}
 				var backgroundObjectWidth:int = 15;
 				var backgroundObjectHeight:int = 15;
-				if(Math.random() < 0.01 && this.backgroundGroup.length < 10){
+				
+				//Randomly add background image
+				if(Math.random() < 0.05){
 					this.drawBackgroundObject(backgroundObjectHeight, backgroundObjectWidth);
 				}
-				this.removeObjNotOnScreen(2*backgroundObjectHeight, 2*backgroundObjectWidth);
+//				this.removeObjNotOnScreen(2*backgroundObjectHeight, 2*backgroundObjectWidth);
 				this.display();
 			}
 			else{
