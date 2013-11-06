@@ -1,9 +1,6 @@
 // ActionScript file
 package {	
-	import org.flixel.FlxGroup;
-	import org.flixel.FlxSprite;
-	import org.flixel.FlxState;
-	import org.flixel.FlxText;
+	import org.flixel.*;
 
 	public class Creature extends FlxSprite {
 		//public var x:int;
@@ -44,11 +41,14 @@ package {
 		
 		// This method is called often to update the state of the creature.
 		override public function update():void {
-			if (!(this.mode == "attacking")){
-				this.adaptationGroup.setAll("x", this.x + 10);
-				this.adaptationGroup.setAll("y", this.y);
+			//			this.adaptationGroup.setAll("x", this.x + 10);
+			//			this.adaptationGroup.setAll("y", this.y);			
+			for (var i:int = 0; i < adaptationGroup.length; i++) {
+				//				adaptationGroup(i).update();		
+				if (!(this.mode == "attacking")){
+				}
+				super.update();
 			}
-			super.update();
 		}
 		
 		// Handling when one of your appendages collides with an enemy body.

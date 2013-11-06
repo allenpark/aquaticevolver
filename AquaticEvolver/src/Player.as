@@ -52,22 +52,22 @@ package
 					this.attackingWith = this.adaptationGroup.members[0];
 				}
 				else if (FlxG.mouse.pressed() && this.attackingWith.name == "tentacle"){
-					var dirX:int = (this.attackingWith.x - FlxG.mouse.x)
-					var dirY:int = (this.attackingWith.y - FlxG.mouse.y)
-					if (dirX < 0) {
-						this.attackingWith.velocity.x = this.attackingWith.maxVelocity.x ;
-					} else if (dirX > 0) {
-						this.attackingWith.velocity.x = -this.attackingWith.maxVelocity.x ;
-					} else {
-						this.attackingWith.velocity.x = 0;
-					}
-					if (dirY < 0) {
-						this.attackingWith.velocity.y = this.attackingWith.maxVelocity.y ;
-					} else if (dirY > 0) {
-						this.attackingWith.velocity.y = -this.attackingWith.maxVelocity.y ;
-					} else {
-						this.attackingWith.velocity.y = 0;
-					}
+//					var dirX:int = (this.attackingWith.x - FlxG.mouse.x)
+//					var dirY:int = (this.attackingWith.y - FlxG.mouse.y)
+//					if (dirX < 0) {
+//						this.attackingWith.velocity.x = this.attackingWith.maxVelocity.x ;
+//					} else if (dirX > 0) {
+//						this.attackingWith.velocity.x = -this.attackingWith.maxVelocity.x ;
+//					} else {
+//						this.attackingWith.velocity.x = 0;
+//					}
+//					if (dirY < 0) {
+//						this.attackingWith.velocity.y = this.attackingWith.maxVelocity.y ;
+//					} else if (dirY > 0) {
+//						this.attackingWith.velocity.y = -this.attackingWith.maxVelocity.y ;
+//					} else {
+//						this.attackingWith.velocity.y = 0;
+//					}
 				}
 				else {
 					this.mode = null;
