@@ -164,7 +164,7 @@ package {
 			
 			//Create player (a red box)
 			this.player = new Player(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth); 
-			var start_adaptation : Adaptation = (new Adaptation('spike', player.x + 10, player.y, 0));
+			var start_adaptation : Adaptation = (new Adaptation('tentacle', player.x + 10, player.y, 135));
 			this.add(start_adaptation);
 			player.addAdaptation(start_adaptation);
 			this.enemyGroup = new FlxGroup();

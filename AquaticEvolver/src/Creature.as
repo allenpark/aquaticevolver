@@ -39,8 +39,12 @@ package {
 		
 		// This method is called often to update the state of the creature.
 		override public function update():void {
-			this.adaptationGroup.setAll("x", this.x + 10);
-			this.adaptationGroup.setAll("y", this.y);
+//			this.adaptationGroup.setAll("x", this.x + 10);
+//			this.adaptationGroup.setAll("y", this.y);
+			
+			for (var i:int = 0; i < adaptationGroup.length; i++) {
+//				adaptationGroup(i).update();		
+			}
 			super.update();
 		}
 		
