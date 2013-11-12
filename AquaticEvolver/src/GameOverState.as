@@ -7,6 +7,7 @@ package
 	{
 		override public function create():void
 		{
+			super.create();
 			FlxG.bgColor = 0xffaaaaaa;
 			
 			add(new FlxText(FlxG.width/2-30, FlxG.height/5,300,"GAME OVER"));

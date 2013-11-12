@@ -6,6 +6,7 @@
  */ 
 package{
 	import org.flixel.FlxGroup;
+	import org.flixel.FlxState;
 	
 	public class Enemy extends Creature{
 		
@@ -15,7 +16,7 @@ package{
 		[Embed(source='res/ghost.png')]
 		public static var ImgGhost:Class;
         
-        var aggroRadius:int = 200;
+        private var aggroRadius:int = 200;
 		
 		public function Enemy(x:int, y:int, speed:Number, health:int, maxHealth:int) {
 			super(x, y, speed, health, maxHealth);
@@ -68,7 +69,6 @@ package{
             } else {
               this.moveAround();
             }
-			super.update();
         }
 		
 		public function runAwayFromEnemy(enemy:Creature):void{

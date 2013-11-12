@@ -30,6 +30,8 @@ package {
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2World;
 	
+	import flashx.textLayout.formats.BackgroundColor;
+	
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxSprite;
@@ -72,11 +74,16 @@ package {
 		public var enemyGroup:FlxGroup;
 		
 		/**
+		 * Array of all background objects drawn on the world. To assure that we do not draw too
+		 * many at the same tiem
+		 */
+		public var backgroundGroup:FlxGroup;
+		/**
 		 * The box2D world, into which we must add all Box2D objects if
 		 * we want them to be a part of the simulation that Box2D runs.
 		 * -- Nick Benson - 10/28/2013
 		 */
-		public var box2dWorld:b2World;
+		public static var box2dWorld:b2World;
 		
 		/**
 		 * The pull of gravity. There is normal gravity underwater, but there are
@@ -87,12 +94,12 @@ package {
 		 * is in m^2 / s^2.
 		 * -- Nick Benson - 10/28/2013
 		 */
-		public var GRAVITY:b2Vec2 = new b2Vec2(0, 9.8);
+		public var GRAVITY:b2Vec2 = new b2Vec2(0, 0);
 		
 		/**
 		 * 
 		 */
-		public const RATIO:Number = 100;
+		public static const RATIO:Number = 100.0;
 		
 		/* We should probably refer to these as "cameraX", etc., unless it doesn't
 		 * actually mean what I think it means. -- Nick Benson - 10/28
@@ -114,6 +121,23 @@ package {
 			box2dWorld = new b2World(GRAVITY, true);
 		}
 		
+		public function drawBackgroundObject(xBuffer:int = 0, yBuffer: int =0):void{
+			var newX:Number;
+			var newY:Number;
+			// On the vertical edges.
+			newX = (Math.random() * this.screenWidth);
+//			newY = Math.random() > .5? 0 : this.screenHeight;
+			newY = this.screenHeight-yBuffer;
+			
+			var viewDistance:int = Math.round(Math.random()*5)+5;
+			
+			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance, FlxG.camera);
+			backgroundObject.floatUpward();
+			
+//			this.backgroundGroup.add(backgroundObject);
+			this.add(backgroundObject);			
+		}
+		
 		
 		// Creates an enemy randomly slightly off screen.
 		public function createEnemy(xBuffer: int = 0, yBuffer: int = 0):void {
@@ -127,34 +151,19 @@ package {
 				// On the horizontal edges.
 				newX = (Math.random() * (this.screenWidth + xBuffer) - xBuffer) + this.screenX;
 				newY = (Math.random() > 0.5 ? -yBuffer : this.screenHeight) + this.screenY;
+
 			}
-			var newEnemy:Enemy = new Enemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth);
-			this.enemyGroup.add(newEnemy);
+			var newEnemy:BoxEnemy = new BoxEnemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array());
+			//this.enemyGroup.add(newEnemy);
 			this.add(newEnemy);
-		}
-		
-		// Checks that all enemies are still on screen.
-		public function removeEnemiesNotOnScreen(xBuffer:int = 0, yBuffer:int = 0):void {
-			for (var i:int = this.enemyGroup.length - 1; i >= 0; i--) {
-				var enemy:Creature = this.enemyGroup.members[i];
-				if (!this.inScreen(enemy.x, enemy.y, xBuffer, yBuffer)) {
-					this.enemyGroup.remove(enemy, true);
-					enemy.kill();
-				}
-			}
-		}
-		
-		// Returns if (x, y) are in the screen. Tolerates points xBuffer outside the x range and yBuffer 
-		// outside the y range with defaults of xBuffer = 0 and yBuffer = 0.
-		public function inScreen(x:int, y:int, xBuffer:int = 0, yBuffer:int = 0):Boolean {
-			var inX:Boolean = x >= this.screenX - xBuffer && x < this.screenX + this.screenWidth + xBuffer;
-			var inY:Boolean = y >= this.screenY - yBuffer && y < this.screenY + this.screenHeight + yBuffer;
-			return inX && inY;
+			this.add(newEnemy.healthDisplay);
 		}
 		
 		override public function create():void
 		{
+			super.create();
 			// Set up the screen properties (or are they camera properties?)
+			FlxG.bgColor = 0xff000000;
 			this.screenX = FlxG.camera.scroll.x;
 			this.screenY = FlxG.camera.scroll.y;
 			this.screenWidth = FlxG.width;
@@ -162,16 +171,23 @@ package {
 			this.defaultHealth = 10;
 			this.defaultSpeed = 5.0;
 			
+			// Construct the Box 2D world (in which all simulation happens)
+			this.createBox2DWorld();
+			
 			//Create player (a red box)
-			this.player = new Player(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth); 
+			this.player = new Boxplayer(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array()); 
+
 			var start_adaptation : Adaptation = (new Adaptation('tentacle', player.x + 10, player.y, 0));
 			this.add(start_adaptation);
 			player.addAdaptation(start_adaptation);
-			this.enemyGroup = new FlxGroup();
-			this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5,300,"num enemies: " + this.enemyGroup.length);
+			add(player);	
 			
-			// Construct the Box 2D world (in which all simulation happens)
-			this.createBox2DWorld();
+			this.enemyGroup = new FlxGroup();
+			
+//			this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5,300,"num enemies: " + this.enemyGroup.length);
+//			
+//			this.debug = new FlxText(FlxG.width/2-30, FlxG.height/5,300,"num enemies: " + this.enemyGroup.length);
+//			this.add(this.debug);			
 
 			FlxG.playMusic(droplet);
 			
@@ -180,30 +196,35 @@ package {
 
 			paused = new pausescreen;
 			
-			add(player);
 			
-			FlxG.camera.follow(player);
+			
+			//FlxG.camera.follow(player);
 			for (var i:int = 0; i < maxPlayerHealth; i ++) {
 				lifeimage[i] = new FlxSprite(this.screenX + 220 + 20 * i, this.screenY + 220, heartImage); 
 			}
+			var newEnemy:BoxEnemy = new BoxEnemy(50, 50, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array());
+			add(newEnemy);
+			this.add(newEnemy.healthDisplay);
+			
+			//FlxG.camera.follow(player);
 			
 			//Box2D debug stuff
+
 			var debugDrawing:DebugDraw = new DebugDraw();
 			debugDrawing.debugDrawSetup(box2dWorld, RATIO, 1.0, 1, 0.5);
 
 			for(var k:int=tempPlayerHealth - 1; k >= 0; k--){
 				 this.add(lifeimage[k]);
 			}
+			FlxG.watch(player, "x");
+			FlxG.watch(player, "y");
+			FlxG.watch(player, "width");
+			FlxG.watch(player, "height");
 		}
 		
 		public function hitEnemy(adaptation:Adaptation, enemy:Enemy):void {
 			if (enemy.getAttacked(adaptation.attackDamage)){
-				for (var i:int = 0; i < this.enemyGroup.length; i++) {
-					if (enemy.equals(this.enemyGroup.members[i])) {
-						this.enemyGroup.remove(this.enemyGroup.members[i], true);
-						break;
-					}
-				}
+				this.enemyGroup.remove(enemy, true);
 				enemy.kill();
 				enemy.destroy();
 			}
@@ -211,15 +232,20 @@ package {
 		}
 		
 		override public function update():void {
+			super.update();
+			box2dWorld.Step(1.0/60.0, 10, 10);
 			//Box2D debug stuff
 			if (AquaticEvolver.box2dDebug) {
 				box2dWorld.DrawDebugData();
 			}
+			if(FlxG.keys.justPressed("D")){
+				AquaticEvolver.box2dDebug = !AquaticEvolver.box2dDebug;
+				AquaticEvolver.DEBUG_SPRITE.visible = AquaticEvolver.box2dDebug;
+			}
 			
 			if (!paused.showing) {
-				this.screenX = FlxG.camera.scroll.x;
-				this.screenY = FlxG.camera.scroll.y;
-				super.update();
+				//this.screenX = FlxG.camera.scroll.x;
+				//this.screenY = FlxG.camera.scroll.y;
 				
 				if(FlxG.keys.justPressed("P")){
 					paused = new pausescreen();
@@ -237,25 +263,30 @@ package {
 					FlxG.switchState(new GameOverState)				
 				}			
 			
-				// TODO: do magic.
-				this.player.update();
-				for (var j:int = 0; j < this.enemyGroup.length; j++) {
-				    this.enemyGroup.members[j].updateMove(this.enemyGroup);
-				}
-				FlxG.collide(this.player.adaptationGroup, this.enemyGroup, hitEnemy); 
-				this.debug.kill();
-				this.debug = new FlxText(this.screenX + FlxG.width/2-30, this.screenY + FlxG.height/5, 300, 
-					"num enemies: " + this.enemyGroup.length);
+
+//				FlxG.collide(this.player.adaptationGroup, this.enemyGroup, hitEnemy);
+//				this.debug.text = "num enemies: " + this.enemyGroup.length;
+//				this.debug.x = this.screenX + FlxG.width/2-30;
+//				this.debug.y = this.screenY + FlxG.height/5;
+
 				//this.debug = new FlxText(this.screenX + FlxG.width/2-30, this.screenY + FlxG.height/5, 300, 
 					//"x: " + this.screenX + ", y: " + this.screenY);
-				add(this.debug);
+				//add(this.debug);
 				var enemyWidth:int = 15; // TODO: make this the enemy width and height.
 				var enemyHeight:int = 15;
-				this.removeEnemiesNotOnScreen(2 * enemyWidth, 2 * enemyHeight);
-				if (Math.random() < 0.02) {
-					this.createEnemy(enemyWidth, enemyHeight);
+
+				var backgroundObjectWidth:int = 15;
+				var backgroundObjectHeight:int = 15;
+				
+				//Randomly add background image
+				if(Math.random() < 0.01){
+					this.drawBackgroundObject(backgroundObjectHeight, backgroundObjectWidth);
+
 				}
-				this.display();
+				if (Math.random() < 0.02) {
+					//this.createEnemy(enemyWidth, enemyHeight);
+				}
+				//this.display();
 			}
 			else{
 				paused.update();
@@ -271,12 +302,12 @@ package {
 			}
 		}
 		
-		public function display():void {
+		/*public function display():void {
 			// TODO: more magic.
 			this.player.display(this);
 			for (var i:int = 0; i < this.enemyGroup.length; i++) {
 				this.enemyGroup.members[i].display(this);
 			}
-		}
+		}*/
 	}
 }

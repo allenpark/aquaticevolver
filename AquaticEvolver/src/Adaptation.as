@@ -1,20 +1,34 @@
 // ActionScript file
 package {
-	import org.flixel.FlxSprite;
-
-	public class Adaptation extends FlxSprite {
-		[Embed(source='res/spike.png')]
+	import org.flixel.*;
+	
+	// TODO: Fill in this class or reduce it to just a string.
+	public class Adaptation extends FlxGroup {
+		
+		[Embed(source='res/Spike1.png')]
 		public static var spikeImg:Class;
-		[Embed(source='res/tentacle.png')]
-		public static var tentacleImg:Class;
+		[Embed(source='res/tentacleHead1.png')]
+		public static var tentacleHeadImg:Class;
+		[Embed(source='res/tentacleBit1.png')]
+		public static var tentacleMidImg:Class;
 		
 		public var name:String;
 		public var attackPower:int;
 		public var isAttack:Boolean;
 		public var attackDamage:int;
-
+		public var angle:Number;
+		
+		public var cost:int;
+		
+		private var sprite:FlxSprite;
+		
+		// constants
+		private var tentacleSegments:int = 5;
+		private var tentacleLength:int = 25;
+		private var tentacleHeadLength:int = 33;
+		
 		public function Adaptation(name:String, x:int, y:int, angle:Number) {
-			super(x,y);
+			super();
 			this.name = name;
 			this.angle = angle;
 			
@@ -22,18 +36,52 @@ package {
 			
 			switch (name) {
 				case "spike":
-					loadGraphic(spikeImg, true, true, 32, 32);
+					sprite = new FlxSprite(x,y);
+					sprite.loadGraphic(spikeImg, true, true, 32, 128);
+					sprite.angle = angle;
+					this.add(sprite);
 					this.isAttack = true;
 					this.attackDamage = 1;
+					this.cost = 20;
 					break;
 				case "tentacle":
-					loadGraphic(tentacleImg, true, true, 32, 32);
+					var spriteX:Number = x;
+					var spriteY:Number = y;
+					var incX:Number = Math.cos(angle)*tentacleLength;
+					var incY:Number = -Math.sin(angle)*tentacleLength;
+					FlxG.log("incX " + incX);
+					FlxG.log("incY " + incY);
+					FlxG.log("spriteX " + spriteX);
+					FlxG.log("spriteY " + spriteY);
+					for (var i:int = 0; i < tentacleSegments-1; i++) {
+						sprite = new FlxSprite(spriteX,spriteY);
+						sprite.loadGraphic(tentacleMidImg, true, true, 32, 64);
+						sprite.angle = angle+90;
+						this.add(sprite);
+						spriteX += incX;
+						spriteY += incY;
+						FlxG.log("spriteX " + spriteX);
+						FlxG.log("spriteY " + spriteY);
+					}
+					spriteX -= incX;
+					spriteY -= incY;
+					spriteX += Math.cos(angle)*tentacleHeadLength;
+					spriteY += -Math.sin(angle)*tentacleHeadLength;
+					sprite = new FlxSprite(spriteX,spriteY);
+					sprite.loadGraphic(tentacleHeadImg, true, true, 32, 64);
+					sprite.angle = angle+90;
+					this.add(sprite);
+					
+					FlxG.log("tentacle length " + this.length);
+					
 					this.isAttack = true;
 					this.attackDamage = 1;
-					this.maxVelocity.x = 160;
-					this.maxVelocity.y = 160;
-					this.drag.x = this.maxVelocity.x * 2;
-					this.drag.y = this.maxVelocity.y * 2;
+					this.cost = 50;
+					
+//					this.maxVelocity.x = 160;
+//					this.maxVelocity.y = 160;
+//					this.drag.x = this.maxVelocity.x * 2;
+//					this.drag.y = this.maxVelocity.y * 2;
 					break;
 			}
 		}
@@ -49,11 +97,6 @@ package {
 				case "tentacle":
 					break;
 			}
-		}
-		
-		public function setCoords(x:int, y:int):void {
-			this.x = x;
-			this.y = y;
 		}
 	}
 }

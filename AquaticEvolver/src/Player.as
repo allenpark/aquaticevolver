@@ -1,6 +1,7 @@
 package
 {
 	import org.flixel.FlxG;
+	import org.flixel.FlxState;
 	
 	public class Player extends Creature
 	{
@@ -10,8 +11,8 @@ package
 		[Embed(source="res/jump.mp3")] 	
 		public var moveAction:Class;
 		
-		public function Player(x:int, y:int, speed:Number, health:int, maxHealth:int) {
-			super(x, y, speed, health, maxHealth);
+		public function Player(state:FlxState, x:int, y:int, speed:Number, health:int, maxHealth:int) {
+			super(state, x, y, speed, health, maxHealth);
 			
 			//LOADING GRAPHIC
 			this.loadGraphic(ImgPlayer, true, true, 14, 15);
@@ -22,6 +23,7 @@ package
 		
 		override public function update():void
 		{
+			super.update();
 			if (!FlxG.paused) {
 				// FlxG.playMusic(droplet);
 				// moving the player based on the arrow keys inputs
@@ -50,25 +52,25 @@ package
 					this.attackingWith = this.adaptationGroup.members[0];
 				}
 				else if (FlxG.mouse.pressed() && this.attackingWith.name == "tentacle"){
-					var dirX:int = (this.attackingWith.x - FlxG.mouse.x)
-					var dirY:int = (this.attackingWith.y - FlxG.mouse.y)
-					if (dirX < 0) {
-						this.attackingWith.velocity.x = this.attackingWith.maxVelocity.x ;
-					} else if (dirX > 0) {
-						this.attackingWith.velocity.x = -this.attackingWith.maxVelocity.x ;
-					} else {
-						this.attackingWith.velocity.x = 0;
-					}
-					if (dirY < 0) {
-						this.attackingWith.velocity.y = this.attackingWith.maxVelocity.y ;
-					} else if (dirY > 0) {
-						this.attackingWith.velocity.y = -this.attackingWith.maxVelocity.y ;
-					} else {
-						this.attackingWith.velocity.y = 0;
-					}
+//					var dirX:int = (this.attackingWith.x - FlxG.mouse.x)
+//					var dirY:int = (this.attackingWith.y - FlxG.mouse.y)
+//					if (dirX < 0) {
+//						this.attackingWith.velocity.x = this.attackingWith.maxVelocity.x ;
+//					} else if (dirX > 0) {
+//						this.attackingWith.velocity.x = -this.attackingWith.maxVelocity.x ;
+//					} else {
+//						this.attackingWith.velocity.x = 0;
+//					}
+//					if (dirY < 0) {
+//						this.attackingWith.velocity.y = this.attackingWith.maxVelocity.y ;
+//					} else if (dirY > 0) {
+//						this.attackingWith.velocity.y = -this.attackingWith.maxVelocity.y ;
+//					} else {
+//						this.attackingWith.velocity.y = 0;
+//					}
 				}
 				else {
-					this.mode = null
+					this.mode = null;
 				}
 			
 				// playing the correct animation
@@ -79,8 +81,6 @@ package
 					
 				else
 					this.play("idle");
-				
-				super.update();
 			}
 		}
 	}
