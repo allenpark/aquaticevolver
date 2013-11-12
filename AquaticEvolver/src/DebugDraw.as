@@ -23,7 +23,7 @@ package
 			debugDraw.SetLineThickness(LineThickness);
 			debugDraw.SetAlpha(Alpha);
 			debugDraw.SetFillAlpha(FillAlpha);
-			debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit | b2DebugDraw.e_centerOfMassBit | b2DebugDraw.e_aabbBit | b2DebugDraw.e_pairBit);
+			debugDraw.SetFlags(b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit | b2DebugDraw.e_centerOfMassBit | b2DebugDraw.e_aabbBit | b2DebugDraw.e_pairBit | b2DebugDraw.e_controllerBit);
 			Box2DWorld.SetDebugDraw(debugDraw);
 		}
 	}
