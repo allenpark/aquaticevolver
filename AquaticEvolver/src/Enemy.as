@@ -16,7 +16,7 @@ package{
 		[Embed(source='res/ghost.png')]
 		public static var ImgGhost:Class;
         
-        var aggroRadius:int = 200;
+        private var aggroRadius:int = 200;
 		
 		public function Enemy(x:int, y:int, speed:Number, health:int, maxHealth:int) {
 			super(x, y, speed, health, maxHealth);

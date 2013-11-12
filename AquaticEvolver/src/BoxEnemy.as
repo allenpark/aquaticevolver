@@ -17,7 +17,7 @@ package
 		[Embed(source='res/ghost.png')]
 		public static var ImgGhost:Class;
 		
-		var aggroRadius:int = 200;
+		public var aggroRadius:int = 200;
 		
 		public function BoxEnemy(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array) {
 			super(x, y, speed, health, maxHealth);
@@ -52,30 +52,12 @@ package
 			var strongestStrength:int = 0;
 			var score:int;
 			var seeSomething:Boolean = false;
-			/*for (var i:int = 0; i < enemies.length; i++) {
-				if (Math.sqrt(Math.pow(this.x - enemies[i].x, 2) +
-					Math.pow(this.y - enemies[i].y, 2)) < aggroRadius) {
-					seeSomething = true;
-					score = enemies[i].health - this.health;
-					if (score < weakestStrength) {
-						weakestIndex = i;
-						weakestStrength = score;
-					}
-					if (score > strongestStrength) {
-						strongestIndex = i;
-						strongestStrength = score;
-					}
-				}
+			
+			if (!this.onScreen(null))
+			{
+				this.kill();
+				this.destroy();
 			}
-			if (seeSomething) {
-				if (weakestStrength == 0) {
-					this.runAwayFromEnemy(enemies[weakestIndex]);
-				} else {
-					this.moveTowardsEnemy(enemies[strongestIndex]);
-				}
-			} else {
-				this.moveAround();
-			}*/
 			super.update();
 		}
 		

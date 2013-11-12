@@ -35,8 +35,8 @@ package
 		
 		override public function update():void
 		{
-			x = ((_obj.GetPosition().x * World.RATIO) - width/2.0);
-			y = ((_obj.GetPosition().y * World.RATIO) - height/2.0);
+			x = ((_obj.GetPosition().x * AEWorld.RATIO) - width/2.0);
+			y = ((_obj.GetPosition().y * AEWorld.RATIO) - height/2.0);
 			angle = _obj.GetAngle() * (180 / Math.PI);
 			super.update();
 		}
@@ -44,7 +44,7 @@ package
 		public function createBody():void
 		{            
 			var boxShape:b2PolygonShape = new b2PolygonShape();
-			boxShape.SetAsBox((width/2.0) / World.RATIO, (height/2.0) / World.RATIO);
+			boxShape.SetAsBox((width/2.0) / AEWorld.RATIO, (height/2.0) / AEWorld.RATIO);
 			
 			_fixDef = new b2FixtureDef();
 			_fixDef.density = _density;
@@ -53,15 +53,21 @@ package
 			_fixDef.shape = boxShape;
 			
 			_bodyDef = new b2BodyDef();
-			_bodyDef.position.Set((x + (width/2.0))/ World.RATIO, (y + (height/2.0)) / World.RATIO);
+			_bodyDef.position.Set((x + (width/2.0))/ AEWorld.RATIO, (y + (height/2.0)) / AEWorld.RATIO);
 			_bodyDef.angle = _angle * (Math.PI / 180);
 			_bodyDef.type = _type;
 			
-			_obj = World.box2dWorld.CreateBody(_bodyDef);
+			_obj = AEWorld.box2dWorld.CreateBody(_bodyDef);
 			_obj.CreateFixture(_fixDef);
 			
 			FlxG.watch(_obj.GetPosition(), "x");
 			FlxG.watch(_obj.GetPosition(), "y");
+		}
+		
+		override public function kill():void
+		{
+			AEWorld.box2dWorld.DestroyBody(this._obj);
+			super.kill();
 		}
 	}
 }

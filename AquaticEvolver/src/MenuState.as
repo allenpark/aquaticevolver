@@ -22,7 +22,7 @@ package
 			FlxG.mouse.show();
 		}
 		public function startButtonCallback():void {
-			FlxG.switchState(new World);
+			FlxG.switchState(new AEWorld);
 		}
 		public function creditButtonCallback():void {
 			FlxG.switchState(new CreditState);
