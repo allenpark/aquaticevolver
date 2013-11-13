@@ -5,6 +5,7 @@ package
 	import Box2D.Dynamics.b2World;
 	
 	import org.flixel.FlxG;
+	import org.flixel.FlxGroup;
 	import org.flixel.FlxState;
 	
 	public class AEWorld extends FlxState
@@ -22,8 +23,8 @@ package
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
 		 * -- MRP - 11/11/2013
 		 */
-		public var player:Creature;
-		
+		public static var player:Creature;
+
 		/**
 		 * The box2D world, into which we must add all Box2D objects if
 		 * we want them to be a part of the simulation that Box2D runs.
@@ -109,7 +110,7 @@ package
 				newY = (Math.random() > 0.5 ? -yBuffer : ScreenHeight) + ScreenY;
 				
 			}
-			var newEnemy:BoxEnemy = new BoxEnemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array());
+			var newEnemy:BoxEnemy = BoxEnemy.generateBoxEnemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth);
 			addCreature(newEnemy);
 		}
 		
@@ -127,19 +128,20 @@ package
 			ScreenWidth = FlxG.width;
 			ScreenHeight = FlxG.height;
 			this.defaultHealth = 10;
-			this.defaultSpeed = 5.0;
+			this.defaultSpeed = 1.0;
 		}
 		
 		private function initializePlayer():void
 		{
-			this.player = new Boxplayer(ScreenWidth / 2.0, ScreenHeight / 2.0, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array()); 
-			var start_adaptation : Adaptation = (new Adaptation('spike', this, player.x, player.y, 0));
+
+		    AEWorld.player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
+			var start_adaptation : Adaptation = (new Adaptation('spike', player.x, player.y, 0));
 			this.add(start_adaptation);
 		}
 		
 		private function initializeTestEnemy():BoxEnemy
 		{
-			return new BoxEnemy(50, 50, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array());
+			return BoxEnemy.generateBoxEnemy(50, 50, this.defaultSpeed, this.defaultHealth, this.defaultHealth);
 		}
 		
 		private  function setupB2Debug():void
@@ -198,6 +200,10 @@ package
 			//initialization
 			super.update();
 			AEB2World.Step(1.0/60.0, 10, 10);
+			
+			if (Math.random() < 0.02 && BoxEnemy.getEnemiesLength() < 30) {
+				addOffscreenEnemy(15, 15);
+			}
 			
 			//Box2D debug stuff
 			if (AquaticEvolver.box2dDebug) {
