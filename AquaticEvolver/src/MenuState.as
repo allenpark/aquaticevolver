@@ -15,9 +15,11 @@ package
 			FlxG.bgColor = 0xffaaaaaa;
 			var menuText:FlxText = new FlxText(FlxG.width/2 - 48, FlxG.height/3, 100, "Aquatic Evolver!");
 			add(menuText);
-			var playButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 3*FlxG.height/5, "Start", startButtonCallback);
+			var playButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 3*FlxG.height/7.0, "Start", startButtonCallback);
 			add(playButton);
-			var creditButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 4*FlxG.height/5, "Credits", creditButtonCallback);
+			var instructionButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 4*FlxG.height/7.0, "Instructions", instructionButtonCallback);
+			add(instructionButton);
+			var creditButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 5*FlxG.height/7.0, "Credits", creditButtonCallback);
 			add(creditButton);
 			FlxG.mouse.show();
 		}
@@ -26,6 +28,9 @@ package
 		}
 		public function creditButtonCallback():void {
 			FlxG.switchState(new CreditState);
+		}
+		public function instructionButtonCallback():void {
+			FlxG.switchState(new InstructionState);
 		}
 	}
 }
