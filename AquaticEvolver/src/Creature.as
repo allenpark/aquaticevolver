@@ -105,7 +105,7 @@ package {
 			return this.id == creature.id;
 		}
 		
-		override public function createBody():void
+		override protected function createBody():void
 		{
 			super.createBody();
 			_obj.SetLinearDamping(3.0);

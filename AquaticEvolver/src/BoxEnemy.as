@@ -106,7 +106,7 @@ package
 			this.acceleration.x = Math.random() * 600 - 300;
 			this.acceleration.y = Math.random() * 600 - 300;
 		}
-		override public function createBody():void
+		override protected function createBody():void
 		{
 			super.createBody();
 			trace("enemy made");

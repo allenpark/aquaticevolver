@@ -1,23 +1,21 @@
 package
 {
+	//Box2D imports
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2World;
 	
-	import flashx.textLayout.formats.BackgroundColor;
-	
 	import org.flixel.FlxG;
-	import org.flixel.FlxGroup;
-	import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
-	import org.flixel.FlxText;
 	
 	public class AEWorld extends FlxState
 	{
+		//Background music
 		[Embed(source="res/DestinyOfADroplet.mp3")] 	public var droplet:Class;
 		
+		//Pausing
 		public var paused:pausescreen;
-		public var pauseGroup:FlxGroup;
-		public var debug:FlxText;
+		
+		//Flx debugging
 		FlxG.debug = true;
 		
 		/**
@@ -31,7 +29,7 @@ package
 		 * we want them to be a part of the simulation that Box2D runs.
 		 * -- Nick Benson - 10/28/2013
 		 */
-		public static var box2dWorld:b2World;
+		public static var AEB2World:b2World;
 		
 		/**
 		 * The pull of gravity. There is normal gravity underwater, but there are
@@ -47,7 +45,7 @@ package
 		/**
 		 * 
 		 */
-		public static const RATIO:Number = 100.0;
+		private static const RATIO:Number = 100.0;
 
 		/* We should probably refer to these as "cameraX", etc., unless it doesn't
 		* actually mean what I think it means. -- Nick Benson - 10/28
@@ -56,17 +54,45 @@ package
 		public var screenY:int; // The y coordinate of the upper left corner of the screen.
 		public var screenWidth:int;
 		public var screenHeight:int;
-		public var defaultHealth:int;
-		public var defaultSpeed:Number;
+		public var defaultHealth:int; //TODO: Should be in creature
+		public var defaultSpeed:Number; //TODO: Should be in creature... also why int and not Number?
 		
 		/**
 		 * Constructs and initializes the Box2D b2World.
 		 */
-		public function createBox2DWorld():void {
+		private function createBox2DWorld():void {
 			// Takes a gravity argument and a "doSleep" argument.
 			// doSleep is a good thing. Look it up if you're considering
 			// changing it. --Nick Benson - 10/28/2013
-			box2dWorld = new b2World(GRAVITY, true);
+			AEB2World = new b2World(GRAVITY, true);
+		}
+		
+		public static function flxAngleFromB2Angle(b2Angle:Number):Number
+		{
+			var flxAngle:Number = b2Angle * (180 / Math.PI);
+			return flxAngle;
+		}
+		
+		public static function flxXFromB2X(b2X:Number, b2Width:Number = 0):Number
+		{
+			var flxX:Number = ((b2X * RATIO) - b2Width/2.0);
+			return flxX;
+		}
+		
+		public static function flxYFromB2Y(b2Y:Number, b2Height:Number = 0):Number
+		{
+			var flxY:Number = ((b2Y * RATIO) - b2Height/2.0);
+			return flxY;
+		}
+		
+		public static function flxNumFromB2Num(b2Num:Number):Number
+		{
+			return b2Num * RATIO;
+		}
+		
+		public static function b2NumFromFlxNum(flxNum:Number):Number
+		{
+			return flxNum / RATIO; // RATIO is a float, so no integer division
 		}
 		
 		// Creates an enemy randomly slightly off screen.
@@ -84,14 +110,17 @@ package
 				
 			}
 			var newEnemy:BoxEnemy = new BoxEnemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array());
-			this.add(newEnemy);
-			this.add(newEnemy.healthDisplay);
+			addCreature(newEnemy);
 		}
 		
-		override public function create():void
+		private function addCreature(creature:Creature):void
 		{
-			super.create();
-			// Set up the screen properties (or are they camera properties?)
+			this.add(creature);
+			this.add(creature.healthDisplay);
+		}
+		
+		private function setupDefaults():void
+		{
 			FlxG.bgColor = 0xff3366ff;
 			this.screenX = FlxG.camera.scroll.x;
 			this.screenY = FlxG.camera.scroll.y;
@@ -99,64 +128,90 @@ package
 			this.screenHeight = FlxG.height;
 			this.defaultHealth = 10;
 			this.defaultSpeed = 5.0;
-			
-			// Construct the Box 2D world (in which all simulation happens)
-			this.createBox2DWorld();
-			
-			//Create player (a red box)
+		}
+		
+		private function initializePlayer():void
+		{
 			this.player = new Boxplayer(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array()); 
 			var start_adaptation : Adaptation = (new Adaptation('tentacle', player.x + 10, player.y, 0));
 			this.add(start_adaptation);
-			player.addAdaptation(start_adaptation);
-			add(player);		
-			
-			//Music
-			FlxG.playMusic(droplet);
-			
-			//Pausing
-			FlxG.paused = false;
-			paused = new pausescreen;
-			
-			var newEnemy:BoxEnemy = new BoxEnemy(50, 50, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array());
-			add(newEnemy);
-			this.add(newEnemy.healthDisplay);
-			
-			//FlxG.camera.follow(player);
-			
-			//Box2D debug stuff
+		}
+		
+		private function initializeTestEnemy():BoxEnemy
+		{
+			return new BoxEnemy(50, 50, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array());
+		}
+		
+		private  function setupB2Debug():void
+		{
 			var debugDrawing:DebugDraw = new DebugDraw();
-			debugDrawing.debugDrawSetup(box2dWorld, RATIO, 1.0, 1, 0.5);
-			
-			//Flx Debug
+			debugDrawing.debugDrawSetup(AEB2World, RATIO, 1.0, 1, 0.5);
+		}
+		
+		private function setupFlxDebug():void
+		{
 			FlxG.watch(player, "x");
 			FlxG.watch(player, "y");
 			FlxG.watch(player, "width");
 			FlxG.watch(player, "height");
 		}
 		
-		override public function update():void {
+		private function setupPausing():void
+		{
+			FlxG.paused = false;
+			paused = new pausescreen;
+		}
+		
+		override public function create():void
+		{
+			super.create();
+			setupDefaults();
+			this.createBox2DWorld();	
+			
+			//Music
+			FlxG.playMusic(droplet);
+			
+			//Pausing
+			setupPausing();
+			
+			//Create player
+			initializePlayer();
+			addCreature(player);	
+			
+			//Test enemy
+			var newEnemy:BoxEnemy = initializeTestEnemy();
+			addCreature(newEnemy);
+					
+			//Debugging
+			setupB2Debug();
+			setupFlxDebug();
+		}
+		
+		private function toggleB2DebugDrawing():void
+		{
+			AquaticEvolver.box2dDebug = !AquaticEvolver.box2dDebug;
+			AquaticEvolver.DEBUG_SPRITE.visible = AquaticEvolver.box2dDebug;
+		}
+		
+		override public function update():void 
+		{
+			//initialization
 			super.update();
-			box2dWorld.Step(1.0/60.0, 10, 10);
+			AEB2World.Step(1.0/60.0, 10, 10);
 			
 			//Box2D debug stuff
 			if (AquaticEvolver.box2dDebug) {
-				box2dWorld.DrawDebugData();
+				AEB2World.DrawDebugData();
 			}
 			if(FlxG.keys.justPressed("D")){
-				AquaticEvolver.box2dDebug = !AquaticEvolver.box2dDebug;
-				AquaticEvolver.DEBUG_SPRITE.visible = AquaticEvolver.box2dDebug;
+				toggleB2DebugDrawing();
 			}
 			
-			if (!paused.showing) {
-				//this.screenX = FlxG.camera.scroll.x;
-				//this.screenY = FlxG.camera.scroll.y;
-				
+			//TODO: We should revamp pausing... this isn't the best way of doing it, but it gets the job done for now
+			if (!paused.showing) {		
 				if(FlxG.keys.justPressed("P")){
 					paused = new pausescreen();
 					paused.displayPaused();
-					
-					//player.kill();
-					//paused.finishCallback = dialogKill;
 					add(paused);		
 					FlxG.music.pause();
 				} 
