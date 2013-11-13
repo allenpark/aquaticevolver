@@ -111,7 +111,7 @@ package {
 		{
 			var b2bb:B2BodyBuilder = super.bodyBuilder()
 				.withFriction(0.8).withRestitution(0.3).withDensity(0.7)
-				.withLinearDamping(3.0).withAngularDamping(3.0);
+				.withLinearDamping(3.0).withAngularDamping(30.0);
 			return b2bb;
 		}
 	}

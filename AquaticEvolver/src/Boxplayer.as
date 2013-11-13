@@ -18,6 +18,8 @@ package
 		[Embed(source="res/jump.mp3")] 	
 		public var moveAction:Class;
 		
+		private var defaultMovementScheme:Boolean = false; 
+		
 		public function Boxplayer(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array) {
 			super(x, y, speed, health, maxHealth);
 			this.x = x;
@@ -90,7 +92,19 @@ package
 				else
 					this.play("idle");
 			
-				_obj.ApplyImpulse(getForceVec(xDir, yDir), _obj.GetPosition());
+				if(defaultMovementScheme)
+				{
+					_obj.ApplyImpulse(getForceVec(xDir, yDir), _obj.GetPosition());					
+				}
+				else
+				{
+					var angle = _obj.GetAngle();
+					var force:b2Vec2 = new b2Vec2(0.001 * Math.sin(angle) * yDir * -1, 0.001 * Math.cos(angle) * yDir);
+					_obj.ApplyImpulse(force, _obj.GetPosition());
+					var torque = 5;
+					_obj.SetAngularVelocity(torque * xDir);
+				}
+				
 				super.update();
 			}
 		}
