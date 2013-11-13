@@ -177,7 +177,7 @@ package {
 			//Create player (a red box)
 			this.player = new Boxplayer(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array()); 
 
-			var start_adaptation : Adaptation = (new Adaptation('tentacle', player.x + 10, player.y, 0));
+			var start_adaptation : Adaptation = (new Adaptation('tentacle', null, player.x + 10, player.y, 0));
 			this.add(start_adaptation);
 			player.addAdaptation(start_adaptation);
 			add(player);	

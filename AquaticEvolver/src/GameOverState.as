@@ -1,7 +1,7 @@
 package
 {
 	import org.flixel.*;
-	import World;
+	import AEWorld;
 	
 	public class GameOverState extends FlxState
 	{
@@ -20,7 +20,7 @@ package
 		}
 		
 		public function replayCallback():void{
-			FlxG.switchState(new World);
+			FlxG.switchState(new AEWorld);
 		}
 		public function mainMenuCallback():void{
 			FlxG.resetGame();
