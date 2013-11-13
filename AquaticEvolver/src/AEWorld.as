@@ -10,7 +10,7 @@ package
 	public class AEWorld extends FlxState
 	{
 		//Background music
-		[Embed(source="res/DestinyOfADroplet.mp3")] 	public var droplet:Class;
+		[Embed(source="res/DestinyOfADroplet.mp3")] public var droplet:Class;
 		
 		//Pausing
 		public var paused:pausescreen;
@@ -132,8 +132,7 @@ package
 		
 		private function initializePlayer():void
 		{
-
-			this.player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array()); 
+			this.player = new Boxplayer(ScreenWidth / 2.0, ScreenHeight / 2.0, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array()); 
 			var start_adaptation : Adaptation = (new Adaptation('spike', this, player.x, player.y, 0));
 			this.add(start_adaptation);
 		}
