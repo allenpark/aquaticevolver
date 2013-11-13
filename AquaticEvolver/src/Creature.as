@@ -90,6 +90,10 @@ package {
 			return this.currentHealth > 0;
 		}
 		
+		public function getHealth():int {
+			return this.currentHealth;
+		}
+		
 		// The creature (this) will inherit a trait from the parameter creature. 
 		public function inheritFrom(creature:Creature):void {
 			var selectedTrait:Adaptation = creature.selectTrait();

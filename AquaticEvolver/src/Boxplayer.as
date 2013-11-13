@@ -47,40 +47,31 @@ package
 				// moving the player based on the arrow keys inputs
 				if (FlxG.keys.LEFT && FlxG.keys.RIGHT)
 				{
-					xDir = 0;
 				}
-					
 				else if (FlxG.keys.LEFT)
 				{
-					trace("BoxPlayer: left");
-					xDir = -1;
+//					trace("BoxPlayer: left");
+					xDir = -1*this.speed;
 				}
 				else if (FlxG.keys.RIGHT)
 				{
-					trace("BoxPlayer: right");
-					xDir = 1;
-				}
-				else
-				{
-					xDir = 0;
+//					trace("BoxPlayer: right");
+					xDir = 1*this.speed;
 				}
 					
 				if (FlxG.keys.UP && FlxG.keys.DOWN)
 				{
-					yDir = 0;
 				}
 				else if (FlxG.keys.UP)
 				{
-					trace("BoxPlayer: up");
-					yDir = -1;
+//					trace("BoxPlayer: up");
+					yDir = -1*this.speed;
 				}
 				else if (FlxG.keys.DOWN)
 				{
-					trace("BoxPlayer: down");
-					yDir = 1;
+//					trace("BoxPlayer: down");
+					yDir = 1*this.speed;
 				}
-				else
-					yDir = 0;
 				
 				
 				// playing the correct animation

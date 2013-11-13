@@ -54,7 +54,7 @@ package {
 		
 		private var jointDef:b2RevoluteJointDef;
 		
-		public function Adaptation(name:String, inputWorld:AEWorld, x:int, y:int, angle:Number) {
+		public function Adaptation(name:String, x:int, y:int, angle:Number) {
 			super();
 			this.name = name;
 			this.angle = angle;
@@ -72,9 +72,9 @@ package {
 					
 					//create the joint
 					var weldJointDef:b2WeldJointDef = new b2WeldJointDef();
-					weldJointDef.bodyA = inputWorld.player.get_obj();
+					weldJointDef.bodyA = AEWorld.player.get_obj();
 					weldJointDef.bodyB = sprite.get_obj();
-					weldJointDef.localAnchorA = inputWorld.player.get_obj().GetWorldCenter();
+					weldJointDef.localAnchorA = AEWorld.player.get_obj().GetWorldCenter();
 					weldJointDef.localAnchorB = sprite.get_obj().GetWorldCenter();
 					weldJointDef.collideConnected = false;
 					world.CreateJoint(weldJointDef);
@@ -86,7 +86,7 @@ package {
 					var incX:Number = Math.cos(angle)*(tentacleSegmentEndJoint.y - tentacleSegmentStartJoint.y);
 					var incY:Number = -Math.sin(angle)*(tentacleSegmentEndJoint.y - tentacleSegmentStartJoint.y);
 					
-					prevSprite = inputWorld.player;
+					prevSprite = AEWorld.player;
 					for (var i:int = 0; i < tentacleSegments-1; i++) {
 						//						sprite = new B2FlxSprite(spriteX,spriteY);
 						sprite = new B2FlxSprite(0,0);
