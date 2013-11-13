@@ -1,11 +1,6 @@
 package
 {
 	import Box2D.Dynamics.b2World;
-	import Box2D.Collision.*;
-	import Box2D.Collision.Shapes.*;
-	import Box2D.Common.Math.*;
-	import Box2D.Dynamics.*;
-	import org.flixel.*;
 	
 	import org.flixel.FlxG;
 
@@ -105,11 +100,6 @@ package
 			//TODO Make the enemy randomly move around if it's not chasing/attacking/running away from another enemy
 			this.acceleration.x = Math.random() * 600 - 300;
 			this.acceleration.y = Math.random() * 600 - 300;
-		}
-		override protected function createBody():void
-		{
-			super.createBody();
-			trace("enemy made");
 		}
 	}
 }

@@ -50,10 +50,10 @@ package
 		/* We should probably refer to these as "cameraX", etc., unless it doesn't
 		* actually mean what I think it means. -- Nick Benson - 10/28
 		*/
-		public var screenX:int; // The x coordinate of the upper left corner of the screen.
-		public var screenY:int; // The y coordinate of the upper left corner of the screen.
-		public var screenWidth:int;
-		public var screenHeight:int;
+		public static var ScreenX:int; // The x coordinate of the upper left corner of the screen.
+		public static var ScreenY:int; // The y coordinate of the upper left corner of the screen.
+		public static var ScreenWidth:int;
+		public static var ScreenHeight:int;
 		public var defaultHealth:int; //TODO: Should be in creature
 		public var defaultSpeed:Number; //TODO: Should be in creature... also why int and not Number?
 		
@@ -101,12 +101,12 @@ package
 			var newY:Number;
 			if (Math.random() > 0.5) {
 				// On the vertical edges.
-				newX = (Math.random() > 0.5 ? -xBuffer : this.screenWidth) + this.screenX;
-				newY = (Math.random() * (this.screenHeight + yBuffer) - yBuffer) + this.screenY;
+				newX = (Math.random() > 0.5 ? -xBuffer : ScreenWidth) + ScreenX;
+				newY = (Math.random() * (ScreenHeight + yBuffer) - yBuffer) + ScreenY;
 			} else {
 				// On the horizontal edges.
-				newX = (Math.random() * (this.screenWidth + xBuffer) - xBuffer) + this.screenX;
-				newY = (Math.random() > 0.5 ? -yBuffer : this.screenHeight) + this.screenY;
+				newX = (Math.random() * (ScreenWidth + xBuffer) - xBuffer) + ScreenX;
+				newY = (Math.random() > 0.5 ? -yBuffer : ScreenHeight) + ScreenY;
 				
 			}
 			var newEnemy:BoxEnemy = new BoxEnemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array());
@@ -122,17 +122,17 @@ package
 		private function setupDefaults():void
 		{
 			FlxG.bgColor = 0xff3366ff;
-			this.screenX = FlxG.camera.scroll.x;
-			this.screenY = FlxG.camera.scroll.y;
-			this.screenWidth = FlxG.width;
-			this.screenHeight = FlxG.height;
+			ScreenX = FlxG.camera.scroll.x;
+			ScreenY = FlxG.camera.scroll.y;
+			ScreenWidth = FlxG.width;
+			ScreenHeight = FlxG.height;
 			this.defaultHealth = 10;
 			this.defaultSpeed = 5.0;
 		}
 		
 		private function initializePlayer():void
 		{
-			this.player = new Boxplayer(this.screenWidth / 2, this.screenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array()); 
+			this.player = new Boxplayer(ScreenWidth / 2.0, ScreenHeight / 2.0, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array()); 
 			var start_adaptation : Adaptation = (new Adaptation('tentacle', player.x + 10, player.y, 0));
 			this.add(start_adaptation);
 		}

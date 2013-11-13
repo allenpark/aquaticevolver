@@ -109,10 +109,5 @@ package
 			vec.Multiply(0.001);
 			return vec;
 		}
-		override protected function createBody():void
-		{
-			super.createBody();
-			trace("player added");
-		}
 	}
 }

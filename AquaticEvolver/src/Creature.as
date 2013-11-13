@@ -1,6 +1,8 @@
 // ActionScript file
 package {	
-	import org.flixel.*;
+	import org.flixel.FlxGroup;
+	import org.flixel.FlxState;
+	import org.flixel.FlxText;
 	
 	public class Creature extends B2FlxSprite {
 		//public var x:int;
@@ -105,11 +107,12 @@ package {
 			return this.id == creature.id;
 		}
 		
-		override protected function createBody():void
+		override protected function bodyBuilder():B2BodyBuilder
 		{
-			super.createBody();
-			_obj.SetLinearDamping(3.0);
-			_obj.SetAngularDamping(3.0);
+			var b2bb:B2BodyBuilder = super.bodyBuilder()
+				.withFriction(0.8).withRestitution(0.3).withDensity(0.7)
+				.withLinearDamping(3.0).withAngularDamping(3.0);
+			return b2bb;
 		}
 	}
 }
