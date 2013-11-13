@@ -74,5 +74,10 @@ package
 			AEWorld.AEB2World.DestroyBody(this._obj);
 			super.kill();
 		}
+		
+		public function get_obj():b2Body
+		{
+			return _obj;
+		}
 	}
 }

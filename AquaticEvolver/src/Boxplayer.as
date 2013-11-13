@@ -84,7 +84,7 @@ package
 				// playing the correct animation
 				if (FlxG.keys.LEFT ||FlxG.keys.RIGHT || FlxG.keys.UP || FlxG.keys.DOWN){
 					this.play("walk");
-					FlxG.play(moveAction,0.5,false);
+//					FlxG.play(moveAction,0.5,false);
 					
 				}
 				else
