@@ -52,24 +52,18 @@ package
 			return adaptArray;
 		}
 		
-		override public function update():void {
-			var weakestIndex:int   = 0;
-			var strongestIndex:int = 0;
-			var weakestStrength:int   = 0;
-			var strongestStrength:int = 0;
-			var score:int;
-			var seeSomething:Boolean = false;
-			
+		override public function update():void {			
+			super.update();
+
 			if (!this.onScreen(null))
 			{
 				enemies.remove(this, true);
 				this.kill();
 				this.destroy();
+				return;
 			}
 			
 			updateMove();
-			
-			super.update();
 		}
 		
 		private function updateMove():void {
@@ -118,41 +112,24 @@ package
 
         private function moveRelativeToEnemy(enemy:Creature, towards:Boolean):void {
             var impulseSize:int = (towards) ? super.speed: -1*super.speed;
-			var dirX:int = (enemy.x - this.x)
-			var dirY:int = (enemy.y - this.y)
-            var impulseX:int = 0;
-            var impulseY:int = 0;
-			if (dirX < 0) {
-				impulseX = -1*impulseSize;
-			} else if (dirX > 0) {
-				impulseX = impulseSize;
-			}
-			if (dirY < 0) {
-				impulseY = -1*impulseSize;
-			} else if (dirY > 0) {
-				impulseY = impulseSize;
-			}
-		    _obj.ApplyImpulse(getForceVec(impulseX, impulseY), _obj.GetPosition());
+			var dirX:int = (enemy.x - this.x);
+			var dirY:int = (enemy.y - this.y);
+			var forceVec:b2Vec2 = getForceVec(dirX, dirY, impulseSize);
+		    _obj.ApplyImpulse(forceVec, _obj.GetPosition());
         }
 
-		private function getForceVec(xDir:Number, yDir:Number):b2Vec2 {
-			var vec:b2Vec2;
-			if ( xDir != 0 && yDir != 0)
-			{
-				vec = new b2Vec2(xDir * 1/Math.sqrt(2), yDir * 1/Math.sqrt(2));
-			}
-			else
-			{
-				vec = new b2Vec2(xDir, yDir);
-			}
-			vec.Multiply(0.001);
+		// Returns a vector in the (xDir, yDir) direction with a magnitude of impulseSize * 0.001.
+		private function getForceVec(xDir:Number, yDir:Number, impulseSize:Number):b2Vec2 {
+			var vec:b2Vec2 = new b2Vec2(xDir, yDir);
+			vec.Normalize();
+			vec.Multiply(impulseSize * 0.001);
 			return vec;
 		}
 
 		public function moveAround():void{
-			//TODO Make the enemy randomly move around if it's not chasing/attacking/running away from another enemy
-			this.acceleration.x = Math.random() * 600 - 300;
-			this.acceleration.y = Math.random() * 600 - 300;
+			var randomX:Number = Math.random() * 2.0 - 1;
+			var randomY:Number = Math.random() * 2.0 - 1;
+			_obj.ApplyImpulse(getForceVec(randomX, randomY, super.speed), _obj.GetPosition());
 		}
 	}
 }
