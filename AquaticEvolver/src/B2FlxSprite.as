@@ -16,8 +16,6 @@ package
 			if (Graphic) {
 				this.loadGraphic(Graphic,true,true,width,height);
 			}
-			this.x = x;
-			this.y = y;
 			_obj = bodyBuilder().build();
 		}
 		
