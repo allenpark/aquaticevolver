@@ -135,7 +135,7 @@ package
 		{
 
 		    AEWorld.player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
-			var start_adaptation : Adaptation = (new Adaptation('spike', player.x, player.y, 0));
+			var start_adaptation : Adaptation = (new Adaptation('spike', new b2Vec2(player.x, player.y), 0));
 			this.add(start_adaptation);
 		}
 		
