@@ -32,6 +32,9 @@ package
 		 */
 		public static var AEB2World:b2World;
 		
+		
+		public static var collisionHandler:AECollisionListener;
+		
 		/**
 		 * The pull of gravity. There is normal gravity underwater, but there are
 		 * counter-active bouyancy effects. We'll need to fiddle with this number
@@ -65,7 +68,9 @@ package
 			// Takes a gravity argument and a "doSleep" argument.
 			// doSleep is a good thing. Look it up if you're considering
 			// changing it. --Nick Benson - 10/28/2013
+			collisionHandler = new AECollisionListener();
 			AEB2World = new b2World(GRAVITY, true);
+			AEB2World.SetContactListener(collisionHandler);
 		}
 		
 		public static function flxAngleFromB2Angle(b2Angle:Number):Number

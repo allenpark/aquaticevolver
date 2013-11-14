@@ -97,10 +97,10 @@ package
 			if (seeSomething) {
 				this.moveTowardsEnemy(AEWorld.player);
 				if (weakestStrength == 0) {
-					trace("RUN AWAY");
+					//trace("RUN AWAY");
 					//this.runAwayFromEnemy(enemies.members[strongestIndex]);
 				} else {
-					trace("MOVE TOWARDS");
+					//trace("MOVE TOWARDS");
 					//this.moveTowardsEnemy(enemies.members[weakestIndex]);
 				}
 			} else {
