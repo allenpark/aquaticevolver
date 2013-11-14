@@ -5,21 +5,20 @@ package
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2BodyDef;
 	import Box2D.Dynamics.b2FixtureDef;
-	import Box2D.Dynamics.Contacts.b2NullContact;
 
 	public class B2BodyBuilder
 	{
-		internal var _friction:Number;
-		internal var _restitution:Number;
-		internal var _density:Number;
-		internal var _shape:b2PolygonShape;	
+		private var _friction:Number;
+		private var _restitution:Number;
+		private var _density:Number;
+		private var _shape:b2PolygonShape;	
 		
-		internal var _position:b2Vec2;
-		internal var _angle:Number;
-		internal var _type:uint;
+		private var _position:b2Vec2;
+		private var _angle:Number;
+		private var _type:uint;
 		
-		internal var _linearDamping:Number;
-		internal var _angularDamping:Number;
+		private var _linearDamping:Number;
+		private var _angularDamping:Number;
 		
 		public function B2BodyBuilder()
 		{

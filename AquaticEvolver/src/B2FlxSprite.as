@@ -10,17 +10,33 @@ package
 	{
 		protected var _obj:b2Body;
 		
-		public function B2FlxSprite(X:Number=0, Y:Number=0, SimpleGraphic:Class=null)
+		public function B2FlxSprite(x, y, Graphic:Class=null, width:Number=0, height:Number=0)
 		{
-			super(X, Y, SimpleGraphic);
+			super(x,y);
+			if (Graphic) {
+				this.loadGraphic(Graphic,true,true,width,height);
+			}
+			this.x = x;
+			this.y = y;
 			_obj = bodyBuilder().build();
 		}
 		
+		/*
+		public override function loadGraphic(Graphic:Class, Animated:Boolean=false, Reverse:Boolean=false, Width:uint=0, Height:uint=0, Unique:Boolean=false):FlxSprite
+		{
+			var flxSprite:FlxSprite = super.loadGraphic(Class, Animated, Reverse, Width, Height, Unique);
+			
+			return flxSprite;
+		}
+		*/
+		
 		override public function update():void
 		{
+			trace("creature width:"+width+", height:"+height);
 			x = AEWorld.flxXFromB2X(_obj.GetPosition().x, width);
 			y = AEWorld.flxYFromB2Y(_obj.GetPosition().y, height);
 			angle = AEWorld.flxAngleFromB2Angle(_obj.GetAngle());
+			trace("creature new x:"+x+", y:"+y);
 			super.update();
 		}
 		
@@ -28,7 +44,8 @@ package
 		{     
 			var boxShape:b2PolygonShape = new b2PolygonShape();
 			boxShape.SetAsBox(AEWorld.b2NumFromFlxNum(width)/2.0, AEWorld.b2NumFromFlxNum(height)/2.0);
-			var b2bb:B2BodyBuilder = new B2BodyBuilder().withShape(boxShape).withType(b2Body.b2_dynamicBody);
+			var b2bb:B2BodyBuilder = new B2BodyBuilder().withShape(boxShape).withType(b2Body.b2_dynamicBody)
+				.withDensity(0.1);
 			return b2bb;
 		}
 		
