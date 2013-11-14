@@ -21,10 +21,7 @@ package
 		private var defaultMovementScheme:Boolean = false; 
 		
 		public function Boxplayer(x:Number, y:Number,speed:Number, health:int, maxHealth:int, adaptations:Array) {
-			trace("constructing boxplayer with x:"+x+", y:"+y);
 			super(x,y,ImgPlayer,speed,health, maxHealth, 14, 15);
-			trace("boxplayer width after super:"+this.width);
-			trace("boxplayer height after super:"+this.height);
 			this.speed = speed;
 			this.health = health;
 			this.maxHealth = maxHealth;

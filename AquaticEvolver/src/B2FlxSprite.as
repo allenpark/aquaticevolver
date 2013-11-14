@@ -32,11 +32,9 @@ package
 		
 		override public function update():void
 		{
-			trace("creature width:"+width+", height:"+height);
 			x = AEWorld.flxXFromB2X(_obj.GetPosition().x, width);
 			y = AEWorld.flxYFromB2Y(_obj.GetPosition().y, height);
 			angle = AEWorld.flxAngleFromB2Angle(_obj.GetAngle());
-			trace("creature new x:"+x+", y:"+y);
 			super.update();
 		}
 		
