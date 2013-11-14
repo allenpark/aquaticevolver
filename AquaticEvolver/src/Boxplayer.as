@@ -20,21 +20,15 @@ package
 		
 		private var defaultMovementScheme:Boolean = false; 
 		
-		public function Boxplayer(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array) {
-			super(x, y, speed, health, maxHealth);
-			this.x = x;
-			this.y = y;
+		public function Boxplayer(x:Number, y:Number,speed:Number, health:int, maxHealth:int, adaptations:Array) {
+			super(x,y,ImgPlayer,speed,health, maxHealth, 14, 15);
 			this.speed = speed;
 			this.health = health;
 			this.maxHealth = maxHealth;
 			this.attackingWith = null;
-			this.maxVelocity.x = 80;
-			this.maxVelocity.y = 80;
-			this.drag.x = this.maxVelocity.x * 2;
-			this.drag.y = this.maxVelocity.y * 2;
 			
 			//LOADING GRAPHIC
-			this.loadGraphic(ImgPlayer, true, true, 14, 15);
+			//this.loadGraphic(ImgPlayer, true, true, 14, 15);
 			//SETTING ANIMATIONS
 			this.addAnimation("idle", [0]);
 			this.addAnimation("walk", [0, 1, 2, 1], 5);
@@ -114,5 +108,14 @@ package
 			vec.Multiply(0.001);
 			return vec;
 		}
+		/*
+		override protected function bodyBuilder():B2BodyBuilder
+		{
+			var b2bb:B2BodyBuilder = super.bodyBuilder()
+				.withFriction(0.8).withRestitution(0.3).withDensity(0.1)
+				.withLinearDamping(10.0).withAngularDamping(40.0);
+			return b2bb;
+		}
+		*/
 	}
 }
