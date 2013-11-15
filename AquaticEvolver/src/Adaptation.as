@@ -62,8 +62,7 @@ package {
 			
 			switch (name) {
 				case "spike":
-					sprite = new B2FlxSprite(0,0);
-					sprite.loadGraphic(spikeImg, true, true, 32, 128);
+					sprite = new B2FlxSprite(0,0,spikeImg,32,128);
 					sprite.angle = angle;
 					this.add(sprite);
 					this.isAttack = true;
@@ -89,8 +88,7 @@ package {
 					prevSprite = AEWorld.player;
 					for (var i:int = 0; i < tentacleSegments-1; i++) {
 						//						sprite = new B2FlxSprite(spriteX,spriteY);
-						sprite = new B2FlxSprite(0,0);
-						sprite.loadGraphic(tentacleMidImg, true, true, 32, 64);
+						sprite = new B2FlxSprite(0,0,tentacleMidImg,32,64);
 						sprite.angle = angle+90;
 						this.add(sprite);
 						spriteX += incX;
@@ -111,8 +109,7 @@ package {
 					spriteY -= incY;
 					spriteX += Math.cos(angle)*(64-tentacleSegmentEndJoint.y + tentacleHeadJoint.y);
 					spriteY += -Math.sin(angle)*(64-tentacleSegmentEndJoint.y + tentacleHeadJoint.y);
-					sprite = new B2FlxSprite(0,0);
-					sprite.loadGraphic(tentacleHeadImg, true, true, 32, 64);
+					sprite = new B2FlxSprite(0,0,tentacleHeadImg);
 					sprite.angle = angle+90;
 					this.add(sprite);
 					

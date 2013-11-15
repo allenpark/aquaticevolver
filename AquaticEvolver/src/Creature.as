@@ -18,10 +18,10 @@ package {
 		// "attacking", "running", "wandering". Change this.update() if this is changed. 
 		public var mode:String;
 		
-		public function Creature(x:int=0, y:int=0, speed:Number=1, health:int=10, maxHealth:int=10) {
+		public function Creature(x:Number, y:Number, Graphic:Class=null, speed:Number=1, health:int=10, maxHealth:int=10,  width:Number=0, height:Number=0) {
+			super(x,y,Graphic, width, height);
+
 			this.id = Math.random() * Number.MAX_VALUE;
-			this.x = x;
-			this.y = y;
 			this.speed = speed;
 			this.currentHealth = health;
 			this.maxHealth = maxHealth;
@@ -29,11 +29,6 @@ package {
 			this.healthDisplay.size = 7;
 			this.attackingWith = null;
 			this.adaptationGroup = new FlxGroup();
-			
-			this.maxVelocity.x = 80;
-			this.maxVelocity.y = 80;
-			this.drag.x = this.maxVelocity.x * 2;
-			this.drag.y = this.maxVelocity.y * 2;
 		}
 		
 		public function addAdaptation(adapt:Adaptation):void {
