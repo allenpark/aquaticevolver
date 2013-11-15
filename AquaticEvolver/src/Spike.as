@@ -11,7 +11,7 @@ package
 		// joint location in image coords
 		private var spikeJoint:b2Vec2 = new b2Vec2(16,100);
 		
-		public function Spike(name:String, imagePos:b2Vec2, angle:Number)
+		public function Spike(imagePos:b2Vec2, angle:Number)
 		{
 			super(name, imagePos, angle);
 			this.name = "tentacle";

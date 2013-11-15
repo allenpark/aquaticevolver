@@ -61,8 +61,8 @@ package {
 			
 			switch (name) {
 				case "spike":
-					sprite = new B2FlxSprite(imagePos.x, imagePos.y);
-					sprite.loadGraphic(spikeImg, true, true, 32, 128);
+					sprite = new B2FlxSprite(imagePos.x,imagePos.y,spikeImg,32,128);
+
 					sprite.angle = angle;
 					this.add(sprite);
 					this.isAttack = true;
@@ -76,8 +76,9 @@ package {
 					weldJointDef.localAnchorA = AEWorld.player.get_obj().GetWorldCenter();
 					
 					var jointPos:b2Vec2 = convertImageCoordsToBox2D(spikeJoint, imagePos, angle);
-					FlxG.log("box2dCoords = " + sprite.get_obj().GetLocalPoint(jointPos).x + ", " + sprite.get_obj().GetLocalPoint(jointPos).y);
-					weldJointDef.localAnchorB = sprite.get_obj().GetLocalPoint(jointPos);
+					FlxG.log("BcenterCoords = " + sprite.get_obj().GetWorldCenter().x + ", " + sprite.get_obj().GetWorldCenter().y);
+					weldJointDef.localAnchorB = jointPos;
+//					weldJointDef.localAnchorB = sprite.get_obj().GetWorldCenter();
 					
 					weldJointDef.collideConnected = false;
 					world.CreateJoint(weldJointDef);
@@ -92,8 +93,8 @@ package {
 					prevSprite = AEWorld.player;
 					var jointDef:b2RevoluteJointDef = new b2RevoluteJointDef();
 					for (var i:int = 0; i < tentacleSegments-1; i++) {
-						sprite = new B2FlxSprite(spriteX,spriteY);
-						sprite.loadGraphic(tentacleMidImg, true, true, 32, 64);
+
+						sprite = new B2FlxSprite(spriteX,spriteY,tentacleMidImg,32,64);
 						sprite.angle = angle+90;
 						this.add(sprite);
 						spriteX += incX;
@@ -103,8 +104,8 @@ package {
 						jointDef = new b2RevoluteJointDef();
 						jointDef.bodyA = prevSprite.get_obj();
 						jointDef.bodyB = sprite.get_obj();
-						jointDef.localAnchorA = prevSprite.get_obj().GetWorldCenter();
-						jointDef.localAnchorB = sprite.get_obj().GetWorldCenter();
+						jointDef.localAnchorA = convertImageXYToBox2D(tentacleSegmentEndJoint, prevSprite.x, prevSprite.y, angle);
+						jointDef.localAnchorB = convertImageXYToBox2D(tentacleSegmentStartJoint, sprite.x, sprite.y, angle);
 						
 						jointDef.collideConnected = false;
 						world.CreateJoint(jointDef);
@@ -115,8 +116,8 @@ package {
 					spriteY -= incY;
 					spriteX += Math.cos(angle)*(64-tentacleSegmentEndJoint.y + tentacleHeadJoint.y);
 					spriteY += -Math.sin(angle)*(64-tentacleSegmentEndJoint.y + tentacleHeadJoint.y);
-					sprite = new B2FlxSprite(spriteX,spriteY);
-					sprite.loadGraphic(tentacleHeadImg, true, true, 32, 64);
+
+					sprite = new B2FlxSprite(0,0,tentacleHeadImg);
 					sprite.angle = angle+90;
 					this.add(sprite);
 					
@@ -124,8 +125,8 @@ package {
 					jointDef = new b2RevoluteJointDef();
 					jointDef.bodyA = prevSprite.get_obj();
 					jointDef.bodyB = sprite.get_obj();
-					jointDef.localAnchorA = prevSprite.get_obj().GetWorldCenter();
-					jointDef.localAnchorB = sprite.get_obj().GetWorldCenter();
+					jointDef.localAnchorA = convertImageXYToBox2D(tentacleSegmentEndJoint, prevSprite.x, prevSprite.y, angle);
+					jointDef.localAnchorB = convertImageXYToBox2D(tentacleHeadJoint, sprite.x, sprite.y, angle);
 					jointDef.collideConnected = false;
 					world.CreateJoint(jointDef);
 					
@@ -167,8 +168,20 @@ package {
 		
 		public function convertImageCoordsToBox2D(pixelCoords:b2Vec2, imagePos:b2Vec2, angle:Number):b2Vec2{
 			FlxG.log("imagePos = " + imagePos.x + ", " + imagePos.y);
-			var x:Number = imagePos.x + Math.cos(angle)*pixelCoords.x;
-			var y:Number = imagePos.y - Math.sin(angle)*pixelCoords.y;
+			var x:Number = imagePos.x + Math.sin(angle)*pixelCoords.x;
+			var y:Number = imagePos.y - Math.cos(angle)*pixelCoords.y;
+			FlxG.log("flixelCoords = " + x + ", " + y);
+			x = AEWorld.b2NumFromFlxNum(x);
+			y = AEWorld.b2NumFromFlxNum(y);
+			FlxG.log("box2dCoords = " + x + ", " + y);
+			var localPos:b2Vec2 = new b2Vec2(x,y);
+			return localPos;
+		}
+		
+		public function convertImageXYToBox2D(pixelCoords:b2Vec2, imageX, imageY, angle:Number):b2Vec2{
+			FlxG.log("imagePos = " + imageX + ", " + imageY);
+			var x:Number = imageX + Math.sin(angle)*pixelCoords.x;
+			var y:Number = imageY - Math.cos(angle)*pixelCoords.y;
 			FlxG.log("flixelCoords = " + x + ", " + y);
 			x = AEWorld.b2NumFromFlxNum(x);
 			y = AEWorld.b2NumFromFlxNum(y);

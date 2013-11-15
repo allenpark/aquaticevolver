@@ -11,7 +11,7 @@ package
 		public var aggroRadius:int = 200;
 		
 		public function BoxEnemy(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array) {
-			super(x, y, speed, health, maxHealth);
+			super(x,y,null,speed,health,maxHealth, width, height);
 			this.attackingWith = null;
 			
 			this.maxVelocity.x = 80;
