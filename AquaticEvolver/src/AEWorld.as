@@ -51,8 +51,8 @@ package
 		/* We should probably refer to these as "cameraX", etc., unless it doesn't
 		* actually mean what I think it means. -- Nick Benson - 10/28
 		*/
-		public static var ScreenX:int; // The x coordinate of the upper left corner of the screen.
-		public static var ScreenY:int; // The y coordinate of the upper left corner of the screen.
+		public static var ScreenX:int; // The x coordinate measured from the upper left corner of the screen.
+		public static var ScreenY:int; // The y coordinate measured from the upper left corner of the screen.
 		public static var ScreenWidth:int;
 		public static var ScreenHeight:int;
 		public var defaultHealth:int; //TODO: Should be in creature
@@ -114,6 +114,24 @@ package
 			addCreature(newEnemy);
 		}
 		
+		public function drawBackgroundObject(xBuffer:int = 0, yBuffer: int =0):void{
+			var newX:Number;
+			var newY:Number;
+			// On the vertical edges.
+			newX = (Math.random() * ScreenWidth);
+			//TODO: Have to set the y buffer based on the view distance
+			newY = ScreenHeight-yBuffer;
+			
+			//Randomly generating the distance that the image is seen from
+			var viewDistance:int = Math.round(Math.random()*5)+5;
+			
+			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance, FlxG.camera);
+			//Making the object float as it is a bubble right now
+			backgroundObject.floatUpward();
+			
+			this.add(backgroundObject);			
+		}
+		
 		private function addCreature(creature:Creature):void
 		{
 			this.add(creature);
@@ -164,6 +182,7 @@ package
 			paused = new pausescreen;
 		}
 		
+		
 		override public function create():void
 		{
 			super.create();
@@ -203,6 +222,11 @@ package
 			
 			if (Math.random() < 0.02 && BoxEnemy.getEnemiesLength() < 30) {
 				addOffscreenEnemy(15, 15);
+			}
+			
+			//Randomly add background image
+			if(Math.random() < 0.01){
+				drawBackgroundObject(15, 15);	
 			}
 			
 			//Box2D debug stuff

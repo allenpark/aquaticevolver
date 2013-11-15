@@ -26,7 +26,7 @@ package
 		 */
 		static public var enemies:FlxGroup = new FlxGroup();
 		
-		static public function generateBoxEnemy(newX, newY, defaultSpeed, curHealth, maxHealth):BoxEnemy {
+		static public function generateBoxEnemy(newX:Number, newY:Number, defaultSpeed:Number, curHealth:Number, maxHealth:Number):BoxEnemy {
 			var newEnemy:BoxEnemy = new BoxEnemy(newX, newY, defaultSpeed, curHealth, maxHealth, new Array());
 			enemies.add(newEnemy);
 			return newEnemy;
@@ -97,10 +97,8 @@ package
 			if (seeSomething) {
 				this.moveTowardsEnemy(AEWorld.player);
 				if (weakestStrength == 0) {
-					trace("RUN AWAY");
 					//this.runAwayFromEnemy(enemies.members[strongestIndex]);
 				} else {
-					trace("MOVE TOWARDS");
 					//this.moveTowardsEnemy(enemies.members[weakestIndex]);
 				}
 			} else {
