@@ -119,11 +119,12 @@ package
 			var newY:Number;
 			// On the vertical edges.
 			newX = (Math.random() * ScreenWidth);
-			//TODO: Have to set the y buffer based on the view distance
-			newY = ScreenHeight-yBuffer;
 			
 			//Randomly generating the distance that the image is seen from
 			var viewDistance:int = Math.round(Math.random()*5)+5;
+			
+			//TODO: Have to set the y buffer based on the view distance
+			newY = ScreenHeight-yBuffer/viewDistance;
 			
 			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance, FlxG.camera);
 			//Making the object float as it is a bubble right now
@@ -201,8 +202,8 @@ package
 			addCreature(player);	
 			
 			//Test enemy
-//			var newEnemy:BoxEnemy = initializeTestEnemy();
-//			addCreature(newEnemy);
+			var newEnemy:BoxEnemy = initializeTestEnemy();
+			addCreature(newEnemy);
 					
 			//Debugging
 			setupB2Debug();
@@ -227,7 +228,7 @@ package
 			
 			//Randomly add background image
 			if(Math.random() < 0.01){
-				drawBackgroundObject(15, 15);	
+				drawBackgroundObject(128, 128);	
 			}
 			
 			//Box2D debug stuff

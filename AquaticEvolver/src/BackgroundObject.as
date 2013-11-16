@@ -16,7 +16,7 @@ package{
 		
 		private var viewDistance:int;
 		
-		private var MAXSCROLLSPEED:int = 500;
+		private var MAXSCROLLSPEED:int = 150;
 
 		
 		public function BackgroundObject(x:int , y:int, viewDistance:int, camera:FlxCamera){
@@ -45,7 +45,6 @@ package{
 
 			//Make sure that the object is still on the screen
 			if(!this.onScreen(camera)){
-				trace('Destroying background object');
 				//CURRENTLY CRASHES GAME WHEN CALLED DON'T KNOW HOW TO CLEAN UP MEMORY
 //				this.destroy();
 				this.kill(); 
