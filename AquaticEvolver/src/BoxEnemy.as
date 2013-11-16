@@ -46,7 +46,7 @@ package
 				var randomAdaptation:Adaptation = adaptations[Math.floor(Math.random() * adaptations.length)]; 
 				adaptArray.push(randomAdaptation);
 				//Subtracting the selected adaptation's "power" from the remaining value
-				remainingValue -= (randomAdaptation.attackDamage + randomAdaptation.attackPower);
+				remainingValue -= (randomAdaptation.attackDamage + randomAdaptation.attackDamage);
 			}
 			
 			return adaptArray;

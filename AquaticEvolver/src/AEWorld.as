@@ -153,7 +153,8 @@ package
 		{
 
 		    AEWorld.player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
-			var start_adaptation : Adaptation = (new Adaptation('spike', player.x, player.y, 0));
+			var start_adaptation : Adaptation = (new Tentacle(new b2Vec2(0, 0)));
+//			var start_adaptation : Adaptation = (new Spike(new b2Vec2(0, 0)));
 			this.add(start_adaptation);
 		}
 		
@@ -200,8 +201,8 @@ package
 			addCreature(player);	
 			
 			//Test enemy
-			var newEnemy:BoxEnemy = initializeTestEnemy();
-			addCreature(newEnemy);
+//			var newEnemy:BoxEnemy = initializeTestEnemy();
+//			addCreature(newEnemy);
 					
 			//Debugging
 			setupB2Debug();
@@ -221,7 +222,7 @@ package
 			AEB2World.Step(1.0/60.0, 10, 10);
 			
 			if (Math.random() < 0.02 && BoxEnemy.getEnemiesLength() < 30) {
-				addOffscreenEnemy(15, 15);
+//				addOffscreenEnemy(15, 15);
 			}
 			
 			//Randomly add background image
