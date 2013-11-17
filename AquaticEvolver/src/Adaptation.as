@@ -3,7 +3,6 @@ package {
 	import Box2D.Common.Math.b2Vec2;
 	import org.flixel.FlxGroup;
 	
-	// TODO: Fill in this class or reduce it to just a string.
 	public class Adaptation extends FlxGroup {
 		
 		public var name:String;
@@ -43,13 +42,6 @@ package {
 		
 		override public function update():void {
 			super.update();
-		}
-		
-		public function convertToBox2D(pixelCoords:b2Vec2):b2Vec2 {
-			var x:Number = AEWorld.b2NumFromFlxNum(pixelCoords.x);
-			var y:Number = AEWorld.b2NumFromFlxNum(pixelCoords.y);
-			var localPos:b2Vec2 = new b2Vec2(x,y);
-			return localPos;
 		}
 	}
 }

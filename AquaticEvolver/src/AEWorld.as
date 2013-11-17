@@ -32,6 +32,9 @@ package
 		 */
 		public static var AEB2World:b2World;
 		
+		
+		public static var collisionHandler:AECollisionListener;
+		
 		/**
 		 * The pull of gravity. There is normal gravity underwater, but there are
 		 * counter-active bouyancy effects. We'll need to fiddle with this number
@@ -65,7 +68,9 @@ package
 			// Takes a gravity argument and a "doSleep" argument.
 			// doSleep is a good thing. Look it up if you're considering
 			// changing it. --Nick Benson - 10/28/2013
+			collisionHandler = new AECollisionListener();
 			AEB2World = new b2World(GRAVITY, true);
+			AEB2World.SetContactListener(collisionHandler);
 		}
 		
 		public static function flxAngleFromB2Angle(b2Angle:Number):Number
@@ -133,6 +138,25 @@ package
 			this.add(backgroundObject);			
 		}
 		
+		private function drawInitialBackgroundObjects():void{
+			for(var i:int = 0; i<15; i++){
+				var newX:Number;
+				var newY:Number;
+				// On the vertical edges.
+				newX = (Math.random() * ScreenWidth);
+				newY = (Math.random() * ScreenHeight);
+				
+				//Randomly generating the distance that the image is seen from
+				var viewDistance:int = Math.round(Math.random()*5)+5;
+				
+				var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance, FlxG.camera);
+				//Making the object float as it is a bubble right now
+				backgroundObject.floatUpward();
+				
+				this.add(backgroundObject);
+			}
+		}
+		
 		private function addCreature(creature:Creature):void
 		{
 			this.add(creature);
@@ -152,7 +176,6 @@ package
 		
 		private function initializePlayer():void
 		{
-
 		    AEWorld.player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
 			var start_adaptation : Adaptation = (new Tentacle(new b2Vec2(0, 0)));
 //			var start_adaptation : Adaptation = (new Spike(new b2Vec2(0, 0)));
@@ -204,6 +227,9 @@ package
 			//Test enemy
 			var newEnemy:BoxEnemy = initializeTestEnemy();
 			addCreature(newEnemy);
+			
+			//Populating the world with some background objects
+			drawInitialBackgroundObjects();
 					
 			//Debugging
 			setupB2Debug();
