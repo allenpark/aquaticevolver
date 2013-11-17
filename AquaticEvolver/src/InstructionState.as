@@ -1,8 +1,8 @@
 package
 {
-	import org.flixel.FlxState;
+	
 	import org.flixel.*;
-	import AEWorld;
+	import org.flixel.FlxState;
 	
 	public class InstructionState extends FlxState
 	{
@@ -11,7 +11,7 @@ package
 			super.create();
 			FlxG.bgColor = 0xffaaaaaa;
 			
-			var instructions = "Press the arrow keys to move\n";
+			var instructions:String = "Press the arrow keys to move\n";
 			
 			add(new FlxText(FlxG.width/2-30, FlxG.height/5,300,instructions));
 			var backButton:FlxButton = new FlxButton(FlxG.width/2 -45, 3*FlxG.height/5, "Back", mainMenuCallback);

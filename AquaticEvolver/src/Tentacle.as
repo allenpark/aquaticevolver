@@ -6,11 +6,9 @@ package
 	
 	import org.flixel.FlxG;
 	
-	public class Tentacle extends Adaptation
+	public class Tentacle extends Appendage
 	{
 		private var tentacleMidSegments:int = 5;
-		
-		private var jointPos:b2Vec2;
 		
 		// tentacle joint locations
 		private var tentacleSegmentStartJoint:b2Vec2 = new b2Vec2(0,-20);
@@ -29,8 +27,7 @@ package
 		// jointPos is given from the local box2D coordinate system of the player and is the location of the attached point for the adatation
 		public function Tentacle(jointPos:b2Vec2)
 		{
-			super("tentacle", 50, true, 2);
-			this.jointPos = jointPos;
+			super("tentacle", 50, true, 2, jointPos);
 			
 			var world:b2World = AEWorld.AEB2World;
 			
