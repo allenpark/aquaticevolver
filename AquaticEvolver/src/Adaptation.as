@@ -1,7 +1,6 @@
 // ActionScript file
 package {
 	import Box2D.Common.Math.b2Vec2;
-	
 	import org.flixel.FlxGroup;
 	
 	// TODO: Fill in this class or reduce it to just a string.

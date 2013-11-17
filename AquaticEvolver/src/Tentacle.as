@@ -1,6 +1,8 @@
 package
 {
+	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Common.Math.b2Vec2;
+	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2World;
 	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
 	
@@ -13,9 +15,9 @@ package
 		private var jointPos:b2Vec2;
 		
 		// tentacle joint locations
-		private var tentacleSegmentStartJoint:b2Vec2 = new b2Vec2(0,-20);
-		private var tentacleSegmentEndJoint:b2Vec2 = new b2Vec2(0,20);
-		private var tentacleHeadJoint:b2Vec2 = new b2Vec2(0,32);
+		private var tentacleSegmentStartJoint:b2Vec2 = new b2Vec2(0,-15);
+		private var tentacleSegmentEndJoint:b2Vec2 = new b2Vec2(0,15);
+		private var tentacleHeadJoint:b2Vec2 = new b2Vec2(0,19);
 		//		private var tentacleSegmentStartJoint:b2Vec2 = new b2Vec2(0,20);
 		//		private var tentacleSegmentEndJoint:b2Vec2 = new b2Vec2(0,44);
 		//		private var tentacleHeadJoint:b2Vec2 = new b2Vec2(0,20);
@@ -41,7 +43,7 @@ package
 			for (var i:int = 0; i < tentacleMidSegments; i++) {
 				
 				// create the sprite
-				sprite = new B2FlxSprite(0,0,tentacleMidImg,32,64);
+				sprite = new TentacleMid(0,0,tentacleMidImg,32,64);
 				this.add(sprite);
 				
 				// create the jointDef
@@ -67,7 +69,7 @@ package
 			}
 			
 			// create the sprite
-			sprite = new B2FlxSprite(0,0,tentacleHeadImg,32,64);
+			sprite = new TentacleHead(0,0,tentacleHeadImg,32,64);
 			this.add(sprite);
 			
 			// create the jointDef
@@ -76,7 +78,7 @@ package
 			revoluteJointDef.bodyB = sprite.get_obj();
 			if (tentacleMidSegments == 0)
 			{
-				revoluteJointDef.localAnchorA = new b2Vec2(0,0);
+				revoluteJointDef.localAnchorA = new b2Vec2(jointPos.x,jointPos.y);
 			}else
 			{
 				revoluteJointDef.localAnchorA = convertToBox2D(tentacleSegmentEndJoint);
