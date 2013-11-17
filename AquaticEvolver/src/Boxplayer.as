@@ -83,10 +83,10 @@ package
 				}
 				else
 				{
-					var angle = _obj.GetAngle();
+					var angle:int = _obj.GetAngle();
 					var force:b2Vec2 = new b2Vec2(0.001 * Math.sin(angle) * yDir * -1, 0.001 * Math.cos(angle) * yDir);
 					_obj.ApplyImpulse(force, _obj.GetPosition());
-					var torque = 5;
+					var torque:int = 5;
 					_obj.SetAngularVelocity(torque * xDir);
 				}
 				

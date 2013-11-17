@@ -10,7 +10,7 @@ package
 	{
 		protected var _obj:b2Body;
 		
-		public function B2FlxSprite(x, y, Graphic:Class=null, width:Number=0, height:Number=0)
+		public function B2FlxSprite(x:int, y:int, Graphic:Class=null, width:Number=0, height:Number=0):void
 		{
 			super(x,y);
 			if (Graphic) {
