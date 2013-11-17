@@ -37,7 +37,6 @@ package
 		}
 		
 		private function getRandomAdaptations(adaptations:Array, maxPower:int):Array{
-			
 			var remainingValue:int = maxPower;
 			var adaptArray:Array = new Array();
 			
@@ -124,7 +123,7 @@ package
 			return vec;
 		}
 
-		public function moveAround():void{
+		public function moveAround():void {
 			var randomX:Number = Math.random() * 2.0 - 1;
 			var randomY:Number = Math.random() * 2.0 - 1;
 			_obj.ApplyImpulse(getForceVec(randomX, randomY, super.speed), _obj.GetPosition());
