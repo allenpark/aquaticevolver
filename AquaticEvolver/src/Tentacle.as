@@ -57,6 +57,7 @@ package
 				revoluteJointDef.localAnchorB = convertToBox2D(tentacleSegmentStartJoint);
 				FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
 				revoluteJointDef.referenceAngle = 0;
+				revoluteJointDef.enableLimit = true;
 				revoluteJointDef.lowerAngle = -Math.PI/4;
 				revoluteJointDef.upperAngle = Math.PI/4;
 				revoluteJointDef.collideConnected = false;
