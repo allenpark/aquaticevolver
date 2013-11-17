@@ -27,8 +27,7 @@ package
 		// jointPos is given from the local box2D coordinate system of the player and is the location of the attached point for the adatation
 		public function Tentacle(jointPos:b2Vec2)
 		{
-			super("tentacle", 50, true, 2);
-			this.jointPos = jointPos;
+			super("tentacle", 50, true, 2, jointPos);
 			
 			var world:b2World = AEWorld.AEB2World;
 			
