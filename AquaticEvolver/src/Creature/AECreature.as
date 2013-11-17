@@ -33,6 +33,7 @@ package Creature
 			headJoint.enableLimit = true;
 			headJoint.lowerAngle = -HalfHeadSwivel;
 			headJoint.upperAngle = HalfHeadSwivel;
+			AEWorld.AEB2World.CreateJoint(headJoint);
 			
 			//Torso -- Tail
 			var tailJoint:b2RevoluteJointDef = new b2RevoluteJointDef();
@@ -45,6 +46,7 @@ package Creature
 			tailJoint.enableLimit = true;
 			tailJoint.lowerAngle = -HalfTailSwivel;
 			tailJoint.upperAngle = HalfTailSwivel;
+			AEWorld.AEB2World.CreateJoint(tailJoint);
 		}
 	}
 }
