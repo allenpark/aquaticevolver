@@ -11,15 +11,13 @@ package{
 		
 		[Embed(source='res/BackgroundBubble.png')]
 		public static var BubbleImg:Class;
-		
-		private var camera:FlxCamera;
-		
+				
 		private var viewDistance:int;
 		
 		private var MAXSCROLLSPEED:int = 150;
 
 		
-		public function BackgroundObject(x:int , y:int, viewDistance:int, camera:FlxCamera){
+		public function BackgroundObject(x:int , y:int, viewDistance:int){
 			
 			this.loadGraphic(BubbleImg, false, false);
 			
@@ -33,10 +31,7 @@ package{
 			//Adjusting the sprite's scale to appear smaller when further
 			this.scale.x = this.scale.y = (Math.random()*5+1)*(1.0/viewDistance);
 			
-			this.alpha = 1.0/viewDistance;
-			
-			this.camera = camera;
-						
+			this.alpha = 1.0/viewDistance;						
 			
 		}
 		
@@ -44,7 +39,7 @@ package{
 			super.update();
 
 			//Make sure that the object is still on the screen
-			if(!this.onScreen(camera)){
+			if(!this.onScreen(null)){
 				//CURRENTLY CRASHES GAME WHEN CALLED DON'T KNOW HOW TO CLEAN UP MEMORY
 //				this.destroy();
 				this.kill(); 

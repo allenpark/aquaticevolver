@@ -4,6 +4,7 @@ package
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2World;
 	
+	import org.flixel.FlxCamera;
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxState;
@@ -34,6 +35,7 @@ package
 		
 		
 		public static var collisionHandler:AECollisionListener;
+
 		
 		/**
 		 * The pull of gravity. There is normal gravity underwater, but there are
@@ -60,7 +62,7 @@ package
 		public static var ScreenHeight:int;
 		public var defaultHealth:int; //TODO: Should be in creature
 		public var defaultSpeed:Number; //TODO: Should be in creature... also why int and not Number?
-		
+			
 		/**
 		 * Constructs and initializes the Box2D b2World.
 		 */
@@ -123,15 +125,15 @@ package
 			var newX:Number;
 			var newY:Number;
 			// On the vertical edges.
-			newX = (Math.random() * ScreenWidth);
+			newX = (Math.random() * (ScreenWidth/2)+AEWorld.player.x);
 			
 			//Randomly generating the distance that the image is seen from
 			var viewDistance:int = Math.round(Math.random()*5)+5;
 			
-			//TODO: Have to set the y buffer based on the view distance
-			newY = ScreenHeight-yBuffer/viewDistance;
+			//Set the bubble based on where the player is now at
+			newY = (ScreenHeight/2)-(yBuffer/viewDistance) + AEWorld.player.y;
 			
-			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance, FlxG.camera);
+			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance);
 			//Making the object float as it is a bubble right now
 			backgroundObject.floatUpward();
 			
@@ -149,7 +151,7 @@ package
 				//Randomly generating the distance that the image is seen from
 				var viewDistance:int = Math.round(Math.random()*5)+5;
 				
-				var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance, FlxG.camera);
+				var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance);
 				//Making the object float as it is a bubble right now
 				backgroundObject.floatUpward();
 				
@@ -179,6 +181,8 @@ package
 		    AEWorld.player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
 			var start_adaptation : Adaptation = (new Tentacle(new b2Vec2(0, 0)));
 //			var start_adaptation : Adaptation = (new Spike(new b2Vec2(0, 0)));
+			//Have the camera follow the player
+			FlxG.camera.follow(AEWorld.player);
 			this.add(start_adaptation);
 		}
 		
@@ -253,7 +257,7 @@ package
 			}
 			
 			//Randomly add background image
-			if(Math.random() < 0.01){
+			if(Math.random() < 0.05){
 				drawBackgroundObject(128, 128);	
 			}
 			
