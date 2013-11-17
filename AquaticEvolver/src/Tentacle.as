@@ -6,11 +6,9 @@ package
 	
 	import org.flixel.FlxG;
 	
-	public class Tentacle extends Adaptation
+	public class Tentacle extends Appendage
 	{
 		private var tentacleMidSegments:int = 5;
-		
-		private var jointPos:b2Vec2;
 		
 		// tentacle joint locations
 		private var tentacleSegmentStartJoint:b2Vec2 = new b2Vec2(0,-20);

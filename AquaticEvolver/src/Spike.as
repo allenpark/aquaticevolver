@@ -6,9 +6,8 @@ package
 	
 	import org.flixel.*;
 	
-	public class Spike extends Adaptation
+	public class Spike extends Appendage
 	{
-		private var jointPos:b2Vec2;
 		
 		// spike joint location
 		private var spikeJoint:b2Vec2 = new b2Vec2(0,45);
