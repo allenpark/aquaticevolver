@@ -90,8 +90,10 @@ package
 			if (seeSomething) {
 				this.moveTowardsEnemy(AEWorld.player);
 				if (weakestStrength == 0) {
+					//trace("RUN AWAY");
 					//this.runAwayFromEnemy(enemies.members[strongestIndex]);
 				} else {
+					//trace("MOVE TOWARDS");
 					//this.moveTowardsEnemy(enemies.members[weakestIndex]);
 				}
 			} else {
@@ -127,6 +129,12 @@ package
 			var randomX:Number = Math.random() * 2.0 - 1;
 			var randomY:Number = Math.random() * 2.0 - 1;
 			_obj.ApplyImpulse(getForceVec(randomX, randomY, super.speed), _obj.GetPosition());
+		}
+		
+		override protected function bodyBuilder():B2BodyBuilder
+		{
+			var bodyBuilder:B2BodyBuilder = super.bodyBuilder().withB2FlxSprite(this);
+			return bodyBuilder;
 		}
 	}
 }
