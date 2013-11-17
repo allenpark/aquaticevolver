@@ -12,7 +12,8 @@ package {
 		public var currentHealth:int;
 		public var maxHealth:int;
 		public var healthDisplay:FlxText;
-		public var adaptationGroup:FlxGroup;
+		//public var adaptationGroup:FlxGroup;
+		public var adaptations:Array;
 		public var attackingWith:Adaptation; // null if not attacking right now.
 		// Legal values of mode include:
 		// "attacking", "running", "wandering". Change this.update() if this is changed. 
@@ -28,22 +29,35 @@ package {
 			this.healthDisplay = new FlxText(0, 0, 50);
 			this.healthDisplay.size = 7;
 			this.attackingWith = null;
-			this.adaptationGroup = new FlxGroup();
+			//this.adaptationGroup = new FlxGroup();
+			this.adaptations = new Array();
 		}
 		
 		public function addAdaptation(adapt:Adaptation):void {
-			this.adaptationGroup.add(adapt);
+			//this.adaptationGroup.add(adapt);
+			this.adaptations.push(adapt);
+			adapt.addToCreature(this);
+		}
+		
+		public function removeAdaptation(adaptIndex:int):void {
+			if (adaptIndex >= 0 && adaptIndex < this.adaptations.length) {
+				var adapt:Adaptation = this.adaptations.splice(adaptIndex, 1)[0];
+				adapt.removeFromCreature(this);
+			}
 		}
 		
 		// This method is called often to update the state of the creature.
 		override public function update():void {
+			super.update();
 			//			this.adaptationGroup.setAll("x", this.x + 10);
 
 			//			this.adaptationGroup.setAll("y", this.y);			
-			for (var i:int = 0; i < this.adaptationGroup.length; i++) {
-				this.adaptationGroup.members[i].update();
+			//for (var i:int = 0; i < this.adaptationGroup.length; i++) {
+				//this.adaptationGroup.members[i].update();
+			//}
+			for (var i:int = 0; i < this.adaptations.length; i++) {
+				this.adaptations[i].update();
 			}
-			super.update();
 		}
 		
 		// Handling when one of your appendages collides with an enemy body.
@@ -99,7 +113,8 @@ package {
 		
 		// Returns a random phenotype.
 		public function selectTrait():Adaptation {
-			return Adaptation(this.adaptationGroup.getRandom());
+			//return Adaptation(this.adaptationGroup.getRandom());
+			return this.adaptations[Math.floor(Math.random() * this.adaptations.length)];
 		}
 		
 		public function equals(creature:Creature):Boolean {
