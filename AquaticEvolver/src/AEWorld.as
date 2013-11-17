@@ -177,8 +177,8 @@ package
 		private function initializePlayer():void
 		{
 		    AEWorld.player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
-			var start_adaptation : Adaptation = (new Tentacle(new b2Vec2(0, 0)));
-//			var start_adaptation : Adaptation = (new Spike(new b2Vec2(0, 0)));
+			var start_adaptation : Adaptation = new Tentacle(new b2Vec2(0, 0), player);
+//			var start_adaptation : Adaptation = new Spike(new b2Vec2(0, 0), player);
 			this.add(start_adaptation);
 		}
 		

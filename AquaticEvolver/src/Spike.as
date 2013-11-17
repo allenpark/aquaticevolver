@@ -17,14 +17,14 @@ package
 		public static var spikeImg:Class;
 		
 		// jointPos is given from the local box2D coordinate system of the player and is the location of the attached point for the adatation
-		public function Spike(jointPos:b2Vec2)
+		public function Spike(jointPos:b2Vec2, owner:Creature)
 		{
-			super("spike", 20, true, 1, jointPos);
+			super("spike", 20, true, 1, jointPos, owner);
 			
 			var world:b2World = AEWorld.AEB2World;
 			
 			// create the sprite
-			var sprite:B2FlxSprite = new B2FlxSprite(0,0,spikeImg,32,128);
+			var sprite:B2FlxSprite = new BoxSpike(0,0,spikeImg,32,128);
 			this.add(sprite);
 			
 			// create the jointDef
