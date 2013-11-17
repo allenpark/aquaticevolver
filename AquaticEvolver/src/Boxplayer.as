@@ -33,76 +33,56 @@ package
 			this.addAnimation("idle", [0]);
 			this.addAnimation("walk", [0, 1, 2, 1], 5);
 		}
-		override public function update():void
-		{
+		
+		override public function update():void {
+			super.update();
 			if (!FlxG.paused) {
 				var xDir:Number = 0;
 				var yDir:Number = 0;
 				// moving the player based on the arrow keys inputs
-				if (FlxG.keys.LEFT && FlxG.keys.RIGHT)
-				{
-				}
-				else if (FlxG.keys.LEFT)
-				{
+				if (FlxG.keys.LEFT && FlxG.keys.RIGHT) {
+				} else if (FlxG.keys.LEFT) {
 //					trace("BoxPlayer: left");
 					xDir = -1*this.speed;
-				}
-				else if (FlxG.keys.RIGHT)
-				{
+				} else if (FlxG.keys.RIGHT) {
 //					trace("BoxPlayer: right");
 					xDir = 1*this.speed;
 				}
 					
-				if (FlxG.keys.UP && FlxG.keys.DOWN)
-				{
-				}
-				else if (FlxG.keys.UP)
-				{
+				if (FlxG.keys.UP && FlxG.keys.DOWN)	{
+				} else if (FlxG.keys.UP) {
 //					trace("BoxPlayer: up");
 					yDir = -1*this.speed;
-				}
-				else if (FlxG.keys.DOWN)
-				{
+				} else if (FlxG.keys.DOWN) {
 //					trace("BoxPlayer: down");
 					yDir = 1*this.speed;
 				}
 				
-				
 				// playing the correct animation
-				if (FlxG.keys.LEFT ||FlxG.keys.RIGHT || FlxG.keys.UP || FlxG.keys.DOWN){
+				if (FlxG.keys.LEFT ||FlxG.keys.RIGHT || FlxG.keys.UP || FlxG.keys.DOWN) {
 					this.play("walk");
 //					FlxG.play(moveAction,0.5,false);
-					
-				}
-				else
+				} else {
 					this.play("idle");
-			
-				if(defaultMovementScheme)
-				{
-					_obj.ApplyImpulse(getForceVec(xDir, yDir), _obj.GetPosition());					
 				}
-				else
-				{
-					var angle = _obj.GetAngle();
+			
+				if(defaultMovementScheme) {
+					_obj.ApplyImpulse(getForceVec(xDir, yDir), _obj.GetPosition());					
+				} else {
+					var angle:Number = _obj.GetAngle();
 					var force:b2Vec2 = new b2Vec2(0.001 * Math.sin(angle) * yDir * -1, 0.001 * Math.cos(angle) * yDir);
 					_obj.ApplyImpulse(force, _obj.GetPosition());
-					var torque = 5;
+					var torque:Number = 5.0;
 					_obj.SetAngularVelocity(torque * xDir);
 				}
-				
-				super.update();
 			}
 		}
 		
-		private function getForceVec(xDir:Number, yDir:Number):b2Vec2
-		{
+		private function getForceVec(xDir:Number, yDir:Number):b2Vec2 {
 			var vec:b2Vec2;
-			if ( xDir != 0 && yDir != 0)
-			{
+			if ( xDir != 0 && yDir != 0) {
 				vec = new b2Vec2(xDir * 1/Math.sqrt(2), yDir * 1/Math.sqrt(2));
-			}
-			else
-			{
+			} else {
 				vec = new b2Vec2(xDir, yDir);
 			}
 			vec.Multiply(0.001);
