@@ -7,8 +7,8 @@ package {
 		
 		protected var jointPos:b2Vec2;
 		
-		public function Appendage(name:String, cost:int, isAttack:Boolean, attackDamage:int, jointPos:b2Vec2) {
-			super(name, cost, isAttack, attackDamage);
+		public function Appendage(name:String, cost:int, isAttack:Boolean, attackDamage:int, jointPos:b2Vec2, owner:Creature) {
+			super(name, cost, isAttack, attackDamage, owner);
 			this.jointPos = jointPos;
 		}
 		

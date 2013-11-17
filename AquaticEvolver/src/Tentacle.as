@@ -27,9 +27,9 @@ package
 		public static var tentacleMidImg:Class;
 		
 		// jointPos is given from the local box2D coordinate system of the player and is the location of the attached point for the adatation
-		public function Tentacle(jointPos:b2Vec2)
+		public function Tentacle(jointPos:b2Vec2, owner:Creature)
 		{
-			super("tentacle", 50, true, 2, jointPos);
+			super("tentacle", 50, true, 2, jointPos, owner);
 			
 			var world:b2World = AEWorld.AEB2World;
 			
@@ -40,7 +40,7 @@ package
 			for (var i:int = 0; i < tentacleMidSegments; i++) {
 				
 				// create the sprite
-				sprite = new TentacleMid(0,0,tentacleMidImg,32,64);
+				sprite = new BoxTentacleMid(0,0,tentacleMidImg,32,64);
 				this.add(sprite);
 				
 				// create the jointDef
@@ -57,6 +57,7 @@ package
 				revoluteJointDef.localAnchorB = convertToBox2D(tentacleSegmentStartJoint);
 				FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
 				revoluteJointDef.referenceAngle = 0;
+				revoluteJointDef.enableLimit = true;
 				revoluteJointDef.lowerAngle = -Math.PI/4;
 				revoluteJointDef.upperAngle = Math.PI/4;
 				revoluteJointDef.collideConnected = false;
@@ -66,7 +67,7 @@ package
 			}
 			
 			// create the sprite
-			sprite = new TentacleHead(0,0,tentacleHeadImg,32,64);
+			sprite = new BoxTentacleHead(0,0,tentacleHeadImg,32,64);
 			this.add(sprite);
 			
 			// create the jointDef
