@@ -54,8 +54,8 @@ package
 		/* We should probably refer to these as "cameraX", etc., unless it doesn't
 		* actually mean what I think it means. -- Nick Benson - 10/28
 		*/
-		public static var ScreenX:int; // The x coordinate of the upper left corner of the screen.
-		public static var ScreenY:int; // The y coordinate of the upper left corner of the screen.
+		public static var ScreenX:int; // The x coordinate measured from the upper left corner of the screen.
+		public static var ScreenY:int; // The y coordinate measured from the upper left corner of the screen.
 		public static var ScreenWidth:int;
 		public static var ScreenHeight:int;
 		public var defaultHealth:int; //TODO: Should be in creature
@@ -119,6 +119,25 @@ package
 			addCreature(newEnemy);
 		}
 		
+		public function drawBackgroundObject(xBuffer:int = 0, yBuffer: int =0):void{
+			var newX:Number;
+			var newY:Number;
+			// On the vertical edges.
+			newX = (Math.random() * ScreenWidth);
+			
+			//Randomly generating the distance that the image is seen from
+			var viewDistance:int = Math.round(Math.random()*5)+5;
+			
+			//TODO: Have to set the y buffer based on the view distance
+			newY = ScreenHeight-yBuffer/viewDistance;
+			
+			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance, FlxG.camera);
+			//Making the object float as it is a bubble right now
+			backgroundObject.floatUpward();
+			
+			this.add(backgroundObject);			
+		}
+		
 		private function addCreature(creature:Creature):void
 		{
 			this.add(creature);
@@ -140,7 +159,8 @@ package
 		{
 
 		    AEWorld.player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
-			var start_adaptation : Adaptation = (new Adaptation('spike', player.x, player.y, 0));
+			var start_adaptation : Adaptation = (new Tentacle(new b2Vec2(0, 0)));
+//			var start_adaptation : Adaptation = (new Spike(new b2Vec2(0, 0)));
 			this.add(start_adaptation);
 		}
 		
@@ -168,6 +188,7 @@ package
 			FlxG.paused = false;
 			paused = new pausescreen;
 		}
+		
 		
 		override public function create():void
 		{
@@ -207,7 +228,12 @@ package
 			AEB2World.Step(1.0/60.0, 10, 10);
 			
 			if (Math.random() < 0.02 && BoxEnemy.getEnemiesLength() < 30) {
-				addOffscreenEnemy(15, 15);
+//				addOffscreenEnemy(15, 15);
+			}
+			
+			//Randomly add background image
+			if(Math.random() < 0.01){
+				drawBackgroundObject(128, 128);	
 			}
 			
 			//Box2D debug stuff

@@ -26,7 +26,7 @@ package
 		 */
 		static public var enemies:FlxGroup = new FlxGroup();
 		
-		static public function generateBoxEnemy(newX, newY, defaultSpeed, curHealth, maxHealth):BoxEnemy {
+		static public function generateBoxEnemy(newX:Number, newY:Number, defaultSpeed:Number, curHealth:Number, maxHealth:Number):BoxEnemy {
 			var newEnemy:BoxEnemy = new BoxEnemy(newX, newY, defaultSpeed, curHealth, maxHealth, new Array());
 			enemies.add(newEnemy);
 			return newEnemy;
@@ -46,7 +46,7 @@ package
 				var randomAdaptation:Adaptation = adaptations[Math.floor(Math.random() * adaptations.length)]; 
 				adaptArray.push(randomAdaptation);
 				//Subtracting the selected adaptation's "power" from the remaining value
-				remainingValue -= (randomAdaptation.attackDamage + randomAdaptation.attackPower);
+				remainingValue -= (randomAdaptation.attackDamage + randomAdaptation.attackDamage);
 			}
 			
 			return adaptArray;
@@ -130,6 +130,12 @@ package
 			var randomX:Number = Math.random() * 2.0 - 1;
 			var randomY:Number = Math.random() * 2.0 - 1;
 			_obj.ApplyImpulse(getForceVec(randomX, randomY, super.speed), _obj.GetPosition());
+		}
+		
+		override protected function bodyBuilder():B2BodyBuilder
+		{
+			var bodyBuilder:B2BodyBuilder = super.bodyBuilder().withB2FlxSprite(this);
+			return bodyBuilder;
 		}
 	}
 }

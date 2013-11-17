@@ -108,14 +108,14 @@ package
 			vec.Multiply(0.001);
 			return vec;
 		}
-		/*
+		
 		override protected function bodyBuilder():B2BodyBuilder
 		{
 			var b2bb:B2BodyBuilder = super.bodyBuilder()
 				.withFriction(0.8).withRestitution(0.3).withDensity(0.1)
-				.withLinearDamping(10.0).withAngularDamping(40.0);
+				.withLinearDamping(10.0).withAngularDamping(40.0)
+				.withB2FlxSprite(this);
 			return b2bb;
 		}
-		*/
 	}
 }
