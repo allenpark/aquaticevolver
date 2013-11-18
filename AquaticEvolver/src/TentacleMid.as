@@ -2,6 +2,7 @@ package
 {
 	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Dynamics.*;
+	import B2Builder.B2BodyBuilder;
 
 	public class TentacleMid extends B2FlxSprite
 	{

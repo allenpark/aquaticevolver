@@ -1,15 +1,17 @@
 package Creature
 {
+	import B2Builder.B2RevoluteJointBuilder;
+	
 	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
 	
 	public class AECreature
 	{
-		private var _head:AEHead;
-		private var _torso:AETorso;
-		private var _tail:AETail;
+		protected var _head:AEHead;
+		protected var _torso:AETorso;
+		protected var _tail:AETail;
 		
-		private static const HalfHeadSwivel:Number = Math.PI/4.0;
-		private static const HalfTailSwivel:Number = Math.PI/4.0;
+		private static const HeadSwivel:Number = Math.PI/2.0;
+		private static const TailSwivel:Number = Math.PI/2.0;
 		
 		public function AECreature(x:Number, y:Number, head:AEHead, torso:AETorso, tail:AETail)
 		{
@@ -17,36 +19,25 @@ package Creature
 			_torso = torso;
 			_tail = tail;
 			
+			//TODO: is having a null torso vaild? eg. head-tail architecture?
 			attachHeadTorsoTail();
 		}
 		
 		private function attachHeadTorsoTail():void
 		{
+			//TODO: Should Head -- Torso -- Tail attaching with weld joints be included??
+			
 			//Head -- Torso
-			var headJoint:b2RevoluteJointDef = new  b2RevoluteJointDef();
-			headJoint.bodyA = _head.headSegment;
-			headJoint.localAnchorA = _head.headAnchor;
-			headJoint.bodyB = _torso.headSegment;
-			headJoint.localAnchorB = _torso.headAnchor;
-			//TODO: set reference angle appropriately
-			headJoint.referenceAngle = 0;
-			headJoint.enableLimit = true;
-			headJoint.lowerAngle = -HalfHeadSwivel;
-			headJoint.upperAngle = HalfHeadSwivel;
-			AEWorld.AEB2World.CreateJoint(headJoint);
+			new B2RevoluteJointBuilder().withBodyA(_head.headSegment.getBody()).withLocalAnchorA(_head.headAnchor)
+				.withBodyB(_torso.headSegment.getBody()).withLocalAnchorB(_torso.headAnchor)
+				.withEnabledLimit().withSwivelAngle(HeadSwivel)
+				.build();
 			
 			//Torso -- Tail
-			var tailJoint:b2RevoluteJointDef = new b2RevoluteJointDef();
-			tailJoint.bodyA = _torso.tailSegment;
-			tailJoint.localAnchorA = _torso.tailAnchor;
-			tailJoint.bodyB = _tail.tailSegment;
-			tailJoint.localAnchorB = _tail.tailAnchor;
-			//TODO: set reference angle appropriately
-			tailJoint.referenceAngle = 0;
-			tailJoint.enableLimit = true;
-			tailJoint.lowerAngle = -HalfTailSwivel;
-			tailJoint.upperAngle = HalfTailSwivel;
-			AEWorld.AEB2World.CreateJoint(tailJoint);
+			new B2RevoluteJointBuilder().withBodyA(_torso.tailSegment.getBody()).withLocalAnchorA(_torso.tailAnchor)
+				.withBodyB(_tail.tailSegment.getBody()).withLocalAnchorB(_tail.tailAnchor)
+				.withEnabledLimit().withSwivelAngle(TailSwivel)
+				.build();
 		}
 	}
 }

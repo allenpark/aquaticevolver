@@ -9,6 +9,7 @@ package
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxState;
+	import B2Builder.B2BodyBuilder;
 	
 	public class Boxplayer extends Creature
 	{
@@ -67,15 +68,15 @@ package
 				}
 			
 				if(defaultMovementScheme) {
-					_obj.ApplyImpulse(getForceVec(xDir, yDir), _obj.GetPosition());					
+					body.ApplyImpulse(getForceVec(xDir, yDir), body.GetPosition());					
 				}
 				else
 				{
-					var angle:int = _obj.GetAngle();
+					var angle:int = body.GetAngle();
 					var force:b2Vec2 = new b2Vec2(0.001 * Math.sin(angle) * yDir * -1, 0.001 * Math.cos(angle) * yDir);
-					_obj.ApplyImpulse(force, _obj.GetPosition());
+					body.ApplyImpulse(force, body.GetPosition());
 					var torque:int = 5;
-					_obj.SetAngularVelocity(torque * xDir);
+					body.SetAngularVelocity(torque * xDir);
 				}
 			}
 		}

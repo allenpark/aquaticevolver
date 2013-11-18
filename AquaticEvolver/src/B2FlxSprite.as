@@ -5,10 +5,11 @@ package
 	import Box2D.Dynamics.b2Body;
 	
 	import org.flixel.FlxSprite;
+	import B2Builder.B2BodyBuilder;
 	
 	public class B2FlxSprite extends FlxSprite
 	{
-		protected var _obj:b2Body;
+		protected var body:b2Body;
 		
 		public function B2FlxSprite(x:int, y:int, Graphic:Class=null, width:Number=0, height:Number=0):void
 		{
@@ -16,7 +17,7 @@ package
 			if (Graphic) {
 				this.loadGraphic(Graphic,true,true,width,height);
 			}
-			_obj = bodyBuilder().build();
+			body = bodyBuilder().build();
 		}
 		
 		/*
@@ -30,9 +31,9 @@ package
 		
 		override public function update():void
 		{
-			x = AEWorld.flxXFromB2X(_obj.GetPosition().x, width);
-			y = AEWorld.flxYFromB2Y(_obj.GetPosition().y, height);
-			angle = AEWorld.flxAngleFromB2Angle(_obj.GetAngle());
+			x = AEWorld.flxXFromB2X(body.GetPosition().x, width);
+			y = AEWorld.flxYFromB2Y(body.GetPosition().y, height);
+			angle = AEWorld.flxAngleFromB2Angle(body.GetAngle());
 			super.update();
 		}
 		
@@ -47,13 +48,13 @@ package
 		
 		override public function kill():void
 		{
-			AEWorld.AEB2World.DestroyBody(this._obj);
+			AEWorld.AEB2World.DestroyBody(this.body);
 			super.kill();
 		}
 		
-		public function get_obj():b2Body
+		public function getBody():b2Body
 		{
-			return _obj;
+			return body;
 		}
 	}
 }

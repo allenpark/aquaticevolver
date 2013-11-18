@@ -244,7 +244,6 @@ package
 		
 		override public function update():void 
 		{
-			//initialization
 			super.update();
 			AEB2World.Step(1.0/60.0, 10, 10);
 			

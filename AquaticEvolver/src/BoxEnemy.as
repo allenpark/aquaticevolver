@@ -5,6 +5,7 @@ package
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
+	import B2Builder.B2BodyBuilder;
 
 	public class BoxEnemy extends Creature
 	{
@@ -114,7 +115,7 @@ package
 			var dirX:int = (enemy.x - this.x);
 			var dirY:int = (enemy.y - this.y);
 			var forceVec:b2Vec2 = getForceVec(dirX, dirY, impulseSize);
-		    _obj.ApplyImpulse(forceVec, _obj.GetPosition());
+		    body.ApplyImpulse(forceVec, body.GetPosition());
         }
 
 		// Returns a vector in the (xDir, yDir) direction with a magnitude of impulseSize * 0.001.
@@ -128,7 +129,7 @@ package
 		public function moveAround():void {
 			var randomX:Number = Math.random() * 2.0 - 1;
 			var randomY:Number = Math.random() * 2.0 - 1;
-			_obj.ApplyImpulse(getForceVec(randomX, randomY, super.speed), _obj.GetPosition());
+			body.ApplyImpulse(getForceVec(randomX, randomY, super.speed), body.GetPosition());
 		}
 		
 		override protected function bodyBuilder():B2BodyBuilder

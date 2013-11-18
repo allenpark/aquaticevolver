@@ -45,8 +45,8 @@ package
 				
 				// create the jointDef
 				revoluteJointDef = new b2RevoluteJointDef();
-				revoluteJointDef.bodyA = prevSprite.get_obj();
-				revoluteJointDef.bodyB = sprite.get_obj();
+				revoluteJointDef.bodyA = prevSprite.getBody();
+				revoluteJointDef.bodyB = sprite.getBody();
 				if (i == 0){
 					revoluteJointDef.localAnchorA = new b2Vec2(jointPos.x,jointPos.y);
 				}else
@@ -71,8 +71,8 @@ package
 			
 			// create the jointDef
 			revoluteJointDef = new b2RevoluteJointDef();
-			revoluteJointDef.bodyA = prevSprite.get_obj();
-			revoluteJointDef.bodyB = sprite.get_obj();
+			revoluteJointDef.bodyA = prevSprite.getBody();
+			revoluteJointDef.bodyB = sprite.getBody();
 			if (tentacleMidSegments == 0)
 			{
 				revoluteJointDef.localAnchorA = new b2Vec2(jointPos.x,jointPos.y);

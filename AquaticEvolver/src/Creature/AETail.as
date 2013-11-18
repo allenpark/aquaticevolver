@@ -1,15 +1,16 @@
 package Creature
 {
 	import Box2D.Common.Math.b2Vec2;
-	import Box2D.Dynamics.b2Body;
 
 	public class AETail
 	{
-		public var tailSegment:b2Body;
+		public var tailSegment:AESegment;
 		public var tailAnchor:b2Vec2;
 		
-		public function AETail()
+		public function AETail(tailSegment:AESegment, tailAnchor:b2Vec2)
 		{
+			this.tailSegment = tailSegment;
+			this.tailAnchor = tailAnchor;
 		}
 	}
 }
