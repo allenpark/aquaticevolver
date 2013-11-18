@@ -4,9 +4,7 @@ package
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2World;
 	
-	import org.flixel.FlxCamera;
 	import org.flixel.FlxG;
-	import org.flixel.FlxGroup;
 	import org.flixel.FlxState;
 	
 	public class AEWorld extends FlxState
@@ -19,6 +17,11 @@ package
 		
 		//Flx debugging
 		FlxG.debug = true;
+		/**
+		 * Boolean to have the camera follow the player set to false
+		 *if you don't want the camera to follow player
+		 */
+		private var FOLLOWINGPLAYER:Boolean = false;
 		
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
@@ -133,14 +136,20 @@ package
 		public function drawBackgroundObject(xBuffer:int = 0, yBuffer: int =0):void{
 			var newX:Number;
 			var newY:Number;
-			// On the vertical edges.
-			newX = (Math.random() * (ScreenWidth/2)+AEWorld.player.x);
 			
 			//Randomly generating the distance that the image is seen from
 			var viewDistance:int = Math.round(Math.random()*5)+5;
-			
-			//Set the bubble based on where the player is now at
-			newY = (ScreenHeight/2)-(yBuffer/viewDistance) + AEWorld.player.y;
+
+			if(FOLLOWINGPLAYER){
+				//Randomly drawn on horizontal axis based on the player's position
+				newX = (Math.random() * ((ScreenWidth/2) - xBuffer/viewDistance)+AEWorld.player.x);
+				//Set the object at the bottom of the screen based on player's position
+				newY = (ScreenHeight/2)-(yBuffer/viewDistance) + AEWorld.player.y;
+				
+			}else{
+				newX = (Math.random() * (ScreenWidth-xBuffer/viewDistance));
+				newY = (Math.random() * (ScreenHeight-yBuffer/viewDistance));
+			}
 			
 			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance);
 			//Making the object float as it is a bubble right now
@@ -192,7 +201,9 @@ package
 //			var start_adaptation : Adaptation = (new Spike(new b2Vec2(0, 0)));
 			//Have the camera follow the player
 			player.addAdaptation(start_adaptation);
-			FlxG.camera.follow(AEWorld.player);
+			if(FOLLOWINGPLAYER){
+				FlxG.camera.follow(AEWorld.player);
+			}
 			this.add(start_adaptation);
 		}
 		
