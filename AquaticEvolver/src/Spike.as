@@ -24,13 +24,13 @@ package
 			var world:b2World = AEWorld.AEB2World;
 			
 			// create the sprite
-			var sprite:B2FlxSprite = new BoxSpike(0,0,spikeImg,32,128);
+			var sprite:B2FlxSprite = new BoxSpike(0,0,owner,spikeImg,32,128);
 			this.add(sprite);
 			
 			// create the jointDef
 			var weldJointDef:b2WeldJointDef = new b2WeldJointDef();
-			weldJointDef.bodyA = AEWorld.player.get_obj();
-			weldJointDef.bodyB = sprite.get_obj();
+			weldJointDef.bodyA = owner.getBody();
+			weldJointDef.bodyB = sprite.getBody();
 			weldJointDef.localAnchorA = jointPos;
 			FlxG.log("AanchorCoords = " + weldJointDef.localAnchorA.x + ", " + weldJointDef.localAnchorA.y);
 			weldJointDef.localAnchorB = convertToBox2D(spikeJoint);
