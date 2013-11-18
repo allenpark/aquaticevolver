@@ -277,40 +277,41 @@ package
 		
 		override public function update():void 
 		{
-			super.update();
-			AEB2World.Step(1.0/60.0, 10, 10);
-			processKillList();
-			
-			if (Math.random() < 0.02 && BoxEnemy.getEnemiesLength() < 30) {
-				addOffscreenEnemy(15, 15);
-			}
-			
-			//Randomly add background image
-			if(Math.random() < 0.05){
-				drawBackgroundObject(128, 128);	
-			}
-			
-			//Box2D debug stuff
-			if (AquaticEvolver.box2dDebug) {
-				
-				AEB2World.DrawDebugData();
-			}
-			if(FlxG.keys.justPressed("D")){
-				toggleB2DebugDrawing();
-			}
-			
-			//TODO: We should revamp pausing... this isn't the best way of doing it, but it gets the job done for now
 			if (!paused.showing) {		
-				if(FlxG.keys.justPressed("P")){
-					paused = new pausescreen();
-					paused.displayPaused();
-					add(paused);		
-					FlxG.music.pause();
-				} 
 
-				if(FlxG.keys.justPressed("G")){
-					FlxG.switchState(new GameOverState)				
+				super.update();
+				AEB2World.Step(1.0/60.0, 10, 10);
+				processKillList();
+				
+				if (Math.random() < 0.02 && BoxEnemy.getEnemiesLength() < 30) {
+					addOffscreenEnemy(15, 15);
 				}
+				
+				//Randomly add background image
+				if(Math.random() < 0.05){
+					drawBackgroundObject(128, 128);	
+				}
+				
+				//Box2D debug stuff
+				if (AquaticEvolver.box2dDebug) {
+					
+					AEB2World.DrawDebugData();
+				}
+				if(FlxG.keys.justPressed("D")){
+					toggleB2DebugDrawing();
+				}
+				
+				//TODO: We should revamp pausing... this isn't the best way of doing it, but it gets the job done for now
+					if(FlxG.keys.justPressed("P")){
+						paused = new pausescreen();
+						paused.displayPaused();
+						add(paused);		
+						FlxG.music.pause();
+					} 
+	
+					if(FlxG.keys.justPressed("G")){
+						FlxG.switchState(new GameOverState)				
+					}
 			}
 			else
 			{

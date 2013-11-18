@@ -10,7 +10,7 @@ package
 	import org.flixel.FlxG;
 	import org.flixel.FlxState;
 	import B2Builder.B2BodyBuilder;
-	import org.osmf.layout.AbsoluteLayoutFacet;
+	//import org.osmf.layout.AbsoluteLayoutFacet;
 	
 	public class Boxplayer extends Creature
 	{
