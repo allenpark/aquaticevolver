@@ -21,7 +21,7 @@ package
 		 * Boolean to have the camera follow the player set to false
 		 *if you don't want the camera to follow player
 		 */
-		private var FOLLOWINGPLAYER:Boolean = false;
+		private var FOLLOWINGPLAYER:Boolean = true;
 		
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
@@ -144,11 +144,11 @@ package
 				//Randomly drawn on horizontal axis based on the player's position
 				newX = (Math.random() * ((ScreenWidth/2) - xBuffer/viewDistance)+AEWorld.player.x);
 				//Set the object at the bottom of the screen based on player's position
-				newY = (ScreenHeight/2)-(yBuffer/viewDistance) + AEWorld.player.y;
+				newY = (ScreenHeight/2)+ AEWorld.player.y-(yBuffer/viewDistance) ;
 				
 			}else{
 				newX = (Math.random() * (ScreenWidth-xBuffer/viewDistance));
-				newY = (Math.random() * (ScreenHeight-yBuffer/viewDistance));
+				newY = (ScreenHeight-yBuffer/viewDistance);
 			}
 			
 			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance);
@@ -288,7 +288,7 @@ package
 				}
 				
 				//Randomly add background image
-				if(Math.random() < 0.05){
+				if(Math.random() < 0.01){
 					drawBackgroundObject(128, 128);	
 				}
 				
