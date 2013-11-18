@@ -10,6 +10,7 @@ package
 	import org.flixel.FlxG;
 	import org.flixel.FlxState;
 	import B2Builder.B2BodyBuilder;
+	import org.osmf.layout.AbsoluteLayoutFacet;
 	
 	public class Boxplayer extends Creature
 	{
@@ -33,6 +34,15 @@ package
 			//SETTING ANIMATIONS
 			this.addAnimation("idle", [0]);
 			this.addAnimation("walk", [0, 1, 2, 1], 5);
+			this.creatureType = SpriteType.PLAYER;
+		}
+		
+		private function attack():void
+		{
+			for each (var adapt:Adaptation in adaptations)
+			{
+				adapt.attack();
+			}
 		}
 		
 		override public function update():void {
@@ -40,6 +50,15 @@ package
 			if (!FlxG.paused) {
 				var xDir:Number = 0;
 				var yDir:Number = 0;
+				
+				//Attacking
+				//if(FlxG.mouse.justPressed())
+				if(FlxG.mouse.pressed())
+				{
+					attack();
+				}
+				
+				
 				// moving the player based on the arrow keys inputs
 				if (FlxG.keys.LEFT && FlxG.keys.RIGHT) {
 				} else if (FlxG.keys.LEFT) {
@@ -97,7 +116,7 @@ package
 			var b2bb:B2BodyBuilder = super.bodyBuilder()
 				.withFriction(0.8).withRestitution(0.3).withDensity(0.1)
 				.withLinearDamping(10.0).withAngularDamping(40.0)
-				.withB2FlxSprite(this);
+				.withData(new CollisionData(this, SpriteType.PLAYER));
 			return b2bb;
 		}
 	}

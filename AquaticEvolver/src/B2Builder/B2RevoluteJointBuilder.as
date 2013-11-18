@@ -5,44 +5,15 @@ package B2Builder
 	import Box2D.Dynamics.Joints.b2RevoluteJoint;
 	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
 	
-	public class B2RevoluteJointBuilder
+	public class B2RevoluteJointBuilder extends B2JointBuilder
 	{
-		private var _bodyA:b2Body;
-		private var _bodyB:b2Body;
-		private var _localAnchorA:b2Vec2;
-		private var _localAnchorB:b2Vec2;
-		private var _referenceAngle:Number = 0;
-		private var _enableLimit:Boolean = false;
-		private var _lowerAngle:Number = -Math.PI/4;
-		private var _upperAngle:Number = Math.PI/4;
+		private var _enableLimit:Boolean;
+		private var _lowerAngle:Number = Math.PI/4.0;
+		private var _upperAngle:Number = Math.PI/4.0;
 		
-		public function B2RevoluteJointBuilder()
+		public function B2RevoluteJointBuilder(bodyA:b2Body, bodyB:b2Body, localAnchorA:b2Vec2, localAnchorB:b2Vec2)
 		{
-		}
-		
-		public function withBodyA(bodyA:b2Body):B2RevoluteJointBuilder{
-			_bodyA = bodyA;
-			return this;
-		}
-		
-		public function withBodyB(bodyB:b2Body):B2RevoluteJointBuilder{
-			_bodyB = bodyB;
-			return this;
-		}
-		
-		public function withLocalAnchorA(localAnchorA:b2Vec2):B2RevoluteJointBuilder{
-			_localAnchorA = localAnchorA;
-			return this;
-		}
-		
-		public function withLocalAnchorB(localAnchorB:b2Vec2):B2RevoluteJointBuilder{
-			_localAnchorB = localAnchorB;
-			return this;
-		}
-		
-		public function withReferenceAngle(referenceAngle:Number):B2RevoluteJointBuilder{
-			_referenceAngle = referenceAngle;
-			return this;
+			super(bodyA, bodyB, localAnchorA, localAnchorB);
 		}
 		
 		public function withEnabledLimit():B2RevoluteJointBuilder{

@@ -49,6 +49,7 @@ package
 		override public function kill():void
 		{
 			AEWorld.AEB2World.DestroyBody(this.body);
+			trace("kill body");
 			super.kill();
 		}
 		

@@ -2,11 +2,13 @@ package
 {
 	import flash.display.Sprite;
 	
+	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2DebugDraw;
 	import Box2D.Dynamics.b2World;
 	
 	public class DebugDraw extends Sprite
 	{
+		
 		public function DebugDraw() 
 		{
 			super();

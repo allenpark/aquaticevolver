@@ -4,6 +4,7 @@ package
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2World;
 	
+	import org.flixel.FlxCamera;
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxState;
@@ -34,6 +35,7 @@ package
 		
 		
 		public static var collisionHandler:AECollisionListener;
+
 		
 		/**
 		 * The pull of gravity. There is normal gravity underwater, but there are
@@ -41,7 +43,7 @@ package
 		 * to get it to feel right. We should also treat this as a constant and
 		 * only ever modify it HERE in the code.
 		 * Remember, Box2D works in kilograms, meters, and seconds. This constant
-		 * is in m^2 / s^2.
+		 * is in m / s^2.
 		 * -- Nick Benson - 10/28/2013
 		 */
 		public var GRAVITY:b2Vec2 = new b2Vec2(0, 0);
@@ -60,6 +62,15 @@ package
 		public static var ScreenHeight:int;
 		public var defaultHealth:int; //TODO: Should be in creature
 		public var defaultSpeed:Number; //TODO: Should be in creature... also why int and not Number?
+			
+		/**
+		 * During collision handling a body can't be killed because it may still be colliding with 
+		 * other bodies. Therefore, during the world update we kill anything that should be dead
+		 * with accordance to the previous step. Those creatures are stored in this list
+		 * 
+		 * - MARCEL 11/17/13
+		 */
+		public static var KILLLIST:Array = new Array();
 		
 		/**
 		 * Constructs and initializes the Box2D b2World.
@@ -123,15 +134,15 @@ package
 			var newX:Number;
 			var newY:Number;
 			// On the vertical edges.
-			newX = (Math.random() * ScreenWidth);
+			newX = (Math.random() * (ScreenWidth/2)+AEWorld.player.x);
 			
 			//Randomly generating the distance that the image is seen from
 			var viewDistance:int = Math.round(Math.random()*5)+5;
 			
-			//TODO: Have to set the y buffer based on the view distance
-			newY = ScreenHeight-yBuffer/viewDistance;
+			//Set the bubble based on where the player is now at
+			newY = (ScreenHeight/2)-(yBuffer/viewDistance) + AEWorld.player.y;
 			
-			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance, FlxG.camera);
+			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance);
 			//Making the object float as it is a bubble right now
 			backgroundObject.floatUpward();
 			
@@ -149,7 +160,7 @@ package
 				//Randomly generating the distance that the image is seen from
 				var viewDistance:int = Math.round(Math.random()*5)+5;
 				
-				var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance, FlxG.camera);
+				var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance);
 				//Making the object float as it is a bubble right now
 				backgroundObject.floatUpward();
 				
@@ -176,9 +187,12 @@ package
 		
 		private function initializePlayer():void
 		{
-		    AEWorld.player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
-			var start_adaptation : Adaptation = (new Tentacle(new b2Vec2(0, 0)));
+		    player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
+			var start_adaptation : Adaptation = (new Tentacle(new b2Vec2(0, 0), player));
 //			var start_adaptation : Adaptation = (new Spike(new b2Vec2(0, 0)));
+			//Have the camera follow the player
+			player.addAdaptation(start_adaptation);
+			FlxG.camera.follow(AEWorld.player);
 			this.add(start_adaptation);
 		}
 		
@@ -242,22 +256,32 @@ package
 			AquaticEvolver.DEBUG_SPRITE.visible = AquaticEvolver.box2dDebug;
 		}
 		
+		private function processKillList():void
+		{
+			while (KILLLIST.length>0)
+			{
+				KILLLIST.pop().kill();
+			}
+		}
+		
 		override public function update():void 
 		{
 			super.update();
 			AEB2World.Step(1.0/60.0, 10, 10);
+			processKillList();
 			
 			if (Math.random() < 0.02 && BoxEnemy.getEnemiesLength() < 30) {
-//				addOffscreenEnemy(15, 15);
+				addOffscreenEnemy(15, 15);
 			}
 			
 			//Randomly add background image
-			if(Math.random() < 0.01){
+			if(Math.random() < 0.05){
 				drawBackgroundObject(128, 128);	
 			}
 			
 			//Box2D debug stuff
 			if (AquaticEvolver.box2dDebug) {
+				
 				AEB2World.DrawDebugData();
 			}
 			if(FlxG.keys.justPressed("D")){
