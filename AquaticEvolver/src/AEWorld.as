@@ -62,6 +62,15 @@ package
 		public var defaultSpeed:Number; //TODO: Should be in creature... also why int and not Number?
 		
 		/**
+		 * During collision handling a body can't be killed because it may still be colliding with 
+		 * other bodies. Therefore, during the world update we kill anything that should be dead
+		 * with accordance to the previous step. Those creatures are stored in this list
+		 * 
+		 * - MARCEL 11/17/13
+		 */
+		public static var KILLLIST:Array = new Array();
+		
+		/**
 		 * Constructs and initializes the Box2D b2World.
 		 */
 		private function createBox2DWorld():void {
@@ -176,7 +185,7 @@ package
 		
 		private function initializePlayer():void
 		{
-		    AEWorld.player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
+		    player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
 			var start_adaptation : Adaptation = new Tentacle(new b2Vec2(0, 0), player);
 //			var start_adaptation : Adaptation = new Spike(new b2Vec2(0, 0), player);
 			this.add(start_adaptation);
@@ -242,14 +251,23 @@ package
 			AquaticEvolver.DEBUG_SPRITE.visible = AquaticEvolver.box2dDebug;
 		}
 		
+		private function processKillList():void
+		{
+			while (KILLLIST.length>0)
+			{
+				KILLLIST.pop().kill();
+			}
+		}
+		
 		override public function update():void 
 		{
 			//initialization
 			super.update();
 			AEB2World.Step(1.0/60.0, 10, 10);
+			processKillList();
 			
 			if (Math.random() < 0.02 && BoxEnemy.getEnemiesLength() < 30) {
-//				addOffscreenEnemy(15, 15);
+				addOffscreenEnemy(15, 15);
 			}
 			
 			//Randomly add background image

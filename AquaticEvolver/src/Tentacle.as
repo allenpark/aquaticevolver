@@ -40,7 +40,8 @@ package
 			for (var i:int = 0; i < tentacleMidSegments; i++) {
 				
 				// create the sprite
-				sprite = new BoxTentacleMid(0,0,tentacleMidImg,32,64);
+				trace(owner);
+				sprite = new BoxTentacleMid(0,0,owner,tentacleMidImg,32,64);
 				this.add(sprite);
 				
 				// create the jointDef
@@ -67,7 +68,7 @@ package
 			}
 			
 			// create the sprite
-			sprite = new BoxTentacleHead(0,0,tentacleHeadImg,32,64);
+			sprite = new BoxTentacleHead(0,0,owner,tentacleHeadImg,32,64);
 			this.add(sprite);
 			
 			// create the jointDef

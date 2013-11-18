@@ -18,6 +18,7 @@ package {
 		// Legal values of mode include:
 		// "attacking", "running", "wandering". Change this.update() if this is changed. 
 		public var mode:String;
+		public var creatureType:Number;
 		
 		public function Creature(x:Number, y:Number, Graphic:Class=null, speed:Number=1, health:int=10, maxHealth:int=10,  width:Number=0, height:Number=0) {
 			super(x,y,Graphic, width, height);
@@ -31,6 +32,7 @@ package {
 			this.attackingWith = null;
 			//this.adaptationGroup = new FlxGroup();
 			this.adaptations = new Array();
+			this.creatureType = SpriteType.NEUTRAL;
 		}
 		
 		public function addAdaptation(adapt:Adaptation):void {

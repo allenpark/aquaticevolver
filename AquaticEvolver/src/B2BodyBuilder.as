@@ -20,7 +20,7 @@ package
 		private var _linearDamping:Number;
 		private var _angularDamping:Number;
 		
-		private var _creature:*;
+		private var _data:*;
 		
 		public function B2BodyBuilder()
 		{
@@ -40,7 +40,7 @@ package
 			_linearDamping = 0.0;
 			_angularDamping = 0.0;
 			
-			_creature = 0;
+			_data = 0;
 		}
 		
 		public function withFriction(b2Friction:Number):B2BodyBuilder
@@ -97,9 +97,10 @@ package
 			return this;
 		}
 		
-		public function withB2FlxSprite(b2spr:*):B2BodyBuilder
+		public function withData(b2spr:CollisionData):B2BodyBuilder
 		{
-			_creature = b2spr;
+			trace(b2spr);
+			_data = b2spr;
 			return this;
 		}
 		
@@ -118,7 +119,7 @@ package
 			bodyDef.type = _type;
 			bodyDef.linearDamping = _linearDamping;
 			bodyDef.angularDamping = _angularDamping;
-			bodyDef.userData = _creature;
+			bodyDef.userData = _data;
 			
 			var body:b2Body = AEWorld.AEB2World.CreateBody(bodyDef);
 			body.CreateFixture(fixDef);

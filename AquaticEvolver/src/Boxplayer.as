@@ -32,6 +32,7 @@ package
 			//SETTING ANIMATIONS
 			this.addAnimation("idle", [0]);
 			this.addAnimation("walk", [0, 1, 2, 1], 5);
+			this.creatureType = SpriteType.PLAYER;
 		}
 		
 		override public function update():void {
@@ -96,7 +97,7 @@ package
 			var b2bb:B2BodyBuilder = super.bodyBuilder()
 				.withFriction(0.8).withRestitution(0.3).withDensity(0.1)
 				.withLinearDamping(10.0).withAngularDamping(40.0)
-				.withB2FlxSprite(this);
+				.withData(new CollisionData(this, SpriteType.PLAYER));
 			return b2bb;
 		}
 	}
