@@ -18,6 +18,7 @@ package
 			this.maxVelocity.y = 80;
 			this.drag.x = this.maxVelocity.x * 2;
 			this.drag.y = this.maxVelocity.y * 2;
+			this.creatureType = SpriteType.ENEMY;
 		}
 		
 		/**
@@ -133,7 +134,7 @@ package
 		
 		override protected function bodyBuilder():B2BodyBuilder
 		{
-			var bodyBuilder:B2BodyBuilder = super.bodyBuilder().withB2FlxSprite(this);
+			var bodyBuilder:B2BodyBuilder = super.bodyBuilder().withData(new CollisionData(this, SpriteType.ENEMY));
 			return bodyBuilder;
 		}
 	}

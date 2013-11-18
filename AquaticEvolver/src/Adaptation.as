@@ -43,6 +43,11 @@ package {
 			creature.speed -= this.speedBoost;
 		}
 		
+		public function attack():void
+		{
+			//override this function
+		}
+		
 		override public function update():void {
 			super.update();
 		}
