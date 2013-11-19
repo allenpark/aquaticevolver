@@ -10,11 +10,27 @@ package Creature
 		
 		public var headAnchor:b2Vec2;
 		public var tailAnchor:b2Vec2;
+				
+		public var appendageSlots:Array;
 		
-		public var adaptationSlots:Array;
-		
-		public function AETorso()
+		public function AETorso(headSegment, headAnchor, torsoSegments, tailSegment, tailAnchor)
 		{
+			this.headSegment = headSegment;
+			this.headAnchor = headAnchor;
+			this.torsoSegments = torsoSegments;
+			this.tailSegment = tailSegment;
+			this.tailAnchor = tailAnchor;
+			
+			initializeAppendageSlots();
+		}
+		
+		private function initializeAppendageSlots():void
+		{
+			appendageSlots = new Array();
+			for (var segment:AESegment in torsoSegments)
+			{
+				appendageSlots.concat(segment.appendageSlots);
+			}
 		}
 	}
 }
