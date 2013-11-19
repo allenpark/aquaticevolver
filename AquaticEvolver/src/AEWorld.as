@@ -24,11 +24,16 @@ package
 		private var FOLLOWINGPLAYER:Boolean = true;
 		
 		/**
+		 * Boolean to spawn enemies
+		 */
+		private var SPAWNENEMIES:Boolean = true;
+		
+		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
 		 * -- MRP - 11/11/2013
 		 */
 		public static var player:Creature;
-
+		
 		/**
 		 * The box2D world, into which we must add all Box2D objects if
 		 * we want them to be a part of the simulation that Box2D runs.
@@ -38,7 +43,7 @@ package
 		
 		
 		public static var collisionHandler:AECollisionListener;
-
+		
 		
 		/**
 		 * The pull of gravity. There is normal gravity underwater, but there are
@@ -55,7 +60,7 @@ package
 		 * 
 		 */
 		private static const RATIO:Number = 100.0;
-
+		
 		/* We should probably refer to these as "cameraX", etc., unless it doesn't
 		* actually mean what I think it means. -- Nick Benson - 10/28
 		*/
@@ -65,7 +70,7 @@ package
 		public static var ScreenHeight:int;
 		public var defaultHealth:int; //TODO: Should be in creature
 		public var defaultSpeed:Number; //TODO: Should be in creature... also why int and not Number?
-			
+		
 		/**
 		 * During collision handling a body can't be killed because it may still be colliding with 
 		 * other bodies. Therefore, during the world update we kill anything that should be dead
@@ -139,7 +144,7 @@ package
 			
 			//Randomly generating the distance that the image is seen from
 			var viewDistance:int = Math.round(Math.random()*5)+5;
-
+			
 			if(FOLLOWINGPLAYER){
 				//Randomly drawn on horizontal axis based on the player's position
 				newX = (Math.random() * ((ScreenWidth/2) - xBuffer/viewDistance)+AEWorld.player.x);
@@ -196,9 +201,10 @@ package
 		
 		private function initializePlayer():void
 		{
-		    player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
-			var start_adaptation : Adaptation = (new Tentacle(new b2Vec2(0, 0), player));
-//			var start_adaptation : Adaptation = (new Spike(new b2Vec2(0, 0), player));
+			player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
+//						var start_adaptation : Adaptation = (new Spike(new b2Vec2(0, 0), 0, player));
+//						var start_adaptation : Adaptation = (new Tentacle(new b2Vec2(0, 0), 0, player));
+						var start_adaptation : Adaptation = (new Mandible(new b2Vec2(0, 0), 0, player));
 			//Have the camera follow the player
 			player.addAdaptation(start_adaptation);
 			if(FOLLOWINGPLAYER){
@@ -250,12 +256,15 @@ package
 			addCreature(player);	
 			
 			//Test enemy
-			var newEnemy:BoxEnemy = initializeTestEnemy();
-			addCreature(newEnemy);
+			if (SPAWNENEMIES)
+			{
+//				var newEnemy:BoxEnemy = initializeTestEnemy();
+//				addCreature(newEnemy);
+			}
 			
 			//Populating the world with some background objects
 			drawInitialBackgroundObjects();
-					
+			
 			//Debugging
 			setupB2Debug();
 			setupFlxDebug();
@@ -278,13 +287,16 @@ package
 		override public function update():void 
 		{
 			if (!paused.showing) {		
-
+				
 				super.update();
 				AEB2World.Step(1.0/60.0, 10, 10);
 				processKillList();
 				
 				if (Math.random() < 0.02 && BoxEnemy.getEnemiesLength() < 30) {
-					addOffscreenEnemy(15, 15);
+					if (SPAWNENEMIES)
+					{
+						addOffscreenEnemy(15, 15);
+					}
 				}
 				
 				//Randomly add background image
@@ -302,16 +314,16 @@ package
 				}
 				
 				//TODO: We should revamp pausing... this isn't the best way of doing it, but it gets the job done for now
-					if(FlxG.keys.justPressed("P")){
-						paused = new pausescreen();
-						paused.displayPaused();
-						add(paused);		
-						FlxG.music.pause();
-					} 
-	
-					if(FlxG.keys.justPressed("G")){
-						FlxG.switchState(new GameOverState)				
-					}
+				if(FlxG.keys.justPressed("P")){
+					paused = new pausescreen();
+					paused.displayPaused();
+					add(paused);		
+					FlxG.music.pause();
+				} 
+				
+				if(FlxG.keys.justPressed("G")){
+					FlxG.switchState(new GameOverState)				
+				}
 			}
 			else
 			{

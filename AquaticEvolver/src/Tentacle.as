@@ -19,9 +19,8 @@ package
 		private var tentacleSegmentStartJoint:b2Vec2 = new b2Vec2(0,-15);
 		private var tentacleSegmentEndJoint:b2Vec2 = new b2Vec2(0,15);
 		private var tentacleHeadJoint:b2Vec2 = new b2Vec2(0,19);
-		//		private var tentacleSegmentStartJoint:b2Vec2 = new b2Vec2(0,20);
-		//		private var tentacleSegmentEndJoint:b2Vec2 = new b2Vec2(0,44);
-		//		private var tentacleHeadJoint:b2Vec2 = new b2Vec2(0,20);
+		
+		private var jointAngleCorrection:Number = Math.PI;
 		
 		// images
 		[Embed(source='res/tentacleHead1.png')]
@@ -30,9 +29,10 @@ package
 		public static var tentacleMidImg:Class;
 		
 		// jointPos is given from the local box2D coordinate system of the player and is the location of the attached point for the adatation
-		public function Tentacle(jointPos:b2Vec2, owner:Creature)
+		public function Tentacle(jointPos:b2Vec2, jointAngle:Number, owner:Creature)
 		{
-			super("tentacle", 50, true, 2, jointPos, owner);
+			jointAngle = jointAngle + jointAngleCorrection;
+			super("tentacle", 50, true, 2, jointPos, jointAngle, owner);
 			
 			var world:b2World = AEWorld.AEB2World;
 			
@@ -52,15 +52,16 @@ package
 				revoluteJointDef.bodyA = prevSprite.getBody();
 				revoluteJointDef.bodyB = sprite.getBody();
 				if (i == 0){
-					revoluteJointDef.localAnchorA = new b2Vec2(jointPos.x,jointPos.y);
+					revoluteJointDef.localAnchorA = jointPos;
+					revoluteJointDef.referenceAngle = jointAngle;
 				}else
 				{
 					revoluteJointDef.localAnchorA = convertToBox2D(tentacleSegmentEndJoint);
+					revoluteJointDef.referenceAngle = 0;
 				}
 				FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);
 				revoluteJointDef.localAnchorB = convertToBox2D(tentacleSegmentStartJoint);
 				FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
-				revoluteJointDef.referenceAngle = 0;
 				revoluteJointDef.enableLimit = true;
 				revoluteJointDef.lowerAngle = -Math.PI/4;
 				revoluteJointDef.upperAngle = Math.PI/4;

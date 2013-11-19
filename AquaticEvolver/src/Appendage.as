@@ -6,10 +6,13 @@ package {
 	public class Appendage extends Adaptation {
 		
 		protected var jointPos:b2Vec2;
+		protected var jointAngle:Number;
 		
-		public function Appendage(name:String, cost:int, isAttack:Boolean, attackDamage:int, jointPos:b2Vec2, owner:Creature) {
+		public function Appendage(name:String, cost:int, isAttack:Boolean, attackDamage:int, jointPos:b2Vec2, jointAngle:Number, owner:Creature) {
 			super(name, cost, isAttack, attackDamage, owner);
 			this.jointPos = jointPos;
+			// jointAngle is given in radians with 0 defined as being completely vertical and positive clockwise
+			this.jointAngle = jointAngle;
 		}
 		
 		override public function update():void {
