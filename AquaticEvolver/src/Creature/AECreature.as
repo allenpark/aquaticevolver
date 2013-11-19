@@ -1,7 +1,7 @@
 package Creature
 {
 	import B2Builder.B2RevoluteJointBuilder;
-		
+			
 	public class AECreature
 	{
 		protected var _head:AEHead;
@@ -10,10 +10,8 @@ package Creature
 		
 		private var _adaptations:Array;
 		
-		//TODO: appendage slots should be handled at the head-torso-tail level (only if specific appendages can only be attached to a specific part)
-		private var _headAppendageSlots:Array;
-		private var _torsoAppendageSlots:Array;
-		private var _tailAppendageSlots:Array;
+		private var _unoccupiedAppendageSlots:Array;
+		private var _occupiedAppendageSlots:Array;
 		
 		private static const HeadSwivel:Number = Math.PI/2.0;
 		private static const TailSwivel:Number = Math.PI/2.0;
@@ -32,7 +30,7 @@ package Creature
 		
 		private function attachHeadTorsoTail():void
 		{
-			//TODO: Should Head -- Torso -- Tail attaching with weld joints be included??
+			//TODO: Should Head -- Torso -- Tail attaching with weld joints be included?? Currently, only revolute joints are used to connect head-torso-tail together
 			
 			//Head -- Torso
 			new B2RevoluteJointBuilder(_head.headSegment.getBody(), _torso.headSegment.getBody(), _head.headAnchor, _torso.headAnchor)
@@ -47,11 +45,28 @@ package Creature
 		
 		private function initializeAppendageSlots():void
 		{
+			_unoccupiedAppendageSlots = new Array()
+				.concat(_head.getAppendageSlots())
+				.concat(_torso.getAppendageSlots())
+				.concat(_tail.getAppendageSlots());
+			
+			_occupiedAppendageSlots = new Array();
 		}
 		
 		public function attachAppendage(appendage:Appendage):Boolean
 		{
-			return false;
+			if (_unoccupiedAppendageSlots.length == 0)
+			{
+				//TODO: Evolve a bigger body & attack the new appendage!
+				return false;
+			}
+			else
+			{
+				var appendageSlot:AESlot = _unoccupiedAppendageSlots.pop();
+				//TODO: attach appendage to appendageSlot
+				_occupiedAppendageSlots.push(appendageSlot);
+				return true;
+			}
 		}
 	}
 }

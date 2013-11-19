@@ -12,5 +12,10 @@ package Creature
 			this.tailSegment = tailSegment;
 			this.tailAnchor = tailAnchor;
 		}
+		
+		public function getAppendageSlots():Array
+		{
+			return tailSegment.appendageSlots;
+		}
 	}
 }

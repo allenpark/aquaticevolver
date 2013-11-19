@@ -1,5 +1,5 @@
 package Creature
-{
+{	
 	import Box2D.Common.Math.b2Vec2;
 
 	public class AETorso
@@ -11,8 +11,11 @@ package Creature
 		public var headAnchor:b2Vec2;
 		public var tailAnchor:b2Vec2;
 				
-		public var appendageSlots:Array;
+		private var _appendageSlots:Array;
 		
+		/**
+		 * IMPORTANT: An AETorso object requires that the headSegment, torsoSegments, and tailSegment be connected by joints BEFORE this constructor is called!
+		 */
 		public function AETorso(headSegment, headAnchor, torsoSegments, tailSegment, tailAnchor)
 		{
 			this.headSegment = headSegment;
@@ -26,11 +29,16 @@ package Creature
 		
 		private function initializeAppendageSlots():void
 		{
-			appendageSlots = new Array();
+			_appendageSlots = new Array();
 			for (var segment:AESegment in torsoSegments)
 			{
-				appendageSlots.concat(segment.appendageSlots);
+				_appendageSlots = _appendageSlots.concat(segment.appendageSlots);
 			}
+		}
+		
+		public function getAppendageSlots():Array
+		{
+			return _appendageSlots;
 		}
 	}
 }

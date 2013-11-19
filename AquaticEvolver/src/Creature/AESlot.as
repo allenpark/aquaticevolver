@@ -4,11 +4,13 @@ package Creature
 
 	public class AESlot
 	{
-		protected var slotLocation:b2Vec2;
-		protected var isEmpty:Boolean = false;
+		public var segment:AESegment;
+		public var slotLocation:b2Vec2;
 		
-		public function AESlot()
+		public function AESlot(segment:AESegment, slotLocation:b2Vec2)
 		{
+			this.segment = segment;
+			this.slotLocation = slotLocation;
 		}
 	}
 }

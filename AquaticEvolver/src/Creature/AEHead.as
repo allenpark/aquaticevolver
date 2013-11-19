@@ -12,5 +12,10 @@ package Creature
 			this.headSegment = headSegment;
 			this.headAnchor = headAnchor;
 		}
+		
+		public function getAppendageSlots():Array
+		{
+			return headSegment.appendageSlots;
+		}
 	}
 }
