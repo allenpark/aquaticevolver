@@ -37,7 +37,7 @@ package
 		{
 			
 			
-			_bg = new FlxSprite(30,30).makeGraphic(260, 200, 0xff808080);
+			_bg = new FlxSprite(30,30).makeGraphic(600, 600, 0xff808080);
 			_bg.scrollFactor.x = _bg.scrollFactor.y = 0;
 			add(_bg);
 			

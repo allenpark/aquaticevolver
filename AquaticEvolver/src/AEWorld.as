@@ -4,9 +4,7 @@ package
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2World;
 	
-	import org.flixel.FlxCamera;
 	import org.flixel.FlxG;
-	import org.flixel.FlxGroup;
 	import org.flixel.FlxState;
 	
 	public class AEWorld extends FlxState
@@ -19,6 +17,11 @@ package
 		
 		//Flx debugging
 		FlxG.debug = true;
+		/**
+		 * Boolean to have the camera follow the player set to false
+		 *if you don't want the camera to follow player
+		 */
+		private var FOLLOWINGPLAYER:Boolean = true;
 		
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
@@ -133,14 +136,20 @@ package
 		public function drawBackgroundObject(xBuffer:int = 0, yBuffer: int =0):void{
 			var newX:Number;
 			var newY:Number;
-			// On the vertical edges.
-			newX = (Math.random() * (ScreenWidth/2)+AEWorld.player.x);
 			
 			//Randomly generating the distance that the image is seen from
 			var viewDistance:int = Math.round(Math.random()*5)+5;
-			
-			//Set the bubble based on where the player is now at
-			newY = (ScreenHeight/2)-(yBuffer/viewDistance) + AEWorld.player.y;
+
+			if(FOLLOWINGPLAYER){
+				//Randomly drawn on horizontal axis based on the player's position
+				newX = (Math.random() * ((ScreenWidth/2) - xBuffer/viewDistance)+AEWorld.player.x);
+				//Set the object at the bottom of the screen based on player's position
+				newY = (ScreenHeight/2)+ AEWorld.player.y-(yBuffer/viewDistance) ;
+				
+			}else{
+				newX = (Math.random() * (ScreenWidth-xBuffer/viewDistance));
+				newY = (ScreenHeight-yBuffer/viewDistance);
+			}
 			
 			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance);
 			//Making the object float as it is a bubble right now
@@ -189,10 +198,12 @@ package
 		{
 		    player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
 			var start_adaptation : Adaptation = (new Tentacle(new b2Vec2(0, 0), player));
-//			var start_adaptation : Adaptation = (new Spike(new b2Vec2(0, 0)));
+//			var start_adaptation : Adaptation = (new Spike(new b2Vec2(0, 0), player));
 			//Have the camera follow the player
 			player.addAdaptation(start_adaptation);
-			FlxG.camera.follow(AEWorld.player);
+			if(FOLLOWINGPLAYER){
+				FlxG.camera.follow(AEWorld.player);
+			}
 			this.add(start_adaptation);
 		}
 		
@@ -266,40 +277,41 @@ package
 		
 		override public function update():void 
 		{
-			super.update();
-			AEB2World.Step(1.0/60.0, 10, 10);
-			processKillList();
-			
-			if (Math.random() < 0.02 && BoxEnemy.getEnemiesLength() < 30) {
-				addOffscreenEnemy(15, 15);
-			}
-			
-			//Randomly add background image
-			if(Math.random() < 0.05){
-				drawBackgroundObject(128, 128);	
-			}
-			
-			//Box2D debug stuff
-			if (AquaticEvolver.box2dDebug) {
-				
-				AEB2World.DrawDebugData();
-			}
-			if(FlxG.keys.justPressed("D")){
-				toggleB2DebugDrawing();
-			}
-			
-			//TODO: We should revamp pausing... this isn't the best way of doing it, but it gets the job done for now
 			if (!paused.showing) {		
-				if(FlxG.keys.justPressed("P")){
-					paused = new pausescreen();
-					paused.displayPaused();
-					add(paused);		
-					FlxG.music.pause();
-				} 
 
-				if(FlxG.keys.justPressed("G")){
-					FlxG.switchState(new GameOverState)				
+				super.update();
+				AEB2World.Step(1.0/60.0, 10, 10);
+				processKillList();
+				
+				if (Math.random() < 0.02 && BoxEnemy.getEnemiesLength() < 30) {
+					addOffscreenEnemy(15, 15);
 				}
+				
+				//Randomly add background image
+				if(Math.random() < 0.01){
+					drawBackgroundObject(128, 128);	
+				}
+				
+				//Box2D debug stuff
+				if (AquaticEvolver.box2dDebug) {
+					
+					AEB2World.DrawDebugData();
+				}
+				if(FlxG.keys.justPressed("D")){
+					toggleB2DebugDrawing();
+				}
+				
+				//TODO: We should revamp pausing... this isn't the best way of doing it, but it gets the job done for now
+					if(FlxG.keys.justPressed("P")){
+						paused = new pausescreen();
+						paused.displayPaused();
+						add(paused);		
+						FlxG.music.pause();
+					} 
+	
+					if(FlxG.keys.justPressed("G")){
+						FlxG.switchState(new GameOverState)				
+					}
 			}
 			else
 			{

@@ -36,7 +36,7 @@ package
 			
 			var world:b2World = AEWorld.AEB2World;
 			
-			var prevSprite:B2FlxSprite = AEWorld.player;
+			var prevSprite:B2FlxSprite = owner;
 			var sprite:B2FlxSprite;
 			
 			var revoluteJointDef:b2RevoluteJointDef;
