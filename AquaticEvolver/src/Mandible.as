@@ -29,7 +29,7 @@ package
 		public function Mandible(jointPos:b2Vec2, jointAngle, owner:Creature)
 		{
 			jointAngle = jointAngle + jointAngleCorrection;
-			super("mandible", 30, true, 2, jointPos, jointAngle, owner);
+			super(AppendageType.MANDIBLE, 30, true, 2, jointPos, jointAngle, owner);
 			
 			var world:b2World = AEWorld.AEB2World;
 			

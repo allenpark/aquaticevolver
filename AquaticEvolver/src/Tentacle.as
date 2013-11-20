@@ -32,7 +32,7 @@ package
 		public function Tentacle(jointPos:b2Vec2, jointAngle:Number, owner:Creature)
 		{
 			jointAngle = jointAngle + jointAngleCorrection;
-			super("tentacle", 50, true, 2, jointPos, jointAngle, owner);
+			super(AppendageType.TENTACLE, 50, true, 2, jointPos, jointAngle, owner);
 			
 			var world:b2World = AEWorld.AEB2World;
 			
