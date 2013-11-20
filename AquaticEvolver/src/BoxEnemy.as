@@ -1,11 +1,10 @@
 package
 {
-	import Box2D.Common.Math.b2Vec2;
-	import Box2D.Dynamics.b2World;
-	
-	import org.flixel.FlxG;
-	import org.flixel.FlxGroup;
 	import B2Builder.B2BodyBuilder;
+	
+	import Box2D.Common.Math.b2Vec2;
+	
+	import org.flixel.FlxGroup;
 
 	public class BoxEnemy extends Creature
 	{

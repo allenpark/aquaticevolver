@@ -26,7 +26,7 @@ package
 		/**
 		 * Boolean to spawn enemies
 		 */
-		private var SPAWNENEMIES:Boolean = true;
+		private var SPAWNENEMIES:Boolean = false;
 		
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
@@ -57,7 +57,7 @@ package
 		public var GRAVITY:b2Vec2 = new b2Vec2(0, 0);
 		
 		/**
-		 * 
+		 * Ratio of pixel (flixel coordinates) to meter (box2d coordinates).
 		 */
 		private static const RATIO:Number = 100.0;
 		
@@ -131,8 +131,7 @@ package
 			} else {
 				// On the horizontal edges.
 				newX = (Math.random() * (ScreenWidth + xBuffer) - xBuffer) + ScreenX;
-				newY = (Math.random() > 0.5 ? -yBuffer : ScreenHeight) + ScreenY;
-				
+				newY = (Math.random() > 0.5 ? -yBuffer : ScreenHeight) + ScreenY;	
 			}
 			var newEnemy:BoxEnemy = BoxEnemy.generateBoxEnemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth);
 			addCreature(newEnemy);
@@ -143,14 +142,27 @@ package
 			var newY:Number;
 			
 			//Randomly generating the distance that the image is seen from
-			var viewDistance:int = Math.round(Math.random()*5)+5;
+			var viewDistance:Number = (Math.random()*5)+5.0;
+			
+//			var xBuffwithDistance:Number = xBuffer/viewDistance;
+//			var yBuffwithDistance:Number = yBuffer/viewDistance;
+			
+			//Setting upper and lower bounds for the objects
+			var lowerXbound:Number = -(ScreenWidth / 2) - xBuffer/2;
+			var upperXbound:Number = (ScreenWidth / 2) - xBuffer/2;
+			var lowerYbound:Number = -(ScreenHeight / 2) - yBuffer/2;
+			var upperYbound:Number = (ScreenHeight / 2) - yBuffer/2;
 			
 			if(FOLLOWINGPLAYER){
-				//Randomly drawn on horizontal axis based on the player's position
-				newX = (Math.random() * ((ScreenWidth/2) - xBuffer/viewDistance)+AEWorld.player.x);
-				//Set the object at the bottom of the screen based on player's position
-				newY = (ScreenHeight/2)+ AEWorld.player.y-(yBuffer/viewDistance) ;
-				
+				if (Math.random() > 0.5) {
+					// On the vertical edges.
+					newX = (Math.random() > 0.5 ? lowerXbound: upperXbound) + FlxG.camera.scroll.x;
+					newY = (Math.random() * ScreenHeight)- ScreenHeight/2 + FlxG.camera.scroll.y;
+				} else {
+					// On the horizontal edges.
+					newX = (Math.random() * ScreenWidth)- ScreenWidth/2 + FlxG.camera.scroll.x;
+					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + FlxG.camera.scroll.y;	
+				}
 			}else{
 				newX = (Math.random() * (ScreenWidth-xBuffer/viewDistance));
 				newY = (ScreenHeight-yBuffer/viewDistance);
@@ -160,24 +172,23 @@ package
 			//Making the object float as it is a bubble right now
 			backgroundObject.floatUpward();
 			
-			this.add(backgroundObject);			
+			this.add(backgroundObject);
 		}
 		
 		private function drawInitialBackgroundObjects():void{
 			for(var i:int = 0; i<15; i++){
 				var newX:Number;
 				var newY:Number;
-				// On the vertical edges.
-				newX = (Math.random() * ScreenWidth);
-				newY = (Math.random() * ScreenHeight);
-				
+				// Randomly on the screen
+				newX = (Math.random() * ScreenWidth)-ScreenWidth/2;
+				newY = (Math.random() * ScreenHeight)-ScreenHeight/2;
 				//Randomly generating the distance that the image is seen from
-				var viewDistance:int = Math.round(Math.random()*5)+5;
+				var viewDistance:Number = Math.random()*5+5.0;
 				
 				var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance);
 				//Making the object float as it is a bubble right now
 				backgroundObject.floatUpward();
-				
+
 				this.add(backgroundObject);
 			}
 		}
@@ -196,7 +207,7 @@ package
 			ScreenWidth = FlxG.width;
 			ScreenHeight = FlxG.height;
 			this.defaultHealth = 10;
-			this.defaultSpeed = 1.0;
+			this.defaultSpeed = .2;
 		}
 		
 		private function initializePlayer():void
@@ -204,13 +215,14 @@ package
 			player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
 //						var start_adaptation : Adaptation = (new Spike(new b2Vec2(0, 0), 0, player));
 //						var start_adaptation : Adaptation = (new Tentacle(new b2Vec2(0, 0), 0, player));
-						var start_adaptation : Adaptation = (new Mandible(new b2Vec2(0, 0), 0, player));
+//						var start_adaptation : Adaptation = (new Mandible(new b2Vec2(0, 0), 0, player));
+			//			player.addAdaptation(start_adaptation);
+
 			//Have the camera follow the player
-			player.addAdaptation(start_adaptation);
 			if(FOLLOWINGPLAYER){
 				FlxG.camera.follow(AEWorld.player);
 			}
-			this.add(start_adaptation);
+//			this.add(start_adaptation);
 		}
 		
 		private function initializeTestEnemy():BoxEnemy
@@ -228,8 +240,8 @@ package
 		{
 			FlxG.watch(player, "x");
 			FlxG.watch(player, "y");
-			FlxG.watch(player, "width");
-			FlxG.watch(player, "height");
+			FlxG.watch(FlxG.camera.scroll, "x", "CameraX");
+			FlxG.watch(FlxG.camera.scroll, "y", "CameraY");
 		}
 		
 		private function setupPausing():void
@@ -258,8 +270,8 @@ package
 			//Test enemy
 			if (SPAWNENEMIES)
 			{
-//				var newEnemy:BoxEnemy = initializeTestEnemy();
-//				addCreature(newEnemy);
+				var newEnemy:BoxEnemy = initializeTestEnemy();
+				addCreature(newEnemy);
 			}
 			
 			//Populating the world with some background objects
@@ -300,7 +312,7 @@ package
 				}
 				
 				//Randomly add background image
-				if(Math.random() < 0.01){
+				if(Math.random() < 0.1){
 					drawBackgroundObject(128, 128);	
 				}
 				

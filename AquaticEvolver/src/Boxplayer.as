@@ -1,15 +1,10 @@
 package
 {
-	import Box2D.Collision.Shapes.b2PolygonShape;
+	import B2Builder.B2BodyBuilder;
+	
 	import Box2D.Common.Math.b2Vec2;
-	import Box2D.Dynamics.b2Body;
-	import Box2D.Dynamics.b2BodyDef;
-	import Box2D.Dynamics.b2FixtureDef;
-	import Box2D.Dynamics.b2World;
 	
 	import org.flixel.FlxG;
-	import org.flixel.FlxState;
-	import B2Builder.B2BodyBuilder;
 	//import org.osmf.layout.AbsoluteLayoutFacet;
 	
 	public class Boxplayer extends Creature
@@ -20,7 +15,7 @@ package
 		[Embed(source="res/jump.mp3")] 	
 		public var moveAction:Class;
 		
-		private var defaultMovementScheme:Boolean = false; 
+		private var defaultMovementScheme:Boolean = true; 
 		
 		public function Boxplayer(x:Number, y:Number,speed:Number, health:int, maxHealth:int, adaptations:Array) {
 			super(x,y,ImgPlayer,speed,health, maxHealth, 14, 15);

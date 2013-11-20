@@ -1,7 +1,7 @@
 // ActionScript file
 package{
 
-	import org.flixel.FlxCamera;
+	import org.flixel.FlxG;
 	import org.flixel.FlxSprite;
 	
 	/**
@@ -17,17 +17,19 @@ package{
 		private var MAXSCROLLSPEED:int = 150;
 
 		
-		public function BackgroundObject(x:int , y:int, viewDistance:int){
+		public function BackgroundObject(x:int , y:int, viewDistance:Number){
 			
 			this.loadGraphic(BubbleImg, false, false);
 			
 			this.viewDistance = viewDistance;
 			
-			this.x = x;
-			this.y = y;
 			//Setting background object's scroll factor for parallax scrolling
 			this.scrollFactor.x = 10*(1.0/viewDistance);
 			this.scrollFactor.y = 10*(1.0/viewDistance);
+			//Setting x and y coordinates based on the scroll factor to
+			//accoounmt for the camera moving the object based on it's scroll factor
+			this.x = (x*(this.scrollFactor.x))+FlxG.width/2;
+			this.y = (y*(this.scrollFactor.y))+FlxG.height/2;
 			//Adjusting the sprite's scale to appear smaller when further
 			this.scale.x = this.scale.y = (Math.random()*5+1)*(1.0/viewDistance);
 			
@@ -37,13 +39,19 @@ package{
 		
 		override public function update():void{
 			super.update();
-
+			var lowerYbound:Number = (-100 - FlxG.height/2)*this.scrollFactor.y + FlxG.camera.scroll.y;
+			var upperYbound:Number = (100 + FlxG.height/2)*this.scrollFactor.y + FlxG.camera.scroll.y;
+			var upperXbound:Number = (100 + FlxG.width/2)*this.scrollFactor.x + FlxG.camera.scroll.x;
+			var lowerXbound:Number = (-100 - FlxG.width/2)*this.scrollFactor.x + FlxG.camera.scroll.x;
+			
+			var withInYbounds:Boolean = this.y < upperYbound && this.y > lowerYbound;
+			var withInXbounds:Boolean = this.x < upperXbound && this.x > lowerXbound;
+			//TODO: update this so that bubbles can still be slighly off screen
 			//Make sure that the object is still on the screen
-			if(!this.onScreen(null)){
+			if(!(withInXbounds && withInYbounds)){
 				//CURRENTLY CRASHES GAME WHEN CALLED DON'T KNOW HOW TO CLEAN UP MEMORY
 //				this.destroy();
 				this.kill(); 
-				
 			}
 		}
 		

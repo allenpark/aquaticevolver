@@ -1,9 +1,9 @@
 // ActionScript file
 package {	
-	import org.flixel.FlxGroup;
+	import B2Builder.B2BodyBuilder;
+	
 	import org.flixel.FlxState;
 	import org.flixel.FlxText;
-	import B2Builder.B2BodyBuilder;
 	
 	public class Creature extends B2FlxSprite {
 		//public var x:int;
