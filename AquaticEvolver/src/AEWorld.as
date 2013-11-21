@@ -26,7 +26,7 @@ package
 		/**
 		 * Boolean to spawn enemies
 		 */
-		private var SPAWNENEMIES:Boolean = false;
+		private var SPAWNENEMIES:Boolean = true;
 		
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
@@ -217,7 +217,6 @@ package
 //						var start_adaptation : Adaptation = (new Tentacle(new b2Vec2(0, 0), 0, player));
 //						var start_adaptation : Adaptation = (new Mandible(new b2Vec2(0, 0), 0, player));
 			//			player.addAdaptation(start_adaptation);
-
 			//Have the camera follow the player
 			if(FOLLOWINGPLAYER){
 				FlxG.camera.follow(AEWorld.player);

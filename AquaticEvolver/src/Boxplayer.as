@@ -2,9 +2,16 @@ package
 {
 	import B2Builder.B2BodyBuilder;
 	
+	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Common.Math.b2Vec2;
+	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
+	import Box2D.Dynamics.b2Body;
+	import Box2D.Dynamics.b2World;
 	
 	import org.flixel.FlxG;
+	import org.flixel.FlxPoint;
+	import org.flixel.FlxText;
+
 	//import org.osmf.layout.AbsoluteLayoutFacet;
 	
 	public class Boxplayer extends Creature
@@ -40,6 +47,13 @@ package
 			}
 		}
 		
+		private function calcB2Impulse(mousePoint:FlxPoint, bodyPoint:FlxPoint):b2Vec2
+		{
+			var angle = Math.atan2(mousePoint.y - bodyPoint.y,mousePoint.x - bodyPoint.x);
+			var magnitude:Number = 0.002;
+			return new b2Vec2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
+		}
+		
 		override public function update():void {
 			super.update();
 			if (!FlxG.paused) {
@@ -50,7 +64,15 @@ package
 				//if(FlxG.mouse.justPressed())
 				if(FlxG.mouse.pressed())
 				{
-					attack();
+					
+					//var mousePoint:FlxPoint = FlxG.mouse.getScreenPosition();
+					var mousePoint:FlxPoint = new FlxPoint(FlxG.mouse.screenX, FlxG.mouse.screenY);
+					var playerPoint:FlxPoint = this.getScreenXY();
+					body.ApplyImpulse(calcB2Impulse(mousePoint, playerPoint), body.GetPosition());
+					//attack();
+					
+					
+					
 				}
 				
 				
