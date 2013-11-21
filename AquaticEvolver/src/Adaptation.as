@@ -6,7 +6,6 @@ package {
 	
 	public class Adaptation extends FlxGroup {
 		
-		public var name:String;
 		public var cost:int;
 		public var isAttack:Boolean;
 		public var attackDamage:int;
@@ -14,9 +13,8 @@ package {
 		public var healthBoost:int;
 		public var owner:Creature;
 		
-		public function Adaptation(name:String, cost:int, isAttack:Boolean, attackDamage:int, owner:Creature) {
+		public function Adaptation(cost:int, isAttack:Boolean, attackDamage:int, owner:Creature) {
 			super();
-			this.name = name;
 			this.cost = cost;
 			this.isAttack = isAttack;
 			if (!isAttack) {
