@@ -69,11 +69,10 @@ package
 					var mousePoint:FlxPoint = new FlxPoint(FlxG.mouse.screenX, FlxG.mouse.screenY);
 					var playerPoint:FlxPoint = this.getScreenXY();
 					body.ApplyImpulse(calcB2Impulse(mousePoint, playerPoint), body.GetPosition());
-					//attack();
+					attack();
 					
 					
-					
-				}
+				
 				
 				
 				// moving the player based on the arrow keys inputs
@@ -105,9 +104,7 @@ package
 			
 				if(defaultMovementScheme) {
 					body.ApplyImpulse(getForceVec(xDir, yDir), body.GetPosition());					
-				}
-				else
-				{
+				} else {
 					var angle:int = body.GetAngle();
 					var force:b2Vec2 = new b2Vec2(0.001 * Math.sin(angle) * yDir * -1, 0.001 * Math.cos(angle) * yDir);
 					body.ApplyImpulse(force, body.GetPosition());
@@ -115,6 +112,7 @@ package
 					body.SetAngularVelocity(torque * xDir);
 				}
 			}
+		}
 		}
 		
 		private function getForceVec(xDir:Number, yDir:Number):b2Vec2 {
