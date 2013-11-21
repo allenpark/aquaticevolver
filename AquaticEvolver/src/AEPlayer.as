@@ -2,6 +2,7 @@ package
 {
 	import Creature.AECreature;
 	import Creature.AEHead;
+	import Creature.AESegment;
 	import Creature.AETail;
 	import Creature.AETorso;
 	
@@ -18,10 +19,27 @@ package
 		
 		public function AEPlayer(x:Number, y:Number)
 		{	
-			var head:AEHead = new AEHead(); //Pass in image
-			var torso:AETorso = new AETorso(); //Pass in image
-			var tail:AETail = new AETail(); //Pass in image
+			var head:AEHead = playerHead(x,y);
+			var torso:AETorso = playerTorso();
+			var tail:AETail = playerTail();
 			super(x, y, head, torso, tail);
 		}
+		
+		private function playerHead(x:Number, y:Number):AEHead
+		{
+			var playerHeadSegment:AESegment = new AESegment(x,y,headSegmentImg, 128, 128);
+			var playerHead:AEHead = new new AEHead(playerHeadSegment, null);
+			return null;
+		}
+		
+		private function playerTorso():AETorso
+		{
+			return null;
+		}
+		
+		private function playerTail():AETail
+		{
+			return null;
+		}	
 	}
 }

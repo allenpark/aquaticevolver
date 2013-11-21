@@ -214,15 +214,15 @@ package
 		{
 			player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
 //						var start_adaptation : Adaptation = (new Spike(new b2Vec2(0, 0), 0, player));
-//						var start_adaptation : Adaptation = (new Tentacle(new b2Vec2(0, 0), 0, player));
+						var start_adaptation : Adaptation = (new Tentacle(new b2Vec2(0, 0), Math.PI, player));
 //						var start_adaptation : Adaptation = (new Mandible(new b2Vec2(0, 0), 0, player));
-			//			player.addAdaptation(start_adaptation);
+						player.addAdaptation(start_adaptation);
 
 			//Have the camera follow the player
 			if(FOLLOWINGPLAYER){
 				FlxG.camera.follow(AEWorld.player);
 			}
-//			this.add(start_adaptation);
+			this.add(start_adaptation);
 		}
 		
 		private function initializeTestEnemy():BoxEnemy
