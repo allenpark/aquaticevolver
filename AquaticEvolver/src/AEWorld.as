@@ -322,6 +322,9 @@ package
 				if(Math.random() < 0.1){
 					drawBackgroundObject(128, 128);	
 				}
+				AquaticEvolver.DEBUG_SPRITE.x = - FlxG.camera.scroll.x;
+				AquaticEvolver.DEBUG_SPRITE.y = - FlxG.camera.scroll.y;
+				
 				
 				//Box2D debug stuff
 				if (AquaticEvolver.box2dDebug) {
