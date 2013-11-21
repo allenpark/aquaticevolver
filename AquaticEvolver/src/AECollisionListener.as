@@ -27,12 +27,8 @@ package
 			var fixture2:b2Fixture = contact.GetFixtureB();
 			var data1:CollisionData = (fixture1.GetBody().GetUserData() as CollisionData);
 			var data2:CollisionData = (fixture2.GetBody().GetUserData() as CollisionData);
-			if (data1.owner.creatureType != SpriteType.ENEMY || data2.owner.creatureType != SpriteType.ENEMY) {
-				AEWorld.debugStatement.text += " " + data1.owner.creatureType + "/" + data2.owner.creatureType;
-			}
 			if(data1.owner.creatureType == SpriteType.PLAYER && data2.owner.creatureType == SpriteType.ENEMY)
 			{
-				AEWorld.debugStatement.text += "/" + data1.colliderType;
 				switch(data1.colliderType)
 				{
 					case SpriteType.TENTACLEHEAD:
@@ -48,7 +44,6 @@ package
 			}
 			if(data2.owner.creatureType == SpriteType.PLAYER && data1.owner.creatureType == SpriteType.ENEMY)
 			{
-				AEWorld.debugStatement.text += "/" + data2.colliderType;
 				switch(data2.colliderType)
 				{
 					case SpriteType.TENTACLEHEAD:

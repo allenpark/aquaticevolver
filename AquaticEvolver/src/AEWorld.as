@@ -45,9 +45,6 @@ package
 		
 		public static var collisionHandler:AECollisionListener;
 		
-		public static var debugStatement:FlxText;
-		
-		
 		/**
 		 * The pull of gravity. There is normal gravity underwater, but there are
 		 * counter-active bouyancy effects. We'll need to fiddle with this number
@@ -283,9 +280,6 @@ package
 			//Debugging
 			setupB2Debug();
 			setupFlxDebug();
-			
-			debugStatement = new FlxText(300, 200, 100, ""); 
-			this.add(debugStatement);
 		}
 		
 		public static function toggleB2DebugDrawing():void
