@@ -6,6 +6,7 @@ package
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxState;
+	import org.flixel.FlxText;
 	
 	public class AEWorld extends FlxState
 	{
@@ -26,7 +27,7 @@ package
 		/**
 		 * Boolean to spawn enemies
 		 */
-		private var SPAWNENEMIES:Boolean = false;
+		private var SPAWNENEMIES:Boolean = true;
 		
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
@@ -43,6 +44,8 @@ package
 		
 		
 		public static var collisionHandler:AECollisionListener;
+		
+		public static var debugStatement:FlxText;
 		
 		
 		/**
@@ -213,16 +216,16 @@ package
 		private function initializePlayer():void
 		{
 			player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
-//						var start_adaptation : Adaptation = (new Spike(new b2Vec2(0, 0), 0, player));
-//						var start_adaptation : Adaptation = (new Tentacle(new b2Vec2(0, 0), 0, player));
-//						var start_adaptation : Adaptation = (new Mandible(new b2Vec2(0, 0), 0, player));
-			//			player.addAdaptation(start_adaptation);
+			//var start_adaptation : Adaptation = (new Spike(new b2Vec2(0, 0), 0, player));
+			var start_adaptation : Adaptation = (new Tentacle(new b2Vec2(0, 0), 0, player));
+			//var start_adaptation : Adaptation = (new Mandible(new b2Vec2(0, 0), 0, player));
+			player.addAdaptation(start_adaptation);
 
 			//Have the camera follow the player
-			if(FOLLOWINGPLAYER){
+			if (FOLLOWINGPLAYER) {
 				FlxG.camera.follow(AEWorld.player);
 			}
-//			this.add(start_adaptation);
+			this.add(start_adaptation);
 		}
 		
 		private function initializeTestEnemy():BoxEnemy
@@ -280,9 +283,12 @@ package
 			//Debugging
 			setupB2Debug();
 			setupFlxDebug();
+			
+			debugStatement = new FlxText(300, 200, 100, ""); 
+			this.add(debugStatement);
 		}
 		
-		private function toggleB2DebugDrawing():void
+		public static function toggleB2DebugDrawing():void
 		{
 			AquaticEvolver.box2dDebug = !AquaticEvolver.box2dDebug;
 			AquaticEvolver.DEBUG_SPRITE.visible = AquaticEvolver.box2dDebug;
@@ -292,6 +298,9 @@ package
 		{
 			while (KILLLIST.length>0)
 			{
+				//var top:Array = KILLLIST.pop();
+				//var attacker:Boxplayer = top[0] as Boxplayer;
+				//var enemy:Boxplayer = top[1] as Boxplayer;
 				KILLLIST.pop().kill();
 			}
 		}

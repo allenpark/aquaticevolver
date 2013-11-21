@@ -1,10 +1,8 @@
 package
 {
-	import Box2D.Collision.*;
-	import Box2D.Collision.Shapes.*;
-	import Box2D.Dynamics.*;
-	import Box2D.Dynamics.Contacts.*;
 	import Box2D.Dynamics.b2ContactListener;
+	import Box2D.Dynamics.b2Fixture;
+	import Box2D.Dynamics.Contacts.b2Contact;
 	
 	public class AECollisionListener extends b2ContactListener
 	{
@@ -13,6 +11,10 @@ package
 		{
 			trace("player attacked enemy");
 			AEWorld.KILLLIST.push(enemy);
+			//var pair:Array = new Array();
+			//pair.push(player);
+			//pair.push(enemy);
+			//AEWorld.KILLLIST.push(pair);
 		}
 		
 		/**
@@ -25,11 +27,18 @@ package
 			var fixture2:b2Fixture = contact.GetFixtureB();
 			var data1:CollisionData = (fixture1.GetBody().GetUserData() as CollisionData);
 			var data2:CollisionData = (fixture2.GetBody().GetUserData() as CollisionData);
+			if (data1.owner.creatureType != SpriteType.ENEMY || data2.owner.creatureType != SpriteType.ENEMY) {
+				AEWorld.debugStatement.text += " " + data1.owner.creatureType + "/" + data2.owner.creatureType;
+			}
 			if(data1.owner.creatureType == SpriteType.PLAYER && data2.owner.creatureType == SpriteType.ENEMY)
 			{
+				AEWorld.debugStatement.text += "/" + data1.colliderType;
 				switch(data1.colliderType)
 				{
 					case SpriteType.TENTACLEHEAD:
+						handlePlayerTentacleAttack((data1.owner as Boxplayer), (data2.owner as BoxEnemy));
+						break;
+					case SpriteType.SPIKE:
 						handlePlayerTentacleAttack((data1.owner as Boxplayer), (data2.owner as BoxEnemy));
 						break;
 					default:
@@ -39,9 +48,13 @@ package
 			}
 			if(data2.owner.creatureType == SpriteType.PLAYER && data1.owner.creatureType == SpriteType.ENEMY)
 			{
-				switch(data1.colliderType)
+				AEWorld.debugStatement.text += "/" + data2.colliderType;
+				switch(data2.colliderType)
 				{
 					case SpriteType.TENTACLEHEAD:
+						handlePlayerTentacleAttack((data2.owner as Boxplayer), (data1.owner as BoxEnemy));
+						break;
+					case SpriteType.SPIKE:
 						handlePlayerTentacleAttack((data2.owner as Boxplayer), (data1.owner as BoxEnemy));
 						break;
 					default:

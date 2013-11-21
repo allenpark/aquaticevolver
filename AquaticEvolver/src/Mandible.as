@@ -41,11 +41,11 @@ package
 				
 				// create the sprites
 				trace(owner);
-				base = new BoxMandibleBase(0,0,owner,mandibleBaseImg,64,64);
+				base = new BoxMandibleBase(0, 0, owner, this, mandibleBaseImg, 64, 64);
 				this.add(base);
-				jaw = new BoxMandibleJaw(0,0,owner,mandibleJawImg,128,64);
+				jaw = new BoxMandibleJaw(0, 0, owner, this, mandibleJawImg, 128, 64);
 				this.add(jaw);
-				otherJaw = new BoxMandibleJaw(0,0,owner,mandibleOtherJawImg,128,64);
+				otherJaw = new BoxMandibleJaw(0, 0, owner, this, mandibleOtherJawImg, 128, 64);
 				this.add(otherJaw);
 				
 				// create the joint from base to creature

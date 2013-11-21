@@ -48,8 +48,7 @@ package
 				
 				//Attacking
 				//if(FlxG.mouse.justPressed())
-				if(FlxG.mouse.pressed())
-				{
+				if (FlxG.mouse.pressed()) {
 					attack();
 				}
 				
@@ -83,9 +82,7 @@ package
 			
 				if(defaultMovementScheme) {
 					body.ApplyImpulse(getForceVec(xDir, yDir), body.GetPosition());					
-				}
-				else
-				{
+				} else {
 					var angle:int = body.GetAngle();
 					var force:b2Vec2 = new b2Vec2(0.001 * Math.sin(angle) * yDir * -1, 0.001 * Math.cos(angle) * yDir);
 					body.ApplyImpulse(force, body.GetPosition());

@@ -19,8 +19,7 @@ package {
 			this.name = name;
 			this.cost = cost;
 			this.isAttack = isAttack;
-			if (!isAttack)
-			{
+			if (!isAttack) {
 				this.attackDamage = 0;
 			} else {
 				this.attackDamage = attackDamage
