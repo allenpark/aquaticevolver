@@ -15,7 +15,6 @@ package{
 		private var viewDistance:int;
 		
 		private var MAXSCROLLSPEED:int = 150;
-
 		
 		public function BackgroundObject(x:int , y:int, viewDistance:Number){
 			
@@ -30,6 +29,7 @@ package{
 			//accoounmt for the camera moving the object based on it's scroll factor
 			this.x = (x*(this.scrollFactor.x))+FlxG.width/2;
 			this.y = (y*(this.scrollFactor.y))+FlxG.height/2;
+			
 			//Adjusting the sprite's scale to appear smaller when further
 			this.scale.x = this.scale.y = (Math.random()*5+1)*(1.0/viewDistance);
 			
@@ -39,10 +39,11 @@ package{
 		
 		override public function update():void{
 			super.update();
-			var lowerYbound:Number = (-100 - FlxG.height/2)*this.scrollFactor.y + FlxG.camera.scroll.y;
-			var upperYbound:Number = (100 + FlxG.height/2)*this.scrollFactor.y + FlxG.camera.scroll.y;
-			var upperXbound:Number = (100 + FlxG.width/2)*this.scrollFactor.x + FlxG.camera.scroll.x;
-			var lowerXbound:Number = (-100 - FlxG.width/2)*this.scrollFactor.x + FlxG.camera.scroll.x;
+			//FIX THESE BOUNDS!!
+			var lowerYbound:Number = (-100 - FlxG.height/2) + FlxG.camera.scroll.y;
+			var upperYbound:Number = (100 + FlxG.height/2) + FlxG.camera.scroll.y;
+			var upperXbound:Number = (100 + FlxG.width/2) + FlxG.camera.scroll.x;
+			var lowerXbound:Number = (-100 - FlxG.width/2) + FlxG.camera.scroll.x;
 			
 			var withInYbounds:Boolean = this.y < upperYbound && this.y > lowerYbound;
 			var withInXbounds:Boolean = this.x < upperXbound && this.x > lowerXbound;

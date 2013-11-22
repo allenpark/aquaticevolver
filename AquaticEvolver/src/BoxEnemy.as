@@ -4,6 +4,7 @@ package
 	
 	import Box2D.Common.Math.b2Vec2;
 	
+	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
 
 	public class BoxEnemy extends Creature
@@ -11,7 +12,7 @@ package
 		public var aggroRadius:int = 200;
 		
 		public function BoxEnemy(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array) {
-			super(x,y,null,speed,health,maxHealth, width, height);
+			super(x+FlxG.width/2 ,y+FlxG.height/2,null,speed,health,maxHealth, width, height);
 			this.attackingWith = null;
 			
 			this.maxVelocity.x = 80;
@@ -54,14 +55,30 @@ package
 		
 		override public function update():void {			
 			super.update();
-
-			if (!this.onScreen(null))
-			{
+			
+			var lowerYbound:Number = (-100 - FlxG.height/2) + FlxG.camera.scroll.y;
+			var upperYbound:Number = (100 + FlxG.height/2) + FlxG.camera.scroll.y;
+			var upperXbound:Number = (100 - FlxG.width/2) + FlxG.camera.scroll.x;
+			var lowerXbound:Number = (-100 + FlxG.width/2) + FlxG.camera.scroll.x;
+			
+			var withInYbounds:Boolean = this.y < upperYbound && this.y > lowerYbound;
+			var withInXbounds:Boolean = this.x < upperXbound && this.x > lowerXbound;
+			//TODO: update this so that bubbles can still be slighly off screen
+			//Make sure that the object is still on the screen
+			if(!(withInXbounds && withInYbounds)){
 				enemies.remove(this, true);
 				this.kill();
 				this.destroy();
 				return;
 			}
+			
+//			if (!this.onScreen(null))
+//			{
+//				enemies.remove(this, true);
+//				this.kill();
+//				this.destroy();
+//				return;
+//			}
 			
 			updateMove();
 		}

@@ -124,14 +124,23 @@ package
 		public function addOffscreenEnemy(xBuffer: int = 0, yBuffer: int = 0):void {
 			var newX:Number;
 			var newY:Number;
-			if (Math.random() > 0.5) {
-				// On the vertical edges.
-				newX = (Math.random() > 0.5 ? -xBuffer : ScreenWidth) + ScreenX;
-				newY = (Math.random() * (ScreenHeight + yBuffer) - yBuffer) + ScreenY;
-			} else {
-				// On the horizontal edges.
-				newX = (Math.random() * (ScreenWidth + xBuffer) - xBuffer) + ScreenX;
-				newY = (Math.random() > 0.5 ? -yBuffer : ScreenHeight) + ScreenY;	
+			
+			//Setting upper and lower bounds for the objects
+			var lowerXbound:Number = -(ScreenWidth / 2) - xBuffer;
+			var upperXbound:Number = (ScreenWidth / 2) + xBuffer;
+			var lowerYbound:Number = -(ScreenHeight / 2) - yBuffer;
+			var upperYbound:Number = (ScreenHeight / 2) + yBuffer;
+			
+			if(FOLLOWINGPLAYER){
+				if (Math.random() > 0.5) {
+					// On the vertical edges.
+					newX = (Math.random() > 0.5 ? lowerXbound: upperXbound) + FlxG.camera.scroll.x;
+					newY = (Math.random() * ScreenHeight)- ScreenHeight/2 + FlxG.camera.scroll.y;
+				} else {
+					// On the horizontal edges.
+					newX = (Math.random() * ScreenWidth)- ScreenWidth/2 + FlxG.camera.scroll.x;
+					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + FlxG.camera.scroll.y;	
+				}
 			}
 			var newEnemy:BoxEnemy = BoxEnemy.generateBoxEnemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth);
 			addCreature(newEnemy);
@@ -144,14 +153,11 @@ package
 			//Randomly generating the distance that the image is seen from
 			var viewDistance:Number = (Math.random()*5)+5.0;
 			
-//			var xBuffwithDistance:Number = xBuffer/viewDistance;
-//			var yBuffwithDistance:Number = yBuffer/viewDistance;
-			
 			//Setting upper and lower bounds for the objects
 			var lowerXbound:Number = -(ScreenWidth / 2) - xBuffer/2;
-			var upperXbound:Number = (ScreenWidth / 2) - xBuffer/2;
+			var upperXbound:Number = (ScreenWidth / 2) + xBuffer/2;
 			var lowerYbound:Number = -(ScreenHeight / 2) - yBuffer/2;
-			var upperYbound:Number = (ScreenHeight / 2) - yBuffer/2;
+			var upperYbound:Number = (ScreenHeight / 2) + yBuffer/2;
 			
 			if(FOLLOWINGPLAYER){
 				if (Math.random() > 0.5) {
@@ -304,9 +310,9 @@ package
 				AEB2World.Step(1.0/60.0, 10, 10);
 				processKillList();
 				
-				if (Math.random() < 0.02 && BoxEnemy.getEnemiesLength() < 30) {
-					if (SPAWNENEMIES)
-					{
+				if (SPAWNENEMIES)
+				{
+					if (Math.random() < 0.02 && BoxEnemy.getEnemiesLength() < 30) {
 						addOffscreenEnemy(15, 15);
 					}
 				}
