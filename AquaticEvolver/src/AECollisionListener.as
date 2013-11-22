@@ -1,10 +1,8 @@
 package
 {
-	import Box2D.Collision.*;
-	import Box2D.Collision.Shapes.*;
-	import Box2D.Dynamics.*;
-	import Box2D.Dynamics.Contacts.*;
 	import Box2D.Dynamics.b2ContactListener;
+	import Box2D.Dynamics.b2Fixture;
+	import Box2D.Dynamics.Contacts.b2Contact;
 	
 	public class AECollisionListener extends b2ContactListener
 	{
@@ -13,6 +11,10 @@ package
 		{
 			trace("player attacked enemy");
 			AEWorld.KILLLIST.push(enemy);
+			//var pair:Array = new Array();
+			//pair.push(player);
+			//pair.push(enemy);
+			//AEWorld.KILLLIST.push(pair);
 		}
 		
 		/**
@@ -32,6 +34,9 @@ package
 					case SpriteType.TENTACLEHEAD:
 						handlePlayerTentacleAttack((data1.owner as Boxplayer), (data2.owner as BoxEnemy));
 						break;
+					case SpriteType.SPIKE:
+						handlePlayerTentacleAttack((data1.owner as Boxplayer), (data2.owner as BoxEnemy));
+						break;
 					default:
 						trace("default collision");
 						break;
@@ -39,9 +44,12 @@ package
 			}
 			if(data2.owner.creatureType == SpriteType.PLAYER && data1.owner.creatureType == SpriteType.ENEMY)
 			{
-				switch(data1.colliderType)
+				switch(data2.colliderType)
 				{
 					case SpriteType.TENTACLEHEAD:
+						handlePlayerTentacleAttack((data2.owner as Boxplayer), (data1.owner as BoxEnemy));
+						break;
+					case SpriteType.SPIKE:
 						handlePlayerTentacleAttack((data2.owner as Boxplayer), (data1.owner as BoxEnemy));
 						break;
 					default:

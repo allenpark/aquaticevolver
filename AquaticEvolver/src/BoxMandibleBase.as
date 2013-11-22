@@ -10,11 +10,13 @@ package
 		private var bodyWidth:int = 36/2;
 		private var bodyHeight:int = 42/2;
 		public var owner:Creature;
+		public var adaptOwner:Adaptation;
 		
-		public function BoxMandibleBase(x:Number, y:Number, owner:Creature, Graphic:Class=null, width:Number=0, height:Number=0)
+		public function BoxMandibleBase(x:Number, y:Number, owner:Creature, adaptOwner:Adaptation, Graphic:Class=null, width:Number=0, height:Number=0)
 		{
-			this.owner = owner;
 			super(x, y, Graphic, width, height);
+			this.owner = owner;
+			this.adaptOwner = adaptOwner;
 		}
 		
 		override protected function bodyBuilder():B2BodyBuilder
@@ -22,7 +24,7 @@ package
 			var boxShape:b2PolygonShape = new b2PolygonShape();
 			boxShape.SetAsBox(AEWorld.b2NumFromFlxNum(bodyWidth), AEWorld.b2NumFromFlxNum(bodyHeight));
 			var b2bb:B2BodyBuilder = new B2BodyBuilder().withShape(boxShape).withType(b2Body.b2_dynamicBody)
-				.withDensity(0.01).withLinearDamping(2).withData(new CollisionData(this.owner, SpriteType.TENTACLEMID));
+				.withDensity(0.01).withLinearDamping(2).withData(new CollisionData(this.owner, SpriteType.TENTACLEMID, this.adaptOwner));
 			return b2bb;
 		}
 		
