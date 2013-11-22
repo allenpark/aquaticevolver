@@ -45,6 +45,10 @@ package {
 					FlxG.log("Creating a new mandible");
 					appendage = new Mandible(jointPos, jointAngle, owner);
 					break;
+				case AppendageType.BUBBLEGUN:
+					FlxG.log("Creating a new bubble gun");
+					appendage = new BubbleGun(jointPos, jointAngle, owner);
+					break;
 				default:
 					FlxG.log("Creating a new default spike");
 					appendage = new Spike(jointPos, jointAngle, owner);
