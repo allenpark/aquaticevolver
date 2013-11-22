@@ -28,8 +28,11 @@ package
 			var fixture2:b2Fixture = contact.GetFixtureB();
 			var data1:CollisionData = (fixture1.GetBody().GetUserData() as CollisionData);
 			var data2:CollisionData = (fixture2.GetBody().GetUserData() as CollisionData);
+			trace(data1.owner);
+			trace(data2.owner);
+			
 			// TODO: Fix this logic. Not necessarily player and enemy.
-			if(data1.owner.creatureType == SpriteType.PLAYER && data2.owner.creatureType == SpriteType.ENEMY)
+			/*if(data1.owner.creatureType == SpriteType.PLAYER && data2.owner.creatureType == SpriteType.ENEMY)
 			{
 				handlePlayerTentacleAttack(data1, data2);
 				/*switch(data1.colliderType)
@@ -43,7 +46,7 @@ package
 					default:
 						trace("default collision");
 						break;
-				}*/
+				}
 			}
 			if(data2.owner.creatureType == SpriteType.PLAYER && data1.owner.creatureType == SpriteType.ENEMY)
 			{
@@ -59,8 +62,8 @@ package
 					default:
 						trace("default collision");
 						break;
-				}*/
-			}
+				}
+			}*/
 		}
 		
 		/**
