@@ -52,6 +52,7 @@ package
 		
 		override public function attack():void
 		{
+			super.attack();
 			trace("spike attacking");
 			var mousePoint:FlxPoint = FlxG.mouse.getScreenPosition();
 			var headPoint:FlxPoint = spike.getScreenXY();

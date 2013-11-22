@@ -102,6 +102,7 @@ package
 		
 		override public function attack():void
 		{
+			super.attack();
 			trace("tentacle attacking");
 			var mousePoint:FlxPoint = FlxG.mouse.getScreenPosition();
 			var headPoint:FlxPoint = tentacleHead.getScreenXY();
