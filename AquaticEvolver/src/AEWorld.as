@@ -212,11 +212,7 @@ package
 		
 		private function initializePlayer():void
 		{
-			player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
-//						var start_adaptation : Adaptation = (new Spike(new b2Vec2(0, 0), 0, player));
-//						var start_adaptation : Adaptation = (new Tentacle(new b2Vec2(0, 0), 0, player));
-//						var start_adaptation : Adaptation = (new Mandible(new b2Vec2(0, 0), 0, player));
-			//			player.addAdaptation(start_adaptation);
+			player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array());
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, player);
 			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, player);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.MANDIBLE, new b2Vec2(0, 0), 0, player);
@@ -296,11 +292,11 @@ package
 		{
 			while (KILLLIST.length>0)
 			{
-				//var top:Array = KILLLIST.pop();
-				//var attacker:Boxplayer = top[0] as Boxplayer;
-				//var enemy:Boxplayer = top[1] as Boxplayer;
-				//enemy.kill();
-				KILLLIST.pop().kill();
+				var top:Array = KILLLIST.pop();
+				var attacker:Creature = top[0] as Creature;
+				var enemy:Creature = top[1] as Creature;
+				var appendage:Appendage = top[2] as Appendage;
+				enemy.kill();
 			}
 		}
 		

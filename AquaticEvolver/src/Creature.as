@@ -52,6 +52,9 @@ package {
 		// This method is called often to update the state of the creature.
 		override public function update():void {
 			super.update();
+			this.healthDisplay.x = this.x - 5;
+			this.healthDisplay.y = this.y + 10;
+			this.healthDisplay.text = this.currentHealth + "/" + this.maxHealth;
 			//			this.adaptationGroup.setAll("x", this.x + 10);
 
 			//			this.adaptationGroup.setAll("y", this.y);			
@@ -72,13 +75,6 @@ package {
 				return true;
 			}
 			return false;
-		}
-		
-		public function display(state:FlxState):void {
-			// TODO: Make it be displayed somehow.
-			this.healthDisplay.x = this.x - 5;
-			this.healthDisplay.y = this.y + 10;
-			this.healthDisplay.text = this.currentHealth + "/" + this.maxHealth;
 		}
 		
 		// Reduces the creature health by damage and returns whether the creature has died or not.
