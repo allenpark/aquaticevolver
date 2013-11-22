@@ -31,7 +31,8 @@ package
 			// TODO: Fix this logic. Not necessarily player and enemy.
 			if(data1.owner.creatureType == SpriteType.PLAYER && data2.owner.creatureType == SpriteType.ENEMY)
 			{
-				switch(data1.colliderType)
+				handlePlayerTentacleAttack(data1, data2);
+				/*switch(data1.colliderType)
 				{
 					case SpriteType.TENTACLEHEAD:
 						handlePlayerTentacleAttack(data1, data2);
@@ -42,11 +43,12 @@ package
 					default:
 						trace("default collision");
 						break;
-				}	
+				}*/
 			}
 			if(data2.owner.creatureType == SpriteType.PLAYER && data1.owner.creatureType == SpriteType.ENEMY)
 			{
-				switch(data2.colliderType)
+				handlePlayerTentacleAttack(data2, data1);
+				/*switch(data2.colliderType)
 				{
 					case SpriteType.TENTACLEHEAD:
 						handlePlayerTentacleAttack(data2, data1);
@@ -57,7 +59,7 @@ package
 					default:
 						trace("default collision");
 						break;
-				}	
+				}*/
 			}
 		}
 		
