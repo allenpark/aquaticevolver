@@ -299,6 +299,7 @@ package
 				//var top:Array = KILLLIST.pop();
 				//var attacker:Boxplayer = top[0] as Boxplayer;
 				//var enemy:Boxplayer = top[1] as Boxplayer;
+				//enemy.kill();
 				KILLLIST.pop().kill();
 			}
 		}
