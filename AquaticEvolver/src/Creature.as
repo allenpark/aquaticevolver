@@ -69,10 +69,22 @@ package {
 		// Handling when one of your appendages collides with an enemy body.
 		// Returns true iff the enemy has been killed.
 		public function handleAttackOn(adaptation:Adaptation, enemy:Creature):Boolean {
-			var enemyAlive:Boolean = enemy.getAttacked(adaptation.attackDamage);
+			var enemyAlive:Boolean = false;
+			if (adaptation == null)
+			{
+				enemyAlive = enemy.getAttacked(0);
+			}
+			else
+			{
+				enemyAlive = enemy.getAttacked(adaptation.attackDamage);	
+			}
+			
 			if (!enemyAlive) {
 				//this.inheritFrom(enemy);
-				adaptation.attackDamage += 2;
+				if (adaptation != null )
+				{
+					adaptation.attackDamage += 2;					
+				}
 				return true;
 			}
 			return false;
