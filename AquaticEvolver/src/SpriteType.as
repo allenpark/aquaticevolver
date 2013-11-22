@@ -15,6 +15,7 @@ package
 		public static var MANDIBLE:Number = 8;
 		public static var MANDIBLEJAW:Number = 9;
 		public static var MANDIBLEBASE:Number = 10;
+		public static var BUBBLEGUN:Number = 11;
 		
 		//Neutral Types
 		public static var BUBBLE:Number = 50;
