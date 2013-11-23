@@ -100,16 +100,9 @@ package
 			world.CreateJoint(revoluteJointDef);
 		}
 		
-		
-		private function calcB2Impulse(mousePoint:FlxPoint, bodyPoint:FlxPoint):b2Vec2
-		{
-			var angle:Number = Math.atan2(mousePoint.y - bodyPoint.y,mousePoint.x - bodyPoint.x);
-			var magnitude:Number = 0.002;
-			return new b2Vec2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
-		}
-		
 		override public function attack():void
 		{
+			super.attack();
 			trace("tentacle attacking");
 			var mousePoint:FlxPoint = FlxG.mouse.getScreenPosition();
 			var headPoint:FlxPoint = tentacleHead.getScreenXY();

@@ -7,14 +7,15 @@ package
 	public class AECollisionListener extends b2ContactListener
 	{
 		
-		private function handlePlayerTentacleAttack(player:Boxplayer, enemy:BoxEnemy):void
+		private function handlePlayerTentacleAttack(attackerData:CollisionData, enemyData:CollisionData):void
 		{
 			trace("player attacked enemy");
-			AEWorld.KILLLIST.push(enemy);
-			//var pair:Array = new Array();
-			//pair.push(player);
-			//pair.push(enemy);
-			//AEWorld.KILLLIST.push(pair);
+			//AEWorld.KILLLIST.push(enemy);
+			var attackDescription:Array = new Array();
+			attackDescription.push(attackerData.owner);
+			attackDescription.push(enemyData.owner);
+			attackDescription.push(attackerData.adaptation);
+			AEWorld.KILLLIST.push(attackDescription);
 		}
 		
 		/**
@@ -27,35 +28,41 @@ package
 			var fixture2:b2Fixture = contact.GetFixtureB();
 			var data1:CollisionData = (fixture1.GetBody().GetUserData() as CollisionData);
 			var data2:CollisionData = (fixture2.GetBody().GetUserData() as CollisionData);
+			trace(data1.owner + " " + data1.colliderType + " " + data1.adaptation);
+			trace(data2.owner + " " + data2.colliderType + " " + data2.adaptation);
+			
+			// TODO: Fix this logic. Not necessarily player and enemy.
 			if(data1.owner.creatureType == SpriteType.PLAYER && data2.owner.creatureType == SpriteType.ENEMY)
 			{
-				switch(data1.colliderType)
+				handlePlayerTentacleAttack(data1, data2);
+				/*switch(data1.colliderType)
 				{
 					case SpriteType.TENTACLEHEAD:
-						handlePlayerTentacleAttack((data1.owner as Boxplayer), (data2.owner as BoxEnemy));
+						handlePlayerTentacleAttack(data1, data2);
 						break;
 					case SpriteType.SPIKE:
-						handlePlayerTentacleAttack((data1.owner as Boxplayer), (data2.owner as BoxEnemy));
+						handlePlayerTentacleAttack(data1, data2);
 						break;
 					default:
 						trace("default collision");
 						break;
-				}	
+				}*/
 			}
 			if(data2.owner.creatureType == SpriteType.PLAYER && data1.owner.creatureType == SpriteType.ENEMY)
 			{
-				switch(data2.colliderType)
+				handlePlayerTentacleAttack(data2, data1);
+				/*switch(data2.colliderType)
 				{
 					case SpriteType.TENTACLEHEAD:
-						handlePlayerTentacleAttack((data2.owner as Boxplayer), (data1.owner as BoxEnemy));
+						handlePlayerTentacleAttack(data2, data1);
 						break;
 					case SpriteType.SPIKE:
-						handlePlayerTentacleAttack((data2.owner as Boxplayer), (data1.owner as BoxEnemy));
+						handlePlayerTentacleAttack(data2, data1);
 						break;
 					default:
 						trace("default collision");
 						break;
-				}	
+				}*/
 			}
 		}
 		

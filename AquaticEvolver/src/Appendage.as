@@ -4,6 +4,7 @@ package {
 	import Box2D.Dynamics.b2World;
 	
 	import org.flixel.FlxG;
+	import org.flixel.FlxPoint;
 	
 	public class Appendage extends Adaptation {
 		protected var type:Number;
@@ -44,6 +45,10 @@ package {
 					FlxG.log("Creating a new mandible");
 					appendage = new Mandible(jointPos, jointAngle, owner);
 					break;
+				case AppendageType.BUBBLEGUN:
+					FlxG.log("Creating a new bubble gun");
+					appendage = new BubbleGun(jointPos, jointAngle, owner);
+					break;
 				default:
 					FlxG.log("Creating a new default spike");
 					appendage = new Spike(jointPos, jointAngle, owner);
@@ -58,6 +63,12 @@ package {
 			var y:Number = AEWorld.b2NumFromFlxNum(pixelCoords.y);
 			var localPos:b2Vec2 = new b2Vec2(x,y);
 			return localPos;
+		}
+		
+		protected function calcB2Impulse(mousePoint:FlxPoint, bodyPoint:FlxPoint):b2Vec2 {
+			var angle:Number = Math.atan2(mousePoint.y - bodyPoint.y,mousePoint.x - bodyPoint.x);
+			var magnitude:Number = 0.001;
+			return new b2Vec2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
 		}
 	}
 }

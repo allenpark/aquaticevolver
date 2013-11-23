@@ -38,6 +38,11 @@ package
 			return enemies.length;
 		}
 		
+		override public function kill():void {
+			enemies.remove(this, true);
+			super.kill();
+		}
+		
 		private function getRandomAdaptations(adaptations:Array, maxPower:int):Array{
 			var remainingValue:int = maxPower;
 			var adaptArray:Array = new Array();
