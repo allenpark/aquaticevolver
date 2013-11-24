@@ -65,6 +65,12 @@ package {
 			return localPos;
 		}
 		
+		/*override public function kill():void {
+			super.kill();
+			
+			
+		}*/
+		
 		protected function calcB2Impulse(mousePoint:FlxPoint, bodyPoint:FlxPoint):b2Vec2 {
 			var angle:Number = Math.atan2(mousePoint.y - bodyPoint.y,mousePoint.x - bodyPoint.x);
 			var magnitude:Number = 0.001;

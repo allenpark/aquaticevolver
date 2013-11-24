@@ -51,6 +51,7 @@ package
 			AEWorld.AEB2World.DestroyBody(this.body);
 			trace("kill body");
 			super.kill();
+			trace("done"); 
 		}
 		
 		public function getBody():b2Body

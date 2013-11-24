@@ -43,7 +43,7 @@ package
 		{
 			for each (var adapt:Adaptation in adaptations)
 			{
-				adapt.attack();
+				adapt.attack(FlxG.mouse.getScreenPosition());
 			}
 		}
 		
@@ -69,15 +69,16 @@ package
 					var mousePoint:FlxPoint = new FlxPoint(FlxG.mouse.screenX, FlxG.mouse.screenY);
 					var playerPoint:FlxPoint = this.getScreenXY();
 					body.ApplyImpulse(calcB2Impulse(mousePoint, playerPoint), body.GetPosition());
-					attack();
+					//attack();
 					
 					
-				
+				}
 				
 				
 				// moving the player based on the arrow keys inputs
-				if (FlxG.keys.LEFT && FlxG.keys.RIGHT) {
-				} else if (FlxG.keys.LEFT) {
+				else if (FlxG.keys.LEFT && FlxG.keys.RIGHT) {
+				} 
+				else if (FlxG.keys.LEFT) {
 //					trace("BoxPlayer: left");
 					xDir = -1*this.speed;
 				} else if (FlxG.keys.RIGHT) {
@@ -85,8 +86,9 @@ package
 					xDir = 1*this.speed;
 				}
 					
-				if (FlxG.keys.UP && FlxG.keys.DOWN)	{
-				} else if (FlxG.keys.UP) {
+				else if (FlxG.keys.UP && FlxG.keys.DOWN)	{
+				} 
+				else if (FlxG.keys.UP) {
 //					trace("BoxPlayer: up");
 					yDir = -1*this.speed;
 				} else if (FlxG.keys.DOWN) {
@@ -112,7 +114,6 @@ package
 					body.SetAngularVelocity(torque * xDir);
 				}
 			}
-		}
 		}
 		
 		private function getForceVec(xDir:Number, yDir:Number):b2Vec2 {
