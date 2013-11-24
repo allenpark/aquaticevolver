@@ -2,8 +2,8 @@
 package {
 	import Box2D.Common.Math.b2Vec2;
 	
+	import org.flixel.*;
 	import org.flixel.FlxGroup;
-	
 	public class Adaptation extends FlxGroup {
 		
 		public var cost:int;
@@ -40,10 +40,16 @@ package {
 			creature.speed -= this.speedBoost;
 		}
 		
-		public function attack():void
+		public function attack(point:FlxPoint):void
 		{
-			//override this function
+			
 		}
+		
+		/*override public function kill():void {
+			super.kill();
+			
+			
+		}*/
 		
 		override public function update():void {
 			super.update();

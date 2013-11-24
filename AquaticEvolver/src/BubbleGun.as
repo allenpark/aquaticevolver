@@ -1,9 +1,9 @@
 package
 {
 	import Box2D.Common.Math.b2Vec2;
+	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2World;
-	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
@@ -52,9 +52,9 @@ package
 			world.CreateJoint(revoluteJointDef);			
 		}
 		
-		override public function attack():void
+		override public function attack(point:FlxPoint):void
 		{
-			super.attack();
+			super.attack(point);
 			trace("bubble gun attacking");
 			// insert code to shoot a bubble here
 		}

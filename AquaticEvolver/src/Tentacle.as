@@ -19,6 +19,7 @@ package
 		private var tentacleSegmentStartJoint:b2Vec2 = new b2Vec2(0,-15);
 		private var tentacleSegmentEndJoint:b2Vec2 = new b2Vec2(0,15);
 		private var tentacleHeadJoint:b2Vec2 = new b2Vec2(0,19);
+		private var midSegments:Array = new Array();
 		
 		private var jointAngleCorrection:Number = Math.PI;
 		
@@ -45,6 +46,7 @@ package
 				// create the sprite
 				trace(owner);
 				sprite = new BoxTentacleMid(0, 0, owner, this, tentacleMidImg, 32, 64);
+				midSegments.push(sprite);
 				this.add(sprite);
 				
 				// create the jointDef
@@ -99,15 +101,26 @@ package
 			// add joint to world
 			world.CreateJoint(revoluteJointDef);
 		}
+		/*
+		override public function kill():void {
+			/*
+			tentacleHead.kill();
+			for each(var segment:B2FlxSprite in midSegments){
+				segment.kill();
+			}
+			super.kill();
+			
+			
+		}*/
 		
-		override public function attack():void
+		override public function attack(point:FlxPoint):void
 		{
-			super.attack();
-			trace("tentacle attacking");
+			super.attack(point);
+			//trace("tentacle attacking");
 			var mousePoint:FlxPoint = FlxG.mouse.getScreenPosition();
 			var headPoint:FlxPoint = tentacleHead.getScreenXY();
 			var tentacleBody:b2Body = tentacleHead.getBody();
-			tentacleBody.ApplyImpulse(calcB2Impulse(mousePoint, headPoint), tentacleBody.GetPosition());
+			tentacleBody.ApplyImpulse(calcB2Impulse(point, headPoint), tentacleBody.GetPosition());
 		}
 		
 		override public function update():void

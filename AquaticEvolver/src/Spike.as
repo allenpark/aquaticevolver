@@ -1,11 +1,12 @@
 package
 {
 	import Box2D.Common.Math.b2Vec2;
+	import Box2D.Dynamics.Joints.b2WeldJointDef;
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2World;
-	import Box2D.Dynamics.Joints.b2WeldJointDef;
 	
 	import org.flixel.FlxG;
+	import org.flixel.FlxParticle;
 	import org.flixel.FlxPoint;
 	
 	public class Spike extends Appendage
@@ -50,14 +51,14 @@ package
 			super.update();
 		}
 		
-		override public function attack():void
+		override public function attack(point:FlxPoint):void
 		{
-			super.attack();
+			super.attack(point);
 			trace("spike attacking");
 			var mousePoint:FlxPoint = FlxG.mouse.getScreenPosition();
 			var headPoint:FlxPoint = spike.getScreenXY();
 			var spikeBody:b2Body = spike.getBody();
-			spikeBody.ApplyImpulse(calcB2Impulse(mousePoint, headPoint), spikeBody.GetPosition());
+			spikeBody.ApplyImpulse(calcB2Impulse(point, headPoint), spikeBody.GetPosition());
 		}
 	}
 }
