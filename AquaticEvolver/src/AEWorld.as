@@ -1,16 +1,19 @@
 package
 {
+	
+	//carlo version
 	//Box2D imports
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2World;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxState;
+	import org.flixel.FlxText;
 	
 	public class AEWorld extends FlxState
 	{
 		//Background music
-		[Embed(source="res/DestinyOfADroplet.mp3")] public var droplet:Class;
+		[Embed(source="res/Evolving Horizon.mp3")] public var droplet:Class;
 		
 		//Pausing
 		public var paused:pausescreen;
@@ -68,7 +71,7 @@ package
 		public static var ScreenWidth:int;
 		public static var ScreenHeight:int;
 		public var defaultHealth:int; //TODO: Should be in creature
-		public var defaultSpeed:Number; //TODO: Should be in creature... also why int and not Number?
+		public var defaultSpeed:int;
 		
 		/**
 		 * During collision handling a body can't be killed because it may still be colliding with 
@@ -141,10 +144,15 @@ package
 					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + FlxG.camera.scroll.y;	
 				}
 			}
-			// TODO: Replace this with something intelligent.
 			this.defaultHealth += 2
-			var newEnemy:BoxEnemy = BoxEnemy.generateBoxEnemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth);
+			var newEnemy:BoxEnemy = BoxEnemy.generateBoxEnemy(newX, newY, this.defaultSpeed,  this.defaultHealth, this.defaultHealth);
+			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, newEnemy);
+			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, newEnemy);
+			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.MANDIBLE, new b2Vec2(0, 0), 0, newEnemy);
+			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.BUBBLEGUN, new b2Vec2(0, 0), 0, newEnemy);
+			newEnemy.addAdaptation(start_adaptation);
 			addCreature(newEnemy);
+			this.add(start_adaptation);
 		}
 		
 		public function drawBackgroundObject(xBuffer:int = 0, yBuffer: int =0):void{
@@ -195,7 +203,7 @@ package
 				var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance);
 				//Making the object float as it is a bubble right now
 				backgroundObject.floatUpward();
-
+				
 				this.add(backgroundObject);
 			}
 		}
@@ -214,18 +222,18 @@ package
 			ScreenWidth = FlxG.width;
 			ScreenHeight = FlxG.height;
 			this.defaultHealth = 10;
-			this.defaultSpeed = .2;
 		}
 		
 		private function initializePlayer():void
 		{
-			player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array());
+			player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array()); 
+
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, player);
 			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, player);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.MANDIBLE, new b2Vec2(0, 0), 0, player);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.BUBBLEGUN, new b2Vec2(0, 0), 0, player);
 			player.addAdaptation(start_adaptation);
-
+			
 			//Have the camera follow the player
 			if (FOLLOWINGPLAYER) {
 				FlxG.camera.follow(AEWorld.player);
@@ -343,7 +351,8 @@ package
 				if (FlxG.keys.justPressed("G")) {
 					FlxG.switchState(new GameOverState);				
 				}
-			} else {
+			}
+			else {
 				paused.update();
 			}
 		}

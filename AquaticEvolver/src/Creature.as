@@ -104,6 +104,16 @@ package {
 		override public function kill():void {
 			this.healthDisplay.kill();
 			this.healthDisplay.destroy();
+			
+			for each(var adaptation:Adaptation in adaptations){
+				if (adaptation != null)
+				{
+					adaptation.kill();
+				}
+				else{
+					trace("NULL ADAPTATION IN KILL");
+				}
+			}
 			super.kill();
 		}
 		

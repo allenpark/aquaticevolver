@@ -6,7 +6,9 @@ package
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
-
+	import org.flixel.FlxParticle;
+	import org.flixel.FlxPoint;
+	
 	public class BoxEnemy extends Creature
 	{
 		public var aggroRadius:int = 200;
@@ -28,6 +30,11 @@ package
 		 */
 		static public var enemies:FlxGroup = new FlxGroup();
 		
+		/**
+		 * The target that the creature is moving towards and therefore also attacking.
+		 */
+		private var target:FlxPoint = new FlxPoint(AEWorld.player.x, AEWorld.player.y);
+		
 		static public function generateBoxEnemy(newX:Number, newY:Number, defaultSpeed:Number, curHealth:Number, maxHealth:Number):BoxEnemy {
 			var newEnemy:BoxEnemy = new BoxEnemy(newX, newY, defaultSpeed, curHealth, maxHealth, new Array());
 			enemies.add(newEnemy);
@@ -39,6 +46,11 @@ package
 		}
 		
 		override public function kill():void {
+			/*
+			for each (var adapt:Adaptation in adaptations) {
+				adapt.kill();
+			//adapt.destroy();
+			}*/
 			enemies.remove(this, true);
 			super.kill();
 		}
@@ -60,7 +72,6 @@ package
 		
 		override public function update():void {			
 			super.update();
-			
 			var lowerYbound:Number = (-100 - FlxG.height/2) + FlxG.camera.scroll.y;
 			var upperYbound:Number = (100 + FlxG.height/2) + FlxG.camera.scroll.y;
 			var upperXbound:Number = (100 - FlxG.width/2) + FlxG.camera.scroll.x;
@@ -72,8 +83,9 @@ package
 			//Make sure that the object is still on the screen
 			if(!(withInXbounds && withInYbounds)){
 				enemies.remove(this, true);
+
 				this.kill();
-				this.destroy();
+				//this.destroy();
 				return;
 			}
 			
@@ -86,6 +98,7 @@ package
 //			}
 			
 			updateMove();
+			attack(target);
 		}
 		
 		private function updateMove():void {
@@ -111,35 +124,59 @@ package
 				}
 			}
 			if (seeSomething) {
-				this.moveTowardsEnemy(AEWorld.player);
+				//this.moveCloseToEnemy(AEWorld.player, 120);
+				//target = new FlxPoint(AEWorld.player.x, AEWorld.player.y);
 				if (weakestStrength == 0) {
 					//trace("RUN AWAY");
 					//this.runAwayFromEnemy(enemies.members[strongestIndex]);
+					//target = new FlxPoint(enemies.members[strongestIndex].x, enemies.members[strongestIndex].y);
+					this.moveCloseToEnemy(AEWorld.player, 120);
+					target = new FlxPoint(AEWorld.player.x, AEWorld.player.y);
 				} else {
 					//trace("MOVE TOWARDS");
-					//this.moveTowardsEnemy(enemies.members[weakestIndex]);
+					this.moveTowardsEnemy(enemies.members[weakestIndex]);
+					target = new FlxPoint(enemies.members[weakestIndex].x, enemies.members[weakestIndex].y);
 				}
 			} else {
 				//this.moveAround();
 			}
 		}
 		
+		
 		private function runAwayFromEnemy(enemy:Creature):void {
-          moveRelativeToEnemy(enemy, false);
+			moveRelativeToEnemy(enemy, false);
 		}
-
+		
 		private function moveTowardsEnemy(enemy:Creature):void {
-          moveRelativeToEnemy(enemy, true);
+			moveRelativeToEnemy(enemy, true);
 		}
-
-        private function moveRelativeToEnemy(enemy:Creature, towards:Boolean):void {
-            var impulseSize:int = (towards) ? super.speed: -1*super.speed;
+		
+		private function moveRelativeToEnemy(enemy:Creature, towards:Boolean):void {
+			var impulseSize:int = (towards) ? super.speed: -1*super.speed;
 			var dirX:int = (enemy.x - this.x);
 			var dirY:int = (enemy.y - this.y);
 			var forceVec:b2Vec2 = getForceVec(dirX, dirY, impulseSize);
-		    body.ApplyImpulse(forceVec, body.GetPosition());
-        }
-
+			body.ApplyImpulse(forceVec, body.GetPosition());
+		}
+		
+		private function moveCloseToEnemy(enemy:Creature, distance:Number):void {
+			var impulseSize:int = super.speed;
+			var distanceFromEnemy:int = Math.sqrt(Math.pow(this.x - enemy.x, 2) + Math.pow(this.y - enemy.y, 2));
+			if (distanceFromEnemy < distance)
+				impulseSize = -1*super.speed;
+			// Non-ideal, but OK convergence.
+			// I don't know if it's still called convergence though if we just zero out the amplitude at a point.
+			if (Math.abs(distanceFromEnemy - distance) < 5) {
+				impulseSize = 0;
+			} else if (Math.abs(distanceFromEnemy - distance) < 20) {
+				impulseSize = (impulseSize / super.speed);
+			}
+			var dirX:int = (enemy.x - this.x);
+			var dirY:int = (enemy.y - this.y);
+			var forceVec:b2Vec2 = getForceVec(dirX, dirY, impulseSize);
+			body.ApplyImpulse(forceVec, body.GetPosition());
+		}
+		
 		// Returns a vector in the (xDir, yDir) direction with a magnitude of impulseSize * 0.001.
 		private function getForceVec(xDir:Number, yDir:Number, impulseSize:Number):b2Vec2 {
 			var vec:b2Vec2 = new b2Vec2(xDir, yDir);
@@ -147,11 +184,18 @@ package
 			vec.Multiply(impulseSize * 0.001);
 			return vec;
 		}
-
+		
 		public function moveAround():void {
 			var randomX:Number = Math.random() * 2.0 - 1;
 			var randomY:Number = Math.random() * 2.0 - 1;
 			body.ApplyImpulse(getForceVec(randomX, randomY, super.speed), body.GetPosition());
+		}
+		
+		private function attack(attackPoint:FlxPoint):void
+		{
+			for each (var adapt:Adaptation in adaptations) {
+				adapt.attack(target);
+			}
 		}
 		
 		override protected function bodyBuilder():B2BodyBuilder
