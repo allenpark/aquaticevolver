@@ -26,7 +26,7 @@ package
 		/**
 		 * Boolean to spawn enemies
 		 */
-		private var SPAWNENEMIES:Boolean = false;
+		private var SPAWNENEMIES:Boolean = true;
 		
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
@@ -125,20 +125,20 @@ package
 			var newY:Number;
 			
 			//Setting upper and lower bounds for the objects
-			var lowerXbound:Number = -(ScreenWidth / 2) - xBuffer;
-			var upperXbound:Number = (ScreenWidth / 2) + xBuffer;
-			var lowerYbound:Number = -(ScreenHeight / 2) - yBuffer;
-			var upperYbound:Number = (ScreenHeight / 2) + yBuffer;
+			var lowerXbound:Number = -(ScreenWidth / 2) - xBuffer - 50;
+			var upperXbound:Number = (ScreenWidth / 2) + xBuffer + 50;
+			var lowerYbound:Number = -(ScreenHeight / 2) - yBuffer - 50;
+			var upperYbound:Number = (ScreenHeight / 2) + yBuffer + 50;
 			
 			if(FOLLOWINGPLAYER){
-				if (Math.random() > 0.5) {
+				if (Math.random()>.5) {
 					// On the vertical edges.
-					newX = (Math.random() > 0.5 ? lowerXbound: upperXbound) + FlxG.camera.scroll.x;
-					newY = (Math.random() * ScreenHeight)- ScreenHeight/2 + FlxG.camera.scroll.y;
+					newX = (Math.random() > 0.5 ? lowerXbound: upperXbound) + player.x;
+					newY = (Math.random() * ScreenHeight)- ScreenHeight/2 + player.y;
 				} else {
 					// On the horizontal edges.
-					newX = (Math.random() * ScreenWidth)- ScreenWidth/2 + FlxG.camera.scroll.x;
-					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + FlxG.camera.scroll.y;	
+					newX = (Math.random() * ScreenWidth) - ScreenWidth/2 + player.x;
+					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + player.y;	
 				}
 			}
 			// TODO: Replace this with something intelligent.
@@ -162,15 +162,15 @@ package
 			var upperYbound:Number = (ScreenHeight / 2) + yBuffer/2 + 50;
 			
 			if(FOLLOWINGPLAYER){
-				if (true) {
+				if (Math.random()>.5) {
 					// On the vertical edges.
 					newX = (Math.random() > 0.5 ? lowerXbound: upperXbound) + player.x;
 					newY = (Math.random() * ScreenHeight)- ScreenHeight/2 + player.y;
-				} //else {
+				} else {
 					// On the horizontal edges.
-//					newX = (Math.random() * ScreenWidth) - ScreenWidth/2 + player.x;
-//					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + player.y;	
-//				}
+					newX = (Math.random() * ScreenWidth) - ScreenWidth/2 + player.x;
+					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + player.y;	
+				}
 			}else{
 				newX = (Math.random() * (ScreenWidth-xBuffer/viewDistance));
 				newY = (ScreenHeight-yBuffer/viewDistance);
@@ -321,9 +321,9 @@ package
 				}
 				
 				//Randomly add background image
-				if (Math.random() < 0.1) {
+//				if (Math.random() < 0.1) {
 //					drawBackgroundObject(128, 128);	
-				}
+//				}
 				AquaticEvolver.DEBUG_SPRITE.x = - FlxG.camera.scroll.x;
 				AquaticEvolver.DEBUG_SPRITE.y = - FlxG.camera.scroll.y;
 				

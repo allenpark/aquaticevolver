@@ -27,8 +27,8 @@ package{
 			
 			//Setting x and y coordinates based on the scroll factor to
 			//accoounmt for the camera moving the object based on it's scroll factor
-			this.x = x;
-			this.y = y;
+			this.x = x*this.scrollFactor.x;
+			this.y = y*this.scrollFactor.y;
 			
 			//Adjusting the sprite's scale to appear smaller when further
 			this.scale.x = this.scale.y = (Math.random()+1)*(1.0/viewDistance);
@@ -39,10 +39,10 @@ package{
 		override public function update():void{
 			super.update();
 			//FIX THESE BOUNDS!!
-			var lowerYbound:Number = (-200 - FlxG.height/2) + AEWorld.player.y;
-			var upperYbound:Number = (200 + FlxG.height/2) + AEWorld.player.y;
-			var upperXbound:Number = (200 + FlxG.width/2) + AEWorld.player.x;
-			var lowerXbound:Number = (-200 - FlxG.width/2) + AEWorld.player.x;
+			var lowerYbound:Number = ((-200 - FlxG.height/2) + AEWorld.player.y)*this.scrollFactor.x;
+			var upperYbound:Number = ((200 + FlxG.height/2) + AEWorld.player.y)*this.scrollFactor.x;
+			var upperXbound:Number = ((200 + FlxG.width/2) + AEWorld.player.x)*this.scrollFactor.x;
+			var lowerXbound:Number = ((-200 - FlxG.width/2) + AEWorld.player.x)*this.scrollFactor.x;
 			
 //			FlxG.log("LX:"+lowerXbound+" ,UX:"+upperXbound+", LY:"+lowerYbound+" UY:"+upperYbound);
 //			FlxG.log('Bubble at:('+ this.x+","+this.y);
