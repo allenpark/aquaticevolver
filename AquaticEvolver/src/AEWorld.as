@@ -133,6 +133,8 @@ package
 				newX = (Math.random() * (ScreenWidth + xBuffer) - xBuffer) + ScreenX;
 				newY = (Math.random() > 0.5 ? -yBuffer : ScreenHeight) + ScreenY;	
 			}
+			// TODO: Replace this with something intelligent.
+			this.defaultHealth += 2
 			var newEnemy:BoxEnemy = BoxEnemy.generateBoxEnemy(newX, newY, this.defaultSpeed, this.defaultHealth, this.defaultHealth);
 			addCreature(newEnemy);
 		}
@@ -212,15 +214,12 @@ package
 		
 		private function initializePlayer():void
 		{
-			player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array()); 
-//						var start_adaptation : Adaptation = (new Spike(new b2Vec2(0, 0), 0, player));
-//						var start_adaptation : Adaptation = (new Tentacle(new b2Vec2(0, 0), Math.PI, player));
-//						var start_adaptation : Adaptation = (new Mandible(new b2Vec2(0, 0), 0, player));
 
-			//			player.addAdaptation(start_adaptation);
+			player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed * 2, this.defaultHealth, this.defaultHealth, new Array());
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, player);
 			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, player);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.MANDIBLE, new b2Vec2(0, 0), 0, player);
+			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.BUBBLEGUN, new b2Vec2(0, 0), 0, player);
 			player.addAdaptation(start_adaptation);
 
 			//Have the camera follow the player
@@ -228,11 +227,6 @@ package
 				FlxG.camera.follow(AEWorld.player);
 			}
 			this.add(start_adaptation);
-		}
-		
-		private function initializeTestEnemy():BoxEnemy
-		{
-			return BoxEnemy.generateBoxEnemy(50, 50, this.defaultSpeed, this.defaultHealth, this.defaultHealth);
 		}
 		
 		private  function setupB2Debug():void
@@ -275,8 +269,7 @@ package
 			//Test enemy
 			if (SPAWNENEMIES)
 			{
-				var newEnemy:BoxEnemy = initializeTestEnemy();
-				addCreature(newEnemy);
+				addOffscreenEnemy();
 			}
 			
 			//Populating the world with some background objects
@@ -297,18 +290,18 @@ package
 		{
 			while (KILLLIST.length>0)
 			{
-				//var top:Array = KILLLIST.pop();
-				//var attacker:Boxplayer = top[0] as Boxplayer;
-				//var enemy:Boxplayer = top[1] as Boxplayer;
-				KILLLIST.pop().kill();
+				var top:Array = KILLLIST.pop();
+				var attacker:Creature = top[0] as Creature;
+				var enemy:Creature = top[1] as Creature;
+				var adaptation:Adaptation = top[2] as Adaptation;
+				var killedEnemy:Boolean = attacker.handleAttackOn(adaptation, enemy);
 			}
 		}
 		
 		override public function update():void 
 		{
-			if (!paused.showing) {		
-				
-				super.update();
+			super.update();
+			if (!paused.showing) {
 				AEB2World.Step(1.0/60.0, 10, 10);
 				processKillList();
 				
@@ -320,37 +313,33 @@ package
 				}
 				
 				//Randomly add background image
-				if(Math.random() < 0.1){
+				if (Math.random() < 0.1) {
 					drawBackgroundObject(128, 128);	
 				}
 				AquaticEvolver.DEBUG_SPRITE.x = - FlxG.camera.scroll.x;
 				AquaticEvolver.DEBUG_SPRITE.y = - FlxG.camera.scroll.y;
 				
-				
 				//Box2D debug stuff
 				if (AquaticEvolver.box2dDebug) {
-					
 					AEB2World.DrawDebugData();
 				}
-				if(FlxG.keys.justPressed("D")){
+				if (FlxG.keys.justPressed("D")) {
 					toggleB2DebugDrawing();
 				}
 				
 				
 				//TODO: We should revamp pausing... this isn't the best way of doing it, but it gets the job done for now
-				if(FlxG.keys.justPressed("P")){
+				if (FlxG.keys.justPressed("P")) {
 					paused = new pausescreen();
 					paused.displayPaused();
 					add(paused);		
 					FlxG.music.pause();
 				} 
 				
-				if(FlxG.keys.justPressed("G")){
-					FlxG.switchState(new GameOverState)				
+				if (FlxG.keys.justPressed("G")) {
+					FlxG.switchState(new GameOverState);				
 				}
-			}
-			else
-			{
+			} else {
 				paused.update();
 			}
 		}

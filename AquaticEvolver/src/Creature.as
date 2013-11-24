@@ -52,6 +52,9 @@ package {
 		// This method is called often to update the state of the creature.
 		override public function update():void {
 			super.update();
+			this.healthDisplay.x = this.x - 5;
+			this.healthDisplay.y = this.y + 10;
+			this.healthDisplay.text = this.currentHealth + "/" + this.maxHealth;
 			//			this.adaptationGroup.setAll("x", this.x + 10);
 
 			//			this.adaptationGroup.setAll("y", this.y);			
@@ -65,20 +68,26 @@ package {
 		
 		// Handling when one of your appendages collides with an enemy body.
 		// Returns true iff the enemy has been killed.
-		public function handleAttackOn(phenotype:Adaptation, enemy:Creature):Boolean {
-			var enemyAlive:Boolean = enemy.getAttacked(phenotype.attackDamage);
+		public function handleAttackOn(adaptation:Adaptation, enemy:Creature):Boolean {
+			var enemyAlive:Boolean = false;
+			if (adaptation == null)
+			{
+				enemyAlive = enemy.getAttacked(0);
+			}
+			else
+			{
+				enemyAlive = enemy.getAttacked(adaptation.attackDamage);	
+			}
+			
 			if (!enemyAlive) {
-				this.inheritFrom(enemy);
+				//this.inheritFrom(enemy);
+				if (adaptation != null )
+				{
+					adaptation.attackDamage += 2;					
+				}
 				return true;
 			}
 			return false;
-		}
-		
-		public function display(state:FlxState):void {
-			// TODO: Make it be displayed somehow.
-			this.healthDisplay.x = this.x - 5;
-			this.healthDisplay.y = this.y + 10;
-			this.healthDisplay.text = this.currentHealth + "/" + this.maxHealth;
 		}
 		
 		// Reduces the creature health by damage and returns whether the creature has died or not.

@@ -1,13 +1,16 @@
 package
 {
 	import Box2D.Common.Math.b2Vec2;
+	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2World;
 	import Box2D.Dynamics.Joints.b2WeldJointDef;
 	
-	import org.flixel.*;
+	import org.flixel.FlxG;
+	import org.flixel.FlxPoint;
 	
 	public class Spike extends Appendage
 	{
+		private var spike:B2FlxSprite;
 		
 		// spike joint location
 		private var spikeJoint:b2Vec2 = new b2Vec2(0,45);
@@ -24,13 +27,13 @@ package
 			var world:b2World = AEWorld.AEB2World;
 			
 			// create the sprite
-			var sprite:B2FlxSprite = new BoxSpike(0,0,owner,spikeImg,32,128);
-			this.add(sprite);
+			spike = new BoxSpike(0,0,owner,spikeImg,32,128);
+			this.add(spike);
 			
 			// create the jointDef
 			var weldJointDef:b2WeldJointDef = new b2WeldJointDef();
 			weldJointDef.bodyA = owner.getBody();
-			weldJointDef.bodyB = sprite.getBody();
+			weldJointDef.bodyB = spike.getBody();
 			weldJointDef.localAnchorA = jointPos;
 			FlxG.log("AanchorCoords = " + weldJointDef.localAnchorA.x + ", " + weldJointDef.localAnchorA.y);
 			weldJointDef.localAnchorB = convertToBox2D(spikeJoint);
@@ -45,6 +48,16 @@ package
 		override public function update():void
 		{
 			super.update();
+		}
+		
+		override public function attack():void
+		{
+			super.attack();
+			trace("spike attacking");
+			var mousePoint:FlxPoint = FlxG.mouse.getScreenPosition();
+			var headPoint:FlxPoint = spike.getScreenXY();
+			var spikeBody:b2Body = spike.getBody();
+			spikeBody.ApplyImpulse(calcB2Impulse(mousePoint, headPoint), spikeBody.GetPosition());
 		}
 	}
 }

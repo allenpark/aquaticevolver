@@ -24,7 +24,7 @@ package
 			var boxShape:b2PolygonShape = new b2PolygonShape();
 			boxShape.SetAsBox(AEWorld.b2NumFromFlxNum(bodyWidth), AEWorld.b2NumFromFlxNum(bodyHeight));
 			var b2bb:B2BodyBuilder = new B2BodyBuilder().withShape(boxShape).withType(b2Body.b2_dynamicBody)
-				.withDensity(0.01).withLinearDamping(2).withData(new CollisionData(this.owner, SpriteType.TENTACLEMID, this.adaptOwner));
+				.withDensity(0.01).withLinearDamping(2).withData(new CollisionData(this.owner, SpriteType.MANDIBLEJAW, this.adaptOwner));
 			return b2bb;
 		}
 		
