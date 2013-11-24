@@ -20,26 +20,31 @@ package
 		public function AEPlayer(x:Number, y:Number)
 		{	
 			var head:AEHead = playerHead(x,y);
-			var torso:AETorso = playerTorso();
-			var tail:AETail = playerTail();
+			var torso:AETorso = playerTorso(x,y);
+			var tail:AETail = playerTail(x,y);
 			super(x, y, head, torso, tail);
 		}
 		
 		private function playerHead(x:Number, y:Number):AEHead
 		{
 			var playerHeadSegment:AESegment = new AESegment(x,y,headSegmentImg, 128, 128);
-			var playerHead:AEHead = new new AEHead(playerHeadSegment, null);
-			return null;
+			var playerHead:AEHead = new AEHead(playerHeadSegment, null);
+			return playerHead;
 		}
 		
-		private function playerTorso():AETorso
+		private function playerTorso(x:Number, y:Number):AETorso
 		{
-			return null;
+			var playerTorsoSegment:AESegment = new AESegment(x,y, torsoSegmentImg, 128, 128);
+			var playerTorsoSegments:Array = new Array(playerTorsoSegment);
+			var playerTorso:AETorso = new AETorso(playerTorsoSegment, null, playerTorsoSegments, playerTorsoSegment, null);
+			return AETorso;
 		}
 		
-		private function playerTail():AETail
+		private function playerTail(x:Number, y:Number):AETail
 		{
-			return null;
+			var playerTailSegment:AESegment = new AESegment(x, y, tailSegmentImg, 64, 64);
+			var playerTail:AETail = new AETail(playerTailSegment, null);
+			return playerTail;
 		}	
 	}
 }
