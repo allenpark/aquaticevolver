@@ -12,6 +12,9 @@ package
 		public static var TENTACLEHEAD:Number = 7;
 		public static var TENTACLEMID:Number = 6;
 		public static var SPIKE:Number = 4;
+		//public static var MANDIBLE:Number = 8;
+		//public static var MANDIBLEJAW:Number = 9;
+		//public static var MANDILEBASE:Number = 10;
 		
 		//Neutral Types
 		public static var BUBBLE:Number = 50;

@@ -12,7 +12,7 @@ package
 	
 	public class Tentacle extends Appendage
 	{
-		private var tentacleMidSegments:int = 5;
+		private var tentacleMidSegments:int = 1;
 		private var tentacleHead:BoxTentacleHead;
 		
 		// tentacle joint locations
@@ -32,7 +32,7 @@ package
 		public function Tentacle(jointPos:b2Vec2, jointAngle:Number, owner:Creature)
 		{
 			jointAngle = jointAngle + jointAngleCorrection;
-			super("tentacle", 50, true, 2, jointPos, jointAngle, owner);
+			super(AppendageType.TENTACLE, 50, true, 2, jointPos, jointAngle, owner);
 			
 			var world:b2World = AEWorld.AEB2World;
 			
@@ -44,18 +44,17 @@ package
 				
 				// create the sprite
 				trace(owner);
-				sprite = new BoxTentacleMid(0,0,owner,tentacleMidImg,32,64);
+				sprite = new BoxTentacleMid(0, 0, owner, this, tentacleMidImg, 32, 64);
 				this.add(sprite);
 				
 				// create the jointDef
 				revoluteJointDef = new b2RevoluteJointDef();
 				revoluteJointDef.bodyA = prevSprite.getBody();
 				revoluteJointDef.bodyB = sprite.getBody();
-				if (i == 0){
+				if (i == 0) {
 					revoluteJointDef.localAnchorA = jointPos;
 					revoluteJointDef.referenceAngle = jointAngle;
-				}else
-				{
+				} else {
 					revoluteJointDef.localAnchorA = convertToBox2D(tentacleSegmentEndJoint);
 					revoluteJointDef.referenceAngle = 0;
 				}
@@ -72,7 +71,7 @@ package
 			}
 			
 			// create the sprite
-			tentacleHead = new BoxTentacleHead(0,0,owner,tentacleHeadImg,32,64);
+			tentacleHead = new BoxTentacleHead(0, 0, owner, this, tentacleHeadImg, 32, 64);
 			this.add(tentacleHead);
 			
 			// create the jointDef
@@ -104,8 +103,8 @@ package
 		
 		private function calcB2Impulse(mousePoint:FlxPoint, bodyPoint:FlxPoint):b2Vec2
 		{
-			var angle = Math.atan2(mousePoint.y - bodyPoint.y,mousePoint.x - bodyPoint.x);
-			var magnitude:Number = 0.01;
+			var angle:Number = Math.atan2(mousePoint.y - bodyPoint.y,mousePoint.x - bodyPoint.x);
+			var magnitude:Number = 0.002;
 			return new b2Vec2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
 		}
 		
