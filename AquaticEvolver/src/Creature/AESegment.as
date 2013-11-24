@@ -1,9 +1,10 @@
 package Creature
 {
 	import flash.utils.Dictionary;
-	
+		
+	import Creature.CreatureSchematics.Schematic;
 	import Box2D.Common.Math.b2Vec2;
-
+	
 	public class AESegment extends B2FlxSprite
 	{	
 		protected var _torsoSlots:Dictionary;
@@ -14,11 +15,29 @@ package Creature
 		 * @param torsoSlots Dictionary mapping a torso slot label (string) to the local position of the torso slot (b2Vec2)
 		 * @param adaptationSlots Array of b2Vec2 describing local position of adaptation slots
 		 */
-		public function AESegment(x:int, y:int, Graphic:Class=null, width:Number=0, height:Number=0, torsoSlots:Dictionary=null, appendageSlotLocations:Array=null)
+		/*
+		public function AESegment(x:Number, y:Number, Graphic:Class=null, width:Number=0, height:Number=0, torsoSlots:Dictionary=null, appendageSlotLocations:Array=null)
 		{
 			super(x, y, Graphic, width, height);
 			_torsoSlots = torsoSlots;
 			this.appendageSlots = generateSlotsFromLocations(appendageSlotLocations);
+		}
+		*/
+		
+		/*
+		public function AESegment(x:Number, y:Number, image:Image)
+		{
+			super(x,y, image.img(), image.width(), image.height());
+			_torsoSlots = image.torsoSlots();
+			this.appendageSlots = generateSlotsFromLocations(image.appendageSlots());
+		}
+		*/
+		
+		public function AESegment(x:Number, y:Number, schematic:Schematic)
+		{
+			super(x,y, schematic.img(), schematic.width(), schematic.height());
+			_torsoSlots = schematic.torsoSlots();
+			appendageSlots = schematic.appendageSlots();
 		}
 		
 		public function generateSlotsFromLocations(slotLocations:Array):Array
