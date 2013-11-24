@@ -128,20 +128,20 @@ package
 			var newY:Number;
 			
 			//Setting upper and lower bounds for the objects
-			var lowerXbound:Number = -(ScreenWidth / 2) - xBuffer;
-			var upperXbound:Number = (ScreenWidth / 2) + xBuffer;
-			var lowerYbound:Number = -(ScreenHeight / 2) - yBuffer;
-			var upperYbound:Number = (ScreenHeight / 2) + yBuffer;
+			var lowerXbound:Number = -(ScreenWidth / 2) - xBuffer - 50;
+			var upperXbound:Number = (ScreenWidth / 2) + xBuffer + 50;
+			var lowerYbound:Number = -(ScreenHeight / 2) - yBuffer - 50;
+			var upperYbound:Number = (ScreenHeight / 2) + yBuffer + 50;
 			
 			if(FOLLOWINGPLAYER){
-				if (Math.random() > 0.5) {
+				if (Math.random()>.5) {
 					// On the vertical edges.
-					newX = (Math.random() > 0.5 ? lowerXbound: upperXbound) + FlxG.camera.scroll.x;
-					newY = (Math.random() * ScreenHeight)- ScreenHeight/2 + FlxG.camera.scroll.y;
+					newX = (Math.random() > 0.5 ? lowerXbound: upperXbound) + player.x;
+					newY = (Math.random() * ScreenHeight)- ScreenHeight/2 + player.y;
 				} else {
 					// On the horizontal edges.
-					newX = (Math.random() * ScreenWidth)- ScreenWidth/2 + FlxG.camera.scroll.x;
-					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + FlxG.camera.scroll.y;	
+					newX = (Math.random() * ScreenWidth) - ScreenWidth/2 + player.x;
+					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + player.y;	
 				}
 			}
 			this.defaultHealth += 2
@@ -160,29 +160,30 @@ package
 			var newY:Number;
 			
 			//Randomly generating the distance that the image is seen from
-			var viewDistance:Number = (Math.random()*5)+5.0;
+			var viewDistance:Number = (Math.random()*5)+2.0;
 			
-			//Setting upper and lower bounds for the objects
-			var lowerXbound:Number = -(ScreenWidth / 2) - xBuffer/2;
-			var upperXbound:Number = (ScreenWidth / 2) + xBuffer/2;
-			var lowerYbound:Number = -(ScreenHeight / 2) - yBuffer/2;
-			var upperYbound:Number = (ScreenHeight / 2) + yBuffer/2;
+			//Setting upper and lower bounds for the objects some what below what the
+			//player can see so there is a consistent background
+			var lowerXbound:Number = -(ScreenWidth / 2) - xBuffer/2 - 50;
+			var upperXbound:Number = (ScreenWidth / 2) + xBuffer/2 + 50;
+			var lowerYbound:Number = -(ScreenHeight / 2) - yBuffer/2 - 50;
+			var upperYbound:Number = (ScreenHeight / 2) + yBuffer/2 + 50;
 			
 			if(FOLLOWINGPLAYER){
-				if (Math.random() > 0.5) {
+				if (Math.random()>.5) {
 					// On the vertical edges.
-					newX = (Math.random() > 0.5 ? lowerXbound: upperXbound) + FlxG.camera.scroll.x;
-					newY = (Math.random() * ScreenHeight)- ScreenHeight/2 + FlxG.camera.scroll.y;
+					newX = (Math.random() > 0.5 ? lowerXbound: upperXbound) + player.x;
+					newY = (Math.random() * ScreenHeight)- ScreenHeight/2 + player.y;
 				} else {
 					// On the horizontal edges.
-					newX = (Math.random() * ScreenWidth)- ScreenWidth/2 + FlxG.camera.scroll.x;
-					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + FlxG.camera.scroll.y;	
+					newX = (Math.random() * ScreenWidth) - ScreenWidth/2 + player.x;
+					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + player.y;	
 				}
 			}else{
 				newX = (Math.random() * (ScreenWidth-xBuffer/viewDistance));
 				newY = (ScreenHeight-yBuffer/viewDistance);
 			}
-			
+			FlxG.log('Drawing background object at ' +newX+","+newY);
 			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance);
 			//Making the object float as it is a bubble right now
 			backgroundObject.floatUpward();
@@ -195,10 +196,13 @@ package
 				var newX:Number;
 				var newY:Number;
 				// Randomly on the screen
-				newX = (Math.random() * ScreenWidth)-ScreenWidth/2;
-				newY = (Math.random() * ScreenHeight)-ScreenHeight/2;
+				newX = (Math.random() * ScreenWidth);
+				newY = (Math.random() * ScreenHeight);
+//				newX = player.x;
+//				newY = player.y;
+				
 				//Randomly generating the distance that the image is seen from
-				var viewDistance:Number = Math.random()*5+5.0;
+				var viewDistance:Number = Math.random()*5+2;
 				
 				var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance);
 				//Making the object float as it is a bubble right now
@@ -285,7 +289,7 @@ package
 			}
 			
 			//Populating the world with some background objects
-			drawInitialBackgroundObjects();
+//			drawInitialBackgroundObjects();
 			
 			//Debugging
 			setupB2Debug();
@@ -325,9 +329,9 @@ package
 				}
 				
 				//Randomly add background image
-				if (Math.random() < 0.1) {
-					drawBackgroundObject(128, 128);	
-				}
+//				if (Math.random() < 0.1) {
+//					drawBackgroundObject(128, 128);	
+//				}
 				AquaticEvolver.DEBUG_SPRITE.x = - FlxG.camera.scroll.x;
 				AquaticEvolver.DEBUG_SPRITE.y = - FlxG.camera.scroll.y;
 				
