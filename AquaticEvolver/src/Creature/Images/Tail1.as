@@ -5,11 +5,11 @@ package Creature.Images
 
 	public class Tail1
 	{
-		public static const WIDTH:Number = 64;
-		public static const HEIGHT:Number = 64;
+		private static const WIDTH:Number = 64;
+		private static const HEIGHT:Number = 64;
 		
 		[Embed(source='../../res/Tail1.png')]
-		public static const IMG:Class;
+		private static const IMG:Class;
 		
 		public static const suggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(50,32,WIDTH,HEIGHT);
 		

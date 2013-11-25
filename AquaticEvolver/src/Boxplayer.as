@@ -20,7 +20,7 @@ package
 		private var defaultMovementScheme:Boolean = false; 
 		
 		public function Boxplayer(x:Number, y:Number,speed:Number, health:int, maxHealth:int, adaptations:Array) {
-			super(x,y,ImgPlayer,speed,health, maxHealth, 14, 15);
+			super(x,y, 0, ImgPlayer,speed,health, maxHealth, 14, 15);
 			this.speed = speed;
 			this.health = health;
 			this.maxHealth = maxHealth;
@@ -122,9 +122,9 @@ package
 			return vec;
 		}
 		
-		override protected function bodyBuilder():B2BodyBuilder
+		override protected function bodyBuilder(position:b2Vec2, angle:Number):B2BodyBuilder
 		{
-			var b2bb:B2BodyBuilder = super.bodyBuilder()
+			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
 				.withFriction(0.8).withRestitution(0.3).withDensity(0.1)
 				.withLinearDamping(10.0).withAngularDamping(40.0)
 				.withData(new CollisionData(this, SpriteType.PLAYER));

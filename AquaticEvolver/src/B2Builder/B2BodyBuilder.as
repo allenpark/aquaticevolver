@@ -22,7 +22,10 @@ package B2Builder
 		
 		private var _data:*;
 		
-		public function B2BodyBuilder()
+		/**
+		 * @param angle Angle measured in RADIANS
+		 */
+		public function B2BodyBuilder(b2Position:b2Vec2, b2Angle:Number=0)
 		{
 			//Defaults
 			_friction = 0.0;
@@ -33,9 +36,8 @@ package B2Builder
 			boxShape.SetAsBox(1.0, 1.0);
 			_shape = boxShape;
 			
-			//TODO: position should be set at the instance level
-			_position = new b2Vec2(AEWorld.b2NumFromFlxNum(AEWorld.ScreenWidth)/2.0, AEWorld.b2NumFromFlxNum(AEWorld.ScreenHeight/2.0));
-			_angle = 0;
+			_position = b2Position; //new b2Vec2(AEWorld.b2NumFromFlxNum(AEWorld.ScreenWidth)/2.0, AEWorld.b2NumFromFlxNum(AEWorld.ScreenHeight/2.0));
+			_angle = b2Angle;
 			_type = b2Body.b2_dynamicBody;
 			
 			_linearDamping = 0.0;
@@ -66,17 +68,20 @@ package B2Builder
 			return this;
 		}
 		
+		/*
 		public function withPosition(b2Position:b2Vec2):B2BodyBuilder
 		{
 			_position = b2Position;
 			return this;
 		}
 		
+		
 		public function withAngle(b2Angle:Number):B2BodyBuilder
 		{
 			_angle = b2Angle;
 			return this;
 		}
+		*/
 		
 		public function withType(b2Type:uint):B2BodyBuilder
 		{
@@ -113,7 +118,7 @@ package B2Builder
 			
 			var bodyDef:b2BodyDef = new b2BodyDef();
 			bodyDef.position.Set(_position.x, _position.y);
-			bodyDef.angle = _angle * (Math.PI / 180);
+			bodyDef.angle = _angle;
 			bodyDef.type = _type;
 			bodyDef.linearDamping = _linearDamping;
 			bodyDef.angularDamping = _angularDamping;

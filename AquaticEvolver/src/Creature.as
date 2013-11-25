@@ -2,6 +2,8 @@
 package {	
 	import B2Builder.B2BodyBuilder;
 	
+	import Box2D.Common.Math.b2Vec2;
+	
 	import org.flixel.FlxText;
 	
 	public class Creature extends B2FlxSprite {
@@ -20,8 +22,8 @@ package {
 		public var mode:String;
 		public var creatureType:Number;
 		
-		public function Creature(x:Number, y:Number, Graphic:Class=null, speed:Number=1, health:int=10, maxHealth:int=10,  width:Number=0, height:Number=0) {
-			super(x,y,Graphic, width, height);
+		public function Creature(x:Number, y:Number, angle:Number=0, Graphic:Class=null, speed:Number=1, health:int=10, maxHealth:int=10,  width:Number=0, height:Number=0) {
+			super(x,y, 0, Graphic, width, height);
 
 			this.id = Math.random() * Number.MAX_VALUE;
 			this.speed = speed;
@@ -142,9 +144,9 @@ package {
 			return this.id == creature.id;
 		}
 		
-		override protected function bodyBuilder():B2BodyBuilder
+		override protected function bodyBuilder(position:b2Vec2, angle:Number):B2BodyBuilder
 		{
-			var b2bb:B2BodyBuilder = super.bodyBuilder()
+			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
 				.withFriction(0.8).withRestitution(0.3).withDensity(0.7)
 				.withLinearDamping(3.0).withAngularDamping(30.0);
 			return b2bb;

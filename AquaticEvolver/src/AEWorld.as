@@ -9,9 +9,15 @@ package
 	import org.flixel.FlxG;
 	import org.flixel.FlxState;
 	import org.flixel.FlxText;
+	import Creature.AECreature;
 	
 	public class AEWorld extends FlxState
 	{
+		/**
+		 * Reference to the singleton instance of AEWorld
+		 */
+		public static var world:AEWorld;
+		
 		//Background music
 		[Embed(source="res/Evolving Horizon.mp3")] public var droplet:Class;
 		
@@ -35,7 +41,7 @@ package
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
 		 * -- MRP - 11/11/2013
 		 */
-		public static var player:Creature;
+		public static var player:AEPlayer;
 		
 		/**
 		 * The box2D world, into which we must add all Box2D objects if
@@ -133,21 +139,24 @@ package
 			var lowerYbound:Number = -(ScreenHeight / 2) - yBuffer - 50;
 			var upperYbound:Number = (ScreenHeight / 2) + yBuffer + 50;
 			
+			
 			if(FOLLOWINGPLAYER){
 				if (Math.random()>.5) {
 					// On the vertical edges.
-					newX = (Math.random() > 0.5 ? lowerXbound: upperXbound) + player.x;
-					newY = (Math.random() * ScreenHeight)- ScreenHeight/2 + player.y;
+					newX = (Math.random() > 0.5 ? lowerXbound: upperXbound) + player.getX();
+					newY = (Math.random() * ScreenHeight)- ScreenHeight/2 + player.getY();
 				} else {
 					// On the horizontal edges.
-					newX = (Math.random() * ScreenWidth) - ScreenWidth/2 + player.x;
-					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + player.y;	
+					newX = (Math.random() * ScreenWidth) - ScreenWidth/2 + player.getX();
+					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + player.getY();	
 				}
 			}
+			
+			
 			this.defaultHealth += 2
 			var newEnemy:BoxEnemy = BoxEnemy.generateBoxEnemy(newX, newY, this.defaultSpeed,  this.defaultHealth, this.defaultHealth);
-			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, newEnemy);
-			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, newEnemy);
+			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, newEnemy);
+			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, newEnemy);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.MANDIBLE, new b2Vec2(0, 0), 0, newEnemy);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.BUBBLEGUN, new b2Vec2(0, 0), 0, newEnemy);
 			newEnemy.addAdaptation(start_adaptation);
@@ -172,17 +181,18 @@ package
 			if(FOLLOWINGPLAYER){
 				if (Math.random()>.5) {
 					// On the vertical edges.
-					newX = (Math.random() > 0.5 ? lowerXbound: upperXbound) + player.x;
-					newY = (Math.random() * ScreenHeight)- ScreenHeight/2 + player.y;
+					newX = (Math.random() > 0.5 ? lowerXbound: upperXbound) + player.getX();
+					newY = (Math.random() * ScreenHeight)- ScreenHeight/2 + player.getY();
 				} else {
 					// On the horizontal edges.
-					newX = (Math.random() * ScreenWidth) - ScreenWidth/2 + player.x;
-					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + player.y;	
+					newX = (Math.random() * ScreenWidth) - ScreenWidth/2 + player.getX();
+					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + player.getY();	
 				}
 			}else{
 				newX = (Math.random() * (ScreenWidth-xBuffer/viewDistance));
 				newY = (ScreenHeight-yBuffer/viewDistance);
 			}
+			
 			FlxG.log('Drawing background object at ' +newX+","+newY);
 			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance);
 			//Making the object float as it is a bubble right now
@@ -230,19 +240,21 @@ package
 		
 		private function initializePlayer():void
 		{
-			player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array()); 
+			player = new AEPlayer(ScreenWidth/2.0,ScreenHeight/2.0); 
 
+			
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, player);
-			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, player);
+			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, player);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.MANDIBLE, new b2Vec2(0, 0), 0, player);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.BUBBLEGUN, new b2Vec2(0, 0), 0, player);
-			player.addAdaptation(start_adaptation);
+			//player.addAdaptation(start_adaptation);
 			
 			//Have the camera follow the player
 			if (FOLLOWINGPLAYER) {
-				FlxG.camera.follow(AEWorld.player);
+				FlxG.camera.follow(AEWorld.player.getFollowObject());
 			}
-			this.add(start_adaptation);
+			//this.add(start_adaptation);
+			
 		}
 		
 		private  function setupB2Debug():void
@@ -268,6 +280,7 @@ package
 		
 		override public function create():void
 		{
+			AEWorld.world = this;
 			super.create();
 			setupDefaults();
 			this.createBox2DWorld();	
@@ -280,7 +293,7 @@ package
 			
 			//Create player
 			initializePlayer();
-			addCreature(player);	
+			//addCreature(player);	
 			
 			//Test enemy
 			if (SPAWNENEMIES)
@@ -306,11 +319,14 @@ package
 		{
 			while (KILLLIST.length>0)
 			{
+				/*
 				var top:Array = KILLLIST.pop();
 				var attacker:Creature = top[0] as Creature;
 				var enemy:Creature = top[1] as Creature;
 				var adaptation:Adaptation = top[2] as Adaptation;
 				var killedEnemy:Boolean = attacker.handleAttackOn(adaptation, enemy);
+				*/
+				break;
 			}
 		}
 		

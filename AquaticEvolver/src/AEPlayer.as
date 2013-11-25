@@ -8,6 +8,7 @@ package
 	import Creature.Images.Head1;
 	import Creature.Images.Tail1;
 	import Creature.Images.Torso1;
+	import Creature.Schematics.AESchematic;
 	
 	public class AEPlayer extends AECreature
 	{
@@ -17,31 +18,36 @@ package
 			var head:AEHead = playerHead(x,y);
 			var torso:AETorso = playerTorso(x,y);
 			var tail:AETail = playerTail(x,y);
-			super(x, y, head, torso, tail);
+			super(SpriteType.PLAYER, x, y, head, torso, tail);
+		}
+		
+		public function getFollowObject():B2FlxSprite
+		{
+			return _head.headSegment;
 		}
 		
 		private function playerHead(x:Number, y:Number):AEHead
 		{
-			var headSchematic:Head1 = new Head1(Head1.headAnchor, Head1.potentialSlots);
+			var headSchematic:AESchematic = new AESchematic(Head1.image(), Head1.suggestedAppendageSlots);
 			var playerHeadSegment:AESegment = new AESegment(x,y, headSchematic);
-			var playerHead:AEHead = new AEHead(playerHeadSegment, headSchematic.headAnchor());
+			var playerHead:AEHead = new AEHead(playerHeadSegment, Head1.suggestedHeadAnchor);
 			return playerHead;
 		}
 		
 		private function playerTorso(x:Number, y:Number):AETorso
 		{
-			var torsoSchematic:Torso1 = new Torso1(Torso1.potentialSlots, null, Torso1.potentialHeadAnchor, Torso1.potentialTailAnchor);
+			var torsoSchematic:AESchematic = new AESchematic(Torso1.image(), Torso1.suggestedAppendageSlots);
 			var playerTorsoSegment:AESegment = new AESegment(x,y, torsoSchematic);
 			var playerTorsoSegments:Array = new Array(playerTorsoSegment);
-			var playerTorso:AETorso = new AETorso(playerTorsoSegment, torsoSchematic.headAnchor(), playerTorsoSegments, playerTorsoSegment, torsoSchematic.tailAnchor());
-			return AETorso;
+			var playerTorso:AETorso = new AETorso(playerTorsoSegment, Torso1.suggestedHeadAnchor, playerTorsoSegments, playerTorsoSegment, Torso1.suggestedTailAnchor);
+			return playerTorso;
 		}
 		
 		private function playerTail(x:Number, y:Number):AETail
 		{
-			var tailSchematic:Tail1 = new Tail1(Tail1.tailAnchor, Tail1.potentialSlots);
+			var tailSchematic:AESchematic = new AESchematic(Tail1.image(), Tail1.suggestedAppendageSlots);
 			var playerTailSegment:AESegment = new AESegment(x, y, tailSchematic);
-			var playerTail:AETail = new AETail(playerTailSegment, tailSchematic.tailAnchor());
+			var playerTail:AETail = new AETail(playerTailSegment, Tail1.suggestedTailAnchor);
 			return playerTail;
 		}	
 	}

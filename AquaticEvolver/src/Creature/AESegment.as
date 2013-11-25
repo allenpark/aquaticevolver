@@ -35,7 +35,7 @@ package Creature
 		
 		public function AESegment(x:Number, y:Number, schematic:AESchematic)
 		{
-			super(x,y, schematic.img(), schematic.width(), schematic.height());
+			super(x,y, 0, schematic.img(), schematic.width(), schematic.height());
 			_torsoSlots = schematic.torsoSlots();
 			appendageSlots = schematic.appendageSlots();
 		}

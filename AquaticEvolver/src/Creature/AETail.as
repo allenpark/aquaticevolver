@@ -13,14 +13,24 @@ package Creature
 			this.tailAnchor = tailAnchor;
 		}
 		
-		public static function addTailToWorld(tail:AETail, world:AEWorld):void
+		public function ownBodies(owner:*, type:Number):void 
 		{
-			world.add(tail.tailSegment);
+			tailSegment.getBody().SetUserData(new CollisionData(owner, type));
+		}
+		
+		public function addToWorld():void
+		{
+			AEWorld.world.add(tailSegment);
 		}
 		
 		public function getAppendageSlots():Array
 		{
 			return tailSegment.appendageSlots;
+		}
+		
+		public function kill():void
+		{
+			tailSegment.kill();
 		}
 	}
 }

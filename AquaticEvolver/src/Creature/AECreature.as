@@ -16,23 +16,48 @@ package Creature
 		private static const HeadSwivel:Number = Math.PI/2.0;
 		private static const TailSwivel:Number = Math.PI/2.0;
 		
-		public function AECreature(x:Number, y:Number, head:AEHead, torso:AETorso, tail:AETail)
+		public var creatureType:Number;
+		
+		public function AECreature(type:Number, x:Number, y:Number, head:AEHead, torso:AETorso, tail:AETail)
 		{
 			_head = head;
 			_torso = torso;
 			_tail = tail;
 			
+			creatureType = type;
 			//TODO: is having a null torso vaild? eg. head-tail architecture?
 			attachHeadTorsoTail();
 			
 			initializeAppendageSlots();
+			
+			ownBodies(type);
+			trace("Bodies have been own");
+			//TODO: Should this be done outside the constructor?
+			addToWorld();
 		}
 		
-		public static function addCreatureToWorld(creature:AECreature, world:AEWorld):void
+		private function ownBodies(type:Number):void
 		{
-			AEHead.addHeadToWorld(creature._head, world);
-			AETorso.addTorsoToWorld(creature._torso, world);
-			AETail.addTailToWorld(creature._tail, world);
+			_head.ownBodies(this,type);
+			_torso.ownBodies(this,type);
+			_tail.ownBodies(this,type);
+		}
+		
+		public function getX():Number
+		{
+			return AEWorld.flxNumFromB2Num(_head.headSegment.getBody().GetPosition().x);
+		}
+		
+		public function getY():Number
+		{
+			return AEWorld.flxNumFromB2Num(_head.headSegment.getBody().GetPosition().y);
+		}
+		
+		private function addToWorld():void
+		{
+			_head.addToWorld();
+			_torso.addToWorld();
+			_tail.addToWorld();
 		}
 		
 		private function attachHeadTorsoTail():void
@@ -74,6 +99,13 @@ package Creature
 				_occupiedAppendageSlots.push(appendageSlot);
 				return true;
 			}
+		}
+		
+		public function kill():void
+		{
+			_head.kill();
+			_torso.kill();
+			_tail.kill();
 		}
 	}
 }

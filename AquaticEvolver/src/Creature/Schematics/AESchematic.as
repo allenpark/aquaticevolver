@@ -5,6 +5,9 @@ package Creature.Schematics
 	import Box2D.Common.Math.b2Vec2;
 	import Creature.Images.AEImage;
 
+	/**
+	 * Schematic for making AESegments. Keeps track of image info (image file, width, height), appendage slot locations, and torso slot locations.
+	 */
 	public class AESchematic
 	{	
 		protected var _image:AEImage;
@@ -17,7 +20,7 @@ package Creature.Schematics
 		
 		public function AESchematic(image:AEImage, appendageSlots:Array=null, torsoSlots:Dictionary=null)
 		{
-			_image = AEImage;
+			_image = image;
 			_appendageSlots = appendageSlots;
 			_torsoSlots = torsoSlots;
 		}
