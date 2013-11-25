@@ -4,6 +4,7 @@ package
 	
 	import Box2D.Common.Math.b2Vec2;
 	
+	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxParticle;
 	import org.flixel.FlxPoint;
@@ -13,7 +14,7 @@ package
 		public var aggroRadius:int = 200;
 		
 		public function BoxEnemy(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array) {
-			super(x,y,null,speed,health,maxHealth, width, height);
+			super(x ,y ,null,speed,health,maxHealth, width, height);
 			this.attackingWith = null;
 			
 			this.maxVelocity.x = 80;
@@ -71,17 +72,25 @@ package
 		
 		override public function update():void {			
 			super.update();
+
+			//FIX THESE BOUNDS!!
+			var lowerYbound:Number = ((-200 - FlxG.height/2) + AEWorld.player.y);
+			var upperYbound:Number = ((200 + FlxG.height/2) + AEWorld.player.y);
+			var upperXbound:Number = ((200 + FlxG.width/2) + AEWorld.player.x);
+			var lowerXbound:Number = ((-200 - FlxG.width/2) + AEWorld.player.x);
 			
-			if (!this.onScreen(null))
-			{
-				/*for each (var adapt:Adaptation in adaptations) {
-					adapt.kill();
-					adapt.destroy();
-				}
-				enemies.remove(this, true);*/
+			//			FlxG.log("LX:"+lowerXbound+" ,UX:"+upperXbound+", LY:"+lowerYbound+" UY:"+upperYbound);
+			//			FlxG.log('Bubble at:('+ this.x+","+this.y);
+			//			
+			var outsideYbounds:Boolean = this.y > upperYbound || this.y < lowerYbound;
+			var outsideXbounds:Boolean = this.x > upperXbound || this.x < lowerXbound;
+			//TODO: update this so that bubbles can still be slighly off screen
+			//Make sure that the object is still on the screen
+			if(outsideXbounds || outsideYbounds){
+				//CURRENTLY CRASHES GAME WHEN CALLED DON'T KNOW HOW TO CLEAN UP MEMORY
+				this.destroy();
 				this.kill();
-				//this.destroy();
-				return;
+				return
 			}
 			
 			updateMove();

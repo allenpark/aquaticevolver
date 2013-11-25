@@ -2,7 +2,6 @@
 package {	
 	import B2Builder.B2BodyBuilder;
 	
-	import org.flixel.FlxState;
 	import org.flixel.FlxText;
 	
 	public class Creature extends B2FlxSprite {
