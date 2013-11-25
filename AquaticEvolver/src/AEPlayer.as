@@ -5,9 +5,9 @@ package
 	import Creature.AESegment;
 	import Creature.AETail;
 	import Creature.AETorso;
-	import Creature.CreatureSchematics.Head1;
-	import Creature.CreatureSchematics.Tail1;
-	import Creature.CreatureSchematics.Torso1;
+	import Creature.Images.Head1;
+	import Creature.Images.Tail1;
+	import Creature.Images.Torso1;
 	
 	public class AEPlayer extends AECreature
 	{
@@ -22,23 +22,26 @@ package
 		
 		private function playerHead(x:Number, y:Number):AEHead
 		{
-			var playerHeadSegment:AESegment = new AESegment(x,y,new Head1());
-			var playerHead:AEHead = new AEHead(playerHeadSegment, null);
+			var headSchematic:Head1 = new Head1(Head1.headAnchor, Head1.potentialSlots);
+			var playerHeadSegment:AESegment = new AESegment(x,y, headSchematic);
+			var playerHead:AEHead = new AEHead(playerHeadSegment, headSchematic.headAnchor());
 			return playerHead;
 		}
 		
 		private function playerTorso(x:Number, y:Number):AETorso
 		{
-			var playerTorsoSegment:AESegment = new AESegment(x,y, new Torso1());
+			var torsoSchematic:Torso1 = new Torso1(Torso1.potentialSlots, null, Torso1.potentialHeadAnchor, Torso1.potentialTailAnchor);
+			var playerTorsoSegment:AESegment = new AESegment(x,y, torsoSchematic);
 			var playerTorsoSegments:Array = new Array(playerTorsoSegment);
-			var playerTorso:AETorso = new AETorso(playerTorsoSegment, null, playerTorsoSegments, playerTorsoSegment, null);
+			var playerTorso:AETorso = new AETorso(playerTorsoSegment, torsoSchematic.headAnchor(), playerTorsoSegments, playerTorsoSegment, torsoSchematic.tailAnchor());
 			return AETorso;
 		}
 		
 		private function playerTail(x:Number, y:Number):AETail
 		{
-			var playerTailSegment:AESegment = new AESegment(x, y, new Tail1());
-			var playerTail:AETail = new AETail(playerTailSegment, null);
+			var tailSchematic:Tail1 = new Tail1(Tail1.tailAnchor, Tail1.potentialSlots);
+			var playerTailSegment:AESegment = new AESegment(x, y, tailSchematic);
+			var playerTail:AETail = new AETail(playerTailSegment, tailSchematic.tailAnchor());
 			return playerTail;
 		}	
 	}

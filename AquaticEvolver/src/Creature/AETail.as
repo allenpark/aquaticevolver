@@ -13,6 +13,11 @@ package Creature
 			this.tailAnchor = tailAnchor;
 		}
 		
+		public static function addTailToWorld(tail:AETail, world:AEWorld):void
+		{
+			world.add(tail.tailSegment);
+		}
+		
 		public function getAppendageSlots():Array
 		{
 			return tailSegment.appendageSlots;

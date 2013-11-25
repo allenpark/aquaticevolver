@@ -1,20 +1,28 @@
-package Creature.CreatureSchematics
+package Creature.Schematics
 {
-	import Box2D.Common.Math.b2Vec2;
 	import flash.utils.Dictionary;
+	
+	import Box2D.Common.Math.b2Vec2;
+	import Creature.Images.AEImage;
 
-	public class Schematic
+	public class AESchematic
 	{	
+		protected var _image:AEImage;
+		
 		protected var _appendageSlots:Array;
 		protected var _torsoSlots:Dictionary;
 		
-		public function Schematic(appendageSlots:Array=null, torsoSlots:Dictionary=null)
+		protected var _headAnchor:b2Vec2;
+		protected var _tailAnchor:b2Vec2;
+		
+		public function AESchematic(image:AEImage, appendageSlots:Array=null, torsoSlots:Dictionary=null)
 		{
+			_image = AEImage;
 			_appendageSlots = appendageSlots;
 			_torsoSlots = torsoSlots;
 		}
 		
-		public static function getB2Vec2FromFlxCoords(x:Number, y:Number, width:Number, height:Number):b2Vec2
+		public static function b2Vec2FromFlxCoords(x:Number, y:Number, width:Number, height:Number):b2Vec2
 		{
 			var centerX:Number = width/2.0;
 			var centerY:Number = height/2.0;
@@ -23,17 +31,17 @@ package Creature.CreatureSchematics
 		
 		public function width():Number
 		{
-			return null;
+			return _image.getWidth();
 		}
 		
 		public function height():Number
 		{
-			return null;
+			return _image.getHeight();
 		}
 		
 		public function img():Class
 		{
-			return null;
+			return _image.getImg();
 		}
 		
 		public function appendageSlots():Array

@@ -2,8 +2,8 @@ package Creature
 {
 	import flash.utils.Dictionary;
 		
-	import Creature.CreatureSchematics.Schematic;
 	import Box2D.Common.Math.b2Vec2;
+	import Creature.Schematics.AESchematic;
 	
 	public class AESegment extends B2FlxSprite
 	{	
@@ -33,7 +33,7 @@ package Creature
 		}
 		*/
 		
-		public function AESegment(x:Number, y:Number, schematic:Schematic)
+		public function AESegment(x:Number, y:Number, schematic:AESchematic)
 		{
 			super(x,y, schematic.img(), schematic.width(), schematic.height());
 			_torsoSlots = schematic.torsoSlots();

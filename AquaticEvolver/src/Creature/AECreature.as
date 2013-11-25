@@ -28,6 +28,13 @@ package Creature
 			initializeAppendageSlots();
 		}
 		
+		public static function addCreatureToWorld(creature:AECreature, world:AEWorld):void
+		{
+			AEHead.addHeadToWorld(creature._head, world);
+			AETorso.addTorsoToWorld(creature._torso, world);
+			AETail.addTailToWorld(creature._tail, world);
+		}
+		
 		private function attachHeadTorsoTail():void
 		{
 			//TODO: Should Head -- Torso -- Tail attaching with weld joints be included?? Currently, only revolute joints are used to connect head-torso-tail together

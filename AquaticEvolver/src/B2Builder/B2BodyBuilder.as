@@ -33,6 +33,7 @@ package B2Builder
 			boxShape.SetAsBox(1.0, 1.0);
 			_shape = boxShape;
 			
+			//TODO: position should be set at the instance level
 			_position = new b2Vec2(AEWorld.b2NumFromFlxNum(AEWorld.ScreenWidth)/2.0, AEWorld.b2NumFromFlxNum(AEWorld.ScreenHeight/2.0));
 			_angle = 0;
 			_type = b2Body.b2_dynamicBody;

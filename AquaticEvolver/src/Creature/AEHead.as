@@ -13,6 +13,11 @@ package Creature
 			this.headAnchor = headAnchor;
 		}
 		
+		public static function addHeadToWorld(head:AEHead, world:AEWorld):void
+		{
+			world.add(head.headSegment);
+		}
+		
 		public function getAppendageSlots():Array
 		{
 			return headSegment.appendageSlots;
