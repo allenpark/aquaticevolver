@@ -17,7 +17,7 @@ package
 		[Embed(source="res/jump.mp3")] 	
 		public var moveAction:Class;
 		
-		private var defaultMovementScheme:Boolean = false; 
+		private var defaultMovementScheme:Boolean = true; 
 		
 		public function Boxplayer(x:Number, y:Number,speed:Number, health:int, maxHealth:int, adaptations:Array) {
 			super(x,y,ImgPlayer,speed,health, maxHealth, 14, 15);

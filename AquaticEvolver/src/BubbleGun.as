@@ -1,12 +1,10 @@
 package
 {
 	import Box2D.Common.Math.b2Vec2;
-	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2World;
+	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
 	
-	import org.flixel.FlxG;
-	import org.flixel.FlxGroup;
 	import org.flixel.FlxPoint;
 	
 	public class BubbleGun extends Appendage
@@ -44,9 +42,9 @@ package
 			revoluteJointDef.bodyA = owner.getBody();
 			revoluteJointDef.bodyB = bubbleGun.getBody();
 			revoluteJointDef.localAnchorA = jointPos;
-			FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);
+//			FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);
 			revoluteJointDef.localAnchorB = convertToBox2D(bubbleGunJoint);
-			FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
+//			FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
 			revoluteJointDef.referenceAngle = jointAngle;
 			revoluteJointDef.enableLimit = true;
 			revoluteJointDef.lowerAngle = -3*Math.PI/4;

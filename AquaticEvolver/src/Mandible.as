@@ -53,9 +53,9 @@ package
 				revoluteJointDef.bodyA = owner.getBody();
 				revoluteJointDef.bodyB = base.getBody();
 				revoluteJointDef.localAnchorA = jointPos;
-				FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);
+//				FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);
 				revoluteJointDef.localAnchorB = convertToBox2D(mandibleBaseJoint);
-				FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
+//				FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
 				revoluteJointDef.referenceAngle = jointAngle;
 				revoluteJointDef.enableLimit = true;
 				revoluteJointDef.lowerAngle = -Math.PI/8;
@@ -68,9 +68,9 @@ package
 				revoluteJointDef.bodyA = base.getBody();
 				revoluteJointDef.bodyB = jaw.getBody();
 				revoluteJointDef.localAnchorA = convertToBox2D(mandibleBaseJawJoint);
-				FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);
+//				FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);
 				revoluteJointDef.localAnchorB = convertToBox2D(mandibleJawJoint);
-				FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
+//				FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
 				revoluteJointDef.referenceAngle = -Math.PI/4;
 				revoluteJointDef.enableLimit = true;
 				revoluteJointDef.lowerAngle = -Math.PI/4;
@@ -83,9 +83,9 @@ package
 				revoluteJointDef.bodyA = base.getBody();
 				revoluteJointDef.bodyB = otherJaw.getBody();
 				revoluteJointDef.localAnchorA = convertToBox2D(mandibleBaseOtherJawJoint);
-				FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);
+//				FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);
 				revoluteJointDef.localAnchorB = convertToBox2D(mandibleOtherJawJoint);
-				FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
+//				FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
 				revoluteJointDef.referenceAngle = +Math.PI/4;
 				revoluteJointDef.enableLimit = true;
 				revoluteJointDef.lowerAngle = -1.05*Math.PI/4;

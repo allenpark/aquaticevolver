@@ -36,9 +36,9 @@ package
 			weldJointDef.bodyA = owner.getBody();
 			weldJointDef.bodyB = spike.getBody();
 			weldJointDef.localAnchorA = jointPos;
-			FlxG.log("AanchorCoords = " + weldJointDef.localAnchorA.x + ", " + weldJointDef.localAnchorA.y);
+//			FlxG.log("AanchorCoords = " + weldJointDef.localAnchorA.x + ", " + weldJointDef.localAnchorA.y);
 			weldJointDef.localAnchorB = convertToBox2D(spikeJoint);
-			FlxG.log("BanchorCoords = " + weldJointDef.localAnchorB.x + ", " + weldJointDef.localAnchorB.y);
+//			FlxG.log("BanchorCoords = " + weldJointDef.localAnchorB.x + ", " + weldJointDef.localAnchorB.y);
 			weldJointDef.collideConnected = false;
 			weldJointDef.referenceAngle = jointAngle;
 			

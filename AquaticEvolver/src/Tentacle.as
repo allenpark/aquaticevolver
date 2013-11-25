@@ -60,9 +60,9 @@ package
 					revoluteJointDef.localAnchorA = convertToBox2D(tentacleSegmentEndJoint);
 					revoluteJointDef.referenceAngle = 0;
 				}
-				FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);
+//				FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);
 				revoluteJointDef.localAnchorB = convertToBox2D(tentacleSegmentStartJoint);
-				FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
+//				FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
 				revoluteJointDef.enableLimit = true;
 				revoluteJointDef.lowerAngle = -Math.PI/4;
 				revoluteJointDef.upperAngle = Math.PI/4;
@@ -89,9 +89,9 @@ package
 			{
 				revoluteJointDef.localAnchorA = convertToBox2D(tentacleSegmentEndJoint);
 			}
-			FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);
+//			FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);
 			revoluteJointDef.localAnchorB = convertToBox2D(tentacleHeadJoint);
-			FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
+//			FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
 			revoluteJointDef.referenceAngle = Math.PI;
 			revoluteJointDef.enableLimit = true;
 			revoluteJointDef.lowerAngle = -Math.PI/4;

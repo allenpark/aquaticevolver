@@ -8,7 +8,6 @@ package
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxState;
-	import org.flixel.FlxText;
 	
 	public class AEWorld extends FlxState
 	{
@@ -81,6 +80,8 @@ package
 		 * - MARCEL 11/17/13
 		 */
 		public static var KILLLIST:Array = new Array();
+		
+		private var prevBgChangePos:Number;
 		
 		/**
 		 * Constructs and initializes the Box2D b2World.
@@ -225,6 +226,8 @@ package
 			ScreenY = FlxG.camera.scroll.y;
 			ScreenWidth = FlxG.width;
 			ScreenHeight = FlxG.height;
+			//Setting the background original changed position to be player's original position
+			prevBgChangePos = ScreenHeight/2;
 			this.defaultHealth = 10;
 		}
 		
@@ -331,6 +334,25 @@ package
 					if (Math.random() < 0.02 && BoxEnemy.getEnemiesLength() < 30) {
 						addOffscreenEnemy(15, 15);
 					}
+				}
+				
+				//If the player has descended more than 100 pixels
+				//from the last update, and the background is not 
+				//completely black the background will get darker
+				if((player.y > prevBgChangePos + 100) && (FlxG.bgColor.valueOf() > 0xff010206))
+				{
+					prevBgChangePos += 100;
+					FlxG.bgColor -= 0x00010205;
+//					FlxG.log("Darker Background is now"+ FlxG.bgColor.valueOf());
+				}
+				//If the player has gone up more than 100 pixels from the
+				//last background change,and the background is not as
+				//bright as it gets make the background brighter
+				else if(player.y < prevBgChangePos - 100 && FlxG.bgColor.valueOf() < 0xff3366ff){
+					prevBgChangePos -= 100;
+					FlxG.bgColor += 0x00010205;
+//					FlxG.log("Brighter Background is now"+ FlxG.bgColor.valueOf());
+
 				}
 				
 				//Randomly add background image
