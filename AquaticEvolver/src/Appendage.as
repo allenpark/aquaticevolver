@@ -27,7 +27,7 @@ package {
 		/* takes in a AppendageType int, b2Vec2 in local box2D coordinates that specifies the position of the joint,
 		angle in radians specifying the orientation of the joint, and a Creature specifying the owner of the appendage
 		*/
-		public static function createAppendageWithType(type:Number, jointPos:b2Vec2, jointAngle:Number, owner:Creature): Appendage
+		public static function createAppendageWithType(type:Number, jointPos:b2Vec2, jointAngle:Number, owner:Creature, world:AEWorld=null): Appendage
 		{
 			var appendage:Appendage;
 			
@@ -47,7 +47,7 @@ package {
 					break;
 				case AppendageType.BUBBLEGUN:
 					FlxG.log("Creating a new bubble gun");
-					appendage = new BubbleGun(jointPos, jointAngle, owner);
+					appendage = new BubbleGun(jointPos, jointAngle, owner, world);
 					break;
 				default:
 					FlxG.log("Creating a new default spike");

@@ -69,7 +69,7 @@ package
 					var mousePoint:FlxPoint = new FlxPoint(FlxG.mouse.screenX, FlxG.mouse.screenY);
 					var playerPoint:FlxPoint = this.getScreenXY();
 					body.ApplyImpulse(calcB2Impulse(mousePoint, playerPoint), body.GetPosition());
-					//attack();
+					attack();
 					
 					
 				}

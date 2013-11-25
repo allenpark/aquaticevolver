@@ -1,49 +1,50 @@
 package
 {
+	import B2Builder.B2BodyBuilder;
+	import Box2D.Dynamics.b2Body;
+	
+	import Box2D.Common.Math.b2Vec2;
+	
 	import org.flixel.FlxG;
+	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
 
-	public class AttackBubble extends FlxSprite
+	public class AttackBubble extends B2FlxSprite
 	{
-		[Embed(source='res/BackgroundBubble.png')]
+		[Embed(source='res/Bubble1.png')]
 		public static var ImgAttackBubble:Class;
-		public function AttackBubble(x:int , y:int, xvelocity:Number, yvelocity:Number )
+		
+		private var bodyWidth:int = 64;
+		private var bodyHeight:int = 64;
+		public var owner:Creature;
+		public var adaptOwner:Adaptation;
+		public var pos:b2Vec2;
+		
+		public function AttackBubble(pos:b2Vec2, owner:Creature, adaptOwner:Adaptation, width:Number, height:Number, speed:Number, targetPoint:FlxPoint)
 		{
-			this.loadGraphic(ImgAttackBubble, false, false);
-			this.x = x;
-			this.y = y;
-			this.velocity.x = xvelocity;
-			this.velocity.y = yvelocity;
+			//this.loadGraphic(ImgAttackBubble, false, false);
+			this.owner = owner;
+			this.adaptOwner = adaptOwner;
+			this.pos = pos;
+			super(AEWorld.flxNumFromB2Num(pos.x), AEWorld.flxNumFromB2Num(pos.y), ImgAttackBubble, width, height);
 		}
 		override public function update():void{
-			super.update();
-			var lowerYbound:Number = (-100 - FlxG.height/2)*this.scrollFactor.y + FlxG.camera.scroll.y;
-			var upperYbound:Number = (100 + FlxG.height/2)*this.scrollFactor.y + FlxG.camera.scroll.y;
-			var upperXbound:Number = (100 + FlxG.width/2)*this.scrollFactor.x + FlxG.camera.scroll.x;
-			var lowerXbound:Number = (-100 - FlxG.width/2)*this.scrollFactor.x + FlxG.camera.scroll.x;
-			
-			var withInYbounds:Boolean = this.y < upperYbound && this.y > lowerYbound;
-			var withInXbounds:Boolean = this.x < upperXbound && this.x > lowerXbound;
-			//TODO: update this so that bubbles can still be slighly off screen
-			//Make sure that the object is still on the screen
-			if(!(withInXbounds && withInYbounds)){
-				//CURRENTLY CRASHES GAME WHEN CALLED DON'T KNOW HOW TO CLEAN UP MEMORY
-				//				this.destroy();
-				this.kill(); 
+			if (!this.onScreen(null))
+			{
+				this.kill();
+				return;
 			}
-		}
-		public function setXVelocity (xVelocity:Number){
-			this.velocity.x = xVelocity;			
-		}
-		public function setYVelocity (yVelocity:Number){
-			this.velocity.y = yVelocity;			
-		}
-		public function setXAcceleration (xAcceleration:Number){
-			this.acceleration.x= xAcceleration;			
-		}
-		public function setYAcceleration (yAcceleration:Number){
-			this.acceleration.y= yAcceleration;			
+			super.update();
 		}
 		
+		override protected function bodyBuilder():B2BodyBuilder
+		{
+			var b2bb = super.bodyBuilder()
+				.withPosition(pos)
+				.withType(b2Body.b2_kinematicBody)
+				.withBullet(true)
+				.withData(new CollisionData(this.owner, SpriteType.BUBBLE, adaptOwner));
+			return b2bb;
+		}
 	}
 }

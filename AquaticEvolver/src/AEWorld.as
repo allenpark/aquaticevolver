@@ -29,7 +29,7 @@ package
 		/**
 		 * Boolean to spawn enemies
 		 */
-		private var SPAWNENEMIES:Boolean = true;
+		private var SPAWNENEMIES:Boolean = false;
 		
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
@@ -138,9 +138,9 @@ package
 			this.defaultHealth += 2
 			var newEnemy:BoxEnemy = BoxEnemy.generateBoxEnemy(newX, newY, this.defaultSpeed,  this.defaultHealth, this.defaultHealth);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, newEnemy);
-			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, newEnemy);
+			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, newEnemy);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.MANDIBLE, new b2Vec2(0, 0), 0, newEnemy);
-			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.BUBBLEGUN, new b2Vec2(0, 0), 0, newEnemy);
+			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.BUBBLEGUN, new b2Vec2(0, 0), 0, newEnemy, this);
 			newEnemy.addAdaptation(start_adaptation);
 			addCreature(newEnemy);
 			this.add(start_adaptation);
@@ -223,9 +223,9 @@ package
 			player = new Boxplayer(ScreenWidth / 2, ScreenHeight / 2, this.defaultSpeed, this.defaultHealth, this.defaultHealth, new Array()); 
 
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, player);
-			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, player);
+			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, player);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.MANDIBLE, new b2Vec2(0, 0), 0, player);
-			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.BUBBLEGUN, new b2Vec2(0, 0), 0, player);
+			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.BUBBLEGUN, new b2Vec2(0, 0), 0, player,this);
 			player.addAdaptation(start_adaptation);
 			
 			//Have the camera follow the player
@@ -253,6 +253,11 @@ package
 		{
 			FlxG.paused = false;
 			paused = new pausescreen;
+		}
+		
+		public function getInstance():AEWorld
+		{
+			return this;
 		}
 		
 		

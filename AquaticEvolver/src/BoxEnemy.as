@@ -74,13 +74,7 @@ package
 			
 			if (!this.onScreen(null))
 			{
-				/*for each (var adapt:Adaptation in adaptations) {
-					adapt.kill();
-					adapt.destroy();
-				}
-				enemies.remove(this, true);*/
 				this.kill();
-				//this.destroy();
 				return;
 			}
 			
