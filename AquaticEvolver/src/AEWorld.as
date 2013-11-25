@@ -95,6 +95,21 @@ package
 		private var prevBgChangePos:Number;
 		
 		/**
+		 * Number of pixels necessary for the background to change brighness
+		 * of the screen.
+		 * -JAN 11/25/13
+		 */
+		private const PIXELSPERDEPTH:int = 30; //CHANGE THIS TO MAKE BACKGROUND CHANGE FASTER OR SLOWER
+		/**
+		 * Number keeping track of how much to change the different components
+		 * RGB of the background
+		 * -JAN 11/25/13
+		 */
+		private var redChange:int = 0;
+		private var greenChange:int = 0;
+		private var blueChange:int = 0;
+		
+		/**
 		 * Constructs and initializes the Box2D b2World.
 		 */
 		private function createBox2DWorld():void {
@@ -140,10 +155,10 @@ package
 			var newY:Number;
 			
 			//Setting upper and lower bounds for the objects
-			var lowerXbound:Number = -(ScreenWidth / 2) - xBuffer - 50;
-			var upperXbound:Number = (ScreenWidth / 2) + xBuffer + 50;
-			var lowerYbound:Number = -(ScreenHeight / 2) - yBuffer - 50;
-			var upperYbound:Number = (ScreenHeight / 2) + yBuffer + 50;
+			var lowerXbound:Number = -(ScreenWidth / 2) - xBuffer - 100;
+			var upperXbound:Number = (ScreenWidth / 2) + xBuffer + 100;
+			var lowerYbound:Number = -(ScreenHeight / 2) - yBuffer - 100;
+			var upperYbound:Number = (ScreenHeight / 2) + yBuffer + 100;
 			
 			
 			if(FOLLOWINGPLAYER){
@@ -360,21 +375,43 @@ package
 					}
 				}
 				
-				//If the player has descended more than 100 pixels
+				//If the player has descended more than PIXELSPERDEPTH pixels
 				//from the last update, and the background is not 
 				//completely black the background will get darker
-				if((FlxG.camera.scroll.y > prevBgChangePos + 100) && (FlxG.bgColor.valueOf() > 0xff010206))
+				if((FlxG.camera.scroll.y > prevBgChangePos + PIXELSPERDEPTH) && (FlxG.bgColor.valueOf() > 0xff010206))
 				{
-					prevBgChangePos += 100;
-					FlxG.bgColor -= 0x00010205;
-//					FlxG.log("Darker Background is now"+ FlxG.bgColor.valueOf());
+					prevBgChangePos += PIXELSPERDEPTH;
+					
+					blueChange = (blueChange + 1)%5;
+					//Reduce blue channel by one
+					FlxG.bgColor -= 0x00000001;
+					if (blueChange == 0 || blueChange == 2){
+						greenChange = (greenChange + 1)%2;
+						//Reduce red channel by one
+						FlxG.bgColor -= 0x00000100;
+						if(greenChange == 0){
+							//Reduce green channel by one
+							FlxG.bgColor -= 0x00010000;
+						}
+					}
 				}
-				//If the player has gone up more than 100 pixels from the
+				//If the player has gone up more than PIXELSPERDEPTH pixels from the
 				//last background change,and the background is not as
 				//bright as it gets make the background brighter
-				else if(FlxG.camera.scroll.y < prevBgChangePos - 100 && FlxG.bgColor.valueOf() < 0xff3366ff){
-					prevBgChangePos -= 100;
-					FlxG.bgColor += 0x00010205;
+				else if(FlxG.camera.scroll.y < prevBgChangePos - PIXELSPERDEPTH && FlxG.bgColor.valueOf() < 0xff3366ff){
+					prevBgChangePos -= PIXELSPERDEPTH;
+					blueChange = (blueChange + 1)%5;
+					//Reduce blue channel by one
+					FlxG.bgColor += 0x00000001;
+					if (blueChange == 0 || blueChange == 2){
+						greenChange = (greenChange + 1)%2;
+						//Reduce red channel by one
+						FlxG.bgColor += 0x00000100;
+						if(greenChange == 0){
+							//Reduce green channel by one
+							FlxG.bgColor += 0x00010000;
+						}
+					}
 //					FlxG.log("Brighter Background is now"+ FlxG.bgColor.valueOf());
 
 				}

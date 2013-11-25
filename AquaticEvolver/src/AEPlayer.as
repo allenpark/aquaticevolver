@@ -18,7 +18,7 @@ package
 	
 	public class AEPlayer extends AECreature
 	{
-		private var defaultMovementScheme:Boolean = false; 
+		private var defaultMovementScheme:Boolean = true; 
 		
 		public function AEPlayer(x:Number, y:Number)
 		{	

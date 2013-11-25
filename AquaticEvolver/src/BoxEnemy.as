@@ -6,12 +6,12 @@ package
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
-	import org.flixel.FlxParticle;
 	import org.flixel.FlxPoint;
 	
 	public class BoxEnemy extends Creature
 	{
 		public var aggroRadius:int = 200;
+		private const BOUNDSBUFFER:int = 300;
 		
 		public function BoxEnemy(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array) {
 			super(x, y, 0, null, speed, health, maxHealth, width, height);
@@ -22,6 +22,7 @@ package
 			this.drag.x = this.maxVelocity.x * 2;
 			this.drag.y = this.maxVelocity.y * 2;
 			this.creatureType = SpriteType.ENEMY;
+			FlxG.log("Enemy spawned at:"+x+","+y);
 		}
 		
 		/**
@@ -74,10 +75,10 @@ package
 			super.update();
 
 			//FIX THESE BOUNDS!!
-			var lowerYbound:Number = ((-200 - FlxG.height/2) + AEWorld.player.getY());
-			var upperYbound:Number = ((200 + FlxG.height/2) + AEWorld.player.getY());
-			var upperXbound:Number = ((200 + FlxG.width/2) + AEWorld.player.getX());
-			var lowerXbound:Number = ((-200 - FlxG.width/2) + AEWorld.player.getX());
+			var lowerYbound:Number = ((-BOUNDSBUFFER - FlxG.height/2) + AEWorld.player.getY());
+			var upperYbound:Number = ((BOUNDSBUFFER + FlxG.height/2) + AEWorld.player.getY());
+			var upperXbound:Number = ((BOUNDSBUFFER + FlxG.width/2) + AEWorld.player.getX());
+			var lowerXbound:Number = ((-BOUNDSBUFFER - FlxG.width/2) + AEWorld.player.getX());
 			
 			//			FlxG.log("LX:"+lowerXbound+" ,UX:"+upperXbound+", LY:"+lowerYbound+" UY:"+upperYbound);
 			//			FlxG.log('Bubble at:('+ this.x+","+this.y);
@@ -87,7 +88,6 @@ package
 			//TODO: update this so that bubbles can still be slighly off screen
 			//Make sure that the object is still on the screen
 			if(outsideXbounds || outsideYbounds){
-				//CURRENTLY CRASHES GAME WHEN CALLED DON'T KNOW HOW TO CLEAN UP MEMORY
 				this.destroy();
 				this.kill();
 				return
