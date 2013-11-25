@@ -21,7 +21,7 @@ package
 		public static var spikeImg:Class;
 		
 		// jointPos is given from the local box2D coordinate system of the player and is the location of the attached point for the adatation
-		public function Spike(jointPos:b2Vec2, jointAngle, owner:Creature)
+		public function Spike(jointPos:b2Vec2, jointAngle, owner:*)
 		{
 			super(AppendageType.SPIKE, 20, true, 1, jointPos, jointAngle, owner);
 			

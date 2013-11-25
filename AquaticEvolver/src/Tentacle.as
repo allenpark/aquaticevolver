@@ -30,7 +30,7 @@ package
 		public static var tentacleMidImg:Class;
 		
 		// jointPos is given from the local box2D coordinate system of the player and is the location of the attached point for the adatation
-		public function Tentacle(jointPos:b2Vec2, jointAngle:Number, owner:Creature)
+		public function Tentacle(jointPos:b2Vec2, jointAngle:Number, owner:*)
 		{
 			jointAngle = jointAngle + jointAngleCorrection;
 			super(AppendageType.TENTACLE, 50, true, 2, jointPos, jointAngle, owner);

@@ -2,7 +2,6 @@ package Creature
 {
 	import B2Builder.B2RevoluteJointBuilder;
 	
-	import Box2D.Dynamics.Joints.b2Joint;
 	import Box2D.Dynamics.Joints.b2RevoluteJoint;
 			
 	public class AECreature
@@ -92,7 +91,7 @@ package Creature
 			_occupiedAppendageSlots = new Array();
 		}
 		
-		public function attachAppendage(appendage:Appendage):Boolean
+		public function attachAppendage(appendageType:Number):Boolean
 		{
 			if (_unoccupiedAppendageSlots.length == 0)
 			{
@@ -102,7 +101,7 @@ package Creature
 			else
 			{
 				var appendageSlot:AESlot = _unoccupiedAppendageSlots.pop();
-				//TODO: attach appendage to appendageSlot
+				var appendage:Appendage = Appendage.createAppendageWithType(appendageType, null, 0, null, null);
 				_occupiedAppendageSlots.push(appendageSlot);
 				return true;
 			}
