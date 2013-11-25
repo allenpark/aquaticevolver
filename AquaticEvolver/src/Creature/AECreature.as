@@ -1,6 +1,9 @@
 package Creature
 {
 	import B2Builder.B2RevoluteJointBuilder;
+	
+	import Box2D.Dynamics.Joints.b2Joint;
+	import Box2D.Dynamics.Joints.b2RevoluteJoint;
 			
 	public class AECreature
 	{
@@ -13,19 +16,55 @@ package Creature
 		private var _unoccupiedAppendageSlots:Array;
 		private var _occupiedAppendageSlots:Array;
 		
+		protected var _headTorsoJoint:b2RevoluteJoint;
+		protected var _torsoTailJoint:b2RevoluteJoint;
+		
 		private static const HeadSwivel:Number = Math.PI/2.0;
 		private static const TailSwivel:Number = Math.PI/2.0;
 		
-		public function AECreature(x:Number, y:Number, head:AEHead, torso:AETorso, tail:AETail)
+		public var creatureType:Number;
+		
+		protected var speed:Number = 10;
+		
+		public function AECreature(type:Number, x:Number, y:Number, head:AEHead, torso:AETorso, tail:AETail)
 		{
 			_head = head;
 			_torso = torso;
 			_tail = tail;
 			
+			creatureType = type;
 			//TODO: is having a null torso vaild? eg. head-tail architecture?
 			attachHeadTorsoTail();
 			
 			initializeAppendageSlots();
+			
+			ownBodies(type);
+			//TODO: Should this be done outside the constructor?
+			addToWorld();
+		}
+		
+		private function ownBodies(type:Number):void
+		{
+			_head.ownBodies(this,type);
+			_torso.ownBodies(this,type);
+			_tail.ownBodies(this,type);
+		}
+		
+		public function getX():Number
+		{
+			return AEWorld.flxNumFromB2Num(_head.headSegment.getBody().GetPosition().x);
+		}
+		
+		public function getY():Number
+		{
+			return AEWorld.flxNumFromB2Num(_head.headSegment.getBody().GetPosition().y);
+		}
+		
+		private function addToWorld():void
+		{
+			_head.addToWorld();
+			_torso.addToWorld();
+			_tail.addToWorld();
 		}
 		
 		private function attachHeadTorsoTail():void
@@ -33,12 +72,12 @@ package Creature
 			//TODO: Should Head -- Torso -- Tail attaching with weld joints be included?? Currently, only revolute joints are used to connect head-torso-tail together
 			
 			//Head -- Torso
-			new B2RevoluteJointBuilder(_head.headSegment.getBody(), _torso.headSegment.getBody(), _head.headAnchor, _torso.headAnchor)
+			_headTorsoJoint = new B2RevoluteJointBuilder(_head.headSegment.getBody(), _torso.headSegment.getBody(), _head.headAnchor, _torso.headAnchor)
 				.withEnabledLimit().withSwivelAngle(HeadSwivel)
 				.build();
 			
 			//Torso -- Tail
-			new B2RevoluteJointBuilder(_torso.tailSegment.getBody(), _tail.tailSegment.getBody(), _torso.tailAnchor, _tail.tailAnchor)
+			_torsoTailJoint = new B2RevoluteJointBuilder(_torso.tailSegment.getBody(), _tail.tailSegment.getBody(), _torso.tailAnchor, _tail.tailAnchor)
 				.withEnabledLimit().withSwivelAngle(TailSwivel)
 				.build();
 		}
@@ -67,6 +106,13 @@ package Creature
 				_occupiedAppendageSlots.push(appendageSlot);
 				return true;
 			}
+		}
+		
+		public function kill():void
+		{
+			_head.kill();
+			_torso.kill();
+			_tail.kill();
 		}
 	}
 }

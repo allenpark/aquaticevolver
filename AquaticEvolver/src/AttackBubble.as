@@ -1,9 +1,9 @@
 package
 {
 	import B2Builder.B2BodyBuilder;
-	import Box2D.Dynamics.b2Body;
 	
 	import Box2D.Common.Math.b2Vec2;
+	import Box2D.Dynamics.b2Body;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
@@ -37,12 +37,11 @@ package
 			super.update();
 		}
 		
-		override protected function bodyBuilder():B2BodyBuilder
+		override protected function bodyBuilder(position:b2Vec2, angle:Number):B2BodyBuilder
 		{
-			var b2bb = super.bodyBuilder()
-				.withPosition(pos)
+			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
 				.withType(b2Body.b2_kinematicBody)
-				.withBullet(true)
+				.asBullet()
 				.withData(new CollisionData(this.owner, SpriteType.BUBBLE, adaptOwner));
 			return b2bb;
 		}

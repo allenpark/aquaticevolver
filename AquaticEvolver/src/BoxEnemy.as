@@ -14,7 +14,7 @@ package
 		public var aggroRadius:int = 200;
 		
 		public function BoxEnemy(x:int, y:int, speed:Number, health:int, maxHealth:int, adaptations:Array) {
-			super(x ,y ,null,speed,health,maxHealth, width, height);
+			super(x, y, 0, null, speed, health, maxHealth, width, height);
 			this.attackingWith = null;
 			
 			this.maxVelocity.x = 80;
@@ -33,7 +33,7 @@ package
 		/**
 		 * The target that the creature is moving towards and therefore also attacking.
 		 */
-		private var target:FlxPoint = new FlxPoint(AEWorld.player.x, AEWorld.player.y);
+		private var target:FlxPoint = new FlxPoint(AEWorld.player.getX(), AEWorld.player.getY());
 		
 		static public function generateBoxEnemy(newX:Number, newY:Number, defaultSpeed:Number, curHealth:Number, maxHealth:Number):BoxEnemy {
 			var newEnemy:BoxEnemy = new BoxEnemy(newX, newY, defaultSpeed, curHealth, maxHealth, new Array());
@@ -74,10 +74,10 @@ package
 			super.update();
 
 			//FIX THESE BOUNDS!!
-			var lowerYbound:Number = ((-200 - FlxG.height/2) + AEWorld.player.y);
-			var upperYbound:Number = ((200 + FlxG.height/2) + AEWorld.player.y);
-			var upperXbound:Number = ((200 + FlxG.width/2) + AEWorld.player.x);
-			var lowerXbound:Number = ((-200 - FlxG.width/2) + AEWorld.player.x);
+			var lowerYbound:Number = ((-200 - FlxG.height/2) + AEWorld.player.getY());
+			var upperYbound:Number = ((200 + FlxG.height/2) + AEWorld.player.getY());
+			var upperXbound:Number = ((200 + FlxG.width/2) + AEWorld.player.getX());
+			var lowerXbound:Number = ((-200 - FlxG.width/2) + AEWorld.player.getX());
 			
 			//			FlxG.log("LX:"+lowerXbound+" ,UX:"+upperXbound+", LY:"+lowerYbound+" UY:"+upperYbound);
 			//			FlxG.log('Bubble at:('+ this.x+","+this.y);
@@ -126,8 +126,10 @@ package
 					//trace("RUN AWAY");
 					//this.runAwayFromEnemy(enemies.members[strongestIndex]);
 					//target = new FlxPoint(enemies.members[strongestIndex].x, enemies.members[strongestIndex].y);
+					/*
 					this.moveCloseToEnemy(AEWorld.player, 120);
 					target = new FlxPoint(AEWorld.player.x, AEWorld.player.y);
+					*/
 				} else {
 					//trace("MOVE TOWARDS");
 					this.moveTowardsEnemy(enemies.members[weakestIndex]);
@@ -194,9 +196,9 @@ package
 			}
 		}
 		
-		override protected function bodyBuilder():B2BodyBuilder
+		override protected function bodyBuilder(position:b2Vec2, angle:Number):B2BodyBuilder
 		{
-			var bodyBuilder:B2BodyBuilder = super.bodyBuilder().withData(new CollisionData(this, SpriteType.ENEMY));
+			var bodyBuilder:B2BodyBuilder = super.bodyBuilder(position, angle).withData(new CollisionData(this, SpriteType.ENEMY));
 			return bodyBuilder;
 		}
 	}

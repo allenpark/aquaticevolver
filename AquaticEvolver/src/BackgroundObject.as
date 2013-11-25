@@ -39,10 +39,10 @@ package{
 		override public function update():void{
 			super.update();
 			//FIX THESE BOUNDS!!
-			var lowerYbound:Number = ((-200 - FlxG.height/2) + AEWorld.player.y)*this.scrollFactor.x;
-			var upperYbound:Number = ((200 + FlxG.height/2) + AEWorld.player.y)*this.scrollFactor.x;
-			var upperXbound:Number = ((200 + FlxG.width/2) + AEWorld.player.x)*this.scrollFactor.x;
-			var lowerXbound:Number = ((-200 - FlxG.width/2) + AEWorld.player.x)*this.scrollFactor.x;
+			var lowerYbound:Number = ((-200 - FlxG.height/2) + AEWorld.player.getY())*this.scrollFactor.x;
+			var upperYbound:Number = ((200 + FlxG.height/2) + AEWorld.player.getY())*this.scrollFactor.x;
+			var upperXbound:Number = ((200 + FlxG.width/2) + AEWorld.player.getX())*this.scrollFactor.x;
+			var lowerXbound:Number = ((-200 - FlxG.width/2) + AEWorld.player.getX())*this.scrollFactor.x;
 			
 //			FlxG.log("LX:"+lowerXbound+" ,UX:"+upperXbound+", LY:"+lowerYbound+" UY:"+upperYbound);
 //			FlxG.log('Bubble at:('+ this.x+","+this.y);

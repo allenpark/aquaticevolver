@@ -13,9 +13,24 @@ package Creature
 			this.headAnchor = headAnchor;
 		}
 		
+		public function ownBodies(owner:*, type:Number):void
+		{
+			headSegment.getBody().SetUserData(new CollisionData(owner, type));
+		}
+		
+		public function addToWorld():void
+		{
+			AEWorld.world.add(headSegment);
+		}
+		
 		public function getAppendageSlots():Array
 		{
 			return headSegment.appendageSlots;
+		}
+		
+		public function kill():void
+		{
+			headSegment.kill();
 		}
 	}
 }
