@@ -31,7 +31,7 @@ package
 			trace(data1.owner + " " + data1.colliderType + " " + data1.adaptation);
 			trace(data2.owner + " " + data2.colliderType + " " + data2.adaptation);
 			
-			// TODO: Fix this logic. Not necessarily player and enemy.
+			// TODO(Allen): Fix this logic. Not necessarily player and enemy.
 			if(data1.owner.creatureType == SpriteType.PLAYER && data2.owner.creatureType == SpriteType.ENEMY)
 			{
 				handlePlayerTentacleAttack(data1, data2);
