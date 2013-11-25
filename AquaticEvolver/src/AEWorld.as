@@ -8,9 +8,10 @@ package
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxState;
+	import org.flixel.FlxText;
 	
 	public class AEWorld extends FlxState
-	{
+	{	
 		/**
 		 * Reference to the singleton instance of AEWorld
 		 */
