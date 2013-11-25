@@ -2,7 +2,6 @@ package Creature
 {
 	import B2Builder.B2RevoluteJointBuilder;
 	
-	import Box2D.Dynamics.Joints.b2Joint;
 	import Box2D.Dynamics.Joints.b2RevoluteJoint;
 			
 	public class AECreature
@@ -43,11 +42,27 @@ package Creature
 			addToWorld();
 		}
 		
-		private function ownBodies(type:Number):void
+		public function attachAppendage(appendage:Appendage):Boolean
 		{
-			_head.ownBodies(this,type);
-			_torso.ownBodies(this,type);
-			_tail.ownBodies(this,type);
+			if (_unoccupiedAppendageSlots.length == 0)
+			{
+				//TODO: Evolve a bigger body & attack the new appendage!
+				return false;
+			}
+			else
+			{
+				var appendageSlot:AESlot = _unoccupiedAppendageSlots.pop();
+				//TODO: attach appendage to appendageSlot
+				_occupiedAppendageSlots.push(appendageSlot);
+				return true;
+			}
+		}
+		
+		public function kill():void
+		{
+			_head.kill();
+			_torso.kill();
+			_tail.kill();
 		}
 		
 		public function getX():Number
@@ -58,6 +73,13 @@ package Creature
 		public function getY():Number
 		{
 			return AEWorld.flxNumFromB2Num(_head.headSegment.getBody().GetPosition().y);
+		}
+		
+		private function ownBodies(type:Number):void
+		{
+			_head.ownBodies(this,type);
+			_torso.ownBodies(this,type);
+			_tail.ownBodies(this,type);
 		}
 		
 		private function addToWorld():void
@@ -90,29 +112,6 @@ package Creature
 				.concat(_tail.getAppendageSlots());
 			
 			_occupiedAppendageSlots = new Array();
-		}
-		
-		public function attachAppendage(appendage:Appendage):Boolean
-		{
-			if (_unoccupiedAppendageSlots.length == 0)
-			{
-				//TODO: Evolve a bigger body & attack the new appendage!
-				return false;
-			}
-			else
-			{
-				var appendageSlot:AESlot = _unoccupiedAppendageSlots.pop();
-				//TODO: attach appendage to appendageSlot
-				_occupiedAppendageSlots.push(appendageSlot);
-				return true;
-			}
-		}
-		
-		public function kill():void
-		{
-			_head.kill();
-			_torso.kill();
-			_tail.kill();
 		}
 	}
 }

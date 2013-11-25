@@ -71,19 +71,15 @@ package {
 		// Returns true iff the enemy has been killed.
 		public function handleAttackOn(adaptation:Adaptation, enemy:Creature):Boolean {
 			var enemyAlive:Boolean = false;
-			if (adaptation == null)
-			{
+			if (adaptation == null) {
 				enemyAlive = enemy.getAttacked(0);
-			}
-			else
-			{
+			} else {
 				enemyAlive = enemy.getAttacked(adaptation.attackDamage);	
 			}
 			
 			if (!enemyAlive) {
 				//this.inheritFrom(enemy);
-				if (adaptation != null )
-				{
+				if (adaptation != null)	{
 					adaptation.attackDamage += 2;					
 				}
 				return true;

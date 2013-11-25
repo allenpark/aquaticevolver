@@ -5,6 +5,7 @@ package {
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
+	import Creature.AESegment;
 	
 	public class Appendage extends Adaptation {
 		protected var type:Number;
@@ -24,10 +25,10 @@ package {
 			super.update();
 		}
 		
-		/* takes in a AppendageType int, b2Vec2 in local box2D coordinates that specifies the position of the joint,
-		angle in radians specifying the orientation of the joint, and a Creature specifying the owner of the appendage
+		/** takes in a AppendageType int, b2Vec2 in local box2D coordinates that specifies the position of the joint,
+		 * angle in radians specifying the orientation of the joint, and a Creature specifying the owner of the appendage
 		*/
-		public static function createAppendageWithType(type:Number, jointPos:b2Vec2, jointAngle:Number, owner:Creature, world:AEWorld=null): Appendage
+		public static function createAppendageWithType(type:Number, jointPos:b2Vec2, jointAngle:Number, owner:*, segment:B2FlxSprite, world:AEWorld=null): Appendage
 		{
 			var appendage:Appendage;
 			

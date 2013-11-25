@@ -2,7 +2,7 @@ package
 {
 	public class CollisionData
 	{
-		public var owner:*;
+		public var owner:*; // TODO(Allen): Change this to AECreature once appropriate.
 		public var colliderType:Number;
 		public var adaptation:Adaptation;
 		
