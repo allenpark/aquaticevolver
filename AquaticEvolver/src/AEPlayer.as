@@ -1,5 +1,8 @@
 package
 {
+	import Box2D.Common.Math.b2Vec2;
+	import Box2D.Dynamics.b2Body;
+	
 	import Creature.AECreature;
 	import Creature.AEHead;
 	import Creature.AESegment;
@@ -10,8 +13,12 @@ package
 	import Creature.Images.Torso1;
 	import Creature.Schematics.AESchematic;
 	
+	import org.flixel.FlxG;
+	import org.flixel.FlxPoint;
+	
 	public class AEPlayer extends AECreature
 	{
+		private var defaultMovementScheme:Boolean = false; 
 		
 		public function AEPlayer(x:Number, y:Number)
 		{	
@@ -29,7 +36,7 @@ package
 		private function playerHead(x:Number, y:Number):AEHead
 		{
 			var headSchematic:AESchematic = new AESchematic(Head1.image(), Head1.suggestedAppendageSlots);
-			var playerHeadSegment:AESegment = new AESegment(x,y, headSchematic);
+			var playerHeadSegment:AESegment = new AESegment(x,y, headSchematic); //TODO: HeadSegment should have modified height/width... current dimensions make head and tail touch and prevent swiveling
 			var playerHead:AEHead = new AEHead(playerHeadSegment, Head1.suggestedHeadAnchor);
 			return playerHead;
 		}
@@ -50,5 +57,71 @@ package
 			var playerTail:AETail = new AETail(playerTailSegment, Tail1.suggestedTailAnchor);
 			return playerTail;
 		}	
+		
+		public function update():void
+		{		
+			var movementBody:b2Body = _head.headSegment.getBody();
+			if (!FlxG.paused) {
+				var xDir:Number = 0;
+				var yDir:Number = 0;
+				
+				if(FlxG.mouse.justPressed())
+				{
+					
+					var mousePoint:FlxPoint = new FlxPoint(FlxG.mouse.screenX, FlxG.mouse.screenY);
+					var playerPoint:FlxPoint = new FlxPoint(AEWorld.flxNumFromB2Num(movementBody.GetPosition().x), AEWorld.flxNumFromB2Num(movementBody.GetPosition().y));
+					movementBody.ApplyImpulse(calcB2Impulse(mousePoint, playerPoint), movementBody.GetPosition());					
+				}
+					
+					// moving the player based on the arrow keys inputs
+				else if (FlxG.keys.LEFT && FlxG.keys.RIGHT) {
+				} 
+				else if (FlxG.keys.LEFT) {
+					//					trace("BoxPlayer: left");
+					xDir = -1*this.speed;
+				} else if (FlxG.keys.RIGHT) {
+					//					trace("BoxPlayer: right");
+					xDir = 1*this.speed;
+				}
+					
+				else if (FlxG.keys.UP && FlxG.keys.DOWN)	{
+				} 
+				else if (FlxG.keys.UP) {
+					//					trace("BoxPlayer: up");
+					yDir = -1*this.speed;
+				} else if (FlxG.keys.DOWN) {
+					//					trace("BoxPlayer: down");
+					yDir = 1*this.speed;
+				}
+				
+				if(defaultMovementScheme) {
+					movementBody.ApplyImpulse(getForceVec(xDir, yDir), movementBody.GetPosition());					
+				} else {
+					var angle:Number = movementBody.GetAngle() + Math.PI/2;
+					var force:b2Vec2 = new b2Vec2(0.05 * Math.sin(angle) * yDir * -1, 0.05 * Math.cos(angle) * yDir);
+					movementBody.ApplyImpulse(force, movementBody.GetPosition());
+					var torque:Number = 0.5;
+					movementBody.SetAngularVelocity(torque * xDir);
+				}
+			}
+		}
+		
+		private function getForceVec(xDir:Number, yDir:Number):b2Vec2 {
+			var vec:b2Vec2;
+			if ( xDir != 0 && yDir != 0) {
+				vec = new b2Vec2(xDir * 1/Math.sqrt(2), yDir * 1/Math.sqrt(2));
+			} else {
+				vec = new b2Vec2(xDir, yDir);
+			}
+			vec.Multiply(0.05);
+			return vec;
+		}
+		
+		private function calcB2Impulse(mousePoint:FlxPoint, bodyPoint:FlxPoint):b2Vec2
+		{
+			var angle:Number = Math.atan2(mousePoint.y - bodyPoint.y,mousePoint.x - bodyPoint.x);
+			var magnitude:Number = 0.002;
+			return new b2Vec2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
+		}
 	}
 }

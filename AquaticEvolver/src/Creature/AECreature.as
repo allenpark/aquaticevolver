@@ -1,6 +1,9 @@
 package Creature
 {
 	import B2Builder.B2RevoluteJointBuilder;
+	
+	import Box2D.Dynamics.Joints.b2Joint;
+	import Box2D.Dynamics.Joints.b2RevoluteJoint;
 			
 	public class AECreature
 	{
@@ -13,10 +16,15 @@ package Creature
 		private var _unoccupiedAppendageSlots:Array;
 		private var _occupiedAppendageSlots:Array;
 		
+		protected var _headTorsoJoint:b2RevoluteJoint;
+		protected var _torsoTailJoint:b2RevoluteJoint;
+		
 		private static const HeadSwivel:Number = Math.PI/2.0;
 		private static const TailSwivel:Number = Math.PI/2.0;
 		
 		public var creatureType:Number;
+		
+		protected var speed:Number = 10;
 		
 		public function AECreature(type:Number, x:Number, y:Number, head:AEHead, torso:AETorso, tail:AETail)
 		{
@@ -31,7 +39,6 @@ package Creature
 			initializeAppendageSlots();
 			
 			ownBodies(type);
-			trace("Bodies have been own");
 			//TODO: Should this be done outside the constructor?
 			addToWorld();
 		}
@@ -65,12 +72,12 @@ package Creature
 			//TODO: Should Head -- Torso -- Tail attaching with weld joints be included?? Currently, only revolute joints are used to connect head-torso-tail together
 			
 			//Head -- Torso
-			new B2RevoluteJointBuilder(_head.headSegment.getBody(), _torso.headSegment.getBody(), _head.headAnchor, _torso.headAnchor)
+			_headTorsoJoint = new B2RevoluteJointBuilder(_head.headSegment.getBody(), _torso.headSegment.getBody(), _head.headAnchor, _torso.headAnchor)
 				.withEnabledLimit().withSwivelAngle(HeadSwivel)
 				.build();
 			
 			//Torso -- Tail
-			new B2RevoluteJointBuilder(_torso.tailSegment.getBody(), _tail.tailSegment.getBody(), _torso.tailAnchor, _tail.tailAnchor)
+			_torsoTailJoint = new B2RevoluteJointBuilder(_torso.tailSegment.getBody(), _tail.tailSegment.getBody(), _torso.tailAnchor, _tail.tailAnchor)
 				.withEnabledLimit().withSwivelAngle(TailSwivel)
 				.build();
 		}

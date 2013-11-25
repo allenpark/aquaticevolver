@@ -235,6 +235,7 @@ package
 			ScreenY = FlxG.camera.scroll.y;
 			ScreenWidth = FlxG.width;
 			ScreenHeight = FlxG.height;
+			//TODO: default health should be an attribute of creature, enemy, and/or player
 			this.defaultHealth = 10;
 		}
 		
@@ -266,8 +267,8 @@ package
 		
 		private function setupFlxDebug():void
 		{
-			FlxG.watch(player, "x");
-			FlxG.watch(player, "y");
+			FlxG.watch(player.getFollowObject().getBody().GetPosition(), "x", "x");
+			FlxG.watch(player.getFollowObject().getBody().GetPosition(), "y", "y");
 			FlxG.watch(FlxG.camera.scroll, "x", "CameraX");
 			FlxG.watch(FlxG.camera.scroll, "y", "CameraY");
 		}
@@ -340,6 +341,7 @@ package
 		{
 			super.update();
 			if (!paused.showing) {
+				player.update();
 				AEB2World.Step(1.0/60.0, 10, 10);
 				processKillList();
 				

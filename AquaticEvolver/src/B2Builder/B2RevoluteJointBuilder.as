@@ -8,7 +8,7 @@ package B2Builder
 	public class B2RevoluteJointBuilder extends B2JointBuilder
 	{
 		private var _enableLimit:Boolean;
-		private var _lowerAngle:Number = Math.PI/4.0;
+		private var _lowerAngle:Number = -Math.PI/4.0;
 		private var _upperAngle:Number = Math.PI/4.0;
 		
 		public function B2RevoluteJointBuilder(bodyA:b2Body, bodyB:b2Body, localAnchorA:b2Vec2, localAnchorB:b2Vec2)
@@ -50,6 +50,8 @@ package B2Builder
 			revoluteJoint.referenceAngle = _referenceAngle;
 			revoluteJoint.enableLimit = _enableLimit;
 			if (revoluteJoint.enableLimit){
+				trace("LA: " + _lowerAngle);
+				trace("UA: " + _upperAngle);
 				revoluteJoint.lowerAngle = _lowerAngle;
 				revoluteJoint.upperAngle = _upperAngle;
 			}

@@ -1,8 +1,11 @@
 package Creature
 {
 	import flash.utils.Dictionary;
-		
+	
+	import B2Builder.B2BodyBuilder;
+	
 	import Box2D.Common.Math.b2Vec2;
+	
 	import Creature.Schematics.AESchematic;
 	
 	public class AESegment extends B2FlxSprite
@@ -48,6 +51,14 @@ package Creature
 				slots.push(new AESlot(this, location));
 			}
 			return slots;
+		}
+		
+		override protected function bodyBuilder(position:b2Vec2, angle:Number):B2BodyBuilder
+		{
+			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
+				.withFriction(0.8).withRestitution(0.3).withDensity(0.7)
+				.withLinearDamping(3.0).withAngularDamping(30.0);
+			return b2bb;
 		}
 	}
 }
