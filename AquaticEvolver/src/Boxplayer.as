@@ -2,15 +2,10 @@ package
 {
 	import B2Builder.B2BodyBuilder;
 	
-	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Common.Math.b2Vec2;
-	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
-	import Box2D.Dynamics.b2Body;
-	import Box2D.Dynamics.b2World;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
-	import org.flixel.FlxText;
 
 	//import org.osmf.layout.AbsoluteLayoutFacet;
 	
@@ -49,7 +44,7 @@ package
 		
 		private function calcB2Impulse(mousePoint:FlxPoint, bodyPoint:FlxPoint):b2Vec2
 		{
-			var angle = Math.atan2(mousePoint.y - bodyPoint.y,mousePoint.x - bodyPoint.x);
+			var angle:Number = Math.atan2(mousePoint.y - bodyPoint.y,mousePoint.x - bodyPoint.x);
 			var magnitude:Number = 0.002;
 			return new b2Vec2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
 		}
@@ -61,8 +56,8 @@ package
 				var yDir:Number = 0;
 				
 				//Attacking
-				//if(FlxG.mouse.justPressed())
-				if(FlxG.mouse.pressed())
+				if(FlxG.mouse.justPressed())
+				//if(FlxG.mouse.pressed())
 				{
 					
 					//var mousePoint:FlxPoint = FlxG.mouse.getScreenPosition();
@@ -107,6 +102,7 @@ package
 				if(defaultMovementScheme) {
 					body.ApplyImpulse(getForceVec(xDir, yDir), body.GetPosition());					
 				} else {
+					trace("hit");
 					var angle:int = body.GetAngle();
 					var force:b2Vec2 = new b2Vec2(0.001 * Math.sin(angle) * yDir * -1, 0.001 * Math.cos(angle) * yDir);
 					body.ApplyImpulse(force, body.GetPosition());

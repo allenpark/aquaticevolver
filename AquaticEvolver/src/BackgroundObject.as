@@ -14,8 +14,7 @@ package{
 				
 		private var viewDistance:int;
 		
-		private var MAXSCROLLSPEED:int = 150;
-
+		private var MAXSCROLLSPEED:int = 10;
 		
 		public function BackgroundObject(x:int , y:int, viewDistance:Number){
 			
@@ -24,31 +23,35 @@ package{
 			this.viewDistance = viewDistance;
 			
 			//Setting background object's scroll factor for parallax scrolling
-			this.scrollFactor.x = 10*(1.0/viewDistance);
-			this.scrollFactor.y = 10*(1.0/viewDistance);
+			this.scrollFactor.x = this.scrollFactor.y = 1.0/viewDistance;
+			
 			//Setting x and y coordinates based on the scroll factor to
 			//accoounmt for the camera moving the object based on it's scroll factor
-			this.x = (x*(this.scrollFactor.x))+FlxG.width/2;
-			this.y = (y*(this.scrollFactor.y))+FlxG.height/2;
+			this.x = x*this.scrollFactor.x;
+			this.y = y*this.scrollFactor.y;
+			
 			//Adjusting the sprite's scale to appear smaller when further
-			this.scale.x = this.scale.y = (Math.random()*5+1)*(1.0/viewDistance);
+			this.scale.x = this.scale.y = (Math.random()+1)*(1.0/viewDistance);
 			
-			this.alpha = 1.0/viewDistance;						
-			
+			this.alpha = 1.0/viewDistance;
 		}
 		
 		override public function update():void{
 			super.update();
-			var lowerYbound:Number = (-100 - FlxG.height/2)*this.scrollFactor.y + FlxG.camera.scroll.y;
-			var upperYbound:Number = (100 + FlxG.height/2)*this.scrollFactor.y + FlxG.camera.scroll.y;
-			var upperXbound:Number = (100 + FlxG.width/2)*this.scrollFactor.x + FlxG.camera.scroll.x;
-			var lowerXbound:Number = (-100 - FlxG.width/2)*this.scrollFactor.x + FlxG.camera.scroll.x;
+			//FIX THESE BOUNDS!!
+			var lowerYbound:Number = ((-200 - FlxG.height/2) + AEWorld.player.y)*this.scrollFactor.x;
+			var upperYbound:Number = ((200 + FlxG.height/2) + AEWorld.player.y)*this.scrollFactor.x;
+			var upperXbound:Number = ((200 + FlxG.width/2) + AEWorld.player.x)*this.scrollFactor.x;
+			var lowerXbound:Number = ((-200 - FlxG.width/2) + AEWorld.player.x)*this.scrollFactor.x;
 			
-			var withInYbounds:Boolean = this.y < upperYbound && this.y > lowerYbound;
-			var withInXbounds:Boolean = this.x < upperXbound && this.x > lowerXbound;
+//			FlxG.log("LX:"+lowerXbound+" ,UX:"+upperXbound+", LY:"+lowerYbound+" UY:"+upperYbound);
+//			FlxG.log('Bubble at:('+ this.x+","+this.y);
+//			
+			var outsideYbounds:Boolean = this.y > upperYbound || this.y < lowerYbound;
+			var outsideXbounds:Boolean = this.x > upperXbound || this.x < lowerXbound;
 			//TODO: update this so that bubbles can still be slighly off screen
 			//Make sure that the object is still on the screen
-			if(!(withInXbounds && withInYbounds)){
+			if(outsideXbounds || outsideYbounds){
 				//CURRENTLY CRASHES GAME WHEN CALLED DON'T KNOW HOW TO CLEAN UP MEMORY
 //				this.destroy();
 				this.kill(); 
@@ -64,7 +67,7 @@ package{
 		
 		public function floatUpward():void{
 			this.velocity.x = 0;
-			this.velocity.y = -Math.round(MAXSCROLLSPEED/this.viewDistance);
+			this.velocity.y = -Math.round(MAXSCROLLSPEED*this.viewDistance);
 		}
 	}
 }
