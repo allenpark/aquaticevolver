@@ -14,22 +14,25 @@ package
 		// bubble gun joint locations
 		private var bubbleGunJoint:b2Vec2 = new b2Vec2(31,11);
 		
+		private var bubbleGun:BoxBubbleGun;
+		
 		private var jointAngleCorrection:Number = Math.PI/2;
 		
+		private var worldInst:AEWorld;
 		// images
 		[Embed(source='res/bubbleSnapper1.png')]
 		public static var bubbleGunImg:Class;
 		
-		public function BubbleGun(jointPos:b2Vec2, jointAngle, owner:Creature)
+		public function BubbleGun(jointPos:b2Vec2, jointAngle, owner:Creature, worldInst:AEWorld)
 		{
 			jointAngle = jointAngle + jointAngleCorrection;
 			super(AppendageType.BUBBLEGUN, 30, true, 2, jointPos, jointAngle, owner);
 			
 			var world:b2World = AEWorld.AEB2World;
 			
-			var bubbleGun:BoxBubbleGun;
-			
 			var revoluteJointDef:b2RevoluteJointDef;
+			
+			this.worldInst = worldInst;
 			
 			// create the sprites
 			trace(owner);
@@ -57,6 +60,18 @@ package
 			super.attack(point);
 			trace("bubble gun attacking");
 			// insert code to shoot a bubble here
+
+			var headPoint:b2Vec2 = bubbleGun.getBody().GetPosition();
+			var bubble:AttackBubble = new AttackBubble(headPoint, this.owner, this, 64, 64, 5, point);
+			this.worldInst.add(bubble);
+			var bubbleBody:b2Body = bubble.getBody();
+			bubbleBody.SetLinearVelocity(calcBulletVelocity(point, bubbleGun.getScreenXY()));//calcB2Impulse(point, bubbleGun.getScreenXY()));
+		}
+		
+		protected function calcBulletVelocity(mousePoint:FlxPoint, bodyPoint:FlxPoint):b2Vec2 {
+			var angle:Number = Math.atan2(mousePoint.y - bodyPoint.y,mousePoint.x - bodyPoint.x);
+			var magnitude:Number = 3;
+			return new b2Vec2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
 		}
 		
 		override public function update():void

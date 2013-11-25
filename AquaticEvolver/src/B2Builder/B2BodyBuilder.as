@@ -20,6 +20,8 @@ package B2Builder
 		private var _linearDamping:Number;
 		private var _angularDamping:Number;
 		
+		private var _isBullet:Boolean;
+		
 		private var _data:*;
 		
 		/**
@@ -41,7 +43,9 @@ package B2Builder
 			_type = b2Body.b2_dynamicBody;
 			
 			_linearDamping = 0.0;
-			_angularDamping = 0.0;			
+			_angularDamping = 0.0;		
+			
+			_isBullet = false;
 		}
 		
 		public function withFriction(b2Friction:Number):B2BodyBuilder
@@ -93,6 +97,12 @@ package B2Builder
 		{
 			_linearDamping = b2LinearDamping;
 			return this;
+		}
+		
+		public function asBullet():B2BodyBuilder
+		{
+			_isBullet = true;
+			return this;	
 		}
 		
 		public function withAngularDamping(b2AngularDamping:Number):B2BodyBuilder

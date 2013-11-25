@@ -101,17 +101,6 @@ package
 			// add joint to world
 			world.CreateJoint(revoluteJointDef);
 		}
-		/*
-		override public function kill():void {
-			/*
-			tentacleHead.kill();
-			for each(var segment:B2FlxSprite in midSegments){
-				segment.kill();
-			}
-			super.kill();
-			
-			
-		}*/
 		
 		override public function attack(point:FlxPoint):void
 		{

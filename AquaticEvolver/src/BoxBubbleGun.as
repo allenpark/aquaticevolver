@@ -15,9 +15,9 @@ package
 		
 		public function BoxBubbleGun(x:Number, y:Number, owner:Creature, adaptOwner:Adaptation, Graphic:Class=null, width:Number=0, height:Number=0)
 		{
-			super(x, y, Graphic, width, height);
 			this.owner = owner;
 			this.adaptOwner = adaptOwner;
+			super(x, y, Graphic, width, height);
 		}
 		
 		override protected function bodyBuilder(position:b2Vec2, angle:Number):B2BodyBuilder
