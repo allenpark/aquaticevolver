@@ -3,22 +3,25 @@ package {
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2World;
 	
+	import Creature.AESegment;
+	
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
-	import Creature.AESegment;
 	
 	public class Appendage extends Adaptation {
 		protected var type:Number;
 		
 		protected var jointPos:b2Vec2;
 		protected var jointAngle:Number;
+		protected var segment:B2FlxSprite;
 		
-		public function Appendage(type:Number, cost:int, isAttack:Boolean, attackDamage:int, jointPos:b2Vec2, jointAngle:Number, owner:Creature) {
+		public function Appendage(type:Number, cost:int, isAttack:Boolean, attackDamage:int, jointPos:b2Vec2, jointAngle:Number, owner:Creature, segment:B2FlxSprite) {
 			super(cost, isAttack, attackDamage, owner);
 			this.type = type;
 			this.jointPos = jointPos;
 			// jointAngle is given in radians with 0 defined as being completely vertical and positive clockwise
 			this.jointAngle = jointAngle;
+			this.segment = segment;
 		}
 		
 		override public function update():void {
@@ -28,7 +31,7 @@ package {
 		/** takes in a AppendageType int, b2Vec2 in local box2D coordinates that specifies the position of the joint,
 		 * angle in radians specifying the orientation of the joint, and a Creature specifying the owner of the appendage
 		*/
-		public static function createAppendageWithType(type:Number, jointPos:b2Vec2, jointAngle:Number, owner:*, segment:B2FlxSprite, world:AEWorld=null): Appendage
+		public static function createAppendageWithType(type:Number, jointPos:b2Vec2, jointAngle:Number, owner:*, segment:B2FlxSprite): Appendage
 		{
 			var appendage:Appendage;
 			
@@ -36,23 +39,23 @@ package {
 			{
 				case AppendageType.SPIKE:
 //					FlxG.log("Creating a new spike");
-					appendage = new Spike(jointPos, jointAngle, owner);
+					appendage = new Spike(jointPos, jointAngle, owner, segment);
 					break;
 				case AppendageType.TENTACLE:
 //					FlxG.log("Creating a new tentacle");
-					appendage = new Tentacle(jointPos, jointAngle, owner);
+					appendage = new Tentacle(jointPos, jointAngle, owner, segment);
 					break;
 				case AppendageType.MANDIBLE:
 //					FlxG.log("Creating a new mandible");
-					appendage = new Mandible(jointPos, jointAngle, owner);
+					appendage = new Mandible(jointPos, jointAngle, owner, segment);
 					break;
 				case AppendageType.BUBBLEGUN:
 //					FlxG.log("Creating a new bubble gun");
-					appendage = new BubbleGun(jointPos, jointAngle, owner, world);
+					appendage = new BubbleGun(jointPos, jointAngle, owner, segment);
 					break;
 				default:
 //					FlxG.log("Creating a new default spike");
-					appendage = new Spike(jointPos, jointAngle, owner);
+					appendage = new Spike(jointPos, jointAngle, owner, segment);
 					break;
 			}
 			

@@ -26,10 +26,10 @@ package
 		[Embed(source='res/mandibleOtherJawPiece1.png')]
 		public static var mandibleOtherJawImg:Class;
 		
-		public function Mandible(jointPos:b2Vec2, jointAngle, owner:Creature)
+		public function Mandible(jointPos:b2Vec2, jointAngle, owner:Creature, segment:B2FlxSprite)
 		{
 			jointAngle = jointAngle + jointAngleCorrection;
-			super(AppendageType.MANDIBLE, 30, true, 2, jointPos, jointAngle, owner);
+			super(AppendageType.MANDIBLE, 30, true, 2, jointPos, jointAngle, owner, segment);
 			
 			var world:b2World = AEWorld.AEB2World;
 			
@@ -50,7 +50,7 @@ package
 				
 				// create the joint from base to creature
 				revoluteJointDef = new b2RevoluteJointDef();
-				revoluteJointDef.bodyA = owner.getBody();
+				revoluteJointDef.bodyA = segment.getBody();
 				revoluteJointDef.bodyB = base.getBody();
 				revoluteJointDef.localAnchorA = jointPos;
 //				FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);

@@ -1,9 +1,9 @@
 package
 {
 	import Box2D.Common.Math.b2Vec2;
-	import Box2D.Dynamics.Joints.b2WeldJointDef;
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2World;
+	import Box2D.Dynamics.Joints.b2WeldJointDef;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxParticle;
@@ -21,9 +21,9 @@ package
 		public static var spikeImg:Class;
 		
 		// jointPos is given from the local box2D coordinate system of the player and is the location of the attached point for the adatation
-		public function Spike(jointPos:b2Vec2, jointAngle, owner:*)
+		public function Spike(jointPos:b2Vec2, jointAngle, owner:*, segment:B2FlxSprite)
 		{
-			super(AppendageType.SPIKE, 20, true, 1, jointPos, jointAngle, owner);
+			super(AppendageType.SPIKE, 20, true, 1, jointPos, jointAngle, owner, segment);
 			
 			var world:b2World = AEWorld.AEB2World;
 			
@@ -33,7 +33,7 @@ package
 			
 			// create the jointDef
 			var weldJointDef:b2WeldJointDef = new b2WeldJointDef();
-			weldJointDef.bodyA = owner.getBody();
+			weldJointDef.bodyA = segment.getBody();
 			weldJointDef.bodyB = spike.getBody();
 			weldJointDef.localAnchorA = jointPos;
 //			FlxG.log("AanchorCoords = " + weldJointDef.localAnchorA.x + ", " + weldJointDef.localAnchorA.y);
