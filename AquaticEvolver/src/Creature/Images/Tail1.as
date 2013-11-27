@@ -5,17 +5,19 @@ package Creature.Images
 
 	public class Tail1
 	{
-		
-		/**
-		 * Vertices defining the verteces for the shape
-		 */
-		public static var polygonVerteces:Array = new Array(
-			new b2Vec2(AEWorld.b2NumFromFlxNum(0),AEWorld.b2NumFromFlxNum(0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(50),AEWorld.b2NumFromFlxNum(0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(50), AEWorld.b2NumFromFlxNum(50)));
-		
+				
 		private static const WIDTH:Number = 64;
 		private static const HEIGHT:Number = 64;
+		
+		/**
+		 * Vertices defining the verteces for the shape, have to offset them by half the width
+		 * to assure that they are centered on the sprite
+		 */
+		public static var polygonVerteces:Array = new Array(
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-WIDTH)/2.0,AEWorld.b2NumFromFlxNum(-HEIGHT)/2.0),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(WIDTH)/2.0,AEWorld.b2NumFromFlxNum(-HEIGHT)/2.0),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(WIDTH)/2.0, AEWorld.b2NumFromFlxNum(HEIGHT)/2.0),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-WIDTH)/2.0, AEWorld.b2NumFromFlxNum(HEIGHT)/2.0));
 		
 		[Embed(source='../../res/Tail1.png')]
 		private static const IMG:Class;
