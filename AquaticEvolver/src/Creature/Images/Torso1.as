@@ -15,10 +15,10 @@ package Creature.Images
 		 * to assure that they are centered on the sprite
 		 */
 		public static var polygonVerteces:Array = new Array(
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-WIDTH)/2.0,AEWorld.b2NumFromFlxNum(-HEIGHT)/2.0),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(WIDTH)/2.0,AEWorld.b2NumFromFlxNum(-HEIGHT)/2.0),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(WIDTH)/2.0, AEWorld.b2NumFromFlxNum(HEIGHT)/2.0),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-WIDTH)/2.0, AEWorld.b2NumFromFlxNum(HEIGHT)/2.0));
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-WIDTH)/3.0,AEWorld.b2NumFromFlxNum(-HEIGHT)/3.0),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(WIDTH)/3.0,AEWorld.b2NumFromFlxNum(-HEIGHT)/3.0),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(WIDTH)/3.0, AEWorld.b2NumFromFlxNum(HEIGHT)/3.0),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-WIDTH)/3.0, AEWorld.b2NumFromFlxNum(HEIGHT)/3.0));
 		
 		[Embed(source='../../res/Torso1.png')]
 		private static const IMG:Class;

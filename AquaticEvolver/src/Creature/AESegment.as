@@ -42,7 +42,7 @@ package Creature
 		
 		public function AESegment(x:Number, y:Number, schematic:AESchematic, shape:b2PolygonShape = null)
 		{
-			super(x,y, 0, schematic.img(), schematic.width(), schematic.height(), null);
+			super(x,y, 0, schematic.img(), schematic.width(), schematic.height(), shape);
 			_torsoSlots = schematic.torsoSlots();
 			appendageSlots = schematic.appendageSlots();
 

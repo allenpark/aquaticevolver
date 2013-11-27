@@ -34,6 +34,7 @@ package
 			return _head.headSegment;
 		}
 		
+		//Should probably be moved up to the AECreature class
 		private function playerHead(x:Number, y:Number):AEHead
 		{
 			var headSchematic:AESchematic = new AESchematic(Head1.image(), Head1.suggestedAppendageSlots);
@@ -44,7 +45,7 @@ package
 			var playerHead:AEHead = new AEHead(playerHeadSegment, Head1.suggestedHeadAnchor);
 			return playerHead;
 		}
-		
+		//Should probably be moved up to the AECreature class
 		private function playerTorso(x:Number, y:Number):AETorso
 		{
 			var torsoSchematic:AESchematic = new AESchematic(Torso1.image(), Torso1.suggestedAppendageSlots);
@@ -56,7 +57,7 @@ package
 			var playerTorso:AETorso = new AETorso(playerTorsoSegment, Torso1.suggestedHeadAnchor, playerTorsoSegments, playerTorsoSegment, Torso1.suggestedTailAnchor);
 			return playerTorso;
 		}
-		
+		//Should probably be moved up to the AECreature class
 		private function playerTail(x:Number, y:Number):AETail
 		{
 			var tailSchematic:AESchematic = new AESchematic(Tail1.image(), Tail1.suggestedAppendageSlots);
