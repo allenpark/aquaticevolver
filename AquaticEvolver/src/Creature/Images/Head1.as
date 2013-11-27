@@ -6,6 +6,13 @@ package Creature.Images
 
 	public class Head1
 	{
+		/**
+		 * Vertices defining the verteces for the shape
+		 */
+		public static var polygonVerteces:Array = new Array(
+			new b2Vec2(AEWorld.b2NumFromFlxNum(0),AEWorld.b2NumFromFlxNum(0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(50),AEWorld.b2NumFromFlxNum(0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(50), AEWorld.b2NumFromFlxNum(50)));
 		private static const Width:Number = 128;
 		private static const Height:Number = 128;
 

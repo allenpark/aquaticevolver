@@ -6,7 +6,8 @@ package Creature.Schematics
 	import Creature.Images.AEImage;
 
 	/**
-	 * Schematic for making AESegments. Keeps track of image info (image file, width, height), appendage slot locations, and torso slot locations.
+	 * Schematic for making AESegments. Keeps track of image info (image file, width, height), 
+	 * appendage slot locations, and torso slot locations.
 	 */
 	public class AESchematic
 	{	

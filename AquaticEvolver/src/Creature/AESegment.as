@@ -4,12 +4,16 @@ package Creature
 	
 	import B2Builder.B2BodyBuilder;
 	
+	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Common.Math.b2Vec2;
 	
 	import Creature.Schematics.AESchematic;
 	
+	import org.flixel.FlxG;
+	
 	public class AESegment extends B2FlxSprite
 	{	
+
 		protected var _torsoSlots:Dictionary;
 		public var appendageSlots:Array;
 		
@@ -36,11 +40,13 @@ package Creature
 		}
 		*/
 		
-		public function AESegment(x:Number, y:Number, schematic:AESchematic)
+		public function AESegment(x:Number, y:Number, schematic:AESchematic, shape:b2PolygonShape = null)
 		{
-			super(x,y, 0, schematic.img(), schematic.width(), schematic.height());
+			super(x,y, 0, schematic.img(), schematic.width(), schematic.height(), shape);
 			_torsoSlots = schematic.torsoSlots();
 			appendageSlots = schematic.appendageSlots();
+
+
 		}
 		
 		public function generateSlotsFromLocations(slotLocations:Array):Array
@@ -53,11 +59,18 @@ package Creature
 			return slots;
 		}
 		
-		override protected function bodyBuilder(position:b2Vec2, angle:Number):B2BodyBuilder
+		override protected function bodyBuilder(position:b2Vec2, angle:Number, shape:b2PolygonShape = null):B2BodyBuilder
 		{
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
-				.withFriction(0.8).withRestitution(0.3).withDensity(0.7)
-				.withLinearDamping(3.0).withAngularDamping(30.0);
+				.withFriction(0.8)
+				.withRestitution(0.3)
+				.withDensity(0.7)
+				.withLinearDamping(3.0)
+				.withAngularDamping(30.0);
+			if(shape != null){
+				FlxG.log('Created with a different shape');
+				b2bb.withShape(shape);
+			}
 			return b2bb;
 		}
 	}

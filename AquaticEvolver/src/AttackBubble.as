@@ -2,6 +2,7 @@ package
 {
 	import B2Builder.B2BodyBuilder;
 	
+	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2Body;
 	
@@ -37,7 +38,7 @@ package
 			super.update();
 		}
 		
-		override protected function bodyBuilder(position:b2Vec2, angle:Number):B2BodyBuilder
+		override protected function bodyBuilder(position:b2Vec2, angle:Number, shape:b2PolygonShape = null):B2BodyBuilder
 		{
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
 				.withType(b2Body.b2_kinematicBody)

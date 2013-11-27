@@ -2,6 +2,7 @@ package
 {
 	import B2Builder.B2BodyBuilder;
 	
+	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Common.Math.b2Vec2;
 	
 	import org.flixel.FlxG;
@@ -22,7 +23,6 @@ package
 			this.drag.x = this.maxVelocity.x * 2;
 			this.drag.y = this.maxVelocity.y * 2;
 			this.creatureType = SpriteType.ENEMY;
-			FlxG.log("Enemy spawned at:"+x+","+y);
 		}
 		
 		/**
@@ -196,9 +196,10 @@ package
 			}
 		}
 		
-		override protected function bodyBuilder(position:b2Vec2, angle:Number):B2BodyBuilder
+		override protected function bodyBuilder(position:b2Vec2, angle:Number, shape:b2PolygonShape = null):B2BodyBuilder
 		{
-			var bodyBuilder:B2BodyBuilder = super.bodyBuilder(position, angle).withData(new CollisionData(this, SpriteType.ENEMY));
+			var bodyBuilder:B2BodyBuilder = super.bodyBuilder(position, angle)
+				.withData(new CollisionData(this, SpriteType.ENEMY));
 			return bodyBuilder;
 		}
 	}
