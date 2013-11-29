@@ -103,7 +103,7 @@ package
 			
 			updateMove();
 			aim(target);
-			if (counter > 2) {
+			if (counter > 1) {
 				attack(target);
 				counter = 0;
 			}
