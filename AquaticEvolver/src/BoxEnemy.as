@@ -5,6 +5,8 @@ package
 	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Common.Math.b2Vec2;
 	
+	import Creature.AECreature;
+	
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxPoint;
@@ -35,6 +37,11 @@ package
 		 * The target that the creature is moving towards and therefore also attacking.
 		 */
 		private var target:FlxPoint = new FlxPoint(AEWorld.player.getX(), AEWorld.player.getY());
+		
+		/**
+		 * Used to keep track of delays to make attacking discrete instead of continuous.
+		 */
+		public var counter:Number = 0;
 		
 		static public function generateBoxEnemy(newX:Number, newY:Number, defaultSpeed:Number, curHealth:Number, maxHealth:Number):BoxEnemy {
 			var newEnemy:BoxEnemy = new BoxEnemy(newX, newY, defaultSpeed, curHealth, maxHealth, new Array());
@@ -73,6 +80,7 @@ package
 		
 		override public function update():void {			
 			super.update();
+			counter += FlxG.elapsed;
 
 			//FIX THESE BOUNDS!!
 			var lowerYbound:Number = ((-BOUNDSBUFFER - FlxG.height/2) + AEWorld.player.getY());
@@ -94,7 +102,11 @@ package
 			}
 			
 			updateMove();
-			attack(target);
+			aim(target);
+			if (counter > 2) {
+				attack(target);
+				counter = 0;
+			}
 		}
 		
 		private function updateMove():void {
@@ -120,8 +132,9 @@ package
 				}
 			}
 			if (seeSomething) {
-				//this.moveCloseToEnemy(AEWorld.player, 120);
-				//target = new FlxPoint(AEWorld.player.x, AEWorld.player.y);
+				this.moveCloseToEnemy(AEWorld.player, 240);
+				target = new FlxPoint(AEWorld.player.x, AEWorld.player.y);
+				trace("PLAYER: (" + target.x + "," + target.y + ")");
 				if (weakestStrength == 0) {
 					//trace("RUN AWAY");
 					//this.runAwayFromEnemy(enemies.members[strongestIndex]);
@@ -132,8 +145,8 @@ package
 					*/
 				} else {
 					//trace("MOVE TOWARDS");
-					this.moveTowardsEnemy(enemies.members[weakestIndex]);
-					target = new FlxPoint(enemies.members[weakestIndex].x, enemies.members[weakestIndex].y);
+					//this.moveTowardsEnemy(enemies.members[weakestIndex]);
+					//target = new FlxPoint(enemies.members[weakestIndex].x, enemies.members[weakestIndex].y);
 				}
 			} else {
 				//this.moveAround();
@@ -157,7 +170,7 @@ package
 			body.ApplyImpulse(forceVec, body.GetPosition());
 		}
 		
-		private function moveCloseToEnemy(enemy:Creature, distance:Number):void {
+		private function moveCloseToEnemy(enemy:AECreature, distance:Number):void {
 			var impulseSize:int = super.speed;
 			var distanceFromEnemy:int = Math.sqrt(Math.pow(this.x - enemy.x, 2) + Math.pow(this.y - enemy.y, 2));
 			if (distanceFromEnemy < distance)
@@ -189,10 +202,15 @@ package
 			body.ApplyImpulse(getForceVec(randomX, randomY, super.speed), body.GetPosition());
 		}
 		
-		private function attack(attackPoint:FlxPoint):void
-		{
+		private function attack(attackPoint:FlxPoint):void {
 			for each (var adapt:Adaptation in adaptations) {
 				adapt.attack(target);
+			}
+		}
+		
+		private function aim(attackPoint:FlxPoint):void {
+			for each (var adapt:Adaptation in adaptations) {
+				adapt.aim(target);
 			}
 		}
 		
