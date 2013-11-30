@@ -1,9 +1,9 @@
 package
 {
 	import Box2D.Common.Math.b2Vec2;
+	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2World;
-	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
 	
 	import org.flixel.FlxPoint;
 	
@@ -60,7 +60,8 @@ package
 			// insert code to shoot a bubble here
 
 			var headPoint:b2Vec2 = bubbleGun.getBody().GetPosition();
-			var bubble:AttackBubble = new AttackBubble(headPoint, this.owner, this, 64, 64, 5, point);
+			var spawnPoint :b2Vec2 = calcBulletSpawnPoint(point, bubbleGun.getScreenXY(), headPoint);
+			var bubble:AttackBubble = new AttackBubble(spawnPoint, this.owner, this, 64, 64, 5, point);
 			this.worldInst.add(bubble);
 			var bubbleBody:b2Body = bubble.getBody();
 			bubbleBody.SetLinearVelocity(calcBulletVelocity(point, bubbleGun.getScreenXY()));//calcB2Impulse(point, bubbleGun.getScreenXY()));
@@ -70,6 +71,14 @@ package
 			var angle:Number = Math.atan2(mousePoint.y - bodyPoint.y,mousePoint.x - bodyPoint.x);
 			var magnitude:Number = 3;
 			return new b2Vec2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
+		}
+		
+		protected function calcBulletSpawnPoint(mousePoint:FlxPoint, bodyPoint:FlxPoint, gunPoint:b2Vec2):b2Vec2 {
+			var angle:Number = Math.atan2(mousePoint.y - bodyPoint.y,mousePoint.x - bodyPoint.x);
+			var magnitude:Number = .7;
+			var xSpawn:Number = magnitude * Math.cos(angle) + gunPoint.x;
+			var ySpawn:Number = magnitude * Math.sin(angle) + gunPoint.y;
+			return new b2Vec2(xSpawn,ySpawn);
 		}
 		
 		override public function update():void

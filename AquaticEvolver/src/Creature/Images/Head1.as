@@ -14,11 +14,15 @@ package Creature.Images
 		 * to assure that they are centered on the sprite
 		 */
 		public static var polygonVerteces:Array = new Array(
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-WIDTH)/4.0,AEWorld.b2NumFromFlxNum(-HEIGHT)/2.0),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(WIDTH)/4.0,AEWorld.b2NumFromFlxNum(-HEIGHT)/2.0),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(WIDTH)/4.0, AEWorld.b2NumFromFlxNum(HEIGHT)/2.0),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-WIDTH)/4.0, AEWorld.b2NumFromFlxNum(HEIGHT)/2.0));
-
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-4),AEWorld.b2NumFromFlxNum(56)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-30),AEWorld.b2NumFromFlxNum(35)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-36),AEWorld.b2NumFromFlxNum(-1)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-29),AEWorld.b2NumFromFlxNum(-41)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-3),AEWorld.b2NumFromFlxNum(-56)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(27),AEWorld.b2NumFromFlxNum(-36)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(35),AEWorld.b2NumFromFlxNum(1)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(28),AEWorld.b2NumFromFlxNum(39)));
+		
 		[Embed(source='../../res/Head1.png')]
 		private static const Img:Class;
 				

@@ -49,15 +49,15 @@ package Creature
 
 		}
 		
-		public function generateSlotsFromLocations(slotLocations:Array):Array
-		{
-			var slots:Array = new Array();
-			for (var location:b2Vec2 in slotLocations)
-			{
-				slots.push(new AESlot(this, location));
-			}
-			return slots;
-		}
+//		public function generateSlotsFromLocations(slotLocations:Array):Array
+//		{
+//			var slots:Array = new Array();
+//			for (var location:b2Vec2 in slotLocations)
+//			{
+//				slots.push(new AESlot(this, location));
+//			}
+//			return slots;
+//		}
 		
 		override protected function bodyBuilder(position:b2Vec2, angle:Number, shape:b2PolygonShape = null):B2BodyBuilder
 		{

@@ -17,7 +17,7 @@ package
 		{
 			this.owner = owner;
 			this.adaptOwner = adaptOwner;
-			super(x, y, Graphic, width, height);
+			super(x, y,0, Graphic, width, height);
 		}
 		
 		override protected function bodyBuilder(position:b2Vec2, angle:Number, shape:b2PolygonShape = null):B2BodyBuilder
