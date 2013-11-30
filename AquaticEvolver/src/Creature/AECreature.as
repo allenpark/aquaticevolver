@@ -23,6 +23,8 @@ package Creature
 		
 		public var creatureType:Number;
 		
+		public var x:Number;
+		public var y:Number;
 		protected var speed:Number = 10;
 		
 		public function AECreature(type:Number, x:Number, y:Number, head:AEHead, torso:AETorso, tail:AETail)

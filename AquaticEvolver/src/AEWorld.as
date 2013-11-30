@@ -260,6 +260,7 @@ package
 			prevBgChangePos = 0;
 			//TODO: default health should be an attribute of creature, enemy, and/or player
 			this.defaultHealth = 10;
+			this.defaultSpeed = 1;
 		}
 		
 		private function initializePlayer():void
