@@ -106,8 +106,16 @@ package
 		{
 			super.attack(point);
 			//trace("tentacle attacking");
-			var mousePoint:FlxPoint = FlxG.mouse.getScreenPosition();
-			var headPoint:FlxPoint = tentacleHead.getScreenXY();
+			var headPoint:FlxPoint = new FlxPoint(this.owner.x, this.owner.y);
+			var tentacleBody:b2Body = tentacleHead.getBody();
+			var impulse:b2Vec2 = calcB2Impulse(point, headPoint);
+			impulse.Multiply(20);
+			tentacleBody.ApplyImpulse(impulse, tentacleBody.GetPosition());
+		}
+		
+		override public function aim(point:FlxPoint):void
+		{
+			var headPoint:FlxPoint = new FlxPoint(this.owner.x, this.owner.y);
 			var tentacleBody:b2Body = tentacleHead.getBody();
 			tentacleBody.ApplyImpulse(calcB2Impulse(point, headPoint), tentacleBody.GetPosition());
 		}

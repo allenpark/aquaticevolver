@@ -72,6 +72,8 @@ package
 		public function update():void
 		{		
 			var movementBody:b2Body = _head.headSegment.getBody();
+			this.x = FlxG.camera.scroll.x + (FlxG.width  / 2.0);
+			this.y = FlxG.camera.scroll.y + (FlxG.height / 2.0);
 			if (!FlxG.paused) {
 				var xDir:Number = 0;
 				var yDir:Number = 0;
@@ -79,7 +81,7 @@ package
 				if(FlxG.mouse.justPressed())
 				{
 					
-					var mousePoint:FlxPoint = new FlxPoint(FlxG.mouse.screenX, FlxG.mouse.screenY);
+					var mousePoint:FlxPoint = new FlxPoint(FlxG.camera.scroll.x + FlxG.mouse.screenX, FlxG.camera.scroll.y + FlxG.mouse.screenY);
 					var playerPoint:FlxPoint = new FlxPoint(AEWorld.flxNumFromB2Num(movementBody.GetPosition().x), AEWorld.flxNumFromB2Num(movementBody.GetPosition().y));
 					movementBody.ApplyImpulse(calcB2Impulse(mousePoint, playerPoint), movementBody.GetPosition());					
 				}

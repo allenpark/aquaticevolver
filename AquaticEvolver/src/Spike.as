@@ -54,9 +54,16 @@ package
 		override public function attack(point:FlxPoint):void
 		{
 			super.attack(point);
-			trace("spike attacking");
-			var mousePoint:FlxPoint = FlxG.mouse.getScreenPosition();
-			var headPoint:FlxPoint = spike.getScreenXY();
+			var headPoint:FlxPoint = new FlxPoint(this.owner.x, this.owner.y);
+			var spikeBody:b2Body = spike.getBody();
+			var impulse:b2Vec2 = calcB2Impulse(point, headPoint);
+			impulse.Multiply(20);
+			spikeBody.ApplyImpulse(impulse, spikeBody.GetPosition());
+		}
+		
+		override public function aim(point:FlxPoint):void
+		{
+			var headPoint:FlxPoint = new FlxPoint(this.owner.x, this.owner.y);
 			var spikeBody:b2Body = spike.getBody();
 			spikeBody.ApplyImpulse(calcB2Impulse(point, headPoint), spikeBody.GetPosition());
 		}
