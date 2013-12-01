@@ -33,7 +33,7 @@ package
 		/**
 		 * Boolean to spawn enemies
 		 */
-		private var SPAWNENEMIES:Boolean = true;
+		private var SPAWNENEMIES:Boolean = false;
 		
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.

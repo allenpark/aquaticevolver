@@ -27,7 +27,7 @@ package
 			this.owner = owner;
 			this.adaptOwner = adaptOwner;
 			this.pos = pos;
-			super(AEWorld.flxNumFromB2Num(pos.x), AEWorld.flxNumFromB2Num(pos.y), ImgAttackBubble, width, height);
+			super(AEWorld.flxNumFromB2Num(pos.x), AEWorld.flxNumFromB2Num(pos.y),0, ImgAttackBubble, width, height);
 		}
 		override public function update():void{
 			if (!this.onScreen(null))
