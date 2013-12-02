@@ -1,5 +1,6 @@
 package
 {
+	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2Body;
 	
@@ -40,27 +41,38 @@ package
 			return _head.headSegment;
 		}
 		
+		//Should probably be moved up to the AECreature class
 		private function playerHead(x:Number, y:Number):AEHead
 		{
 			var headSchematic:AESchematic = new AESchematic(Head1.image(), Head1.suggestedAppendageSlots);
-			var playerHeadSegment:AESegment = new AESegment(SpriteType.PLAYER, x,y, headSchematic); //TODO: HeadSegment should have modified height/width... current dimensions make head and tail touch and prevent swiveling
+			//Setting up the segment's shape
+			var playerHeadShape:b2PolygonShape = new b2PolygonShape();
+			playerHeadShape.SetAsArray(Head1.polygonVerteces);
+			var playerHeadSegment:AESegment = new AESegment(x,y, headSchematic, playerHeadShape); //TODO: HeadSegment should have modified height/width... current dimensions make head and tail touch and prevent swiveling
 			var playerHead:AEHead = new AEHead(playerHeadSegment, Head1.suggestedHeadAnchor);
 			return playerHead;
 		}
-		
+		//Should probably be moved up to the AECreature class
 		private function playerTorso(x:Number, y:Number):AETorso
 		{
 			var torsoSchematic:AESchematic = new AESchematic(Torso1.image(), Torso1.suggestedAppendageSlots);
-			var playerTorsoSegment:AESegment = new AESegment(SpriteType.PLAYER, x,y, torsoSchematic);
+			//Setting up segment's shape
+			var playerTorsoShape:b2PolygonShape = new b2PolygonShape();
+			playerTorsoShape.SetAsArray(Torso1.polygonVerteces);
+			var playerTorsoSegment:AESegment = new AESegment(x,y, torsoSchematic, playerTorsoShape);
 			var playerTorsoSegments:Array = new Array(playerTorsoSegment);
 			var playerTorso:AETorso = new AETorso(playerTorsoSegment, Torso1.suggestedHeadAnchor, playerTorsoSegments, playerTorsoSegment, Torso1.suggestedTailAnchor);
 			return playerTorso;
 		}
-		
+		//Should probably be moved up to the AECreature class
 		private function playerTail(x:Number, y:Number):AETail
 		{
 			var tailSchematic:AESchematic = new AESchematic(Tail1.image(), Tail1.suggestedAppendageSlots);
-			var playerTailSegment:AESegment = new AESegment(SpriteType.PLAYER, x, y, tailSchematic);
+
+			var playerTailShape:b2PolygonShape = new b2PolygonShape();
+			//Setting the segment's shape
+			playerTailShape.SetAsArray(Tail1.polygonVerteces);
+			var playerTailSegment:AESegment = new AESegment(x, y, tailSchematic, playerTailShape);
 			var playerTail:AETail = new AETail(playerTailSegment, Tail1.suggestedTailAnchor);
 			return playerTail;
 		}	
@@ -68,6 +80,8 @@ package
 		public function update():void
 		{		
 			var movementBody:b2Body = _head.headSegment.getBody();
+			this.x = FlxG.camera.scroll.x + (FlxG.width  / 2.0);
+			this.y = FlxG.camera.scroll.y + (FlxG.height / 2.0);
 			if (!FlxG.paused) {
 				var xDir:Number = 0;
 				var yDir:Number = 0;
@@ -75,7 +89,7 @@ package
 				if(FlxG.mouse.justPressed())
 				{
 					
-					var mousePoint:FlxPoint = new FlxPoint(FlxG.mouse.screenX, FlxG.mouse.screenY);
+					var mousePoint:FlxPoint = new FlxPoint(FlxG.camera.scroll.x + FlxG.mouse.screenX, FlxG.camera.scroll.y + FlxG.mouse.screenY);
 					var playerPoint:FlxPoint = new FlxPoint(AEWorld.flxNumFromB2Num(movementBody.GetPosition().x), AEWorld.flxNumFromB2Num(movementBody.GetPosition().y));
 					movementBody.ApplyImpulse(calcB2Impulse(mousePoint, playerPoint), movementBody.GetPosition());					
 				}

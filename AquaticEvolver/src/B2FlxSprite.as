@@ -13,14 +13,15 @@ package
 	{
 		protected var body:b2Body;
 		
-		public function B2FlxSprite(x:int, y:int,  angle:Number=0, Graphic:Class=null, width:Number=0, height:Number=0):void
+		public function B2FlxSprite(x:int, y:int,  angle:Number=0,Graphic:Class=null, 
+									width:Number=0, height:Number=0,shape:b2PolygonShape = null):void
 		{
 			super(x,y);
 			if (Graphic) {
 				this.loadGraphic(Graphic,true,true,width,height);
 			}
 			var position:b2Vec2 = new b2Vec2(AEWorld.b2NumFromFlxNum(x), AEWorld.b2NumFromFlxNum(y));
-			body = bodyBuilder(position, angle).build();
+			body = bodyBuilder(position, angle, shape).build();
 		}
 		
 		override public function update():void
@@ -31,11 +32,16 @@ package
 			super.update();
 		}
 		
-		protected function bodyBuilder(position:b2Vec2, angle:Number):B2BodyBuilder
+		protected function bodyBuilder(position:b2Vec2, angle:Number, shape:b2PolygonShape = null):B2BodyBuilder
 		{     
-			var boxShape:b2PolygonShape = new b2PolygonShape();
-			boxShape.SetAsBox(AEWorld.b2NumFromFlxNum(width)/2.0, AEWorld.b2NumFromFlxNum(height)/2.0);
-			var b2bb:B2BodyBuilder = new B2BodyBuilder(position, angle).withShape(boxShape).withType(b2Body.b2_dynamicBody)
+			if(shape == null){
+				//Setting default of spite if none passed in 
+				shape = new b2PolygonShape();
+				shape.SetAsBox(AEWorld.b2NumFromFlxNum(width)/2.0, AEWorld.b2NumFromFlxNum(height)/2.0);
+			}
+			var b2bb:B2BodyBuilder = new B2BodyBuilder(position, angle)
+				.withShape(shape)
+				.withType(b2Body.b2_dynamicBody)
 				.withDensity(0.1);
 			return b2bb;
 		}

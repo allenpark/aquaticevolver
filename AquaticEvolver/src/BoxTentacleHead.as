@@ -20,7 +20,7 @@ package
 			super(x, y,0,Graphic, width, height);
 		}
 		
-		override protected function bodyBuilder(position:b2Vec2, angle:Number):B2BodyBuilder
+		override protected function bodyBuilder(position:b2Vec2, angle:Number, shape:b2PolygonShape = null):B2BodyBuilder
 		{     
 			var boxShape:b2PolygonShape = new b2PolygonShape();
 			boxShape.SetAsBox(AEWorld.b2NumFromFlxNum(bodyWidth), AEWorld.b2NumFromFlxNum(bodyHeight));

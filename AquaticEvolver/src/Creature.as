@@ -5,6 +5,7 @@ package {
 	import Box2D.Common.Math.b2Vec2;
 	
 	import org.flixel.FlxText;
+	import Box2D.Collision.Shapes.b2PolygonShape;
 	
 	public class Creature extends B2FlxSprite {
 		//public var x:int;
@@ -140,11 +141,14 @@ package {
 			return this.id == creature.id;
 		}
 		
-		override protected function bodyBuilder(position:b2Vec2, angle:Number):B2BodyBuilder
+		override protected function bodyBuilder(position:b2Vec2, angle:Number, shape:b2PolygonShape = null):B2BodyBuilder
 		{
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
-				.withFriction(0.8).withRestitution(0.3).withDensity(0.7)
-				.withLinearDamping(3.0).withAngularDamping(30.0);
+				.withFriction(0.8)
+				.withRestitution(0.3)
+				.withDensity(0.7)
+				.withLinearDamping(3.0)
+				.withAngularDamping(30.0);
 			return b2bb;
 		}
 	}

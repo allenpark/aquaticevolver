@@ -8,7 +8,6 @@ package
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxState;
-	import org.flixel.FlxText;
 	
 	public class AEWorld extends FlxState
 	{	
@@ -34,7 +33,7 @@ package
 		/**
 		 * Boolean to spawn enemies
 		 */
-		private var SPAWNENEMIES:Boolean = true;
+		private var SPAWNENEMIES:Boolean = false;
 		
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
@@ -261,6 +260,7 @@ package
 			prevBgChangePos = 0;
 			//TODO: default health should be an attribute of creature, enemy, and/or player
 			this.defaultHealth = 10;
+			this.defaultSpeed = 1;
 		}
 		
 		private function initializePlayer():void
@@ -268,12 +268,12 @@ package
 			player = new AEPlayer(ScreenWidth/2.0,ScreenHeight/2.0); 
 
 			
-			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, player);
+//			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, player);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, player);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.MANDIBLE, new b2Vec2(0, 0), 0, player);
 
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.BUBBLEGUN, new b2Vec2(0, 0), 0, player,this);
-			//player.addAdaptation(start_adaptation);
+//			player.addAdaptation(start_adaptation);
 			
 			//Have the camera follow the player
 			if (FOLLOWINGPLAYER) {
@@ -399,7 +399,7 @@ package
 				//If the player has gone up more than PIXELSPERDEPTH pixels from the
 				//last background change,and the background is not as
 				//bright as it gets make the background brighter
-				else if(FlxG.camera.scroll.y < prevBgChangePos - PIXELSPERDEPTH && FlxG.bgColor.valueOf() < 0xff3366ff){
+				else if(FlxG.camera.scroll.y < prevBgChangePos - PIXELSPERDEPTH && FlxG.bgColor.valueOf() < 0xff3366fe){
 					prevBgChangePos -= PIXELSPERDEPTH;
 					blueChange = (blueChange + 1)%5;
 					//Reduce blue channel by one

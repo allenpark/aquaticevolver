@@ -40,10 +40,8 @@ package {
 			creature.speed -= this.speedBoost;
 		}
 		
-		public function attack(point:FlxPoint):void
-		{
-			
-		}
+		public function attack(point:FlxPoint):void {}
+		public function aim(target:FlxPoint):void {}
 		
 		/*override public function kill():void {
 			super.kill();
