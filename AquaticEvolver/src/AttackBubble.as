@@ -9,6 +9,7 @@ package
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
+	import Creature.AECreature
 
 	public class AttackBubble extends B2FlxSprite
 	{
@@ -17,11 +18,11 @@ package
 		
 		private var bodyWidth:int = 64;
 		private var bodyHeight:int = 64;
-		public var owner:Creature;
+		public var owner:AECreature;
 		public var adaptOwner:Adaptation;
 		public var pos:b2Vec2;
 		
-		public function AttackBubble(pos:b2Vec2, owner:Creature, adaptOwner:Adaptation, width:Number, height:Number, speed:Number, targetPoint:FlxPoint)
+		public function AttackBubble(pos:b2Vec2, owner:AECreature, adaptOwner:Adaptation, width:Number, height:Number, speed:Number, targetPoint:FlxPoint)
 		{
 			//this.loadGraphic(ImgAttackBubble, false, false);
 			this.owner = owner;
