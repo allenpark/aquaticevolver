@@ -10,9 +10,9 @@ package
 	{
 		private var bodyWidth:int = 20/2;
 		private var bodyHeight:int = 88/2;
-		public var owner:Creature;
+		public var owner:*;
 		
-		public function BoxSpike(x, y, owner:Creature, Graphic:Class=null, width:Number=0, height:Number=0)
+		public function BoxSpike(x, y, owner:*, Graphic:Class=null, width:Number=0, height:Number=0)
 		{
 			this.owner = owner;
 			super(x, y, 0, Graphic, width, height);			

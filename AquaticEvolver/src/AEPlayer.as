@@ -19,7 +19,7 @@ package
 	
 	public class AEPlayer extends AECreature
 	{
-		private var defaultMovementScheme:Boolean = true; 
+		private var defaultMovementScheme:Boolean = false; 
 		
 		public function AEPlayer(x:Number, y:Number)
 		{	
@@ -27,6 +27,13 @@ package
 			var torso:AETorso = playerTorso(x,y);
 			var tail:AETail = playerTail(x,y);
 			super(SpriteType.PLAYER, x, y, head, torso, tail);
+			//attachAppendage(AppendageType.TENTACLE);
+			attachAppendage(AppendageType.SPIKE);
+			//attachAppendage(AppendageType.SPIKE);
+			//attachAppendage(AppendageType.SPIKE);
+			//attachAppendage(AppendageType.SPIKE);
+			//attachAppendage(AppendageType.SPIKE);
+			//attachAppendage(AppendageType.SPIKE);
 		}
 		
 		public function getFollowObject():B2FlxSprite
@@ -61,6 +68,7 @@ package
 		private function playerTail(x:Number, y:Number):AETail
 		{
 			var tailSchematic:AESchematic = new AESchematic(Tail1.image(), Tail1.suggestedAppendageSlots);
+
 			var playerTailShape:b2PolygonShape = new b2PolygonShape();
 			//Setting the segment's shape
 			playerTailShape.SetAsArray(Tail1.polygonVerteces);
