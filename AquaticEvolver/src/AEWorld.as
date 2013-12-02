@@ -409,9 +409,6 @@ package
 					//Reduce blue channel by one
 					FlxG.bgColor += 0x00000001;
 					
-					//TODO: perform bitshift operation here to assure that the hex has RED channel
-					var hasRedChannel:Boolean = FlxG.bgColor.valueOf();
-					
 					if ((blueChange == 0 || blueChange == 2)  ){
 						//Reduce red channel by one
 						FlxG.bgColor += 0x00000100;
