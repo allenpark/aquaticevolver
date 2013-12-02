@@ -27,8 +27,13 @@ def make_points():
     return ans
 
 def write_code (image_width, image_height):
+        """Use this function, type in the x coordinate, then hit enter, then the y
+        coordinate and enter again, when you are done put in one period for the x
+        and one period for the y"""
+
+        
         point_list = make_points()
-        new_points = f(point_list, -image_width,-image_height)
+        new_points = f(point_list, -image_width/2.0,-image_height/2.0)
         g(new_points)
         
         
