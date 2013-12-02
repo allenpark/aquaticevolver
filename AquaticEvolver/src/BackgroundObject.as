@@ -51,10 +51,14 @@ package{
 			var outsideXbounds:Boolean = this.x > upperXbound || this.x < lowerXbound;
 			//TODO: update this so that bubbles can still be slighly off screen
 			//Make sure that the object is still on the screen
-			if(outsideXbounds || outsideYbounds){
+			/*if(outsideXbounds || outsideYbounds){
 				//CURRENTLY CRASHES GAME WHEN CALLED DON'T KNOW HOW TO CLEAN UP MEMORY
 //				this.destroy();
 				this.kill(); 
+			}*/
+			if(!onScreen(null))
+			{
+				this.kill();	
 			}
 		}
 		
