@@ -351,10 +351,10 @@ package
 			while (KILLLIST.length>0)
 			{
 				/*
-				var top:Array = KILLLIST.pop();
-				var attacker:Creature = top[0] as Creature;
-				var enemy:Creature = top[1] as Creature;
-				var adaptation:Adaptation = top[2] as Adaptation;
+				var attackDescription:Array = KILLLIST.pop();
+				var attacker:Creature = attackDescription[0] as Creature;
+				var enemy:Creature = attackDescription[1] as Creature;
+				var adaptation:Adaptation = attackDescription[2] as Adaptation;
 				var killedEnemy:Boolean = attacker.handleAttackOn(adaptation, enemy);
 				*/
 				break;

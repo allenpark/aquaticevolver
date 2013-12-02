@@ -7,10 +7,9 @@ package
 	public class AECollisionListener extends b2ContactListener
 	{
 		
-		private function handlePlayerTentacleAttack(attackerData:CollisionData, enemyData:CollisionData):void
+		private function handleAttack(attackerData:CollisionData, enemyData:CollisionData):void
 		{
 			trace("player attacked enemy");
-			//AEWorld.KILLLIST.push(enemy);
 			var attackDescription:Array = new Array();
 			attackDescription.push(attackerData.owner);
 			attackDescription.push(enemyData.owner);
@@ -32,9 +31,9 @@ package
 			trace(data2.owner + " " + data2.colliderType + " " + data2.adaptation);
 			
 			// TODO(Allen): Fix this logic. Not necessarily player and enemy.
-			if(data1.owner.creatureType == SpriteType.PLAYER && data2.owner.creatureType == SpriteType.ENEMY)
+			if (data1.owner.creatureType == SpriteType.PLAYER && data2.owner.creatureType == SpriteType.ENEMY)
 			{
-				handlePlayerTentacleAttack(data1, data2);
+				handleAttack(data1, data2);
 				/*switch(data1.colliderType)
 				{
 					case SpriteType.TENTACLEHEAD:
@@ -48,9 +47,9 @@ package
 						break;
 				}*/
 			}
-			if(data2.owner.creatureType == SpriteType.PLAYER && data1.owner.creatureType == SpriteType.ENEMY)
+			if (data2.owner.creatureType == SpriteType.PLAYER && data1.owner.creatureType == SpriteType.ENEMY)
 			{
-				handlePlayerTentacleAttack(data2, data1);
+				handleAttack(data2, data1);
 				/*switch(data2.colliderType)
 				{
 					case SpriteType.TENTACLEHEAD:
