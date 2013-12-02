@@ -15,7 +15,7 @@ package {
 		protected var jointAngle:Number;
 		protected var segment:B2FlxSprite;
 		
-		public function Appendage(type:Number, cost:int, isAttack:Boolean, attackDamage:int, jointPos:b2Vec2, jointAngle:Number, owner:Creature, segment:B2FlxSprite) {
+		public function Appendage(type:Number, cost:int, isAttack:Boolean, attackDamage:int, jointPos:b2Vec2, jointAngle:Number, owner:*, segment:B2FlxSprite) {
 			super(cost, isAttack, attackDamage, owner);
 			this.type = type;
 			this.jointPos = jointPos;
@@ -58,7 +58,7 @@ package {
 					appendage = new Spike(jointPos, jointAngle, owner, segment);
 					break;
 			}
-			
+			AEWorld.world.add(appendage);
 			return appendage;
 		}
 		

@@ -3,25 +3,21 @@ package
 	public class SpriteType
 	{
 		//Creature Types
-		public static var PLAYER:Number = 1;
-		public static var ENEMY:Number = 2;
-		public static var NEUTRAL:Number = 3;
+		public static const PLAYER:Number = 1;
+		public static const ENEMY:Number = 2;
+		public static const NEUTRAL:Number = 3;
 		
 		//Appendage Types
-		public static var TENTACLE:Number = 5;
-		public static var TENTACLEHEAD:Number = 7;
-		public static var TENTACLEMID:Number = 6;
-		public static var SPIKE:Number = 4;
-		public static var MANDIBLE:Number = 8;
-		public static var MANDIBLEJAW:Number = 9;
-		public static var MANDIBLEBASE:Number = 10;
-		public static var BUBBLEGUN:Number = 11;
+		public static const TENTACLE:Number = 5;
+		public static const TENTACLEHEAD:Number = 7;
+		public static const TENTACLEMID:Number = 6;
+		public static const SPIKE:Number = 4;
+		public static const MANDIBLE:Number = 8;
+		public static const MANDIBLEJAW:Number = 9;
+		public static const MANDIBLEBASE:Number = 10;
+		public static const BUBBLEGUN:Number = 11;
 		
 		//Neutral Types
-		public static var BUBBLE:Number = 50;
-		
-		public function SpriteType()
-		{
-		}
+		public static const BUBBLE:Number = 50;
 	}
 }

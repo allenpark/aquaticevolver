@@ -19,7 +19,7 @@ package
 	
 	public class AEPlayer extends AECreature
 	{
-		private var defaultMovementScheme:Boolean = true; 
+		private var defaultMovementScheme:Boolean = false; 
 		
 		public function AEPlayer(x:Number, y:Number)
 		{	
@@ -27,6 +27,9 @@ package
 			var torso:AETorso = playerTorso(x,y);
 			var tail:AETail = playerTail(x,y);
 			super(SpriteType.PLAYER, x, y, head, torso, tail);
+			//attachAppendage(AppendageType.TENTACLE);
+			attachAppendage(AppendageType.BUBBLEGUN);
+			
 		}
 		
 		public function getFollowObject():B2FlxSprite
@@ -61,6 +64,7 @@ package
 		private function playerTail(x:Number, y:Number):AETail
 		{
 			var tailSchematic:AESchematic = new AESchematic(Tail1.image(), Tail1.suggestedAppendageSlots);
+
 			var playerTailShape:b2PolygonShape = new b2PolygonShape();
 			//Setting the segment's shape
 			playerTailShape.SetAsArray(Tail1.polygonVerteces);
@@ -83,7 +87,8 @@ package
 					
 					var mousePoint:FlxPoint = new FlxPoint(FlxG.camera.scroll.x + FlxG.mouse.screenX, FlxG.camera.scroll.y + FlxG.mouse.screenY);
 					var playerPoint:FlxPoint = new FlxPoint(AEWorld.flxNumFromB2Num(movementBody.GetPosition().x), AEWorld.flxNumFromB2Num(movementBody.GetPosition().y));
-					movementBody.ApplyImpulse(calcB2Impulse(mousePoint, playerPoint), movementBody.GetPosition());					
+					movementBody.ApplyImpulse(calcB2Impulse(mousePoint, playerPoint), movementBody.GetPosition());
+					attack();
 				}
 					
 					// moving the player based on the arrow keys inputs
@@ -116,6 +121,13 @@ package
 					var torque:Number = 0.5;
 					movementBody.SetAngularVelocity(torque * xDir);
 				}
+			}
+		}
+		private function attack():void
+		{
+			for each (var adapt:Adaptation in _adaptations)
+			{
+				adapt.attack(FlxG.mouse.getScreenPosition());
 			}
 		}
 		

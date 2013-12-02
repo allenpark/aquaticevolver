@@ -194,13 +194,13 @@ package
 			
 			//Setting upper and lower bounds for the objects some what below what the
 			//player can see so there is a consistent background
-			var lowerXbound:Number = -(ScreenWidth / 2) - xBuffer/2 - 50;
-			var upperXbound:Number = (ScreenWidth / 2) + xBuffer/2 + 50;
-			var lowerYbound:Number = -(ScreenHeight / 2) - yBuffer/2 - 50;
-			var upperYbound:Number = (ScreenHeight / 2) + yBuffer/2 + 50;
+			var lowerXbound:Number = -(ScreenWidth / 1) - xBuffer/2 - 50;
+			var upperXbound:Number = (ScreenWidth / 1) + xBuffer/2 + 50;
+			var lowerYbound:Number = -(ScreenHeight / 1) - yBuffer/2 - 50;
+			var upperYbound:Number = (ScreenHeight / 1) + yBuffer/2 + 50;
 			
 			if(FOLLOWINGPLAYER){
-				if (Math.random()>.5) {
+				/*if (Math.random()>.5) {
 					// On the vertical edges.
 					newX = (Math.random() > 0.5 ? lowerXbound: upperXbound) + player.getX();
 					newY = (Math.random() * ScreenHeight)- ScreenHeight/2 + player.getY();
@@ -208,7 +208,9 @@ package
 					// On the horizontal edges.
 					newX = (Math.random() * ScreenWidth) - ScreenWidth/2 + player.getX();
 					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + player.getY();	
-				}
+				}*/
+				newX = (Math.random() * (ScreenWidth)) + player.getX();//-xBuffer/viewDistance));
+				newY = (Math.random() * (ScreenHeight)) + player.getY();//-yBuffer/viewDistance));
 			}else{
 				newX = (Math.random() * (ScreenWidth-xBuffer/viewDistance));
 				newY = (ScreenHeight-yBuffer/viewDistance);
@@ -385,42 +387,50 @@ package
 					
 					blueChange = (blueChange + 1)%5;
 					//Reduce blue channel by one
+					
+					//TODO: perform bitshift operation here to assure that the hex has RED channel
 					FlxG.bgColor -= 0x00000001;
 					if (blueChange == 0 || blueChange == 2){
 						greenChange = (greenChange + 1)%2;
 						//Reduce red channel by one
 						FlxG.bgColor -= 0x00000100;
+						//TODO: perform bitshift operation here to assure that the hex has green channel
 						if(greenChange == 0){
 							//Reduce green channel by one
 							FlxG.bgColor -= 0x00010000;
 						}
 					}
+					FlxG.log("Darker Background is now:"+FlxG.bgColor.valueOf().toString(16));
+
 				}
 				//If the player has gone up more than PIXELSPERDEPTH pixels from the
 				//last background change,and the background is not as
 				//bright as it gets make the background brighter
-				else if(FlxG.camera.scroll.y < prevBgChangePos - PIXELSPERDEPTH && FlxG.bgColor.valueOf() < 0xff3366fe){
+				else if(FlxG.camera.scroll.y < prevBgChangePos - PIXELSPERDEPTH && FlxG.bgColor.valueOf() < 0xff3265fe){
 					prevBgChangePos -= PIXELSPERDEPTH;
-					blueChange = (blueChange + 1)%5;
 					//Reduce blue channel by one
 					FlxG.bgColor += 0x00000001;
-					if (blueChange == 0 || blueChange == 2){
-						greenChange = (greenChange + 1)%2;
+					
+					if ((blueChange == 0 || blueChange == 2)  ){
 						//Reduce red channel by one
 						FlxG.bgColor += 0x00000100;
+						//TODO: perform bitshift operation here to assure that the hex has GREEN channel
+
 						if(greenChange == 0){
 							//Reduce green channel by one
 							FlxG.bgColor += 0x00010000;
 						}
+						greenChange = (greenChange + 1)%2;
 					}
-//					FlxG.log("Brighter Background is now"+ FlxG.bgColor.valueOf());
+					blueChange = (blueChange + 1)%5;
+					FlxG.log("Brighter Background is now:"+FlxG.bgColor.valueOf().toString(16));
 
 				}
 				
 				//Randomly add background image
-//				if (Math.random() < 0.1) {
-//					drawBackgroundObject(128, 128);	
-//				}
+				if (Math.random() < 0.1) {
+					drawBackgroundObject(0, 0);	
+				}
 				AquaticEvolver.DEBUG_SPRITE.x = - FlxG.camera.scroll.x;
 				AquaticEvolver.DEBUG_SPRITE.y = - FlxG.camera.scroll.y;
 				

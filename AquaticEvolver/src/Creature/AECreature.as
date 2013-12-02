@@ -10,7 +10,7 @@ package Creature
 		protected var _torso:AETorso;
 		protected var _tail:AETail;
 		
-		private var _adaptations:Array;
+		protected var _adaptations:Array;
 		
 		private var _unoccupiedAppendageSlots:Array;
 		private var _occupiedAppendageSlots:Array;
@@ -32,6 +32,7 @@ package Creature
 			_head = head;
 			_torso = torso;
 			_tail = tail;
+			_adaptations = new Array();
 			
 			creatureType = type;
 			//TODO: is having a null torso vaild? eg. head-tail architecture?
@@ -44,7 +45,7 @@ package Creature
 			addToWorld();
 		}
 		
-		public function attachAppendage(appendage:Appendage):Boolean
+		public function attachAppendage(appendageType:Number):Boolean
 		{
 			if (_unoccupiedAppendageSlots.length == 0)
 			{
@@ -54,8 +55,14 @@ package Creature
 			else
 			{
 				var appendageSlot:AESlot = _unoccupiedAppendageSlots.pop();
-				//TODO: attach appendage to appendageSlot
+				//TODO: appendage locations need to be rotated with body
+				trace("appendage slot y: " + appendageSlot.slotLocation.y +"appendage slot x"+appendageSlot.slotLocation.x);
+				var angle:Number = Math.atan(appendageSlot.slotLocation.y/appendageSlot.slotLocation.x) - Math.PI;
+				trace("Appendage Angle: "+angle);
+				var appendage:Appendage = Appendage.createAppendageWithType(appendageType,appendageSlot.slotLocation, angle, this, appendageSlot.segment);
+				//TODO: keep track of appendages... in adaptations array? or separate appendage array?
 				_occupiedAppendageSlots.push(appendageSlot);
+				_adaptations.push(appendage);
 				return true;
 			}
 		}
