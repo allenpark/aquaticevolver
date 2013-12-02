@@ -28,12 +28,8 @@ package
 			var tail:AETail = playerTail(x,y);
 			super(SpriteType.PLAYER, x, y, head, torso, tail);
 			//attachAppendage(AppendageType.TENTACLE);
-			attachAppendage(AppendageType.SPIKE);
-			//attachAppendage(AppendageType.SPIKE);
-			//attachAppendage(AppendageType.SPIKE);
-			//attachAppendage(AppendageType.SPIKE);
-			//attachAppendage(AppendageType.SPIKE);
-			//attachAppendage(AppendageType.SPIKE);
+			attachAppendage(AppendageType.BUBBLEGUN);
+			
 		}
 		
 		public function getFollowObject():B2FlxSprite
@@ -91,7 +87,8 @@ package
 					
 					var mousePoint:FlxPoint = new FlxPoint(FlxG.camera.scroll.x + FlxG.mouse.screenX, FlxG.camera.scroll.y + FlxG.mouse.screenY);
 					var playerPoint:FlxPoint = new FlxPoint(AEWorld.flxNumFromB2Num(movementBody.GetPosition().x), AEWorld.flxNumFromB2Num(movementBody.GetPosition().y));
-					movementBody.ApplyImpulse(calcB2Impulse(mousePoint, playerPoint), movementBody.GetPosition());					
+					movementBody.ApplyImpulse(calcB2Impulse(mousePoint, playerPoint), movementBody.GetPosition());
+					attack();
 				}
 					
 					// moving the player based on the arrow keys inputs
@@ -124,6 +121,13 @@ package
 					var torque:Number = 0.5;
 					movementBody.SetAngularVelocity(torque * xDir);
 				}
+			}
+		}
+		private function attack():void
+		{
+			for each (var adapt:Adaptation in _adaptations)
+			{
+				adapt.attack(FlxG.mouse.getScreenPosition());
 			}
 		}
 		

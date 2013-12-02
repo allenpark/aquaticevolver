@@ -5,15 +5,16 @@ package
 	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2Body;
+	import Creature.AECreature
 	
 	public class BoxBubbleGun extends B2FlxSprite
 	{
 		private var bodyWidth:int = 90/2;
 		private var bodyHeight:int = 62/2;
-		public var owner:Creature;
+		public var owner:AECreature;
 		public var adaptOwner:Adaptation;
 		
-		public function BoxBubbleGun(x:Number, y:Number, owner:Creature, adaptOwner:Adaptation, Graphic:Class=null, width:Number=0, height:Number=0)
+		public function BoxBubbleGun(x:Number, y:Number, owner:AECreature, adaptOwner:Adaptation, Graphic:Class=null, width:Number=0, height:Number=0)
 		{
 			this.owner = owner;
 			this.adaptOwner = adaptOwner;
@@ -30,7 +31,7 @@ package
 			return b2bb;
 		}
 		
-		public function getOwner():Creature
+		public function getOwner():AECreature
 		{
 			return owner;
 		}
