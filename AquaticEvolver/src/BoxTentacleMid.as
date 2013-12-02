@@ -10,10 +10,10 @@ package
 	{
 		private var bodyWidth:int = 24/2;
 		private var bodyHeight:int = 40/2;
-		public var owner:Creature;
+		public var owner:*;
 		public var adaptOwner:Adaptation;
 		
-		public function BoxTentacleMid(x:Number, y:Number, owner:Creature, adaptOwner:Adaptation, Graphic:Class=null, width:Number=0, height:Number=0)
+		public function BoxTentacleMid(x:Number, y:Number, owner:*, adaptOwner:Adaptation, Graphic:Class=null, width:Number=0, height:Number=0)
 		{
 			this.owner = owner;
 			this.adaptOwner = adaptOwner;

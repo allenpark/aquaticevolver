@@ -18,7 +18,7 @@ package
 	
 	public class AEPlayer extends AECreature
 	{
-		private var defaultMovementScheme:Boolean = true; 
+		private var defaultMovementScheme:Boolean = false; 
 		
 		public function AEPlayer(x:Number, y:Number)
 		{	
@@ -26,6 +26,13 @@ package
 			var torso:AETorso = playerTorso(x,y);
 			var tail:AETail = playerTail(x,y);
 			super(SpriteType.PLAYER, x, y, head, torso, tail);
+			//attachAppendage(AppendageType.TENTACLE);
+			attachAppendage(AppendageType.SPIKE);
+			//attachAppendage(AppendageType.SPIKE);
+			//attachAppendage(AppendageType.SPIKE);
+			//attachAppendage(AppendageType.SPIKE);
+			//attachAppendage(AppendageType.SPIKE);
+			//attachAppendage(AppendageType.SPIKE);
 		}
 		
 		public function getFollowObject():B2FlxSprite
@@ -36,7 +43,7 @@ package
 		private function playerHead(x:Number, y:Number):AEHead
 		{
 			var headSchematic:AESchematic = new AESchematic(Head1.image(), Head1.suggestedAppendageSlots);
-			var playerHeadSegment:AESegment = new AESegment(x,y, headSchematic); //TODO: HeadSegment should have modified height/width... current dimensions make head and tail touch and prevent swiveling
+			var playerHeadSegment:AESegment = new AESegment(SpriteType.PLAYER, x,y, headSchematic); //TODO: HeadSegment should have modified height/width... current dimensions make head and tail touch and prevent swiveling
 			var playerHead:AEHead = new AEHead(playerHeadSegment, Head1.suggestedHeadAnchor);
 			return playerHead;
 		}
@@ -44,7 +51,7 @@ package
 		private function playerTorso(x:Number, y:Number):AETorso
 		{
 			var torsoSchematic:AESchematic = new AESchematic(Torso1.image(), Torso1.suggestedAppendageSlots);
-			var playerTorsoSegment:AESegment = new AESegment(x,y, torsoSchematic);
+			var playerTorsoSegment:AESegment = new AESegment(SpriteType.PLAYER, x,y, torsoSchematic);
 			var playerTorsoSegments:Array = new Array(playerTorsoSegment);
 			var playerTorso:AETorso = new AETorso(playerTorsoSegment, Torso1.suggestedHeadAnchor, playerTorsoSegments, playerTorsoSegment, Torso1.suggestedTailAnchor);
 			return playerTorso;
@@ -53,7 +60,7 @@ package
 		private function playerTail(x:Number, y:Number):AETail
 		{
 			var tailSchematic:AESchematic = new AESchematic(Tail1.image(), Tail1.suggestedAppendageSlots);
-			var playerTailSegment:AESegment = new AESegment(x, y, tailSchematic);
+			var playerTailSegment:AESegment = new AESegment(SpriteType.PLAYER, x, y, tailSchematic);
 			var playerTail:AETail = new AETail(playerTailSegment, Tail1.suggestedTailAnchor);
 			return playerTail;
 		}	

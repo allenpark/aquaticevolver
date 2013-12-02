@@ -11,9 +11,9 @@ package {
 		public var attackDamage:int;
 		public var speedBoost:int;
 		public var healthBoost:int;
-		public var owner:Creature;
+		public var owner:*;
 		
-		public function Adaptation(cost:int, isAttack:Boolean, attackDamage:int, owner:Creature) {
+		public function Adaptation(cost:int, isAttack:Boolean, attackDamage:int, owner:*) {
 			super();
 			this.cost = cost;
 			this.isAttack = isAttack;
