@@ -18,12 +18,14 @@ def make_points():
     ans = []
     switch = True
     while switch:
-        x = float(raw_input ("X value, input a period if you are done"))
-        y = float(raw_input ("Y value"))
+        x = (raw_input ("X value, input a period if you are done"))
+        y = (raw_input ("Y value"))
         if x == "." or y == ".":
             switch = False
         else :
-            ans.append((x,y))
+                x = float(x)
+                y= float(y)
+                ans.append((x,y))
     return ans
 
 def write_code (image_width, image_height):
