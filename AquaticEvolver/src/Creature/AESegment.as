@@ -17,6 +17,8 @@ package Creature
 		protected var _torsoSlots:Dictionary;
 		public var appendageSlots:Array;
 		
+		protected var _spriteType:Number;
+		
 		/**
 		 * The basic building block for creatures
 		 * @param torsoSlots Dictionary mapping a torso slot label (string) to the local position of the torso slot (b2Vec2)
@@ -40,24 +42,26 @@ package Creature
 		}
 		*/
 		
+		public function generateSlotsFromLocations(slotLocations:Array):Array
+		{
+			var slots:Array = new Array();
+			for each (var location:b2Vec2 in slotLocations)
+			{
+				slots.push(new AESlot(this, location));
+			}
+			return slots;
+		}
+		
 		public function AESegment(x:Number, y:Number, schematic:AESchematic, shape:b2PolygonShape = null)
 		{
 			super(x,y, 0, schematic.img(), schematic.width(), schematic.height(), shape);
 			_torsoSlots = schematic.torsoSlots();
-			appendageSlots = schematic.appendageSlots();
+			appendageSlots = generateSlotsFromLocations(schematic.appendageSlots());
 
 
 		}
 		
-//		public function generateSlotsFromLocations(slotLocations:Array):Array
-//		{
-//			var slots:Array = new Array();
-//			for (var location:b2Vec2 in slotLocations)
-//			{
-//				slots.push(new AESlot(this, location));
-//			}
-//			return slots;
-//		}
+
 		
 		override protected function bodyBuilder(position:b2Vec2, angle:Number, shape:b2PolygonShape = null):B2BodyBuilder
 		{
