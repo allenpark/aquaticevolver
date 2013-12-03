@@ -354,8 +354,8 @@ package
 			{
 				/*
 				var attackDescription:Array = KILLLIST.pop();
-				var attacker:Creature = attackDescription[0] as Creature;
-				var enemy:Creature = attackDescription[1] as Creature;
+				var attacker:AECreature = attackDescription[0] as AECreature;
+				var enemy:AECreature = attackDescription[1] as AECreature;
 				var adaptation:Adaptation = attackDescription[2] as Adaptation;
 				var killedEnemy:Boolean = attacker.handleAttackOn(adaptation, enemy);
 				*/
