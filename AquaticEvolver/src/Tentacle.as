@@ -2,9 +2,11 @@ package
 {
 	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Common.Math.b2Vec2;
-	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2World;
+	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
+	
+	import Creature.AECreature;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxParticle;
@@ -12,7 +14,7 @@ package
 	
 	public class Tentacle extends Appendage
 	{
-		private var tentacleMidSegments:int = 1;
+		private var tentacleMidSegments:int = 4;
 		private var tentacleHead:BoxTentacleHead;
 		
 		// tentacle joint locations
@@ -30,10 +32,10 @@ package
 		public static var tentacleMidImg:Class;
 		
 		// jointPos is given from the local box2D coordinate system of the player and is the location of the attached point for the adatation
-		public function Tentacle(jointPos:b2Vec2, jointAngle:Number, owner:*, segment:B2FlxSprite)
+		public function Tentacle(jointPos:b2Vec2, jointAngle:Number, creature:AECreature, segment:B2FlxSprite)
 		{
 			jointAngle = jointAngle + jointAngleCorrection;
-			super(AppendageType.TENTACLE, 50, true, 2, jointPos, jointAngle, owner, segment);
+			super(AppendageType.TENTACLE, 50, true, 2, jointPos, jointAngle, creature, segment);
 			
 			var world:b2World = AEWorld.AEB2World;
 			
@@ -44,8 +46,8 @@ package
 			for (var i:int = 0; i < tentacleMidSegments; i++) {
 				
 				// create the sprite
-				trace(owner);
-				sprite = new BoxTentacleMid(0, 0, owner, this, tentacleMidImg, 32, 64);
+				trace(creature);
+				sprite = new BoxTentacleMid(0, 0, creature, this, tentacleMidImg, 32, 64);
 				midSegments.push(sprite);
 				this.add(sprite);
 				
@@ -73,7 +75,7 @@ package
 			}
 			
 			// create the sprite
-			tentacleHead = new BoxTentacleHead(0, 0, owner, this, tentacleHeadImg, 32, 64);
+			tentacleHead = new BoxTentacleHead(0, 0, creature, this, tentacleHeadImg, 32, 64);
 			this.add(tentacleHead);
 			
 			// create the jointDef
@@ -106,7 +108,7 @@ package
 		{
 			super.attack(point);
 			//trace("tentacle attacking");
-			var headPoint:FlxPoint = new FlxPoint(this.owner.x, this.owner.y);
+			var headPoint:FlxPoint = new FlxPoint(this.creature.getX(), this.creature.getY());
 			var tentacleBody:b2Body = tentacleHead.getBody();
 			var impulse:b2Vec2 = calcB2Impulse(point, headPoint);
 			impulse.Multiply(20);
@@ -115,7 +117,7 @@ package
 		
 		override public function aim(point:FlxPoint):void
 		{
-			var headPoint:FlxPoint = new FlxPoint(this.owner.x, this.owner.y);
+			var headPoint:FlxPoint = new FlxPoint(this.creature.getX(), this.creature.getY());
 			var tentacleBody:b2Body = tentacleHead.getBody();
 			tentacleBody.ApplyImpulse(calcB2Impulse(point, headPoint), tentacleBody.GetPosition());
 		}

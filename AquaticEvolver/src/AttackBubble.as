@@ -9,6 +9,7 @@ package
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
+	import Creature.AECreature;
 
 	public class AttackBubble extends B2FlxSprite
 	{
@@ -17,14 +18,14 @@ package
 		
 		private var bodyWidth:int = 64;
 		private var bodyHeight:int = 64;
-		public var owner:Creature;
+		public var creature:AECreature;
 		public var adaptOwner:Adaptation;
 		public var pos:b2Vec2;
 		
-		public function AttackBubble(pos:b2Vec2, owner:Creature, adaptOwner:Adaptation, width:Number, height:Number, speed:Number, targetPoint:FlxPoint)
+		public function AttackBubble(pos:b2Vec2, creature:AECreature, adaptOwner:Adaptation, width:Number, height:Number, speed:Number, targetPoint:FlxPoint)
 		{
 			//this.loadGraphic(ImgAttackBubble, false, false);
-			this.owner = owner;
+			this.creature = creature;
 			this.adaptOwner = adaptOwner;
 			this.pos = pos;
 			super(AEWorld.flxNumFromB2Num(pos.x), AEWorld.flxNumFromB2Num(pos.y),0, ImgAttackBubble, width, height);
@@ -43,7 +44,7 @@ package
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
 				.withType(b2Body.b2_kinematicBody)
 				.asBullet()
-				.withData(new CollisionData(this.owner, SpriteType.BUBBLE, adaptOwner));
+				.withData(new CollisionData(this.creature, SpriteType.BUBBLE, adaptOwner));
 			return b2bb;
 		}
 	}

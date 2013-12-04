@@ -3,9 +3,15 @@ package Creature
 	import B2Builder.B2RevoluteJointBuilder;
 	
 	import Box2D.Dynamics.Joints.b2RevoluteJoint;
+	
+	import Def.AEHeadDef;
+	import Def.AETailDef;
+	import Def.AETorsoDef;
 			
 	public class AECreature
 	{
+		protected var _id:Number;
+		
 		protected var _head:AEHead;
 		protected var _torso:AETorso;
 		protected var _tail:AETail;
@@ -27,11 +33,23 @@ package Creature
 		public var y:Number;
 		protected var speed:Number = 10;
 		
-		public function AECreature(type:Number, x:Number, y:Number, head:AEHead, torso:AETorso, tail:AETail)
+		//TODO: Can only have 16 of these...
+		private static var Current_ID:Number = 1;
+		
+		public function AECreature(type:Number, x:Number, y:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
 		{
-			_head = head;
-			_torso = torso;
-			_tail = tail;
+			//Set creature id, then increment current id value
+			trace("Constructing creature with ID: "+Current_ID);
+			_id = Current_ID;
+			Current_ID = 2*Current_ID;
+			
+			
+			_head = headDef.createHeadWithCreatureID(_id);
+			_torso = torsoDef.createTorsoWithCreatureID(_id);
+			_tail = tailDef.createTailWithCreatureID(_id);
+			trace("head: "+ _head);
+			trace("torso: "+ _torso);
+			trace("tail: "+ _tail);
 			
 			creatureType = type;
 			//TODO: is having a null torso vaild? eg. head-tail architecture?
@@ -42,6 +60,11 @@ package Creature
 			ownBodies(type);
 			//TODO: Should this be done outside the constructor?
 			addToWorld();
+		}
+		
+		public function getID():Number
+		{
+			return _id;
 		}
 		
 		public function attachAppendage(appendageType:Number):Boolean
@@ -56,9 +79,9 @@ package Creature
 				var appendageSlot:AESlot = _unoccupiedAppendageSlots.pop();
 				//TODO: appendage locations need to be rotated with body
 				trace("appendage slot y: " + appendageSlot.slotLocation.y +"appendage slot x"+appendageSlot.slotLocation.x);
-				var angle:Number = Math.atan(appendageSlot.slotLocation.y/appendageSlot.slotLocation.x) - Math.PI;
-				trace("Appendage Angle: "+angle);
-				var appendage:Appendage = Appendage.createAppendageWithType(appendageType,appendageSlot.slotLocation, angle, this, appendageSlot.segment);
+				var angle:Number = Math.atan(appendageSlot.slotLocation.y/appendageSlot.slotLocation.x);
+				trace("Appendage Angle: "+ (appendageSlot.segment.getBody().GetAngle() - angle));
+				var appendage:Appendage = Appendage.createAppendageWithType(appendageType,appendageSlot.slotLocation, angle+ Math.PI/2, this, appendageSlot.segment);
 				//TODO: keep track of appendages... in adaptations array? or separate appendage array?
 				_occupiedAppendageSlots.push(appendageSlot);
 				return true;
@@ -98,12 +121,15 @@ package Creature
 		
 		private function attachHeadTorsoTail():void
 		{
+			trace("attaching head-torso-tail");
 			//TODO: Should Head -- Torso -- Tail attaching with weld joints be included?? Currently, only revolute joints are used to connect head-torso-tail together
 			
 			//Head -- Torso
 			_headTorsoJoint = new B2RevoluteJointBuilder(_head.headSegment.getBody(), _torso.headSegment.getBody(), _head.headAnchor, _torso.headAnchor)
 				.withEnabledLimit().withSwivelAngle(HeadSwivel)
 				.build();
+			
+			trace("head torso attached");
 			
 			//Torso -- Tail
 			_torsoTailJoint = new B2RevoluteJointBuilder(_torso.tailSegment.getBody(), _tail.tailSegment.getBody(), _torso.tailAnchor, _tail.tailAnchor)

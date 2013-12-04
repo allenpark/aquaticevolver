@@ -175,7 +175,10 @@ package
 			
 			
 			this.defaultHealth += 2
+				
+			//TODO: Change to AEEnemy when ready
 			var newEnemy:BoxEnemy = BoxEnemy.generateBoxEnemy(newX, newY, this.defaultSpeed,  this.defaultHealth, this.defaultHealth);
+			/* 
 			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, newEnemy, newEnemy);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, newEnemy);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.MANDIBLE, new b2Vec2(0, 0), 0, newEnemy);
@@ -183,6 +186,7 @@ package
 			newEnemy.addAdaptation(start_adaptation);
 			addCreature(newEnemy);
 			this.add(start_adaptation);
+			*/
 		}
 		
 		public function drawBackgroundObject(xBuffer:int = 0, yBuffer: int =0):void{
@@ -366,6 +370,13 @@ package
 			super.update();
 			if (!paused.showing) {
 				player.update();
+				//Box2D debug stuff
+				if (AquaticEvolver.box2dDebug) {
+					AEB2World.DrawDebugData();
+				}
+				if (FlxG.keys.justPressed("D")) {
+					toggleB2DebugDrawing();
+				}
 				AEB2World.Step(1.0/60.0, 10, 10);
 				processKillList();
 				
@@ -422,16 +433,7 @@ package
 //					drawBackgroundObject(128, 128);	
 //				}
 				AquaticEvolver.DEBUG_SPRITE.x = - FlxG.camera.scroll.x;
-				AquaticEvolver.DEBUG_SPRITE.y = - FlxG.camera.scroll.y;
-				
-				//Box2D debug stuff
-				if (AquaticEvolver.box2dDebug) {
-					AEB2World.DrawDebugData();
-				}
-				if (FlxG.keys.justPressed("D")) {
-					toggleB2DebugDrawing();
-				}
-				
+				AquaticEvolver.DEBUG_SPRITE.y = - FlxG.camera.scroll.y;		
 				
 				//TODO: We should revamp pausing... this isn't the best way of doing it, but it gets the job done for now
 				if (FlxG.keys.justPressed("P")) {

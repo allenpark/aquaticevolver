@@ -14,6 +14,11 @@ package
 	import Creature.Images.Torso1;
 	import Creature.Schematics.AESchematic;
 	
+	import Def.AEHeadDef;
+	import Def.AESegmentDef;
+	import Def.AETailDef;
+	import Def.AETorsoDef;
+	
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
 	
@@ -23,17 +28,21 @@ package
 		
 		public function AEPlayer(x:Number, y:Number)
 		{	
-			var head:AEHead = playerHead(x,y);
-			var torso:AETorso = playerTorso(x,y);
-			var tail:AETail = playerTail(x,y);
-			super(SpriteType.PLAYER, x, y, head, torso, tail);
-			//attachAppendage(AppendageType.TENTACLE);
+			trace("constructing player");
+			var headDef:AEHeadDef = playerHeadDef(x,y);
+			var torsoDef:AETorsoDef = playerTorsoDef(x,y);
+			var tailDef:AETailDef = playerTailDef(x,y);
+			super(SpriteType.PLAYER, x, y, headDef, torsoDef, tailDef);
+			attachAppendage(AppendageType.TENTACLE);
 			attachAppendage(AppendageType.SPIKE);
-			//attachAppendage(AppendageType.SPIKE);
-			//attachAppendage(AppendageType.SPIKE);
-			//attachAppendage(AppendageType.SPIKE);
-			//attachAppendage(AppendageType.SPIKE);
-			//attachAppendage(AppendageType.SPIKE);
+			attachAppendage(AppendageType.SPIKE);
+			attachAppendage(AppendageType.SPIKE);
+			attachAppendage(AppendageType.TENTACLE);
+			attachAppendage(AppendageType.SPIKE);
+			attachAppendage(AppendageType.TENTACLE);
+			attachAppendage(AppendageType.SPIKE);
+			//attachAppendage(AppendageType.MANDIBLE);
+			//attachAppendage(AppendageType.BUBBLEGUN);			
 		}
 		
 		public function getFollowObject():B2FlxSprite
@@ -42,39 +51,38 @@ package
 		}
 		
 		//Should probably be moved up to the AECreature class
-		private function playerHead(x:Number, y:Number):AEHead
+		private function playerHeadDef(x:Number, y:Number):AEHeadDef
 		{
 			var headSchematic:AESchematic = new AESchematic(Head1.image(), Head1.suggestedAppendageSlots);
 			//Setting up the segment's shape
 			var playerHeadShape:b2PolygonShape = new b2PolygonShape();
 			playerHeadShape.SetAsArray(Head1.polygonVerteces);
-			var playerHeadSegment:AESegment = new AESegment(x,y, headSchematic, playerHeadShape); //TODO: HeadSegment should have modified height/width... current dimensions make head and tail touch and prevent swiveling
-			var playerHead:AEHead = new AEHead(playerHeadSegment, Head1.suggestedHeadAnchor);
-			return playerHead;
+			var playerHeadSegmentDef:AESegmentDef = new AESegmentDef(x,y, headSchematic, playerHeadShape); //TODO: HeadSegment should have modified height/width... current dimensions make head and tail touch and prevent swiveling
+			var playerHeadDef:AEHeadDef = new AEHeadDef(playerHeadSegmentDef, Head1.suggestedHeadAnchor);
+			return playerHeadDef;
 		}
 		//Should probably be moved up to the AECreature class
-		private function playerTorso(x:Number, y:Number):AETorso
+		private function playerTorsoDef(x:Number, y:Number):AETorsoDef
 		{
 			var torsoSchematic:AESchematic = new AESchematic(Torso1.image(), Torso1.suggestedAppendageSlots);
 			//Setting up segment's shape
 			var playerTorsoShape:b2PolygonShape = new b2PolygonShape();
 			playerTorsoShape.SetAsArray(Torso1.polygonVerteces);
-			var playerTorsoSegment:AESegment = new AESegment(x,y, torsoSchematic, playerTorsoShape);
-			var playerTorsoSegments:Array = new Array(playerTorsoSegment);
-			var playerTorso:AETorso = new AETorso(playerTorsoSegment, Torso1.suggestedHeadAnchor, playerTorsoSegments, playerTorsoSegment, Torso1.suggestedTailAnchor);
-			return playerTorso;
+			var playerTorsoSegmentDef:AESegmentDef = new AESegmentDef(x,y, torsoSchematic, playerTorsoShape);
+			var playerTorsoSegmentDefs:Array = new Array(playerTorsoSegmentDef);
+			var playerTorsoDef:AETorsoDef = new AETorsoDef(Torso1.suggestedHeadAnchor, playerTorsoSegmentDefs, Torso1.suggestedTailAnchor);
+			return playerTorsoDef;
 		}
 		//Should probably be moved up to the AECreature class
-		private function playerTail(x:Number, y:Number):AETail
+		private function playerTailDef(x:Number, y:Number):AETailDef
 		{
 			var tailSchematic:AESchematic = new AESchematic(Tail1.image(), Tail1.suggestedAppendageSlots);
-
-			var playerTailShape:b2PolygonShape = new b2PolygonShape();
 			//Setting the segment's shape
+			var playerTailShape:b2PolygonShape = new b2PolygonShape();
 			playerTailShape.SetAsArray(Tail1.polygonVerteces);
-			var playerTailSegment:AESegment = new AESegment(x, y, tailSchematic, playerTailShape);
-			var playerTail:AETail = new AETail(playerTailSegment, Tail1.suggestedTailAnchor);
-			return playerTail;
+			var playerTailSegmentDef:AESegmentDef = new AESegmentDef(x, y, tailSchematic, playerTailShape);
+			var playerTailDef:AETailDef = new AETailDef(playerTailSegmentDef, Tail1.suggestedTailAnchor);
+			return playerTailDef;
 		}	
 		
 		public function update():void
