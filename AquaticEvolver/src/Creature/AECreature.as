@@ -2,9 +2,16 @@ package Creature
 {
 	import B2Builder.B2RevoluteJointBuilder;
 	
+	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Dynamics.Joints.b2RevoluteJoint;
 	
+	import Creature.Images.Head1;
+	import Creature.Images.Tail1;
+	import Creature.Images.Torso1;
+	import Creature.Schematics.AESchematic;
+	
 	import Def.AEHeadDef;
+	import Def.AESegmentDef;
 	import Def.AETailDef;
 	import Def.AETorsoDef;
 			
@@ -142,5 +149,41 @@ package Creature
 			
 			_occupiedAppendageSlots = new Array();
 		}
+		
+		
+		//Should probably be moved up to the AECreature class
+		protected static function head1Def(x:Number, y:Number):AEHeadDef
+		{
+			var headSchematic:AESchematic = new AESchematic(Head1.image(), Head1.suggestedAppendageSlots);
+			//Setting up the segment's shape
+			var playerHeadShape:b2PolygonShape = new b2PolygonShape();
+			playerHeadShape.SetAsArray(Head1.polygonVerteces);
+			var playerHeadSegmentDef:AESegmentDef = new AESegmentDef(x,y, headSchematic, playerHeadShape); //TODO: HeadSegment should have modified height/width... current dimensions make head and tail touch and prevent swiveling
+			var playerHeadDef:AEHeadDef = new AEHeadDef(playerHeadSegmentDef, Head1.suggestedHeadAnchor);
+			return playerHeadDef;
+		}
+		//Should probably be moved up to the AECreature class
+		protected static function torso1Def(x:Number, y:Number):AETorsoDef
+		{
+			var torsoSchematic:AESchematic = new AESchematic(Torso1.image(), Torso1.suggestedAppendageSlots);
+			//Setting up segment's shape
+			var playerTorsoShape:b2PolygonShape = new b2PolygonShape();
+			playerTorsoShape.SetAsArray(Torso1.polygonVerteces);
+			var playerTorsoSegmentDef:AESegmentDef = new AESegmentDef(x,y, torsoSchematic, playerTorsoShape);
+			var playerTorsoSegmentDefs:Array = new Array(playerTorsoSegmentDef);
+			var playerTorsoDef:AETorsoDef = new AETorsoDef(Torso1.suggestedHeadAnchor, playerTorsoSegmentDefs, Torso1.suggestedTailAnchor);
+			return playerTorsoDef;
+		}
+		//Should probably be moved up to the AECreature class
+		protected static function tail1Def(x:Number, y:Number):AETailDef
+		{
+			var tailSchematic:AESchematic = new AESchematic(Tail1.image(), Tail1.suggestedAppendageSlots);
+			//Setting the segment's shape
+			var playerTailShape:b2PolygonShape = new b2PolygonShape();
+			playerTailShape.SetAsArray(Tail1.polygonVerteces);
+			var playerTailSegmentDef:AESegmentDef = new AESegmentDef(x, y, tailSchematic, playerTailShape);
+			var playerTailDef:AETailDef = new AETailDef(playerTailSegmentDef, Tail1.suggestedTailAnchor);
+			return playerTailDef;
+		}	
 	}
 }

@@ -7,8 +7,8 @@ package
 	import Box2D.Dynamics.b2World;
 	
 	import org.flixel.FlxG;
-	import org.flixel.FlxState;
 	import org.flixel.FlxSprite;
+	import org.flixel.FlxState;
 	
 	public class AEWorld extends FlxState
 	{	
@@ -196,7 +196,7 @@ package
 			this.defaultHealth += 2
 				
 			//TODO: Change to AEEnemy when ready
-			var newEnemy:BoxEnemy = BoxEnemy.generateBoxEnemy(newX, newY, this.defaultSpeed,  this.defaultHealth, this.defaultHealth);
+			var newEnemy:AEEnemy = AEEnemy.generateDefaultEnemy(newX, newY);
 			/* 
 			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, newEnemy, newEnemy);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, newEnemy);
@@ -205,7 +205,6 @@ package
 			newEnemy.addAdaptation(start_adaptation);
 			this.add(start_adaptation);
 			*/
-			addCreature(newEnemy);
 
 		}
 		
