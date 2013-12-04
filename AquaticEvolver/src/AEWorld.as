@@ -34,7 +34,10 @@ package
 		 * Boolean to spawn enemies
 		 */
 		private var SPAWNENEMIES:Boolean = false;
-		
+		/**
+		 * Drawing bubbles
+		 */
+		private var DRAWBUBBLES:Boolean = false;		
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
 		 * -- MRP - 11/11/2013
@@ -338,6 +341,8 @@ package
 			//Debugging
 			setupB2Debug();
 			setupFlxDebug();
+			
+			this.add(new FlashingLight(ScreenWidth/2, ScreenHeight/2));
 		}
 		
 		public static function toggleB2DebugDrawing():void
@@ -426,8 +431,10 @@ package
 				}
 				
 				//Randomly add background image
-				if (Math.random() < 0.1) {
-					drawBackgroundObject(128, 128);	
+				if(DRAWBUBBLES){
+					if (Math.random() < 0.1) {
+						drawBackgroundObject(128, 128);	
+					}
 				}
 				AquaticEvolver.DEBUG_SPRITE.x = - FlxG.camera.scroll.x;
 				AquaticEvolver.DEBUG_SPRITE.y = - FlxG.camera.scroll.y;
