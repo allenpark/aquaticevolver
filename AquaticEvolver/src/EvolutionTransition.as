@@ -26,10 +26,16 @@ package
 		 * Max amount of scale that the image will reach before scaling down
 		 */
 		private const MAXSCALE:Number = 10;
+		/**
+		 * Number of oscillaitons before the transition begins to dissapear
+		 */
+		private var numOscillations:Number = 5;
+		/**
+		 * Range the oscillations changes between increasing and decresing
+		 */
+		private const OSCILLATIONRANGE:Number = 20;
 		
 		private var updateCounter:Number = 0;
-		
-		private var numOscillations:Number = 5;
 		
 		private var oscRange:Number = 20;
 								
@@ -70,8 +76,8 @@ package
 							decreaseScale();
 							oscRange -=1;
 						}else if(oscRange <= 0 && numOscillations > 0){
-							if(oscRange < -20){
-								oscRange = 20;
+							if(oscRange < -OSCILLATIONRANGE){
+								oscRange = OSCILLATIONRANGE;
 								numOscillations -= 1;
 							}else{
 								oscRange -=1;
@@ -81,6 +87,7 @@ package
 							scaleType = 2;
 						}
 						break;
+					//decreasing
 					case 2:
 						if(this.scale.x > 2*SCALEDELTA){
 							decreaseScale();
