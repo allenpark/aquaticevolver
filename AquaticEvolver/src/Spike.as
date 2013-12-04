@@ -8,6 +8,7 @@ package
 	import org.flixel.FlxG;
 	import org.flixel.FlxParticle;
 	import org.flixel.FlxPoint;
+	import Creature.AECreature;
 	
 	public class Spike extends Appendage
 	{
@@ -21,14 +22,14 @@ package
 		public static var spikeImg:Class;
 		
 		// jointPos is given from the local box2D coordinate system of the player and is the location of the attached point for the adatation
-		public function Spike(jointPos:b2Vec2, jointAngle, owner:*, segment:B2FlxSprite)
+		public function Spike(jointPos:b2Vec2, jointAngle, creature:AECreature, segment:B2FlxSprite)
 		{
-			super(AppendageType.SPIKE, 20, true, 1, jointPos, jointAngle, owner, segment);
+			super(AppendageType.SPIKE, 20, true, 1, jointPos, jointAngle, creature, segment);
 			
 			var world:b2World = AEWorld.AEB2World;
 			
 			// create the sprite
-			spike = new BoxSpike(0,0,owner,spikeImg,32,128);
+			spike = new BoxSpike(0,0,creature,spikeImg,32,128);
 			this.add(spike);
 			
 			// create the jointDef
@@ -54,7 +55,7 @@ package
 		override public function attack(point:FlxPoint):void
 		{
 			super.attack(point);
-			var headPoint:FlxPoint = new FlxPoint(this.owner.x, this.owner.y);
+			var headPoint:FlxPoint = new FlxPoint(this.creature.getX(), this.creature.getY());
 			var spikeBody:b2Body = spike.getBody();
 			var impulse:b2Vec2 = calcB2Impulse(point, headPoint);
 			impulse.Multiply(20);
@@ -63,7 +64,7 @@ package
 		
 		override public function aim(point:FlxPoint):void
 		{
-			var headPoint:FlxPoint = new FlxPoint(this.owner.x, this.owner.y);
+			var headPoint:FlxPoint = new FlxPoint(this.creature.getX(), this.creature.getY());
 			var spikeBody:b2Body = spike.getBody();
 			spikeBody.ApplyImpulse(calcB2Impulse(point, headPoint), spikeBody.GetPosition());
 		}

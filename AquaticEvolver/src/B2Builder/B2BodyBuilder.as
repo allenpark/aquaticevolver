@@ -1,6 +1,7 @@
 package B2Builder
 {
 	import Box2D.Collision.Shapes.b2PolygonShape;
+	import Box2D.Collision.Shapes.b2Shape;
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2BodyDef;
@@ -24,6 +25,8 @@ package B2Builder
 		
 		private var _data:*;
 		
+		private var _groupFilter:Number;
+		
 		/**
 		 * @param angle Angle measured in RADIANS
 		 */
@@ -45,7 +48,7 @@ package B2Builder
 			_linearDamping = 0.0;
 			_angularDamping = 0.0;		
 			
-			_isBullet = false;
+			_isBullet = false;		
 		}
 		
 		public function withFriction(b2Friction:Number):B2BodyBuilder
@@ -117,14 +120,29 @@ package B2Builder
 			return this;
 		}
 		
+		public function withGroupFilter(groupFilter:Number):B2BodyBuilder
+		{
+			_groupFilter = groupFilter;
+			return this;
+		}
+		
 		public function build():b2Body
 		{
 			var fixDef:b2FixtureDef = new b2FixtureDef();
 		
 			fixDef.density = _density;
 			fixDef.restitution = _restitution;
-			fixDef.friction = _friction;                        
+			fixDef.friction = _friction;     
 			fixDef.shape = _shape;
+			if (_groupFilter) 
+			{
+				trace("Setting group filter to:"+_groupFilter);
+				fixDef.filter.groupIndex = _groupFilter;
+			}
+			else
+			{
+				trace("NOT setting group filter to:"+_groupFilter);
+			}
 			
 			var bodyDef:b2BodyDef = new b2BodyDef();
 			bodyDef.position.Set(_position.x, _position.y);
