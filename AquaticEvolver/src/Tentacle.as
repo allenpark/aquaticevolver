@@ -51,20 +51,16 @@ package
 			for (var i:int = 0; i < tentacleMidSegments; i++) {
 				
 				// create the sprite
-<<<<<<< HEAD
-				trace(owner);
+				trace(creature);
 				
 				flixelPos = convertJointPosToFlixel(segment,jointPos);
-				sprite = new BoxTentacleMid(flixelPos.x, flixelPos.y, owner, this, tentacleMidImg, 32, 64);
+				sprite = new BoxTentacleMid(flixelPos.x, flixelPos.y, creature, this, tentacleMidImg, 32, 64);
 				
 				flixelPos.x += xOffset;
 				flixelPos.y += yOffset;
 				
 				sprite.angle = jointAngle*360/(2*Math.PI);
-=======
-				trace(creature);
-				sprite = new BoxTentacleMid(0, 0, creature, this, tentacleMidImg, 32, 64);
->>>>>>> ce2b18a3d38638ddc44d65beb11e6b36ed0719e4
+
 				midSegments.push(sprite);
 				this.add(sprite);
 				
@@ -92,13 +88,10 @@ package
 			}
 			
 			// create the sprite
-<<<<<<< HEAD
 			flixelPos = convertJointPosToFlixel(segment,jointPos);
-			tentacleHead = new BoxTentacleHead(flixelPos.x, flixelPos.y, owner, this, tentacleHeadImg, 32, 64);
+			tentacleHead = new BoxTentacleHead(flixelPos.x, flixelPos.y, creature, this, tentacleHeadImg, 32, 64);
 			tentacleHead.angle = jointAngle*360/(2*Math.PI);
-=======
-			tentacleHead = new BoxTentacleHead(0, 0, creature, this, tentacleHeadImg, 32, 64);
->>>>>>> ce2b18a3d38638ddc44d65beb11e6b36ed0719e4
+
 			this.add(tentacleHead);
 			
 			// create the jointDef
