@@ -1,17 +1,11 @@
 package
 {
-	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2Body;
 	
 	import Creature.AECreature;
-	import Creature.Images.Head1;
-	import Creature.Images.Tail1;
-	import Creature.Images.Torso1;
-	import Creature.Schematics.AESchematic;
 	
 	import Def.AEHeadDef;
-	import Def.AESegmentDef;
 	import Def.AETailDef;
 	import Def.AETorsoDef;
 	
@@ -25,6 +19,8 @@ package
 		
 		public function AEPlayer(x:Number, y:Number)
 		{	
+			//Player has special ID value of 1
+			trace("id has been set to:"+_id);
 			var headDef:AEHeadDef = AECreature.head1Def(x,y);
 			var torsoDef:AETorsoDef = AECreature.torso1Def(x,y);
 			var tailDef:AETailDef = AECreature.tail1Def(x,y);
@@ -40,6 +36,11 @@ package
 			//attachAppendage(AppendageType.MANDIBLE);
 			//attachAppendage(AppendageType.BUBBLEGUN);			
 
+		}
+		
+		override public function getID():Number
+		{
+			return 1;
 		}
 		
 		public function getFollowObject():B2FlxSprite

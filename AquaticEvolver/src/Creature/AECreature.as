@@ -40,20 +40,14 @@ package Creature
 		public var y:Number;
 		protected var speed:Number = 10;
 		
-		//TODO: Can only have 16 of these...
-		private static var Current_ID:Number = 1;
 		
 		public function AECreature(type:Number, x:Number, y:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
 		{
 			//Set creature id, then increment current id value
-			trace("Constructing creature with ID: "+Current_ID);
-			_id = Current_ID;
-			Current_ID = 2*Current_ID;
-			
-			
-			_head = headDef.createHeadWithCreatureID(_id);
-			_torso = torsoDef.createTorsoWithCreatureID(_id);
-			_tail = tailDef.createTailWithCreatureID(_id);
+			trace("constructing creature with id:" + getID());
+			_head = headDef.createHeadWithCreatureID(getID());
+			_torso = torsoDef.createTorsoWithCreatureID(getID());
+			_tail = tailDef.createTailWithCreatureID(getID());
 
 			_adaptations = new Array();
 			
@@ -70,7 +64,7 @@ package Creature
 		
 		public function getID():Number
 		{
-			return _id;
+			return undefined;
 		}
 		
 		public function attachAppendage(appendageType:Number):Boolean
