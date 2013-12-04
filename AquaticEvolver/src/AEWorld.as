@@ -33,7 +33,7 @@ package
 		/**
 		 * Boolean to spawn enemies
 		 */
-		private var SPAWNENEMIES:Boolean = false;
+		private var SPAWNENEMIES:Boolean = true;
 		
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
@@ -328,14 +328,6 @@ package
 			initializePlayer();
 			//addCreature(player);	
 			
-			//Test enemy
-			if (SPAWNENEMIES)
-			{
-				addOffscreenEnemy();
-			}
-			
-			//Populating the world with some background objects
-//			drawInitialBackgroundObjects();
 			
 			//Debugging
 			setupB2Debug();
@@ -354,8 +346,8 @@ package
 			{
 				/*
 				var attackDescription:Array = KILLLIST.pop();
-				var attacker:Creature = attackDescription[0] as Creature;
-				var enemy:Creature = attackDescription[1] as Creature;
+				var attacker:AECreature = attackDescription[0] as AECreature;
+				var enemy:AECreature = attackDescription[1] as AECreature;
 				var adaptation:Adaptation = attackDescription[2] as Adaptation;
 				var killedEnemy:Boolean = attacker.handleAttackOn(adaptation, enemy);
 				*/
