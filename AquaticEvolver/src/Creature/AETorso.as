@@ -47,7 +47,7 @@ package Creature
 		{
 			this.torsoSegments = new Array();
 			
-			for (var i:Number in torsoSegmentDefs)
+			for (var i:Number=0; i < torsoSegmentDefs.length; i++)
 			{
 				var torsoSegmentDef:AESegmentDef = torsoSegmentDefs[i];
 				var torsoSegment:AESegment = torsoSegmentDef.createSegmentWithCreatureID(creatureID);

@@ -13,6 +13,15 @@ package
 		private var bodyWidth:int = 20/2;
 		private var bodyHeight:int = 88/2;
 		public var creature:AECreature;
+		public static var polygonVerteces:Array = new Array(
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-3.5),AEWorld.b2NumFromFlxNum(42.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-8.5),AEWorld.b2NumFromFlxNum(36.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-9.5),AEWorld.b2NumFromFlxNum(26.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(0),AEWorld.b2NumFromFlxNum(-42.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(10.5),AEWorld.b2NumFromFlxNum(26.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(8.5),AEWorld.b2NumFromFlxNum(36.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(4.5),AEWorld.b2NumFromFlxNum(42.0)));
+			
 		
 		public function BoxSpike(x, y, creature:AECreature, Graphic:Class=null, width:Number=0, height:Number=0)
 		{
@@ -23,7 +32,7 @@ package
 		override protected function bodyBuilder(position:b2Vec2, angle:Number, shape:b2PolygonShape = null):B2BodyBuilder
 		{     
 			var boxShape:b2PolygonShape = new b2PolygonShape();
-			boxShape.SetAsBox(AEWorld.b2NumFromFlxNum(bodyWidth), AEWorld.b2NumFromFlxNum(bodyHeight));
+			boxShape.SetAsArray(polygonVerteces);
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle).withShape(boxShape)
 				.withLinearDamping(2).withData(new CollisionData(this.creature, SpriteType.SPIKE));
 			return b2bb;

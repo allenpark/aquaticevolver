@@ -8,6 +8,7 @@ package
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxState;
+	import org.flixel.FlxSprite;
 	
 	public class AEWorld extends FlxState
 	{	
@@ -18,6 +19,9 @@ package
 		
 		//Background music
 		[Embed(source="res/Evolving Horizon.mp3")] public var droplet:Class;
+		
+		//Image to enforce the barier at the top
+		[Embed (source = "res/pacman.png")] public var enforcerImage:Class;
 		
 		//Pausing
 		public var paused:pausescreen;
@@ -108,6 +112,11 @@ package
 		private var redChange:int = 0;
 		private var greenChange:int = 0;
 		private var blueChange:int = 0;
+		/**
+		 * Y coordinate for the top of the world
+		 * JTW 12/3/13
+		 */
+		public var topLocation :Number = -10;
 		
 		/**
 		 * Constructs and initializes the Box2D b2World.
@@ -147,6 +156,16 @@ package
 		public static function b2NumFromFlxNum(flxNum:Number):Number
 		{
 			return flxNum / RATIO; // RATIO is a float, so no integer division
+		}
+		//A function that will prevent the player from moving beyond the top
+		private function enforceTop ():void {
+			if (player.y < topLocation ){
+				player.goAboveTop();
+				this.add(new FlxSprite(player.x,topLocation,enforcerImage));
+			}
+			else {
+				player.goBelowTop();
+			}
 		}
 		
 		// Creates an enemy randomly slightly off screen.
@@ -221,7 +240,7 @@ package
 				newY = (ScreenHeight-yBuffer/viewDistance);
 			}
 			
-			FlxG.log('Drawing background object at ' +newX+","+newY);
+			//FlxG.log('Drawing background object at ' +newX+","+newY);
 			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance);
 			//Making the object float as it is a bubble right now
 			backgroundObject.floatUpward();
@@ -374,6 +393,7 @@ package
 				}
 				AEB2World.Step(1.0/60.0, 10, 10);
 				processKillList();
+				enforceTop();
 				
 				if (SPAWNENEMIES)
 				{
@@ -404,7 +424,7 @@ package
 							FlxG.bgColor -= 0x00010000;
 						}
 					}
-					FlxG.log("Darker Background is now:"+FlxG.bgColor.valueOf().toString(16));
+					//FlxG.log("Darker Background is now:"+FlxG.bgColor.valueOf().toString(16));
 
 				}
 				//If the player has gone up more than PIXELSPERDEPTH pixels from the
@@ -427,7 +447,7 @@ package
 						greenChange = (greenChange + 1)%2;
 					}
 					blueChange = (blueChange + 1)%5;
-					FlxG.log("Brighter Background is now:"+FlxG.bgColor.valueOf().toString(16));
+					//FlxG.log("Brighter Background is now:"+FlxG.bgColor.valueOf().toString(16));
 
 				}
 				
