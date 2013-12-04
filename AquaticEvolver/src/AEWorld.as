@@ -361,8 +361,7 @@ package
 			
 			//Debugging
 			setupB2Debug();
-			setupFlxDebug();
-			
+			setupFlxDebug();			
 		}
 		
 		public static function toggleB2DebugDrawing():void
@@ -418,8 +417,6 @@ package
 					
 					blueChange = (blueChange + 1)%5;
 					//Reduce blue channel by one
-					
-					//TODO: perform bitshift operation here to assure that the hex has RED channel
 					FlxG.bgColor -= 0x00000001;
 					if (blueChange == 0 || blueChange == 2){
 						greenChange = (greenChange + 1)%2;
