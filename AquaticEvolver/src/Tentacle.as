@@ -43,11 +43,24 @@ package
 			var sprite:B2FlxSprite;
 			
 			var revoluteJointDef:b2RevoluteJointDef;
+			
+			var flixelPos;
+			
+			var xOffset:Number = 0*Math.cos(jointAngle);
+			var yOffset:Number = 30*Math.sin(jointAngle);
 			for (var i:int = 0; i < tentacleMidSegments; i++) {
 				
 				// create the sprite
 				trace(creature);
-				sprite = new BoxTentacleMid(0, 0, creature, this, tentacleMidImg, 32, 64);
+				
+				flixelPos = convertJointPosToFlixel(segment,jointPos);
+				sprite = new BoxTentacleMid(flixelPos.x, flixelPos.y, creature, this, tentacleMidImg, 32, 64);
+				
+				flixelPos.x += xOffset;
+				flixelPos.y += yOffset;
+				
+				sprite.angle = jointAngle*360/(2*Math.PI);
+
 				midSegments.push(sprite);
 				this.add(sprite);
 				
@@ -75,7 +88,10 @@ package
 			}
 			
 			// create the sprite
-			tentacleHead = new BoxTentacleHead(0, 0, creature, this, tentacleHeadImg, 32, 64);
+			flixelPos = convertJointPosToFlixel(segment,jointPos);
+			tentacleHead = new BoxTentacleHead(flixelPos.x, flixelPos.y, creature, this, tentacleHeadImg, 32, 64);
+			tentacleHead.angle = jointAngle*360/(2*Math.PI);
+
 			this.add(tentacleHead);
 			
 			// create the jointDef
@@ -108,10 +124,11 @@ package
 		{
 			super.attack(point);
 			//trace("tentacle attacking");
-			var headPoint:FlxPoint = new FlxPoint(this.creature.getX(), this.creature.getY());
+			
 			var tentacleBody:b2Body = tentacleHead.getBody();
-			var impulse:b2Vec2 = calcB2Impulse(point, headPoint);
-			impulse.Multiply(20);
+			//var headPoint:FlxPoint = new FlxPoint(tentacleBody.GetPosition().x, tentacleBody.GetPosition().y);
+			var impulse:b2Vec2 = calcB2Impulse(point, tentacleHead.getScreenXY());
+			impulse.Multiply(1200);
 			tentacleBody.ApplyImpulse(impulse, tentacleBody.GetPosition());
 		}
 		

@@ -78,9 +78,9 @@ package Creature
 			{
 				var appendageSlot:AESlot = _unoccupiedAppendageSlots.pop();
 				//TODO: appendage locations need to be rotated with body
-				var angle:Number = Math.atan(appendageSlot.slotLocation.y/appendageSlot.slotLocation.x);
+				var angle:Number = Math.atan2(appendageSlot.slotLocation.y, appendageSlot.slotLocation.x) + Math.PI/2;
 				//TODO: Fix angle for appendages
-				var appendage:Appendage = Appendage.createAppendageWithType(appendageType,appendageSlot.slotLocation, angle+ Math.PI/2, this, appendageSlot.segment);
+				var appendage:Appendage = Appendage.createAppendageWithType(appendageType,appendageSlot.slotLocation, angle, this, appendageSlot.segment);
 				//TODO: keep track of appendages... in adaptations array? or separate appendage array?
 				_occupiedAppendageSlots.push(appendageSlot);
 				_adaptations.push(appendage);
@@ -93,6 +93,14 @@ package Creature
 			_head.kill();
 			_torso.kill();
 			_tail.kill();
+			for each(var adaptation:Adaptation in _adaptations){
+				if (adaptation != null)
+				{
+					adaptation.kill();
+				}
+				else{
+				}
+			}
 		}
 		
 		public function getX():Number
