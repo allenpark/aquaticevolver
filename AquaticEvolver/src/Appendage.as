@@ -70,6 +70,16 @@ package {
 			return localPos;
 		}
 		
+		public function convertJointPosToFlixel(sprite:B2FlxSprite,jointPos:b2Vec2):b2Vec2 {
+			var x:Number = jointPos.x+sprite.getBody().GetPosition().x;
+			var y:Number = jointPos.y+sprite.getBody().GetPosition().y;
+			
+			x = AEWorld.flxXFromB2X(x,sprite.width);
+			y = AEWorld.flxYFromB2Y(y,sprite.height);
+			var flixelPos:b2Vec2 = new b2Vec2(x,y);
+			return flixelPos;
+		}
+		
 		/*override public function kill():void {
 			super.kill();
 			

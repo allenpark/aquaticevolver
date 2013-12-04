@@ -19,6 +19,7 @@ package
 		
 		public function AEPlayer(x:Number, y:Number)
 		{	
+
 			//Player has special ID value of 1
 			trace("id has been set to:"+_id);
 			var headDef:AEHeadDef = AECreature.head1Def(x,y);
@@ -35,7 +36,6 @@ package
 			attachAppendage(AppendageType.SPIKE);
 			//attachAppendage(AppendageType.MANDIBLE);
 			//attachAppendage(AppendageType.BUBBLEGUN);			
-
 		}
 		
 		override public function getID():Number
