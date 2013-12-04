@@ -87,13 +87,13 @@ package {
 		}*/
 		
 		protected function calcB2Impulse(point:FlxPoint, bodyPoint:FlxPoint):b2Vec2 {
-//			var angle:Number = Math.atan2(point.y - bodyPoint.y,point.x - bodyPoint.x);
-//		    var magnitude:Number = 0.001;
-//			return new b2Vec2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
-			var vec:b2Vec2 = new b2Vec2(point.x - bodyPoint.x, point.y - bodyPoint.y);
+			var angle:Number = Math.atan2(point.y - bodyPoint.y,point.x - bodyPoint.x);
+		    var magnitude:Number = 0.001;
+			return new b2Vec2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
+			/*var vec:b2Vec2 = new b2Vec2(point.x - bodyPoint.x, point.y - bodyPoint.y);
 			vec.Normalize();
 			vec.Multiply(0.001);
-			return vec;
+			return vec;*/
 		}
 	}
 }
