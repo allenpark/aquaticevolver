@@ -5,10 +5,6 @@ package
 	import Box2D.Dynamics.b2Body;
 	
 	import Creature.AECreature;
-	import Creature.AEHead;
-	import Creature.AESegment;
-	import Creature.AETail;
-	import Creature.AETorso;
 	import Creature.Images.Head1;
 	import Creature.Images.Tail1;
 	import Creature.Images.Torso1;

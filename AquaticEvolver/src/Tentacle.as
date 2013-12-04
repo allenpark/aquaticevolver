@@ -14,7 +14,7 @@ package
 	
 	public class Tentacle extends Appendage
 	{
-		private var tentacleMidSegments:int = 4;
+		private var tentacleMidSegments:int = 10;
 		private var tentacleHead:BoxTentacleHead;
 		
 		// tentacle joint locations
