@@ -93,6 +93,14 @@ package Creature
 			_head.kill();
 			_torso.kill();
 			_tail.kill();
+			for each(var adaptation:Adaptation in _adaptations){
+				if (adaptation != null)
+				{
+					adaptation.kill();
+				}
+				else{
+				}
+			}
 		}
 		
 		public function getX():Number
