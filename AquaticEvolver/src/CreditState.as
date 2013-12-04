@@ -38,7 +38,7 @@ package
 		
 		public function menuButtonCallback():void
 		{
-			FlxG.switchState(new MenuState)
+			FlxG.switchState(new MenuWorld)
 		}
 		public function CreditScroll (credit_words:String) : void 
 		{

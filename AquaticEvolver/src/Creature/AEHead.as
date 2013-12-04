@@ -1,15 +1,17 @@
 package Creature
 {
 	import Box2D.Common.Math.b2Vec2;
+	
+	import Def.AESegmentDef;
 
 	public class AEHead
 	{
 		public var headSegment:AESegment;
 		public var headAnchor:b2Vec2;
 		
-		public function AEHead(headSegment:AESegment, headAnchor:b2Vec2)
+		public function AEHead(headSegmentDef:AESegmentDef, headAnchor:b2Vec2, creatureID:Number)
 		{
-			this.headSegment = headSegment;
+			this.headSegment = headSegmentDef.createSegmentWithCreatureID(creatureID);
 			this.headAnchor = headAnchor;
 		}
 		

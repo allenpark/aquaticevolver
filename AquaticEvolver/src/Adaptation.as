@@ -2,8 +2,11 @@
 package {
 	import Box2D.Common.Math.b2Vec2;
 	
-	import org.flixel.*;
+	import Creature.AECreature;
+	
 	import org.flixel.FlxGroup;
+	import org.flixel.FlxPoint;
+
 	public class Adaptation extends FlxGroup {
 		
 		public var cost:int;
@@ -11,9 +14,9 @@ package {
 		public var attackDamage:int;
 		public var speedBoost:int;
 		public var healthBoost:int;
-		public var owner:*;
+		public var creature:AECreature;
 		
-		public function Adaptation(cost:int, isAttack:Boolean, attackDamage:int, owner:*) {
+		public function Adaptation(cost:int, isAttack:Boolean, attackDamage:int, creature:AECreature) {
 			super();
 			this.cost = cost;
 			this.isAttack = isAttack;
@@ -22,7 +25,7 @@ package {
 			} else {
 				this.attackDamage = attackDamage
 			}
-			this.owner = owner;
+			this.creature = creature;
 			this.speedBoost = 0;
 			this.healthBoost = 0;
 		}

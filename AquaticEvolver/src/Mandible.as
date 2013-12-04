@@ -6,6 +6,7 @@ package
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
+	import Creature.AECreature;
 	
 	public class Mandible extends Appendage
 	{
@@ -26,10 +27,10 @@ package
 		[Embed(source='res/mandibleOtherJawPiece1.png')]
 		public static var mandibleOtherJawImg:Class;
 		
-		public function Mandible(jointPos:b2Vec2, jointAngle, owner:Creature, segment:B2FlxSprite)
+		public function Mandible(jointPos:b2Vec2, jointAngle, creature:AECreature, segment:B2FlxSprite)
 		{
 			jointAngle = jointAngle + jointAngleCorrection;
-			super(AppendageType.MANDIBLE, 30, true, 2, jointPos, jointAngle, owner, segment);
+			super(AppendageType.MANDIBLE, 30, true, 2, jointPos, jointAngle, creature, segment);
 			
 			var world:b2World = AEWorld.AEB2World;
 			
@@ -40,12 +41,12 @@ package
 			var revoluteJointDef:b2RevoluteJointDef;
 				
 				// create the sprites
-				trace(owner);
-				base = new BoxMandibleBase(0, 0, owner, this, mandibleBaseImg, 64, 64);
+				trace(creature);
+				base = new BoxMandibleBase(0, 0, creature, this, mandibleBaseImg, 64, 64);
 				this.add(base);
-				jaw = new BoxMandibleJaw(0, 0, owner, this, mandibleJawImg, 128, 64);
+				jaw = new BoxMandibleJaw(0, 0, creature, this, mandibleJawImg, 128, 64);
 				this.add(jaw);
-				otherJaw = new BoxMandibleJaw(0, 0, owner, this, mandibleOtherJawImg, 128, 64);
+				otherJaw = new BoxMandibleJaw(0, 0, creature, this, mandibleOtherJawImg, 128, 64);
 				this.add(otherJaw);
 				
 				// create the joint from base to creature

@@ -7,6 +7,7 @@ package
 	import Box2D.Dynamics.b2World;
 	
 	import org.flixel.FlxG;
+	import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
 	
 	public class AEWorld extends FlxState
@@ -18,6 +19,9 @@ package
 		
 		//Background music
 		[Embed(source="res/Evolving Horizon.mp3")] public var droplet:Class;
+		
+		//Image to enforce the barier at the top
+		[Embed (source = "res/pacman.png")] public var enforcerImage:Class;
 		
 		//Pausing
 		public var paused:pausescreen;
@@ -38,6 +42,7 @@ package
 		 * Drawing bubbles
 		 */
 		private var DRAWBUBBLES:Boolean = false;		
+		
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
 		 * -- MRP - 11/11/2013
@@ -111,6 +116,11 @@ package
 		private var redChange:int = 0;
 		private var greenChange:int = 0;
 		private var blueChange:int = 0;
+		/**
+		 * Y coordinate for the top of the world
+		 * JTW 12/3/13
+		 */
+		public var topLocation :Number = -10;
 		
 		/**
 		 * Constructs and initializes the Box2D b2World.
@@ -151,6 +161,16 @@ package
 		{
 			return flxNum / RATIO; // RATIO is a float, so no integer division
 		}
+		//A function that will prevent the player from moving beyond the top
+		private function enforceTop ():void {
+			if (player.y < topLocation ){
+				player.goAboveTop();
+				this.add(new FlxSprite(player.x,topLocation,enforcerImage));
+			}
+			else {
+				player.goBelowTop();
+			}
+		}
 		
 		// Creates an enemy randomly slightly off screen.
 		public function addOffscreenEnemy(xBuffer: int = 0, yBuffer: int = 0):void {
@@ -178,14 +198,18 @@ package
 			
 			
 			this.defaultHealth += 2
-			var newEnemy:BoxEnemy = BoxEnemy.generateBoxEnemy(newX, newY, this.defaultSpeed,  this.defaultHealth, this.defaultHealth);
+				
+			//TODO: Change to AEEnemy when ready
+			var newEnemy:AEEnemy = AEEnemy.generateDefaultEnemy(newX, newY);
+			/* 
 			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, newEnemy, newEnemy);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, newEnemy);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.MANDIBLE, new b2Vec2(0, 0), 0, newEnemy);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.BUBBLEGUN, new b2Vec2(0, 0), 0, newEnemy, this);
 			newEnemy.addAdaptation(start_adaptation);
-			addCreature(newEnemy);
 			this.add(start_adaptation);
+			*/
+
 		}
 		
 		public function drawBackgroundObject(xBuffer:int = 0, yBuffer: int =0):void{
@@ -197,13 +221,13 @@ package
 			
 			//Setting upper and lower bounds for the objects some what below what the
 			//player can see so there is a consistent background
-			var lowerXbound:Number = -(ScreenWidth / 2) - xBuffer/2 - 50;
-			var upperXbound:Number = (ScreenWidth / 2) + xBuffer/2 + 50;
-			var lowerYbound:Number = -(ScreenHeight / 2) - yBuffer/2 - 50;
-			var upperYbound:Number = (ScreenHeight / 2) + yBuffer/2 + 50;
+			var lowerXbound:Number = -(ScreenWidth / 1) - xBuffer/2 - 50;
+			var upperXbound:Number = (ScreenWidth / 1) + xBuffer/2 + 50;
+			var lowerYbound:Number = -(ScreenHeight / 1) - yBuffer/2 - 50;
+			var upperYbound:Number = (ScreenHeight / 1) + yBuffer/2 + 50;
 			
 			if(FOLLOWINGPLAYER){
-				if (Math.random()>.5) {
+				/*if (Math.random()>.5) {
 					// On the vertical edges.
 					newX = (Math.random() > 0.5 ? lowerXbound: upperXbound) + player.getX();
 					newY = (Math.random() * ScreenHeight)- ScreenHeight/2 + player.getY();
@@ -211,13 +235,15 @@ package
 					// On the horizontal edges.
 					newX = (Math.random() * ScreenWidth) - ScreenWidth/2 + player.getX();
 					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + player.getY();	
-				}
+				}*/
+				newX = (Math.random() * (ScreenWidth)) + player.getX();//-xBuffer/viewDistance));
+				newY = (Math.random() * (ScreenHeight)) + player.getY();//-yBuffer/viewDistance));
 			}else{
 				newX = (Math.random() * (ScreenWidth-xBuffer/viewDistance));
 				newY = (ScreenHeight-yBuffer/viewDistance);
 			}
 			
-			FlxG.log('Drawing background object at ' +newX+","+newY);
+			//FlxG.log('Drawing background object at ' +newX+","+newY);
 			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance);
 			//Making the object float as it is a bubble right now
 			backgroundObject.floatUpward();
@@ -329,14 +355,6 @@ package
 			initializePlayer();
 			//addCreature(player);	
 			
-			//Test enemy
-			if (SPAWNENEMIES)
-			{
-				addOffscreenEnemy();
-			}
-			
-			//Populating the world with some background objects
-//			drawInitialBackgroundObjects();
 			
 			//Debugging
 			setupB2Debug();
@@ -356,10 +374,10 @@ package
 			while (KILLLIST.length>0)
 			{
 				/*
-				var top:Array = KILLLIST.pop();
-				var attacker:Creature = top[0] as Creature;
-				var enemy:Creature = top[1] as Creature;
-				var adaptation:Adaptation = top[2] as Adaptation;
+				var attackDescription:Array = KILLLIST.pop();
+				var attacker:AECreature = attackDescription[0] as AECreature;
+				var enemy:AECreature = attackDescription[1] as AECreature;
+				var adaptation:Adaptation = attackDescription[2] as Adaptation;
 				var killedEnemy:Boolean = attacker.handleAttackOn(adaptation, enemy);
 				*/
 				break;
@@ -371,8 +389,16 @@ package
 			super.update();
 			if (!paused.showing) {
 				player.update();
+				//Box2D debug stuff
+				if (AquaticEvolver.box2dDebug) {
+					AEB2World.DrawDebugData();
+				}
+				if (FlxG.keys.justPressed("D")) {
+					toggleB2DebugDrawing();
+				}
 				AEB2World.Step(1.0/60.0, 10, 10);
 				processKillList();
+				enforceTop();
 				
 				if (SPAWNENEMIES)
 				{
@@ -403,7 +429,7 @@ package
 							FlxG.bgColor -= 0x00010000;
 						}
 					}
-					FlxG.log("Darker Background is now:"+FlxG.bgColor.valueOf().toString(16));
+					//FlxG.log("Darker Background is now:"+FlxG.bgColor.valueOf().toString(16));
 
 				}
 				//If the player has gone up more than PIXELSPERDEPTH pixels from the
@@ -426,7 +452,7 @@ package
 						greenChange = (greenChange + 1)%2;
 					}
 					blueChange = (blueChange + 1)%5;
-					FlxG.log("Brighter Background is now:"+FlxG.bgColor.valueOf().toString(16));
+					//FlxG.log("Brighter Background is now:"+FlxG.bgColor.valueOf().toString(16));
 
 				}
 				
@@ -437,16 +463,7 @@ package
 					}
 				}
 				AquaticEvolver.DEBUG_SPRITE.x = - FlxG.camera.scroll.x;
-				AquaticEvolver.DEBUG_SPRITE.y = - FlxG.camera.scroll.y;
-				
-				//Box2D debug stuff
-				if (AquaticEvolver.box2dDebug) {
-					AEB2World.DrawDebugData();
-				}
-				if (FlxG.keys.justPressed("D")) {
-					toggleB2DebugDrawing();
-				}
-				
+				AquaticEvolver.DEBUG_SPRITE.y = - FlxG.camera.scroll.y;		
 				
 				//TODO: We should revamp pausing... this isn't the best way of doing it, but it gets the job done for now
 				if (FlxG.keys.justPressed("P")) {
