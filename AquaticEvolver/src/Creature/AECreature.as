@@ -16,7 +16,7 @@ package Creature
 		protected var _torso:AETorso;
 		protected var _tail:AETail;
 		
-		private var _adaptations:Array;
+		protected var _adaptations:Array;
 		
 		private var _unoccupiedAppendageSlots:Array;
 		private var _occupiedAppendageSlots:Array;
@@ -47,9 +47,8 @@ package Creature
 			_head = headDef.createHeadWithCreatureID(_id);
 			_torso = torsoDef.createTorsoWithCreatureID(_id);
 			_tail = tailDef.createTailWithCreatureID(_id);
-			trace("head: "+ _head);
-			trace("torso: "+ _torso);
-			trace("tail: "+ _tail);
+
+			_adaptations = new Array();
 			
 			creatureType = type;
 			//TODO: is having a null torso vaild? eg. head-tail architecture?
@@ -78,12 +77,12 @@ package Creature
 			{
 				var appendageSlot:AESlot = _unoccupiedAppendageSlots.pop();
 				//TODO: appendage locations need to be rotated with body
-				trace("appendage slot y: " + appendageSlot.slotLocation.y +"appendage slot x"+appendageSlot.slotLocation.x);
 				var angle:Number = Math.atan(appendageSlot.slotLocation.y/appendageSlot.slotLocation.x);
-				trace("Appendage Angle: "+ (appendageSlot.segment.getBody().GetAngle() - angle));
+				//TODO: Fix angle for appendages
 				var appendage:Appendage = Appendage.createAppendageWithType(appendageType,appendageSlot.slotLocation, angle+ Math.PI/2, this, appendageSlot.segment);
 				//TODO: keep track of appendages... in adaptations array? or separate appendage array?
 				_occupiedAppendageSlots.push(appendageSlot);
+				_adaptations.push(appendage);
 				return true;
 			}
 		}
@@ -121,16 +120,13 @@ package Creature
 		
 		private function attachHeadTorsoTail():void
 		{
-			trace("attaching head-torso-tail");
 			//TODO: Should Head -- Torso -- Tail attaching with weld joints be included?? Currently, only revolute joints are used to connect head-torso-tail together
 			
 			//Head -- Torso
 			_headTorsoJoint = new B2RevoluteJointBuilder(_head.headSegment.getBody(), _torso.headSegment.getBody(), _head.headAnchor, _torso.headAnchor)
 				.withEnabledLimit().withSwivelAngle(HeadSwivel)
 				.build();
-			
-			trace("head torso attached");
-			
+						
 			//Torso -- Tail
 			_torsoTailJoint = new B2RevoluteJointBuilder(_torso.tailSegment.getBody(), _tail.tailSegment.getBody(), _torso.tailAnchor, _tail.tailAnchor)
 				.withEnabledLimit().withSwivelAngle(TailSwivel)

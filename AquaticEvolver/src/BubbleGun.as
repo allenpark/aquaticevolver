@@ -16,7 +16,6 @@ package
 		
 		private var jointAngleCorrection:Number = Math.PI/2;
 		
-		private var worldInst:AEWorld;
 		// images
 		[Embed(source='res/bubbleSnapper1.png')]
 		public static var bubbleGunImg:Class;
@@ -30,7 +29,6 @@ package
 			
 			var revoluteJointDef:b2RevoluteJointDef;
 			
-			this.worldInst = worldInst;
 			
 			// create the sprites
 			trace(owner);
@@ -62,7 +60,7 @@ package
 			var headPoint:b2Vec2 = bubbleGun.getBody().GetPosition();
 			var spawnPoint :b2Vec2 = calcBulletSpawnPoint(point, bubbleGun.getScreenXY(), headPoint);
 			var bubble:AttackBubble = new AttackBubble(spawnPoint, this.creature, this, 64, 64, 5, point);
-			this.worldInst.add(bubble);
+			AEWorld.world.add(bubble);
 			var bubbleBody:b2Body = bubble.getBody();
 			bubbleBody.SetLinearVelocity(calcBulletVelocity(point, bubbleGun.getScreenXY()));//calcB2Impulse(point, bubbleGun.getScreenXY()));
 		}

@@ -7,10 +7,9 @@ package
 	public class AECollisionListener extends b2ContactListener
 	{
 		
-		private function handlePlayerTentacleAttack(attackerData:CollisionData, enemyData:CollisionData):void
+		private function handleAttack(attackerData:CollisionData, enemyData:CollisionData):void
 		{
 			trace("player attacked enemy");
-			//AEWorld.KILLLIST.push(enemy);
 			var attackDescription:Array = new Array();
 			attackDescription.push(attackerData.owner);
 			attackDescription.push(enemyData.owner);
@@ -31,39 +30,14 @@ package
 			trace(data1.owner + " " + data1.colliderType + " " + data1.adaptation);
 			trace(data2.owner + " " + data2.colliderType + " " + data2.adaptation);
 			
-			// TODO(Allen): Fix this logic. Not necessarily player and enemy.
-			if(data1.owner.creatureType == SpriteType.PLAYER && data2.owner.creatureType == SpriteType.ENEMY)
-			{
-				handlePlayerTentacleAttack(data1, data2);
-				/*switch(data1.colliderType)
-				{
-					case SpriteType.TENTACLEHEAD:
-						handlePlayerTentacleAttack(data1, data2);
-						break;
-					case SpriteType.SPIKE:
-						handlePlayerTentacleAttack(data1, data2);
-						break;
-					default:
-						trace("default collision");
-						break;
-				}*/
-			}
-			if(data2.owner.creatureType == SpriteType.PLAYER && data1.owner.creatureType == SpriteType.ENEMY)
-			{
-				handlePlayerTentacleAttack(data2, data1);
-				/*switch(data2.colliderType)
-				{
-					case SpriteType.TENTACLEHEAD:
-						handlePlayerTentacleAttack(data2, data1);
-						break;
-					case SpriteType.SPIKE:
-						handlePlayerTentacleAttack(data2, data1);
-						break;
-					default:
-						trace("default collision");
-						break;
-				}*/
-			}
+			//if (data1.owner.creatureType == SpriteType.PLAYER && data2.owner.creatureType == SpriteType.ENEMY)
+			if (data1.owner.creatureType != data1.colliderType && data2.owner.creatureType == data2.colliderType) {
+				// data1 is an adaptation and data2 is a body.
+				handleAttack(data1, data2);
+			} else if (data1.owner.creatureType == data1.colliderType && data2.owner.creatureType != data2.colliderType) {
+				// data1 is a body and data2 is an adaptation.
+				handleAttack(data2, data1);
+			} // else do not register the attack
 		}
 		
 		/**

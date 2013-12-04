@@ -25,6 +25,7 @@ package
 				this.loadGraphic(Graphic,true,true,width,height);
 			}
 			var position:b2Vec2 = new b2Vec2(AEWorld.b2NumFromFlxNum(x), AEWorld.b2NumFromFlxNum(y));
+			trace("Shape" + shape);
 			body = bodyBuilder(position, angle, shape).build();
 		}
 		

@@ -4,8 +4,8 @@ package
 	
 	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Common.Math.b2Vec2;
-	import Box2D.Dynamics.b2Body;
 	import Creature.AECreature;
+
 	
 	public class BoxBubbleGun extends B2FlxSprite
 	{
@@ -15,6 +15,7 @@ package
 		public var adaptOwner:Adaptation;
 		
 		public function BoxBubbleGun(x:Number, y:Number, creature:AECreature, adaptOwner:Adaptation, Graphic:Class=null, width:Number=0, height:Number=0)
+
 		{
 			this.creature = creature;
 			this.adaptOwner = adaptOwner;
