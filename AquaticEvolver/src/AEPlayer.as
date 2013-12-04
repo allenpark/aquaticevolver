@@ -27,8 +27,8 @@ package
 			var torso:AETorso = playerTorso(x,y);
 			var tail:AETail = playerTail(x,y);
 			super(SpriteType.PLAYER, x, y, head, torso, tail);
-			//attachAppendage(AppendageType.TENTACLE);
-			attachAppendage(AppendageType.BUBBLEGUN);
+			attachAppendage(AppendageType.TENTACLE);
+//			attachAppendage(AppendageType.BUBBLEGUN);
 			
 		}
 		

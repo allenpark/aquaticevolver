@@ -41,11 +41,23 @@ package
 			var sprite:B2FlxSprite;
 			
 			var revoluteJointDef:b2RevoluteJointDef;
+			
+			var flixelPos;
+			
+			var xOffset:Number = 0*Math.cos(jointAngle);
+			var yOffset:Number = 30*Math.sin(jointAngle);
 			for (var i:int = 0; i < tentacleMidSegments; i++) {
 				
 				// create the sprite
 				trace(owner);
-				sprite = new BoxTentacleMid(0, 0, owner, this, tentacleMidImg, 32, 64);
+				
+				flixelPos = convertJointPosToFlixel(segment,jointPos);
+				sprite = new BoxTentacleMid(flixelPos.x, flixelPos.y, owner, this, tentacleMidImg, 32, 64);
+				
+				flixelPos.x += xOffset;
+				flixelPos.y += yOffset;
+				
+				sprite.angle = jointAngle*360/(2*Math.PI);
 				midSegments.push(sprite);
 				this.add(sprite);
 				
@@ -73,7 +85,9 @@ package
 			}
 			
 			// create the sprite
-			tentacleHead = new BoxTentacleHead(0, 0, owner, this, tentacleHeadImg, 32, 64);
+			flixelPos = convertJointPosToFlixel(segment,jointPos);
+			tentacleHead = new BoxTentacleHead(flixelPos.x, flixelPos.y, owner, this, tentacleHeadImg, 32, 64);
+			tentacleHead.angle = jointAngle*360/(2*Math.PI);
 			this.add(tentacleHead);
 			
 			// create the jointDef
