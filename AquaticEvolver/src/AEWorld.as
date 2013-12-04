@@ -41,7 +41,7 @@ package
 		/**
 		 * Drawing bubbles
 		 */
-		private var DRAWBUBBLES:Boolean = false;		
+		private var DRAWBUBBLES:Boolean = true;		
 		
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
@@ -120,7 +120,7 @@ package
 		 * Y coordinate for the top of the world
 		 * JTW 12/3/13
 		 */
-		public var topLocation :Number = -10;
+		public static var topLocation :Number = -10;
 		
 		/**
 		 * Constructs and initializes the Box2D b2World.
@@ -198,9 +198,10 @@ package
 			
 			
 			this.defaultHealth += 2
-				
-			//TODO: Change to AEEnemy when ready
-			var newEnemy:AEEnemy = AEEnemy.generateDefaultEnemy(newX, newY);
+			//Can't add enemies above the top bound
+			if(newY > topLocation){
+				var newEnemy:AEEnemy = AEEnemy.generateDefaultEnemy(newX, newY);
+			}
 			/* 
 			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, newEnemy, newEnemy);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, newEnemy);
@@ -221,21 +222,21 @@ package
 			
 			//Setting upper and lower bounds for the objects some what below what the
 			//player can see so there is a consistent background
-			var lowerXbound:Number = -(ScreenWidth / 1) - xBuffer/2 - 50;
-			var upperXbound:Number = (ScreenWidth / 1) + xBuffer/2 + 50;
-			var lowerYbound:Number = -(ScreenHeight / 1) - yBuffer/2 - 50;
-			var upperYbound:Number = (ScreenHeight / 1) + yBuffer/2 + 50;
+			var lowerXbound:Number = -((ScreenWidth / 1) - xBuffer/2 - 50)*viewDistance;
+			var upperXbound:Number = ((ScreenWidth / 1) + xBuffer/2 + 50)*viewDistance;
+			var lowerYbound:Number = -((ScreenHeight / 1) - yBuffer/2 - 50)*viewDistance;
+			var upperYbound:Number = ((ScreenHeight / 1) + yBuffer/2 + 50)*viewDistance;
 			
 			if(FOLLOWINGPLAYER){
-				/*if (Math.random()>.5) {
-					// On the vertical edges.
-					newX = (Math.random() > 0.5 ? lowerXbound: upperXbound) + player.getX();
-					newY = (Math.random() * ScreenHeight)- ScreenHeight/2 + player.getY();
-				} else {
-					// On the horizontal edges.
-					newX = (Math.random() * ScreenWidth) - ScreenWidth/2 + player.getX();
-					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + player.getY();	
-				}*/
+//				if (Math.random()>.5) {
+//					// On the vertical edges.
+//					newX = (Math.random() > 0.5 ? lowerXbound: upperXbound) + player.getX();
+//					newY = (Math.random() * ScreenHeight)- ScreenHeight/2 + player.getY();
+//				} else {
+//					// On the horizontal edges.
+//					newX = (Math.random() * ScreenWidth) - ScreenWidth/2 + player.getX();
+//					newY = (Math.random() > 0.5 ? lowerYbound : upperYbound) + player.getY();	
+//				}
 				newX = (Math.random() * (ScreenWidth)) + player.getX();//-xBuffer/viewDistance));
 				newY = (Math.random() * (ScreenHeight)) + player.getY();//-yBuffer/viewDistance));
 			}else{
@@ -243,12 +244,14 @@ package
 				newY = (ScreenHeight-yBuffer/viewDistance);
 			}
 			
-			//FlxG.log('Drawing background object at ' +newX+","+newY);
-			var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance);
-			//Making the object float as it is a bubble right now
-			backgroundObject.floatUpward();
-			
-			this.add(backgroundObject);
+			if(newY > topLocation){
+				//FlxG.log('Drawing background object at ' +newX+","+newY);
+				var backgroundObject:BackgroundObject = new BackgroundObject(newX, newY, viewDistance);
+				//Making the object float as it is a bubble right now
+				backgroundObject.floatUpward();
+				
+				this.add(backgroundObject);
+			}
 		}
 		
 		private function drawInitialBackgroundObjects():void{
@@ -360,7 +363,6 @@ package
 			setupB2Debug();
 			setupFlxDebug();
 			
-			this.add(new FlashingLight(ScreenWidth/2, ScreenHeight/2));
 		}
 		
 		public static function toggleB2DebugDrawing():void
@@ -458,7 +460,7 @@ package
 				
 				//Randomly add background image
 				if(DRAWBUBBLES){
-					if (Math.random() < 0.1) {
+					if (Math.random() < 0.02) {
 						drawBackgroundObject(128, 128);	
 					}
 				}
