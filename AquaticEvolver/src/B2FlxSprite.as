@@ -12,10 +12,14 @@ package
 	public class B2FlxSprite extends FlxSprite
 	{
 		protected var body:b2Body;
+		protected var _groupFilter:Number;
+
 		
 		public function B2FlxSprite(x:int, y:int,  angle:Number=0,Graphic:Class=null, 
-									width:Number=0, height:Number=0,shape:b2PolygonShape = null):void
+									width:Number=0, height:Number=0,shape:b2PolygonShape=null, groupFilter:Number=undefined):void
 		{
+			trace("Constructing b2flxsprite with groupfilter:"+groupFilter);
+			_groupFilter = groupFilter;
 			super(x,y);
 			if (Graphic) {
 				this.loadGraphic(Graphic,true,true,width,height);
@@ -43,7 +47,8 @@ package
 			var b2bb:B2BodyBuilder = new B2BodyBuilder(position, angle)
 				.withShape(shape)
 				.withType(b2Body.b2_dynamicBody)
-				.withDensity(0.1);
+				.withDensity(0.1)
+				.withGroupFilter(_groupFilter);
 			return b2bb;
 		}
 		
