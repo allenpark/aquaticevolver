@@ -20,6 +20,7 @@ package
 	public class AEPlayer extends AECreature
 	{
 		private var defaultMovementScheme:Boolean = false; 
+		public var aboveTop: Boolean = false; 
 		
 		public function AEPlayer(x:Number, y:Number)
 		{	
@@ -103,7 +104,7 @@ package
 				}
 					
 				else if (FlxG.keys.UP && FlxG.keys.DOWN)	{
-				} 
+				}
 				else if (FlxG.keys.UP) {
 					//					trace("BoxPlayer: up");
 					yDir = -1*this.speed;
@@ -111,12 +112,20 @@ package
 					//					trace("BoxPlayer: down");
 					yDir = 1*this.speed;
 				}
+				if (this.aboveTop){
+					yDir = 1*this.speed;
+				}
 				
 				if(defaultMovementScheme) {
 					movementBody.ApplyImpulse(getForceVec(xDir, yDir), movementBody.GetPosition());					
 				} else {
 					var angle:Number = movementBody.GetAngle() + Math.PI/2;
+					if (this.aboveTop){
+						yDir= -1*this.speed;
+						xDir = (Math.PI - angle)*50;
+					}
 					var force:b2Vec2 = new b2Vec2(0.05 * Math.sin(angle) * yDir * -1, 0.05 * Math.cos(angle) * yDir);
+
 					movementBody.ApplyImpulse(force, movementBody.GetPosition());
 					var torque:Number = 0.5;
 					movementBody.SetAngularVelocity(torque * xDir);
@@ -140,6 +149,12 @@ package
 			}
 			vec.Multiply(0.05);
 			return vec;
+		}
+		public function goAboveTop():void{
+			this.aboveTop = true;
+		}
+		public function goBelowTop (): void{
+			this.aboveTop = false 
 		}
 		
 		private function calcB2Impulse(mousePoint:FlxPoint, bodyPoint:FlxPoint):b2Vec2
