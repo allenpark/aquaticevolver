@@ -92,19 +92,22 @@ package
 				if(FlxG.keys.justPressed("P"))
 				{
 					FlxG.music.resume();
-					this.kill();
 					this.exists = false;
-					showing = false;
-					_displaying = false;
+					this.showing = false;
+					this._displaying = false;
 					FlxG.paused = false;
+					trace(" in paused");
+					this.kill();
+
 					//if (_finishCallback != null) _finishCallback();
 					
 				} 
 				else
 				{
 					
-					showing = true;
-					_displaying = true;
+					this.showing = true;
+					this._displaying = true;
+					this.exists = true;
 					FlxG.paused = true;
 					
 				}

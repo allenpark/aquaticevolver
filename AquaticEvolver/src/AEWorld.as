@@ -380,8 +380,8 @@ package
 		
 		override public function update():void 
 		{
-			super.update();
-			if (!paused.showing) {
+			if (!FlxG.paused) {
+				super.update();
 				player.update();
 				//Box2D debug stuff
 				if (AquaticEvolver.box2dDebug) {
