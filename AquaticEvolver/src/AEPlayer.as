@@ -79,7 +79,7 @@ package
 					xDir = 1*this.speed;
 				}
 					
-				else if (FlxG.keys.UP && FlxG.keys.DOWN)	{
+				if (FlxG.keys.UP && FlxG.keys.DOWN)	{
 				}
 				else if (FlxG.keys.UP) {
 					//					trace("BoxPlayer: up");
