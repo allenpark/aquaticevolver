@@ -380,7 +380,7 @@ package
 		
 		override public function update():void 
 		{
-			if (!paused.showing) {
+			if (!FlxG.paused) {
 				super.update();
 				player.update();
 				//Box2D debug stuff
