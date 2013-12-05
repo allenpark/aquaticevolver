@@ -19,6 +19,7 @@ package
 		
 		public function AEPlayer(x:Number, y:Number)
 		{	
+
 			//Player has special ID value of 1
 			trace("id has been set to:"+_id);
 			var headDef:AEHeadDef = AECreature.head1Def(x,y);
@@ -35,7 +36,6 @@ package
 			attachAppendage(AppendageType.SPIKE);
 			//attachAppendage(AppendageType.MANDIBLE);
 			//attachAppendage(AppendageType.BUBBLEGUN);			
-
 		}
 		
 		override public function getID():Number
@@ -58,12 +58,14 @@ package
 				var yDir:Number = 0;
 				
 				if(FlxG.mouse.justPressed())
+				//if(FlxG.mouse.pressed())
 				{
 					
 					var mousePoint:FlxPoint = new FlxPoint(FlxG.camera.scroll.x + FlxG.mouse.screenX, FlxG.camera.scroll.y + FlxG.mouse.screenY);
 					var playerPoint:FlxPoint = new FlxPoint(AEWorld.flxNumFromB2Num(movementBody.GetPosition().x), AEWorld.flxNumFromB2Num(movementBody.GetPosition().y));
 					movementBody.ApplyImpulse(calcB2Impulse(mousePoint, playerPoint), movementBody.GetPosition());
 					attack();
+					trace("attack!");
 				}
 					
 					// moving the player based on the arrow keys inputs
@@ -77,7 +79,7 @@ package
 					xDir = 1*this.speed;
 				}
 					
-				else if (FlxG.keys.UP && FlxG.keys.DOWN)	{
+				if (FlxG.keys.UP && FlxG.keys.DOWN)	{
 				}
 				else if (FlxG.keys.UP) {
 					//					trace("BoxPlayer: up");
