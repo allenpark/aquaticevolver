@@ -26,7 +26,7 @@ package
 			var tailDef:AETailDef = AECreature.tail1Def(x,y);
 			super(SpriteType.PLAYER, x, y, headDef, torsoDef, tailDef);
 			attachAppendage(AppendageType.TENTACLE);
-			attachAppendage(AppendageType.SPIKE);
+			attachAppendage(AppendageType.SPIKESHOOTER);
 			attachAppendage(AppendageType.SPIKE);
 			attachAppendage(AppendageType.SPIKE);
 			attachAppendage(AppendageType.TENTACLE);

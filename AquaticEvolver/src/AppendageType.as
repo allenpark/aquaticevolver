@@ -6,6 +6,7 @@ package
 				public static var TENTACLE:Number = 2;
 				public static var MANDIBLE:Number = 3;
 				public static var BUBBLEGUN:Number = 4;
+				public static var SPIKESHOOTER: Number = 5;
 				
 				public function AppendageType()
 				{

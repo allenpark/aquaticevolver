@@ -54,6 +54,10 @@ package {
 //					FlxG.log("Creating a new bubble gun");
 					appendage = new BubbleGun(jointPos, jointAngle, creature, segment);
 					break;
+				case AppendageType.SPIKESHOOTER:
+					//					FlxG.log("Creating a new bubble gun");
+					appendage = new SpikeShooter(jointPos, jointAngle, creature, segment);
+					break;
 				default:
 //					FlxG.log("Creating a new default spike");
 					appendage = new Spike(jointPos, jointAngle, creature, segment);
