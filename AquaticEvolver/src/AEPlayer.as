@@ -27,7 +27,7 @@ package
 			var tailDef:AETailDef = AECreature.tail1Def(x,y);
 			super(SpriteType.PLAYER, x, y, headDef, torsoDef, tailDef);
 			attachAppendage(AppendageType.TENTACLE);
-			attachAppendage(AppendageType.SPIKE);
+			attachAppendage(AppendageType.SPIKESHOOTER);
 			attachAppendage(AppendageType.SPIKE);
 			attachAppendage(AppendageType.SPIKE);
 			attachAppendage(AppendageType.TENTACLE);
@@ -58,12 +58,14 @@ package
 				var yDir:Number = 0;
 				
 				if(FlxG.mouse.justPressed())
+				//if(FlxG.mouse.pressed())
 				{
 					
 					var mousePoint:FlxPoint = new FlxPoint(FlxG.camera.scroll.x + FlxG.mouse.screenX, FlxG.camera.scroll.y + FlxG.mouse.screenY);
 					var playerPoint:FlxPoint = new FlxPoint(AEWorld.flxNumFromB2Num(movementBody.GetPosition().x), AEWorld.flxNumFromB2Num(movementBody.GetPosition().y));
 					movementBody.ApplyImpulse(calcB2Impulse(mousePoint, playerPoint), movementBody.GetPosition());
 					attack();
+					trace("attack!");
 				}
 					
 					// moving the player based on the arrow keys inputs
@@ -77,7 +79,7 @@ package
 					xDir = 1*this.speed;
 				}
 					
-				else if (FlxG.keys.UP && FlxG.keys.DOWN)	{
+				if (FlxG.keys.UP && FlxG.keys.DOWN)	{
 				}
 				else if (FlxG.keys.UP) {
 					//					trace("BoxPlayer: up");

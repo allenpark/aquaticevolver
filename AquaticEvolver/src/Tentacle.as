@@ -124,10 +124,11 @@ package
 		{
 			super.attack(point);
 			//trace("tentacle attacking");
-			var headPoint:FlxPoint = new FlxPoint(this.creature.getX(), this.creature.getY());
+			
 			var tentacleBody:b2Body = tentacleHead.getBody();
-			var impulse:b2Vec2 = calcB2Impulse(point, headPoint);
-			impulse.Multiply(20);
+			//var headPoint:FlxPoint = new FlxPoint(tentacleBody.GetPosition().x, tentacleBody.GetPosition().y);
+			var impulse:b2Vec2 = calcB2Impulse(point, tentacleHead.getScreenXY());
+			impulse.Multiply(1200);
 			tentacleBody.ApplyImpulse(impulse, tentacleBody.GetPosition());
 		}
 		

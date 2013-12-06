@@ -22,13 +22,13 @@ package{
 			
 			this.viewDistance = viewDistance;
 			
-			//Setting background object's scroll factor for parallax scrolling
-			this.scrollFactor.x = this.scrollFactor.y = 1.0/viewDistance;
-			
 			//Setting x and y coordinates based on the scroll factor to
 			//accoounmt for the camera moving the object based on it's scroll factor
-			this.x = x*this.scrollFactor.x;
-			this.y = y*this.scrollFactor.y;
+			this.x = x*(1.0/viewDistance);
+			this.y = y*(1.0/viewDistance);
+			
+			//Setting background object's scroll factor for parallax scrolling
+			this.scrollFactor.x = this.scrollFactor.y = 1.0/viewDistance;
 			
 			//Adjusting the sprite's scale to appear smaller when further
 			this.scale.x = this.scale.y = (Math.random()+1)*(1.0/viewDistance);
@@ -39,23 +39,23 @@ package{
 		override public function update():void{
 			super.update();
 			//FIX THESE BOUNDS!!
-			var lowerYbound:Number = ((-200 - FlxG.height/2) + AEWorld.player.getY())*this.scrollFactor.x;
-			var upperYbound:Number = ((200 + FlxG.height/2) + AEWorld.player.getY())*this.scrollFactor.x;
-			var upperXbound:Number = ((200 + FlxG.width/2) + AEWorld.player.getX())*this.scrollFactor.x;
-			var lowerXbound:Number = ((-200 - FlxG.width/2) + AEWorld.player.getX())*this.scrollFactor.x;
+//			var lowerYbound:Number = ((-200 - FlxG.height/2)*viewDistance + AEWorld.player.getY());
+//			var upperYbound:Number = ((200 + FlxG.height/2)*viewDistance + AEWorld.player.getY());
+//			var upperXbound:Number = ((200 + FlxG.width/2)*viewDistance + AEWorld.player.getX());
+//			var lowerXbound:Number = ((-200 - FlxG.width/2)*viewDistance + AEWorld.player.getX());
 			
 //			FlxG.log("LX:"+lowerXbound+" ,UX:"+upperXbound+", LY:"+lowerYbound+" UY:"+upperYbound);
 //			FlxG.log('Bubble at:('+ this.x+","+this.y);
 //			
-			var outsideYbounds:Boolean = this.y > upperYbound || this.y < lowerYbound;
-			var outsideXbounds:Boolean = this.x > upperXbound || this.x < lowerXbound;
+//			var outsideYbounds:Boolean = this.y > upperYbound || this.y < lowerYbound;
+//			var outsideXbounds:Boolean = this.x > upperXbound || this.x < lowerXbound;
 			//TODO: update this so that bubbles can still be slighly off screen
 			//Make sure that the object is still on the screen
-			/*if(outsideXbounds || outsideYbounds){
-				//CURRENTLY CRASHES GAME WHEN CALLED DON'T KNOW HOW TO CLEAN UP MEMORY
-//				this.destroy();
-				this.kill(); 
-			}*/
+//			if(outsideXbounds || outsideYbounds){
+//				//CURRENTLY CRASHES GAME WHEN CALLED DON'T KNOW HOW TO CLEAN UP MEMORY
+////				this.destroy();
+//				this.kill(); 
+//			}
 			if(!onScreen(null))
 			{
 				this.kill();	
