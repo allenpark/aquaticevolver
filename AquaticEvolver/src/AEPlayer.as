@@ -25,12 +25,8 @@ package
 			var torsoDef:AETorsoDef = AECreature.torso1Def(x,y);
 			var tailDef:AETailDef = AECreature.tail1Def(x,y);
 			super(SpriteType.PLAYER, x, y, health, headDef, torsoDef, tailDef);
-			
-			attachAppendage(AdaptationType.SHELL);	
-			attachAppendage(AdaptationType.SHELL);
-			attachAppendage(AdaptationType.SHELL);
-			attachAppendage(AdaptationType.SHELL);
-			attachAppendage(AdaptationType.SHELL);
+
+			attachAppendage(AdaptationType.POISONCANNON);	
 		}
 		
 		override public function getID():Number
