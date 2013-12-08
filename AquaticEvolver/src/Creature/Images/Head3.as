@@ -14,15 +14,21 @@ package Creature.Images
 		 * to assure that they are centered on the sprite
 		 */
 		protected static var PolygonVertices:Array = new Array(
-			//TODO: update these numbers with Nick's locations
-			new b2Vec2(AEWorld.b2NumFromFlxNum(56),AEWorld.b2NumFromFlxNum(-4)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(35),AEWorld.b2NumFromFlxNum(-30)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-1),AEWorld.b2NumFromFlxNum(-36)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-41),AEWorld.b2NumFromFlxNum(-29)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-56),AEWorld.b2NumFromFlxNum(-3)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-36),AEWorld.b2NumFromFlxNum(27)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(1),AEWorld.b2NumFromFlxNum(35)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(39),AEWorld.b2NumFromFlxNum(28)));
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-8.0),AEWorld.b2NumFromFlxNum(41.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-29.0),AEWorld.b2NumFromFlxNum(24.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-52.0),AEWorld.b2NumFromFlxNum(18.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-41.0),AEWorld.b2NumFromFlxNum(1.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-26.0),AEWorld.b2NumFromFlxNum(-7.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-13.0),AEWorld.b2NumFromFlxNum(-36.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-5.0),AEWorld.b2NumFromFlxNum(-44.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(1.0),AEWorld.b2NumFromFlxNum(-44.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(10.0),AEWorld.b2NumFromFlxNum(-37.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(22.0),AEWorld.b2NumFromFlxNum(-8.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(40.0),AEWorld.b2NumFromFlxNum(3.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(49.0),AEWorld.b2NumFromFlxNum(16.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(45.0),AEWorld.b2NumFromFlxNum(20.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(24.0),AEWorld.b2NumFromFlxNum(25.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(6.0),AEWorld.b2NumFromFlxNum(41.0)));
 		
 		[Embed(source='../../res/Head3.png')]
 		private static const Img:Class;
