@@ -5,6 +5,7 @@ package Creature
 	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Dynamics.Joints.b2RevoluteJoint;
 	
+	import Creature.Images.DefaultImage;
 	import Creature.Images.Head1;
 	import Creature.Images.Head2;
 	import Creature.Images.Head3;
@@ -241,116 +242,116 @@ package Creature
 			_occupiedAppendageSlots = new Array();
 		}
 		
-		private static function headDef(x:Number, y:Number, HeadClass:Class):AEHeadDef
+		private static function headDef(x:Number, y:Number, headImage:DefaultImage):AEHeadDef
 		{
-			var headSchematic:AESchematic = new AESchematic(HeadClass.image(), HeadClass.suggestedAppendageSlots);
+			var headSchematic:AESchematic = new AESchematic(headImage.image(), headImage.suggestedAppendageSlots());
 			//Setting up the segment's shape
 			var playerHeadShape:b2PolygonShape = new b2PolygonShape();
-			playerHeadShape.SetAsArray(HeadClass.polygonVerteces);
+			playerHeadShape.SetAsArray(headImage.polygonVertices());
 			var playerHeadSegmentDef:AESegmentDef = new AESegmentDef(x,y, headSchematic, playerHeadShape);
-			var playerHeadDef:AEHeadDef = new AEHeadDef(playerHeadSegmentDef, HeadClass.suggestedHeadAnchor);
+			var playerHeadDef:AEHeadDef = new AEHeadDef(playerHeadSegmentDef, headImage.suggestedHeadAnchor());
 			return playerHeadDef;
 		}
 		
 		protected static function head1Def(x:Number, y:Number):AEHeadDef
 		{
-			return headDef(x, y, Head1);
+			return headDef(x, y, new Head1());
 		}
 		
 		protected static function head2Def(x:Number, y:Number):AEHeadDef
 		{
-			return headDef(x, y, Head2);
+			return headDef(x, y, new Head2());
 		}
 		
 		protected static function head3Def(x:Number, y:Number):AEHeadDef
 		{
-			return headDef(x, y, Head3);
+			return headDef(x, y, new Head3());
 		}
 		
 		protected static function head4Def(x:Number, y:Number):AEHeadDef
 		{
-			return headDef(x, y, Head4);
+			return headDef(x, y, new Head4());
 		}
 		
 		protected static function head5Def(x:Number, y:Number):AEHeadDef
 		{
-			return headDef(x, y, Head5);
+			return headDef(x, y, new Head5());
 		}
 		
 		/**
 		 * IMPORTANT: Only for single segment torsos
 		 */
-		private static function torsoDef(x, y, TorsoClass:Class):AETorsoDef
+		private static function torsoDef(x, y, torsoImage:DefaultImage):AETorsoDef
 		{
-			var torsoSchematic:AESchematic = new AESchematic(TorsoClass.image(), TorsoClass.suggestedAppendageSlots);
+			var torsoSchematic:AESchematic = new AESchematic(torsoImage.image(), torsoImage.suggestedAppendageSlots());
 			//Setting up segment's shape
 			var playerTorsoShape:b2PolygonShape = new b2PolygonShape();
-			playerTorsoShape.SetAsArray(TorsoClass.polygonVerteces);
+			playerTorsoShape.SetAsArray(torsoImage.polygonVertices());
 			var playerTorsoSegmentDef:AESegmentDef = new AESegmentDef(x,y, torsoSchematic, playerTorsoShape);
 			var playerTorsoSegmentDefs:Array = new Array(playerTorsoSegmentDef);
-			var playerTorsoDef:AETorsoDef = new AETorsoDef(TorsoClass.suggestedHeadAnchor, playerTorsoSegmentDefs, TorsoClass.suggestedTailAnchor);
+			var playerTorsoDef:AETorsoDef = new AETorsoDef(torsoImage.suggestedHeadAnchor(), playerTorsoSegmentDefs, torsoImage.suggestedTailAnchor());
 			return playerTorsoDef;
 		}
 		
 		protected static function torso1Def(x:Number, y:Number):AETorsoDef
 		{
-			return torsoDef(x, y, Torso1);
+			return torsoDef(x, y, new Torso1());
 		}
 		
 		protected static function torso2Def(x:Number, y:Number):AETorsoDef
 		{
-			return torsoDef(x, y, Torso2);
+			return torsoDef(x, y, new Torso2());
 		}
 		
 		protected static function torso3Def(x:Number, y:Number):AETorsoDef
 		{
-			return torsoDef(x, y, Torso3);
+			return torsoDef(x, y, new Torso3());
 		}
 		
 		protected static function torso4Def(x:Number, y:Number):AETorsoDef
 		{
-			return torsoDef(x, y, Torso4);
+			return torsoDef(x, y, new Torso4());
 		}
 		
 		protected static function torso5Def(x:Number, y:Number):AETorsoDef
 		{
-			return torsoDef(x, y, Torso5);
+			return torsoDef(x, y, new Torso5());
 		}
 		
-		private static function tailDef(x:Number, y:Number, TailClass:Class):AETailDef
+		private static function tailDef(x:Number, y:Number, tailImage:DefaultImage):AETailDef
 		{
-			var tailSchematic:AESchematic = new AESchematic(TailClass.image(), TailClass.suggestedAppendageSlots);
+			var tailSchematic:AESchematic = new AESchematic(tailImage.image(), tailImage.suggestedAppendageSlots());
 			//Setting the segment's shape
 			var playerTailShape:b2PolygonShape = new b2PolygonShape();
-			playerTailShape.SetAsArray(TailClass.polygonVerteces);
+			playerTailShape.SetAsArray(tailImage.polygonVertices());
 			var playerTailSegmentDef:AESegmentDef = new AESegmentDef(x, y, tailSchematic, playerTailShape);
-			var playerTailDef:AETailDef = new AETailDef(playerTailSegmentDef, TailClass.suggestedTailAnchor);
+			var playerTailDef:AETailDef = new AETailDef(playerTailSegmentDef, tailImage.suggestedTailAnchor());
 			return playerTailDef;
 		}
 		
 		protected static function tail1Def(x:Number, y:Number):AETailDef
 		{
-			return tailDef(x, y, Tail1);
+			return tailDef(x, y, new Tail1());
 		}
 		
 		protected static function tail2Def(x:Number, y:Number):AETailDef
 		{
-			return tailDef(x, y, Tail2);
+			return tailDef(x, y, new Tail2());
 		}
 		
 		protected static function tail3Def(x:Number, y:Number):AETailDef
 		{
-			return tailDef(x, y, Tail3);
+			return tailDef(x, y, new Tail3());
 		}
 		
 		protected static function tail4Def(x:Number, y:Number):AETailDef
 		{
-			return tailDef(x, y, Tail4);
+			return tailDef(x, y, new Tail4());
 		}
 		
 		protected static function tail5Def(x:Number, y:Number):AETailDef
 		{
-			return tailDef(x, y, Tail5);
+			return tailDef(x, y, new Tail5());
 		}
 	}
 }

@@ -4,7 +4,7 @@ package Creature.Images
 	
 	import Creature.Schematics.AESchematic;
 	
-	public class Tail3
+	public class Tail3 extends DefaultImage
 	{
 		
 		private static const WIDTH:Number = 128;
