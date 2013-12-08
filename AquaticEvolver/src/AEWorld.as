@@ -21,6 +21,10 @@ package
 		
 		//Background music
 		[Embed(source="res/Evolving Horizon.mp3")] public var droplet:Class;
+
+		
+		[Embed(source="res/Cursor.png")] public var cursor:Class;
+
 		
 		//Image to enforce the barier at the top
 		[Embed (source = "res/pacman.png")] public var enforcerImage:Class;
@@ -118,6 +122,7 @@ package
 		 * RGB of the background
 		 * -JAN 11/25/13
 		 */
+		
 		private var redChange:int = 0;
 		private var greenChange:int = 0;
 		private var blueChange:int = 0;
@@ -350,6 +355,10 @@ package
 		
 		override public function create():void
 		{
+			//FlxG.mouse.hide();
+			FlxG.mouse.load(cursor, 1, -25, -25);
+			//FlxG.mouse.show(cursor);
+			
 			AEWorld.world = this;
 			super.create();
 			setupDefaults();
