@@ -14,7 +14,7 @@ package
 	
 	public class Claw extends Appendage
 	{
-		private var tentacleMidSegments:int = 4;
+		private var tentacleMidSegments:int = 3;
 		
 		// tentacle joint locations
 		private var tentacleSegmentStartJoint:b2Vec2 = new b2Vec2(0,-15);

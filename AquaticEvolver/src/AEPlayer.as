@@ -19,28 +19,20 @@ package
 		
 		public function AEPlayer(x:Number, y:Number, health:Number)
 		{	
-
+			
 			//Player has special ID value of 1
-
-			var headDef:AEHeadDef = AECreature.head5Def(x,y);
+			var headDef:AEHeadDef = AECreature.head1Def(x,y);
 			var torsoDef:AETorsoDef = AECreature.torso1Def(x,y);
 			var tailDef:AETailDef = AECreature.tail1Def(x,y);
 			super(SpriteType.PLAYER, x, y, health, headDef, torsoDef, tailDef);
+			
+			attachAppendage(AppendageType.CLAW);
+			attachAppendage(AppendageType.BUBBLEGUN);
+			attachAppendage(AppendageType.TENTACLE);
+			attachAppendage(AppendageType.SPIKESHOOTER);
+			attachAppendage(AppendageType.SPIKE);
+			attachAppendage(AppendageType.MANDIBLE);	
 
-//			attachAppendage(AppendageType.CLAW);
-//			attachAppendage(AppendageType.BUBBLEGUN);
-//			attachAppendage(AppendageType.BUBBLEGUN);
-//			attachAppendage(AppendageType.BUBBLEGUN);
-//			attachAppendage(AppendageType.BUBBLEGUN);
-//			attachAppendage(AppendageType.TENTACLE);
-//			attachAppendage(AppendageType.SPIKESHOOTER);
-//			attachAppendage(AppendageType.SPIKE);
-			//attachAppendage(AppendageType.SPIKE);
-			//attachAppendage(AppendageType.SPIKE);
-//			attachAppendage(AppendageType.TENTACLE);
-//			attachAppendage(AppendageType.SPIKE);
-			//attachAppendage(AppendageType.MANDIBLE);
-			//attachAppendage(AppendageType.BUBBLEGUN);			
 		}
 		
 		override public function getID():Number
@@ -64,7 +56,7 @@ package
 				var yDir:Number = 0;
 				
 				if(FlxG.mouse.justPressed())
-				//if(FlxG.mouse.pressed())
+					//if(FlxG.mouse.pressed())
 				{
 					
 					var mousePoint:FlxPoint = new FlxPoint(FlxG.camera.scroll.x + FlxG.mouse.screenX, FlxG.camera.scroll.y + FlxG.mouse.screenY);
@@ -84,7 +76,7 @@ package
 					//					trace("BoxPlayer: right");
 					xDir = 1*this.speed;
 				}
-					
+				
 				if (FlxG.keys.UP && FlxG.keys.DOWN)	{
 				}
 				else if (FlxG.keys.UP) {
@@ -107,7 +99,7 @@ package
 						xDir = (Math.PI - angle)*50;
 					}
 					var force:b2Vec2 = new b2Vec2(0.05 * Math.sin(angle) * yDir * -1, 0.05 * Math.cos(angle) * yDir);
-
+					
 					movementBody.ApplyImpulse(force, movementBody.GetPosition());
 					var torque:Number = 0.5;
 					movementBody.SetAngularVelocity(torque * xDir);
