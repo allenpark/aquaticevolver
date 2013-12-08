@@ -216,7 +216,7 @@ package
 			this.defaultHealth += 2
 			//Can't add enemies above the top bound
 			if(newY > topLocation){
-				var newEnemy:AEEnemy = AEEnemy.generateEnemy(newX, newY);
+				var newEnemy:AEEnemy = AEEnemy.generateRandomEnemy(newX, newY);
 				if (newEnemy)
 				{
 					this.add(newEnemy.healthDisplay);
