@@ -17,7 +17,7 @@ package
 		private var jointAngleCorrection:Number = Math.PI/2;
 		
 		// images
-		[Embed(source='res/bubbleSnapper1.png')]
+		[Embed(source='res/bubbleCannon1.png')]
 		public static var bubbleGunImg:Class;
 		
 		public function BubbleGun(jointPos:b2Vec2, jointAngle:Number, owner:*, segment:B2FlxSprite)

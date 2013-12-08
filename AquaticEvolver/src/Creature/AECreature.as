@@ -93,6 +93,17 @@ package Creature
 			_head.kill();
 			_torso.kill();
 			_tail.kill();
+			
+			//Get random appendage
+			var randomAdaptation = this._adaptations[int(Math.random()*(this._adaptations.length - 1))];
+			
+			//Add evolution drop
+			var evolutionDrop = new EvolutionDrop(this.x, this.y, randomAdaptation);
+			
+			//Add to world
+			AEWorld.world.add(evolutionDrop);
+			
+			
 			for each(var adaptation:Adaptation in _adaptations){
 				if (adaptation != null)
 				{

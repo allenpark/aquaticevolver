@@ -17,6 +17,14 @@ package
 			AEWorld.KILLLIST.push(attackDescription);
 		}
 		
+		private function handleEvolution(creatureData:CollisionData, evolutionData:CollisionData):void
+		{
+			//Add adaptation to player
+			
+			
+			//Kill evolution drop
+		}
+		
 		/**
 		 * Called when two fixtures begin to touch.
 		 */
@@ -38,6 +46,12 @@ package
 				// data1 is a body and data2 is an adaptation.
 				handleAttack(data2, data1);
 			} // else do not register the attack
+			else if ((data1.owner.creatureType == SpriteType.PLAYER || data1.owner.creatureType == SpriteType.ENEMY) && data2.owner.creatureType == SpriteType.EVOLUTIONDROP) {
+				handleEvolution(data1, data2);
+			}
+			else if (data1.owner.creatureType == SpriteType.EVOLUTIONDROP && (data1.owner.creatureType == SpriteType.PLAYER || data1.owner.creatureType == SpriteType.ENEMY)) {
+				handleEvolution(data2, data1);
+			}
 		}
 		
 		/**
