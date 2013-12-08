@@ -107,6 +107,8 @@ package
 		 */
 		public static var KILLLIST:Array = new Array();
 		
+		public static var REMOVELIST:Array = new Array();
+		
 		/**
 		 * Number keeping track of the last position the background's color
 		 * was changed in order to figure out whether to change the background
@@ -416,6 +418,14 @@ package
 			}
 		}
 		
+		private function processRemoveList():void
+		{
+			while (REMOVELIST.length > 0)
+			{
+				REMOVELIST.pop().kill();
+			}
+		}
+		
 		override public function update():void 
 		{
 			var baseLightPos:Number = int(FlxG.camera.scroll.x / 1024) * 1024;
@@ -439,6 +449,7 @@ package
 				}
 				AEB2World.Step(1.0/60.0, 10, 10);
 				processKillList();
+				processRemoveList();
 				enforceTop();
 				
 				if (SPAWNENEMIES)

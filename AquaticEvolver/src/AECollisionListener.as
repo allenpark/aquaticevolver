@@ -1,8 +1,10 @@
 package
 {
+	import Box2D.Dynamics.Contacts.b2Contact;
 	import Box2D.Dynamics.b2ContactListener;
 	import Box2D.Dynamics.b2Fixture;
-	import Box2D.Dynamics.Contacts.b2Contact;
+	
+	import Creature.AECreature;
 	
 	public class AECollisionListener extends b2ContactListener
 	{
@@ -20,12 +22,12 @@ package
 		private function handleEvolution(creatureData:CollisionData, evolutionData:CollisionData):void
 		{
 			//Add adaptation to player
-			creatureData.owner.attachAppendage(AppendageType.TENTACLE);
+			(creatureData.owner as AECreature).attachAppendage(AppendageType.TENTACLE);
 			trace("Evolution Collision");
 			trace(creatureData.owner);
 			
 			//Kill evolution drop
-			
+			AEWorld.REMOVELIST.push(evolutionData.owner as EvolutionDrop);
 			
 			
 		}
