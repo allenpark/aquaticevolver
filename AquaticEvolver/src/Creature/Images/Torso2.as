@@ -4,7 +4,7 @@ package Creature.Images
 	
 	import Creature.Schematics.AESchematic;
 	
-	public class Torso2
+	public class Torso2 extends DefaultImage
 	{
 		
 		private static const WIDTH:Number = 128;
@@ -42,17 +42,15 @@ package Creature.Images
 		[Embed(source='../../res/Torso2.png')]
 		private static const IMG:Class;
 		
-		//TODO: update these numbers with Nick's locations
-		public static const suggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(96,64,WIDTH,HEIGHT);
-		public static const suggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(28,64,WIDTH,HEIGHT);
+		public static const suggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,28,WIDTH,HEIGHT);
+		public static const suggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,100,WIDTH,HEIGHT);
 		
-		//TODO: update these numbers with Nick's locations
-		public static const suggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(93,87, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot2:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(65,98, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot3:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(34,87, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot4:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(93,23, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot5:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(65,34, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot6:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(34,23, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(30,32, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot2:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(35,66, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot3:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(47,95, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot4:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(81,95, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot5:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(93,66, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot6:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(98,32, WIDTH, HEIGHT);
 		
 		public static const suggestedAppendageSlots:Array = new Array(	
 			suggestedAppendageSlot1, 

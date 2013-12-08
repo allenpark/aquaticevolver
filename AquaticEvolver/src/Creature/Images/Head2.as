@@ -4,7 +4,7 @@ package Creature.Images
 	
 	import Creature.Schematics.AESchematic;
 	
-	public class Head2
+	public class Head2 extends DefaultImage
 	{
 		private static const WIDTH:Number = 128;
 		private static const HEIGHT:Number = 128;
