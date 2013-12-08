@@ -489,7 +489,7 @@ package
 				
 				if (SPAWNENEMIES)
 				{
-					if (Math.random() < 0.02 && AEEnemy.enemies.length < 30) {
+					if (Math.random() < 0.01 && AEEnemy.enemies.length < 30) {
 						addOffscreenEnemy(15, 15);
 					}
 				}
