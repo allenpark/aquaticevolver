@@ -53,6 +53,11 @@ package
 			world.CreateJoint(revoluteJointDef);			
 		}
 		
+		override public function color(color:Number):void {
+			super.color(color);
+			this.spikeShooter.color = color;
+		}
+		
 		override public function attack(point:FlxPoint):void
 		{
 			super.attack(point);
