@@ -62,7 +62,7 @@ package Creature.Images
 			SuggestedAppendageSlot5, 
 			SuggestedAppendageSlot6);
 		
-		public static function image():AEImage
+		override public function image():AEImage
 		{
 			return new AEImage(IMG,WIDTH,HEIGHT);
 		}
