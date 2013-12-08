@@ -33,7 +33,7 @@ package
 			attachAppendage(AppendageType.TENTACLE);
 			attachAppendage(AppendageType.SPIKE);
 			attachAppendage(AppendageType.TENTACLE);
-			attachAppendage(AppendageType.SPIKE);
+			attachAppendage(AppendageType.BUBBLEGUN);
 			//attachAppendage(AppendageType.MANDIBLE);
 			//attachAppendage(AppendageType.BUBBLEGUN);			
 		}
