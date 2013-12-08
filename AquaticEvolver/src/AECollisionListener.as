@@ -65,7 +65,6 @@ package
 				}
 				else
 				{
-					trace("ATTACKING IN COLLISOSDFASDF");
 					handleAttack(data1, data2);	
 				}
 			} else if (data1.owner.creatureType == data1.colliderType && data2.owner.creatureType != data2.colliderType) {
@@ -76,7 +75,6 @@ package
 				}
 				else
 				{
-					trace("COLLISOSDFASDF ATTACKING IN");
 					handleAttack(data2, data1);	
 				}
 			} // else do not register the attack
