@@ -25,6 +25,8 @@ package
 			
 			this.x = this.getX();
 			this.y = this.getY();
+			super.update();
+
 		}
 	}
 }
