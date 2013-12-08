@@ -33,7 +33,7 @@ package Creature.Images
 		[Embed(source='../../res/Tail1.png')]
 		private static const IMG:Class;
 		
-		public static const SuggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(32,16,WIDTH,HEIGHT);
+		protected static const SuggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(32,16,WIDTH,HEIGHT);
 		
 		protected static const SuggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(32,45, WIDTH, HEIGHT);
 		protected static const SuggestedAppendageSlots:Array = new Array(SuggestedAppendageSlot1);

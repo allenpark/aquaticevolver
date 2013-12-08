@@ -1,8 +1,10 @@
 package
 {
+	import Box2D.Dynamics.Contacts.b2Contact;
 	import Box2D.Dynamics.b2ContactListener;
 	import Box2D.Dynamics.b2Fixture;
-	import Box2D.Dynamics.Contacts.b2Contact;
+	
+	import Creature.AECreature;
 	
 	public class AECollisionListener extends b2ContactListener
 	{
@@ -10,6 +12,8 @@ package
 		private function handleAttack(attackerData:CollisionData, enemyData:CollisionData):void
 		{
 			trace("player attacked enemy");
+			trace(attackerData);
+			trace(enemyData);
 			var attackDescription:Array = new Array();
 			attackDescription.push(attackerData.owner);
 			attackDescription.push(enemyData.owner);
@@ -20,12 +24,17 @@ package
 		private function handleEvolution(creatureData:CollisionData, evolutionData:CollisionData):void
 		{
 			//Add adaptation to player
-			creatureData.owner.attachAppendage(AppendageType.TENTACLE);
 			trace("Evolution Collision");
 			trace(creatureData.owner);
+			trace(AdaptationType.TENTACLE);
+			var evolveDescription:Array = new Array();
+			evolveDescription.push(creatureData.owner as AECreature);
+			evolveDescription.push(AdaptationType.TENTACLE);
+			AEWorld.EVOLVELIST.push(evolveDescription);
+			
 			
 			//Kill evolution drop
-			
+			AEWorld.REMOVELIST.push(evolutionData.owner as EvolutionDrop);
 			
 			
 		}
@@ -50,10 +59,26 @@ package
 			//if (data1.owner.creatureType == SpriteType.PLAYER && data2.owner.creatureType == SpriteType.ENEMY)
 			if (data1.owner.creatureType != data1.colliderType && data2.owner.creatureType == data2.colliderType) {
 				// data1 is an adaptation and data2 is a body.
-				handleAttack(data1, data2);
+				if (data2.owner.creatureType == SpriteType.EVOLUTIONDROP)
+				{
+					handleEvolution(data1, data2);
+				}
+				else
+				{
+					trace("ATTACKING IN COLLISOSDFASDF");
+					handleAttack(data1, data2);	
+				}
 			} else if (data1.owner.creatureType == data1.colliderType && data2.owner.creatureType != data2.colliderType) {
 				// data1 is a body and data2 is an adaptation.
-				handleAttack(data2, data1);
+				if (data1.owner.creatureType == SpriteType.EVOLUTIONDROP)
+				{
+					handleEvolution(data2, data1);
+				}
+				else
+				{
+					trace("COLLISOSDFASDF ATTACKING IN");
+					handleAttack(data2, data1);	
+				}
 			} // else do not register the attack
 			else if ((data1.owner.creatureType == SpriteType.PLAYER || data1.owner.creatureType == SpriteType.ENEMY) && data2.owner.creatureType == SpriteType.EVOLUTIONDROP) {
 				handleEvolution(data1, data2);

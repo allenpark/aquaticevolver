@@ -24,7 +24,7 @@ package
 		// jointPos is given from the local box2D coordinate system of the player and is the location of the attached point for the adatation
 		public function Spike(jointPos:b2Vec2, jointAngle, creature:AECreature, segment:B2FlxSprite)
 		{
-			super(AppendageType.SPIKE, 20, true, 1, jointPos, jointAngle, creature, segment);
+			super(AdaptationType.SPIKE, 20, true, 1, jointPos, jointAngle, creature, segment);
 			
 			var world:b2World = AEWorld.AEB2World;
 			

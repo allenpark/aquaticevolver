@@ -46,12 +46,20 @@ package
 			this.current  = new FlxPoint(original.x + boxBound, original.y);
 		}
 		
-		public static function generateEnemy(x:Number, y:Number):AEEnemy
+		public static function generateRandomEnemy(x:Number, y:Number):AEEnemy
+		{
+			var headDef:AEHeadDef = AECreature.randomHeadDef(x,y);
+			var torsoDef:AETorsoDef = AECreature.randomTorsoDef(x,y);
+			var tailDef:AETailDef = AECreature.randomTailDef(x,y);
+			return generateEnemy(x, y, headDef, torsoDef, tailDef);
+		}
+		
+		public static function generateEnemy(x:Number, y:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef):AEEnemy
 		{
 			if (unusedIDs.length != 0)
 			{
 				var id:Number = unusedIDs.pop();
-				var newEnemy:AEEnemy = new AEEnemy(id, SpriteType.ENEMY, x, y, 10, AECreature.head1Def(x,y), AECreature.torso1Def(x,y), AECreature.tail1Def(x,y));
+				var newEnemy:AEEnemy = new AEEnemy(id, SpriteType.ENEMY, x, y, 10, headDef, torsoDef, tailDef);
 				usedIDs.push(id);
 				AEEnemy.enemies.push(newEnemy);
 				return newEnemy;
@@ -62,7 +70,7 @@ package
 					{
 						enemy.kill();
 						// try again
-						return generateEnemy(x,y);
+						return generateEnemy(x,y, headDef, torsoDef, tailDef);
 					}
 				}
 				return null;

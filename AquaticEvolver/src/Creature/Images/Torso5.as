@@ -14,55 +14,30 @@ package Creature.Images
 		 * Vertices defining the verteces for the shape, have to offset them by half the width
 		 * to assure that they are centered on the sprite
 		 */
-		public static var PolygonVertices:Array = new Array(
-			//TODO: update these numbers with Nick's locations
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-46.0),AEWorld.b2NumFromFlxNum(0.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-46.0),AEWorld.b2NumFromFlxNum(-6.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-43.0),AEWorld.b2NumFromFlxNum(-15.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-34.0),AEWorld.b2NumFromFlxNum(-25.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-26.0),AEWorld.b2NumFromFlxNum(-34.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-17.0),AEWorld.b2NumFromFlxNum(-38.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-6.0),AEWorld.b2NumFromFlxNum(-42.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(7.0),AEWorld.b2NumFromFlxNum(-42.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(19.0),AEWorld.b2NumFromFlxNum(-38.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(29.0),AEWorld.b2NumFromFlxNum(-32.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(37.0),AEWorld.b2NumFromFlxNum(-24.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(43.0),AEWorld.b2NumFromFlxNum(-14.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(45.0),AEWorld.b2NumFromFlxNum(1.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(44.0),AEWorld.b2NumFromFlxNum(11.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(37.0),AEWorld.b2NumFromFlxNum(24.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(29.0),AEWorld.b2NumFromFlxNum(32.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(17.0),AEWorld.b2NumFromFlxNum(39.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-2.0),AEWorld.b2NumFromFlxNum(41.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-22.0),AEWorld.b2NumFromFlxNum(35.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-35.0),AEWorld.b2NumFromFlxNum(26.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-43.0),AEWorld.b2NumFromFlxNum(14.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-46.0),AEWorld.b2NumFromFlxNum(7.0)));
+		protected static var PolygonVertices:Array = new Array(
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-7.0),AEWorld.b2NumFromFlxNum(38.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-18.0),AEWorld.b2NumFromFlxNum(27.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-17.0),AEWorld.b2NumFromFlxNum(-14.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-8.0),AEWorld.b2NumFromFlxNum(-37.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(8.0),AEWorld.b2NumFromFlxNum(-38.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(15.0),AEWorld.b2NumFromFlxNum(-16.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(17.0),AEWorld.b2NumFromFlxNum(28.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(5.0),AEWorld.b2NumFromFlxNum(38.0)));
 		
 		[Embed(source='../../res/Torso5.png')]
 		private static const IMG:Class;
 		
-		//TODO: update these numbers with Nick's locations
-		public static const SuggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(96,64,WIDTH,HEIGHT);
-		public static const SuggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(28,64,WIDTH,HEIGHT);
+		protected static const SuggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(32,35,WIDTH,HEIGHT);
+		protected static const SuggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(32,90,WIDTH,HEIGHT);
 		
-		//TODO: update these numbers with Nick's locations
-		public static const SuggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(93,87, WIDTH, HEIGHT);
-		public static const SuggestedAppendageSlot2:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(65,98, WIDTH, HEIGHT);
-		public static const SuggestedAppendageSlot3:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(34,87, WIDTH, HEIGHT);
-		public static const SuggestedAppendageSlot4:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(93,23, WIDTH, HEIGHT);
-		public static const SuggestedAppendageSlot5:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(65,34, WIDTH, HEIGHT);
-		public static const SuggestedAppendageSlot6:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(34,23, WIDTH, HEIGHT);
+		protected static const SuggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(22,64, WIDTH, HEIGHT);
+		protected static const SuggestedAppendageSlot2:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(42,64, WIDTH, HEIGHT);
 		
-		public static const SuggestedAppendageSlots:Array = new Array(	
+		protected static const SuggestedAppendageSlots:Array = new Array(	
 			SuggestedAppendageSlot1, 
-			SuggestedAppendageSlot2, 
-			SuggestedAppendageSlot3, 
-			SuggestedAppendageSlot4, 
-			SuggestedAppendageSlot5, 
-			SuggestedAppendageSlot6);
+			SuggestedAppendageSlot2);
 		
-		public static function image():AEImage
+		override public function image():AEImage
 		{
 			return new AEImage(IMG,WIDTH,HEIGHT);
 		}
