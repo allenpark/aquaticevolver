@@ -35,11 +35,10 @@ package Creature.Images
 		public static const SuggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,35, WIDTH, HEIGHT);
 		public static const SuggestedAppendageSlots:Array = new Array(SuggestedAppendageSlot1);
 		
-		public static function image():AEImage
+		override public function image():AEImage
 		{
 			return new AEImage(Img,WIDTH,HEIGHT);
 		}
-		
 		
 		override public function suggestedHeadAnchor():b2Vec2
 		{

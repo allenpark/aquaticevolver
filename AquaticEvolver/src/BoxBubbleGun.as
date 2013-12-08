@@ -9,8 +9,8 @@ package
 	
 	public class BoxBubbleGun extends B2FlxSprite
 	{
-		private var bodyWidth:int = 90/2;
-		private var bodyHeight:int = 62/2;
+		private var bodyWidth:int = 66/2;
+		private var bodyHeight:int = 85/2;
 		public var creature:AECreature;
 		public var adaptOwner:Adaptation;
 		

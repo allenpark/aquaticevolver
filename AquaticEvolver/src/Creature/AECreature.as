@@ -258,6 +258,7 @@ package Creature
 		
 		private static function headDef(x:Number, y:Number, headImage:DefaultImage):AEHeadDef
 		{
+			trace("head image:"+headImage);
 			var headSchematic:AESchematic = new AESchematic(headImage.image(), headImage.suggestedAppendageSlots());
 			//Setting up the segment's shape
 			var playerHeadShape:b2PolygonShape = new b2PolygonShape();
