@@ -14,7 +14,6 @@ package Creature.Images
 		 * to assure that they are centered on the sprite
 		 */
 		public static var PolygonVertices:Array = new Array(
-			//TODO: update these numbers with Nick's locations
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-5.0),AEWorld.b2NumFromFlxNum(35.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-24.0),AEWorld.b2NumFromFlxNum(22.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-51.0),AEWorld.b2NumFromFlxNum(12.0)),
