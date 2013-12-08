@@ -11,20 +11,20 @@ package
 	public class Mandible extends Appendage
 	{
 		// mandible joint locations
-		private var mandibleBaseJoint:b2Vec2 = new b2Vec2(-15,0);
-		private var mandibleBaseJawJoint:b2Vec2 = new b2Vec2(6,-11);
-		private var mandibleBaseOtherJawJoint:b2Vec2 = new b2Vec2(6,11);
-		private var mandibleJawJoint:b2Vec2 = new b2Vec2(-28,11);
-		private var mandibleOtherJawJoint:b2Vec2 = new b2Vec2(-28,-11);
+		private var mandibleBaseJoint:b2Vec2 = new b2Vec2(0,15);
+		private var mandibleBaseJawJoint:b2Vec2 = new b2Vec2(-17,-4);
+		private var mandibleBaseOtherJawJoint:b2Vec2 = new b2Vec2(17,-4);
+		private var mandibleJawJoint:b2Vec2 = new b2Vec2(-1,36);
+		private var mandibleOtherJawJoint:b2Vec2 = new b2Vec2(1,36);
 		
-		private var jointAngleCorrection:Number = -Math.PI/2;
+		private var jointAngleCorrection:Number = 0;
 		
 		// images
 		[Embed(source='res/mandibleBase1.png')]
 		public static var mandibleBaseImg:Class;
-		[Embed(source='res/mandibleJawPiece1.png')]
+		[Embed(source='res/gnarlyMandibleJawPieceLeft1.png')]
 		public static var mandibleJawImg:Class;
-		[Embed(source='res/mandibleOtherJawPiece1.png')]
+		[Embed(source='res/gnarlyMandibleJawPieceRight1.png')]
 		public static var mandibleOtherJawImg:Class;
 		
 		public function Mandible(jointPos:b2Vec2, jointAngle, creature:AECreature, segment:B2FlxSprite)
@@ -44,9 +44,9 @@ package
 				trace(creature);
 				base = new BoxMandibleBase(0, 0, creature, this, mandibleBaseImg, 64, 64);
 				this.add(base);
-				jaw = new BoxMandibleJaw(0, 0, creature, this, mandibleJawImg, 128, 64);
+				jaw = new BoxMandibleJaw(0, 0, creature, this, mandibleJawImg, 128, 128);
 				this.add(jaw);
-				otherJaw = new BoxMandibleJaw(0, 0, creature, this, mandibleOtherJawImg, 128, 64);
+				otherJaw = new BoxMandibleJaw(0, 0, creature, this, mandibleOtherJawImg, 128, 128);
 				this.add(otherJaw);
 				
 				// create the joint from base to creature
@@ -72,11 +72,14 @@ package
 //				FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);
 				revoluteJointDef.localAnchorB = convertToBox2D(mandibleJawJoint);
 //				FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
-				revoluteJointDef.referenceAngle = -Math.PI/4;
+				revoluteJointDef.referenceAngle = 0;
 				revoluteJointDef.enableLimit = true;
 				revoluteJointDef.lowerAngle = -Math.PI/4;
-				revoluteJointDef.upperAngle = 1.05*Math.PI/4;
+				revoluteJointDef.upperAngle = 0;
 				revoluteJointDef.collideConnected = false;
+				revoluteJointDef.enableMotor = true;
+				revoluteJointDef.motorSpeed = 2;
+				revoluteJointDef.maxMotorTorque = 1;
 				world.CreateJoint(revoluteJointDef);
 				
 				// create the joint from base to otherJaw
@@ -87,11 +90,14 @@ package
 //				FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);
 				revoluteJointDef.localAnchorB = convertToBox2D(mandibleOtherJawJoint);
 //				FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
-				revoluteJointDef.referenceAngle = +Math.PI/4;
+				revoluteJointDef.referenceAngle = 0;
 				revoluteJointDef.enableLimit = true;
-				revoluteJointDef.lowerAngle = -1.05*Math.PI/4;
+				revoluteJointDef.lowerAngle = 0;
 				revoluteJointDef.upperAngle = Math.PI/4;
 				revoluteJointDef.collideConnected = false;
+				revoluteJointDef.enableMotor = true;
+				revoluteJointDef.motorSpeed = -2;
+				revoluteJointDef.maxMotorTorque = 1;
 				world.CreateJoint(revoluteJointDef);			
 		}
 		
