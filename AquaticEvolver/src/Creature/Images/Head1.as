@@ -4,7 +4,7 @@ package Creature.Images
 	
 	import Creature.Schematics.AESchematic;
 
-	public class Head1
+	public class Head1 extends DefaultImage
 	{
 		private static const WIDTH:Number = 128;
 		private static const HEIGHT:Number = 128;
@@ -13,7 +13,7 @@ package Creature.Images
 		 * Vertices defining the verteces for the shape, have to offset them by half the width
 		 * to assure that they are centered on the sprite
 		 */
-		public static var polygonVerteces:Array = new Array(
+		protected static var PolygonVertices:Array = new Array(
 			new b2Vec2(AEWorld.b2NumFromFlxNum(56),AEWorld.b2NumFromFlxNum(-4)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(35),AEWorld.b2NumFromFlxNum(-30)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-1),AEWorld.b2NumFromFlxNum(-36)),
@@ -26,14 +26,29 @@ package Creature.Images
 		[Embed(source='../../res/Head1.png')]
 		private static const Img:Class;
 
-		public static const suggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,87,WIDTH,HEIGHT);
+		protected static const SuggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,87,WIDTH,HEIGHT);
 		
-		public static const suggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,37, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlots:Array = new Array(suggestedAppendageSlot1);
+		protected static const SuggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,37, WIDTH, HEIGHT);
+		protected static const SuggestedAppendageSlots:Array = new Array(SuggestedAppendageSlot1);
 		
-		public static function image():AEImage
+		override public function image():AEImage
 		{
 			return new AEImage(Img,WIDTH,HEIGHT);
+		}
+		
+		override public function suggestedHeadAnchor():b2Vec2
+		{
+			return SuggestedHeadAnchor;
+		}
+		
+		override public function suggestedAppendageSlots():Array
+		{
+			return SuggestedAppendageSlots;
+		}
+		
+		override public function polygonVertices():Array
+		{
+			return PolygonVertices;
 		}
 	}
 }

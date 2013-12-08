@@ -4,7 +4,7 @@ package Creature.Images
 	
 	import Creature.Schematics.AESchematic;
 	
-	public class Torso3
+	public class Torso3 extends DefaultImage
 	{
 		
 		private static const WIDTH:Number = 256;
