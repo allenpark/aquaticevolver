@@ -56,22 +56,5 @@ package
 		{
 			super.update();
 		}
-		
-		override public function attack(point:FlxPoint):void
-		{
-			super.attack(point);
-			var headPoint:FlxPoint = new FlxPoint(this.creature.getX(), this.creature.getY());
-			var spikeBody:b2Body = spike.getBody();
-			var impulse:b2Vec2 = calcB2Impulse(point, headPoint);
-			impulse.Multiply(20);
-			spikeBody.ApplyImpulse(impulse, spikeBody.GetPosition());
-		}
-		
-		override public function aim(point:FlxPoint):void
-		{
-			var headPoint:FlxPoint = new FlxPoint(this.creature.getX(), this.creature.getY());
-			var spikeBody:b2Body = spike.getBody();
-			spikeBody.ApplyImpulse(calcB2Impulse(point, headPoint), spikeBody.GetPosition());
-		}
 	}
 }

@@ -9,6 +9,7 @@ package
 				public static var SPIKESHOOTER: Number = 5;
 				public static var CLAW: Number = 6;
 				public static var POISONCANNON: Number = 7;
+				public static var SHELL: Number = 8;
 				
 				public function AdaptationType()
 				{
