@@ -14,19 +14,21 @@ package Creature.Images
 		 * Vertices defining the verteces for the shape, have to offset them by half the width
 		 * to assure that they are centered on the sprite
 		 */
+
 		protected static var PolygonVertices:Array = new Array(
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-27),AEWorld.b2NumFromFlxNum(4)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-27),AEWorld.b2NumFromFlxNum(-1)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-13),AEWorld.b2NumFromFlxNum(-11)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(2),AEWorld.b2NumFromFlxNum(-17)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(12),AEWorld.b2NumFromFlxNum(-17)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(20),AEWorld.b2NumFromFlxNum(-11)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(25),AEWorld.b2NumFromFlxNum(-3)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(25),AEWorld.b2NumFromFlxNum(4)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(19),AEWorld.b2NumFromFlxNum(12)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(11),AEWorld.b2NumFromFlxNum(16)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(0),AEWorld.b2NumFromFlxNum(16)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-12),AEWorld.b2NumFromFlxNum(12)));
+			new b2Vec2(AEWorld.b2NumFromFlxNum(4),AEWorld.b2NumFromFlxNum(27)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-1),AEWorld.b2NumFromFlxNum(27)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-11),AEWorld.b2NumFromFlxNum(13)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-17),AEWorld.b2NumFromFlxNum(-2)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-17),AEWorld.b2NumFromFlxNum(-12)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-11),AEWorld.b2NumFromFlxNum(-20)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-3),AEWorld.b2NumFromFlxNum(-25)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(4),AEWorld.b2NumFromFlxNum(-25)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(12),AEWorld.b2NumFromFlxNum(-19)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(16),AEWorld.b2NumFromFlxNum(-11)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(16),AEWorld.b2NumFromFlxNum(0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(12),AEWorld.b2NumFromFlxNum(12)));
+
 		
 		[Embed(source='../../res/Tail1.png')]
 		private static const IMG:Class;
