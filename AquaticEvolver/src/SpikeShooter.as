@@ -12,7 +12,7 @@ package
 		// bubble gun joint locations
 		private var spikeShooterJoint:b2Vec2 = new b2Vec2(0,32);
 		
-		private var spikeShooter:BoxBubbleGun;
+		private var spikeShooter:BoxSpikeShooter;
 		
 		private var jointAngleCorrection:Number = 0;
 		
@@ -36,7 +36,7 @@ package
 			
 			// create the sprites
 			trace(owner);
-			spikeShooter = new BoxBubbleGun(0, 0, owner, this, spikeShooterImg, 128, 128);
+			spikeShooter = new BoxSpikeShooter(0, 0, owner, this, spikeShooterImg, 128, 128);
 			this.add(spikeShooter);
 			
 			// create the joint from base to creature

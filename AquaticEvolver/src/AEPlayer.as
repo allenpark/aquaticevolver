@@ -27,6 +27,9 @@ package
 			super(SpriteType.PLAYER, x, y, health, headDef, torsoDef, tailDef);
 
 			attachAppendage(AdaptationType.POISONCANNON);	
+			attachAppendage(AdaptationType.SPIKESHOOTER);
+			attachAppendage(AdaptationType.BUBBLEGUN);
+			attachAppendage(AdaptationType.SHELL);
 		}
 		
 		override public function getID():Number

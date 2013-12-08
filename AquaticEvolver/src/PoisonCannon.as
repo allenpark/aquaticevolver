@@ -12,14 +12,14 @@ package
 		// bubble gun joint locations
 		private var poisonCannonJoint:b2Vec2 = new b2Vec2(0,32);
 		
-		private var poisonCannon:BoxBubbleGun;
+		private var poisonCannon:BoxPoisonCannon;
 		
 		private var jointAngleCorrection:Number = 0;
 		
 		// images
 		
 		[Embed(source='res/PoisonCannon1.png')]
-		public static var bubbleGunImg:Class;
+		public static var poisonCannonImg:Class;
 		
 		public function PoisonCannon(jointPos:b2Vec2, jointAngle:Number, owner:*, segment:B2FlxSprite)
 		{
@@ -33,7 +33,7 @@ package
 			
 			// create the sprites
 			trace(owner);
-			poisonCannon = new BoxBubbleGun(0, 0, owner, this, bubbleGunImg, 128, 128);
+			poisonCannon = new BoxPoisonCannon(0, 0, owner, this, poisonCannonImg, 128, 128);
 			this.add(poisonCannon);
 			
 			// create the joint from base to creature
