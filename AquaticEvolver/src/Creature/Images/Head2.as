@@ -13,7 +13,7 @@ package Creature.Images
 		 * Vertices defining the verteces for the shape, have to offset them by half the width
 		 * to assure that they are centered on the sprite
 		 */
-		public static var PolygonVertices:Array = new Array(
+		protected static var PolygonVertices:Array = new Array(
 			//TODO: update these numbers with Nick's locations
 			new b2Vec2(AEWorld.b2NumFromFlxNum(56),AEWorld.b2NumFromFlxNum(-4)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(35),AEWorld.b2NumFromFlxNum(-30)),
@@ -27,10 +27,10 @@ package Creature.Images
 		[Embed(source='../../res/Head2.png')]
 		private static const Img:Class;
 		
-		public static const SuggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,86,WIDTH,HEIGHT);
+		protected static const SuggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,86,WIDTH,HEIGHT);
 		
-		public static const SuggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,35, WIDTH, HEIGHT);
-		public static const SuggestedAppendageSlots:Array = new Array(SuggestedAppendageSlot1);
+		protected static const SuggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,35, WIDTH, HEIGHT);
+		protected static const SuggestedAppendageSlots:Array = new Array(SuggestedAppendageSlot1);
 		
 		override public function image():AEImage
 		{
