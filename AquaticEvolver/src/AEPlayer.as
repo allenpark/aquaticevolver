@@ -48,12 +48,13 @@ package
 			return _head.headSegment;
 		}
 		
-		public function update():void
-		{		
-			var movementBody:b2Body = _head.headSegment.getBody();
+		override public function update():void
+		{
 			this.x = FlxG.camera.scroll.x + (FlxG.width  / 2.0);
 			this.y = FlxG.camera.scroll.y + (FlxG.height / 2.0);
+			super.update();
 			if (!FlxG.paused) {
+				var movementBody:b2Body = _head.headSegment.getBody();
 				var xDir:Number = 0;
 				var yDir:Number = 0;
 				
