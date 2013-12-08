@@ -120,6 +120,14 @@ package
 			world.CreateJoint(revoluteJointDef);
 		}
 		
+		override public function color(color:Number):void {
+			super.color(color);
+			this.tentacleHead.color = color;
+			for each (var mid:BoxTentacleMid in this.midSegments) {
+				mid.color = color;
+			}
+		}
+		
 		override public function attack(point:FlxPoint):void
 		{
 			super.attack(point);

@@ -8,14 +8,25 @@ package
 	
 	public class AEEnemy extends AECreature
 	{
-		public function AEEnemy(type:Number, x:Number, y:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
+		public static var enemies:Array;
+		public function AEEnemy(type:Number, x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
 		{
-			super(type, x, y, headDef, torsoDef, tailDef);
+			super(type, x, y, health, headDef, torsoDef, tailDef);
 		}
 		
 		public static function generateDefaultEnemy(x:Number, y:Number):AEEnemy
 		{
-			return new AEEnemy(SpriteType.ENEMY, x, y, AECreature.head1Def(x,y), AECreature.torso1Def(x,y), AECreature.tail1Def(x,y));
+			var newEnemy:AEEnemy = new AEEnemy(SpriteType.ENEMY, x, y, 10, AECreature.head1Def(x,y), AECreature.torso1Def(x,y), AECreature.tail1Def(x,y));
+			AEEnemy.enemies.push(newEnemy);
+			return newEnemy;
+		}
+		
+		override public function update():void{
+			
+			this.x = this.getX();
+			this.y = this.getY();
+			super.update();
+
 		}
 	}
 }

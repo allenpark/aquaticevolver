@@ -17,7 +17,7 @@ package
 		private var defaultMovementScheme:Boolean = false; 
 		public var aboveTop: Boolean = false; 
 		
-		public function AEPlayer(x:Number, y:Number)
+		public function AEPlayer(x:Number, y:Number, health:Number)
 		{	
 
 			//Player has special ID value of 1
@@ -25,9 +25,9 @@ package
 			var headDef:AEHeadDef = AECreature.head1Def(x,y);
 			var torsoDef:AETorsoDef = AECreature.torso1Def(x,y);
 			var tailDef:AETailDef = AECreature.tail1Def(x,y);
-			super(SpriteType.PLAYER, x, y, headDef, torsoDef, tailDef);
-			attachAppendage(AppendageType.MANDIBLE);
-			attachAppendage(AppendageType.SPIKE);
+			super(SpriteType.PLAYER, x, y, health, headDef, torsoDef, tailDef);
+			attachAppendage(AppendageType.TENTACLE);
+			attachAppendage(AppendageType.SPIKESHOOTER);
 			attachAppendage(AppendageType.SPIKE);
 			attachAppendage(AppendageType.SPIKE);
 			attachAppendage(AppendageType.TENTACLE);
@@ -48,12 +48,13 @@ package
 			return _head.headSegment;
 		}
 		
-		public function update():void
-		{		
-			var movementBody:b2Body = _head.headSegment.getBody();
+		override public function update():void
+		{
 			this.x = FlxG.camera.scroll.x + (FlxG.width  / 2.0);
 			this.y = FlxG.camera.scroll.y + (FlxG.height / 2.0);
+			super.update();
 			if (!FlxG.paused) {
+				var movementBody:b2Body = _head.headSegment.getBody();
 				var xDir:Number = 0;
 				var yDir:Number = 0;
 				

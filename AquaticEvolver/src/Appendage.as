@@ -29,6 +29,10 @@ package {
 			super.update();
 		}
 		
+		override public function color(color:Number):void {
+			segment.color = color;
+		}
+		
 		/** takes in a AppendageType int, b2Vec2 in local box2D coordinates that specifies the position of the joint,
 		 * angle in radians specifying the orientation of the joint, and a Creature specifying the owner of the appendage
 		*/
@@ -53,6 +57,10 @@ package {
 				case AppendageType.BUBBLEGUN:
 //					FlxG.log("Creating a new bubble gun");
 					appendage = new BubbleGun(jointPos, jointAngle, creature, segment);
+					break;
+				case AppendageType.SPIKESHOOTER:
+					//					FlxG.log("Creating a new bubble gun");
+					appendage = new SpikeShooter(jointPos, jointAngle, creature, segment);
 					break;
 				default:
 //					FlxG.log("Creating a new default spike");
