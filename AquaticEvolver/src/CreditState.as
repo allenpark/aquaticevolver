@@ -5,8 +5,12 @@ package
 	import org.flixel.FlxState;
 	import org.flixel.FlxText;
 	
-	public class CreditState extends FlxState
+	public class CreditState extends AEWorld
 	{
+		
+		[Embed (source = "res/mainmenu.png")] public var mainMenuImg:Class;
+		[Embed (source = "res/Cursor.png")] public var cursorImg:Class;
+
 		//Variable to controll the speed at which text will move on the screen 
 		public var scroll_speed:int = 20; 
 		//A list to keep track of all the things we want on the credits, the last item in the list will go first 
@@ -15,8 +19,13 @@ package
 		public var counter:Number = 0 ; 
 		override public function create():void
 		{
-			var menuButton:FlxButton = new FlxButton(FlxG.width -90, 2*FlxG.height/5, "Menu", menuButtonCallback);
-			add (menuButton);
+			super.create();
+			player.kill(); 
+
+			var menuButton:FlxButton = new FlxButton(FlxG.width/2 - 65, 2*FlxG.height/7.0, "", menuButtonCallback);
+			menuButton.scrollFactor.x = menuButton.scrollFactor.y = 0 ;
+			menuButton.loadGraphic(mainMenuImg);
+			add(menuButton);			
 		}
 		override public function update():void
 		{
@@ -27,7 +36,7 @@ package
 				CreditScroll(words); 
 			}
 			counter += FlxG.elapsed;
-			if (counter >= 2)
+			if (counter >= 1)
 			{
 				// After 3 seconds has passed, the timer will reset.
 				counter = 0;
