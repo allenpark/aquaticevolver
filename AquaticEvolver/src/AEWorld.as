@@ -9,6 +9,7 @@ package
 	import org.flixel.FlxG;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
+	import Creature.AECreature;
 	
 	public class AEWorld extends FlxState
 	{	
@@ -37,7 +38,7 @@ package
 		/**
 		 * Boolean to spawn enemies
 		 */
-		private var SPAWNENEMIES:Boolean = false;
+		private var SPAWNENEMIES:Boolean = true;
 		/**
 		 * Drawing bubbles
 		 */
@@ -297,7 +298,7 @@ package
 		
 		private function initializePlayer():void
 		{
-			player = new AEPlayer(ScreenWidth/2.0,ScreenHeight/2.0); 
+			player = new AEPlayer(ScreenWidth/2.0,ScreenHeight/2.0, 10); 
 
 			
 //			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, player);
@@ -374,13 +375,11 @@ package
 		{
 			while (KILLLIST.length>0)
 			{
-				/*
 				var attackDescription:Array = KILLLIST.pop();
 				var attacker:AECreature = attackDescription[0] as AECreature;
 				var enemy:AECreature = attackDescription[1] as AECreature;
 				var adaptation:Adaptation = attackDescription[2] as Adaptation;
 				var killedEnemy:Boolean = attacker.handleAttackOn(adaptation, enemy);
-				*/
 				break;
 			}
 		}

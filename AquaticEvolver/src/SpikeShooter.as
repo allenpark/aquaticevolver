@@ -19,7 +19,7 @@ package
 		// images
 		
 		//for now this is the bubble shooter image, the spike shooter may need its own image at some point
-		[Embed(source='res/bubbleSnapper1.png')]
+		[Embed(source='res/BubbleCannon1.png')]
 		public static var spikeShooterImg:Class;
 		
 		public function SpikeShooter(jointPos:b2Vec2, jointAngle:Number, owner:*, segment:B2FlxSprite)

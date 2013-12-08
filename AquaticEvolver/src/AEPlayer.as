@@ -17,7 +17,7 @@ package
 		private var defaultMovementScheme:Boolean = false; 
 		public var aboveTop: Boolean = false; 
 		
-		public function AEPlayer(x:Number, y:Number)
+		public function AEPlayer(x:Number, y:Number, health:Number)
 		{	
 
 			//Player has special ID value of 1
@@ -25,7 +25,7 @@ package
 			var headDef:AEHeadDef = AECreature.head1Def(x,y);
 			var torsoDef:AETorsoDef = AECreature.torso1Def(x,y);
 			var tailDef:AETailDef = AECreature.tail1Def(x,y);
-			super(SpriteType.PLAYER, x, y, headDef, torsoDef, tailDef);
+			super(SpriteType.PLAYER, x, y, health, headDef, torsoDef, tailDef);
 			attachAppendage(AppendageType.TENTACLE);
 			attachAppendage(AppendageType.SPIKESHOOTER);
 			attachAppendage(AppendageType.SPIKE);

@@ -38,10 +38,12 @@ package Creature
 		
 		public var x:Number;
 		public var y:Number;
+		protected var currentHealth:int;
+		protected var maxHealth:int;
 		protected var speed:Number = 10;
 		
 		
-		public function AECreature(type:Number, x:Number, y:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
+		public function AECreature(type:Number, x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
 		{
 			//Set creature id, then increment current id value
 			trace("constructing creature with id:" + getID());
@@ -60,6 +62,9 @@ package Creature
 			ownBodies(type);
 			//TODO: Should this be done outside the constructor?
 			addToWorld();
+			
+			currentHealth = health;
+			maxHealth = health;
 		}
 		
 		public function getID():Number
@@ -86,6 +91,35 @@ package Creature
 				_adaptations.push(appendage);
 				return true;
 			}
+		}
+		
+		public function handleAttackOn(adaptation:Adaptation, enemy:AECreature):Boolean {
+			var enemyAlive:Boolean = false;
+			if (adaptation == null) {
+				enemyAlive = enemy.getAttacked(0);
+			} else {
+				enemyAlive = enemy.getAttacked(adaptation.attackDamage);	
+			}
+			
+			/*if (!enemyAlive) {
+				//this.inheritFrom(enemy);
+				if (adaptation != null)	{
+					adaptation.attackDamage += 2;					
+				}
+				return true;
+			}
+			return false;*/
+			return true;
+		}
+		
+		public function getAttacked(damage:int):Boolean {
+			this.currentHealth -= damage;
+			if (this.currentHealth <= 0) {
+				this.currentHealth = 0;
+				this.kill();
+				return true;
+			}
+			return false;
 		}
 		
 		public function kill():void
