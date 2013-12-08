@@ -26,20 +26,21 @@ package
 		
 		private var _finishCallback:Function;
 		
-		[Embed(source='res/spike.png')]
-		public var spike:Class;
 		
-		[Embed(source='res/tentacle.png')]
-		public var tentacle:Class;
+		
+		[Embed (source = "res/gamepaused.png")] public var gamePauseText:Class;
+		[Embed (source = "res/resume.png")] public var resume:Class;
+		[Embed (source = "res/Cursor.png")] public var cursorImg:Class;
 		
 		
 		public function pausescreen()
 		{
 			
 			
-			_bg = new FlxSprite(30,30).makeGraphic(600, 600, 0xff808080);
+			_bg = new FlxSprite(30,30).makeGraphic(1500, 1500, 0xff3366ff);
 			_bg.scrollFactor.x = _bg.scrollFactor.y = 0;
 			add(_bg);
+			
 			
 			
 			_field = new FlxText(-40,40, 410, "Paused");
@@ -47,6 +48,15 @@ package
 			_field.scrollFactor.x = _field.scrollFactor.y = 0;
 			add(_field);
 			
+			var gameText:FlxSprite = new FlxSprite(FlxG.width/2 - 250, 0, gamePauseText);
+			gameText.scrollFactor.x = gameText.scrollFactor.y = 0 ; 
+			add(gameText);
+			
+			var resumeButton:FlxButton = new FlxButton(FlxG.width/2 - 65, 2*FlxG.height/7.0, "", resumeCallback);
+			resumeButton.scrollFactor.x = resumeButton.scrollFactor.y = 0 ;
+			resumeButton.loadGraphic(resume);
+			add(resumeButton);
+			/*
 			_fields = new FlxText(-100,_bg.y+50, 410, "Apendage Obtained");
 			_fields.setFormat(null, 12, 0xff00FFFF, "center");
 			_fields.scrollFactor.x = _fields.scrollFactor.y = 0;
@@ -61,10 +71,22 @@ package
 			pic2.loadGraphic(tentacle, true, true, 14, 15);
 			pic2.scrollFactor.x = _bg.scrollFactor.y = 0;
 			add(pic2);
-			
+			*/
 			
 		}
 		
+		public function resumeCallback():void{
+				FlxG.music.resume();
+				this.exists = false;
+				this.showing = false;
+				this._displaying = false;
+				FlxG.paused = false;
+				trace(" in paused");
+				this.kill();
+				
+				//if (_finishCallback != null) _finishCallback();
+				
+		} 
 		/**
 		 * Call this from your code to display some dialog
 		 */
