@@ -93,7 +93,6 @@ package Creature
 				var redColor:Number = 0xffff0000;
 				var whiteColor:Number = 0xffffffff;
 				var ratio:Number = int(healthRatio * 16) / 16.0;
-				//AEWorld.debugText.text += " " + ratio;
 				this.color(redColor * (1 - ratio) + whiteColor * ratio);
 			}
 			this.healthDisplay.text = this.currentHealth + "/" + this.maxHealth;
