@@ -155,7 +155,7 @@ package Creature
 				return true;
 			}
 			return false;*/
-			return true;
+			return enemyAlive;
 		}
 		
 		public function getAttacked(damage:int):Boolean {
@@ -173,6 +173,7 @@ package Creature
 			_head.kill();
 			_torso.kill();
 			_tail.kill();
+			trace("KILLING ENEMY")
 			
 			
 			//Get random adaptation
@@ -183,7 +184,6 @@ package Creature
 			
 			//Add to world
 			AEWorld.world.add(evolutionDrop);
-			trace("EVO DROP");
 			
 			
 			//Get first appendage

@@ -439,7 +439,10 @@ package
 				var enemy:AECreature = attackDescription[1] as AECreature;
 				var adaptation:Adaptation = attackDescription[2] as Adaptation;
 				var killedEnemy:Boolean = attacker.handleAttackOn(adaptation, enemy);
-				break;
+				if (killedEnemy && enemy.creatureType == SpriteType.PLAYER)
+				{
+					FlxG.switchState(new GameOverState);	
+				}
 			}
 		}
 		
