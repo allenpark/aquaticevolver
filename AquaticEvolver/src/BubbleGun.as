@@ -17,6 +17,7 @@ package
 		private var jointAngleCorrection:Number = Math.PI/2;
 		
 		// images
+
 		[Embed(source='res/BubbleCannon1.png')]
 		public static var bubbleGunImg:Class;
 		

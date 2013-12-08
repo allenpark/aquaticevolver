@@ -28,15 +28,15 @@ package
 			super(SpriteType.PLAYER, x, y, health, headDef, torsoDef, tailDef);
 
 			attachAppendage(AppendageType.TENTACLE);
-//			attachAppendage(AppendageType.SPIKESHOOTER);
-//			attachAppendage(AppendageType.SPIKE);
-//			attachAppendage(AppendageType.BUBBLEGUN);
-			attachAppendage(AppendageType.MANDIBLE);	
-//			attachAppendage(AppendageType.SPIKE);
-//			attachAppendage(AppendageType.TENTACLE);
-//			attachAppendage(AppendageType.SPIKE);
-//			attachAppendage(AppendageType.TENTACLE);
-//			attachAppendage(AppendageType.SPIKE);		
+			attachAppendage(AppendageType.SPIKESHOOTER);
+			attachAppendage(AppendageType.SPIKE);
+			//attachAppendage(AppendageType.SPIKE);
+			attachAppendage(AppendageType.TENTACLE);
+			//attachAppendage(AppendageType.SPIKE);
+			attachAppendage(AppendageType.TENTACLE);
+			attachAppendage(AppendageType.SPIKE);
+			//attachAppendage(AppendageType.MANDIBLE);
+			//attachAppendage(AppendageType.BUBBLEGUN);			
 		}
 		
 		override public function getID():Number
