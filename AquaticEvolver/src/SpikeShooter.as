@@ -10,11 +10,11 @@ package
 	public class SpikeShooter extends Appendage
 	{
 		// bubble gun joint locations
-		private var spikeShooterJoint:b2Vec2 = new b2Vec2(31,11);
+		private var spikeShooterJoint:b2Vec2 = new b2Vec2(0,32);
 		
 		private var spikeShooter:BoxBubbleGun;
 		
-		private var jointAngleCorrection:Number = Math.PI/2;
+		private var jointAngleCorrection:Number = 0;
 		
 		// images
 		
@@ -27,7 +27,7 @@ package
 		public function SpikeShooter(jointPos:b2Vec2, jointAngle:Number, owner:*, segment:B2FlxSprite)
 		{
 			jointAngle = jointAngle + jointAngleCorrection;
-			super(AppendageType.SPIKESHOOTER, 30, true, 2, jointPos, jointAngle, owner, segment);
+			super(AdaptationType.SPIKESHOOTER, 30, true, 2, jointPos, jointAngle, owner, segment);
 			
 			var world:b2World = AEWorld.AEB2World;
 			
@@ -49,8 +49,8 @@ package
 			//			FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
 			revoluteJointDef.referenceAngle = jointAngle;
 			revoluteJointDef.enableLimit = true;
-			revoluteJointDef.lowerAngle = -3*Math.PI/4;
-			revoluteJointDef.upperAngle = 3*Math.PI/4;
+			revoluteJointDef.lowerAngle = -Math.PI/4;
+			revoluteJointDef.upperAngle = Math.PI/4;
 			revoluteJointDef.collideConnected = false;
 			world.CreateJoint(revoluteJointDef);			
 		}

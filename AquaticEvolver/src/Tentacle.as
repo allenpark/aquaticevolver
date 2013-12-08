@@ -14,7 +14,7 @@ package
 	
 	public class Tentacle extends Appendage
 	{
-		private var tentacleMidSegments:int = 10;
+		private var tentacleMidSegments:int = 4;
 		private var tentacleHead:BoxTentacleHead;
 		
 		// tentacle joint locations
@@ -35,7 +35,7 @@ package
 		public function Tentacle(jointPos:b2Vec2, jointAngle:Number, creature:AECreature, segment:B2FlxSprite)
 		{
 			jointAngle = jointAngle + jointAngleCorrection;
-			super(AppendageType.TENTACLE, 50, true, 2, jointPos, jointAngle, creature, segment);
+			super(AdaptationType.TENTACLE, 50, true, 2, jointPos, jointAngle, creature, segment);
 			
 			var world:b2World = AEWorld.AEB2World;
 			

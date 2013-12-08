@@ -19,7 +19,8 @@ package
 		
 		private var bodyWidth:int = 64;
 		private var bodyHeight:int = 64;
-		public var creature:AECreature;
+		public var owner:EvolutionDrop;
+		public var creatureType:Number;
 		
 		public var adaptationType:Number;
 		public var pos:b2Vec2;
@@ -43,6 +44,8 @@ package
 			this.adaptationType = adaptationType;
 			this.bubbleBoxShape = new b2PolygonShape();
 			this.bubbleBoxShape.SetAsArray(polygonVerticies);
+			this.creatureType = SpriteType.EVOLUTIONDROP;
+			this.owner = this;
 			
 			super(x, y, 0, ImgAttackBubble, width, height, this.bubbleBoxShape);
 		}
@@ -56,7 +59,7 @@ package
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
 				.withShape(shape)
 				.withType(b2Body.b2_staticBody)
-				.withData(new CollisionData(this.creature, SpriteType.EVOLUTIONDROP));
+				.withData(new CollisionData(this.owner, SpriteType.EVOLUTIONDROP));
 			return b2bb;
 		}
 	}

@@ -107,6 +107,10 @@ package
 		 */
 		public static var KILLLIST:Array = new Array();
 		
+		public static var REMOVELIST:Array = new Array();
+		
+		public static var EVOLVELIST:Array = new Array();
+		
 		/**
 		 * Number keeping track of the last position the background's color
 		 * was changed in order to figure out whether to change the background
@@ -216,8 +220,11 @@ package
 			this.defaultHealth += 2
 			//Can't add enemies above the top bound
 			if(newY > topLocation){
-				var newEnemy:AEEnemy = AEEnemy.generateDefaultEnemy(newX, newY);
-				this.add(newEnemy.healthDisplay);
+				var newEnemy:AEEnemy = AEEnemy.generateRandomEnemy(newX, newY);
+				if (newEnemy)
+				{
+					this.add(newEnemy.healthDisplay);
+				}
 			}
 			/*
 			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, newEnemy, newEnemy);
@@ -227,6 +234,26 @@ package
 			newEnemy.addAdaptation(start_adaptation);
 			this.add(start_adaptation);
 			*/
+
+		}
+		
+		/**
+		 * @param x X coordinate in flixel units
+		 * @param y Y coordinate in flixel units
+		 */
+		public function outOfBounds(x:Number, y:Number):Boolean
+		{
+			const BOUNDSBUFFER:int = 300;
+
+			var lowerYbound:Number = ((-BOUNDSBUFFER - FlxG.height/2) + AEWorld.player.getY());
+			var upperYbound:Number = ((BOUNDSBUFFER + FlxG.height/2) + AEWorld.player.getY());
+			var upperXbound:Number = ((BOUNDSBUFFER + FlxG.width/2) + AEWorld.player.getX());
+			var lowerXbound:Number = ((-BOUNDSBUFFER - FlxG.width/2) + AEWorld.player.getX());
+			
+			var outsideYbounds:Boolean = y > upperYbound || y < lowerYbound;
+			var outsideXbounds:Boolean = x > upperXbound || x < lowerXbound;
+
+			return outsideXbounds || outsideYbounds;
 
 		}
 		
@@ -416,6 +443,23 @@ package
 			}
 		}
 		
+		private function processRemoveList():void
+		{
+			while (REMOVELIST.length > 0)
+			{
+				REMOVELIST.pop().kill();
+			}
+		}
+		private function processEvolveList():void
+		{
+			while (EVOLVELIST.length > 0)
+			{
+				var evolveDescription:Array = EVOLVELIST.pop();
+				var evolver:AECreature = evolveDescription[0] as AECreature;
+				var appendage = evolveDescription[1] as Number;
+				evolver.attachAppendage(appendage);
+			}
+		}
 		override public function update():void 
 		{
 			var baseLightPos:Number = int(FlxG.camera.scroll.x / 1024) * 1024;
@@ -438,7 +482,9 @@ package
 					toggleB2DebugDrawing();
 				}
 				AEB2World.Step(1.0/60.0, 10, 10);
+				processEvolveList();
 				processKillList();
+				processRemoveList();
 				enforceTop();
 				
 				if (SPAWNENEMIES)
