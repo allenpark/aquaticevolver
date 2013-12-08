@@ -120,7 +120,7 @@ package
 		 * of the screen.
 		 * -JAN 11/25/13
 		 */
-		private const PIXELSPERDEPTH:int = 30; //CHANGE THIS TO MAKE BACKGROUND CHANGE FASTER OR SLOWER
+		private const PIXELSPERDEPTH:int = 100; //CHANGE THIS TO MAKE BACKGROUND CHANGE FASTER OR SLOWER
 		/**
 		 * Number keeping track of how much to change the different components
 		 * RGB of the background
