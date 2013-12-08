@@ -220,8 +220,11 @@ package
 			this.defaultHealth += 2
 			//Can't add enemies above the top bound
 			if(newY > topLocation){
-				var newEnemy:AEEnemy = AEEnemy.generateDefaultEnemy(newX, newY);
-				this.add(newEnemy.healthDisplay);
+				var newEnemy:AEEnemy = AEEnemy.generateEnemy(newX, newY);
+				if (newEnemy)
+				{
+					this.add(newEnemy.healthDisplay);
+				}
 			}
 			/*
 			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, newEnemy, newEnemy);
@@ -231,6 +234,26 @@ package
 			newEnemy.addAdaptation(start_adaptation);
 			this.add(start_adaptation);
 			*/
+
+		}
+		
+		/**
+		 * @param x X coordinate in flixel units
+		 * @param y Y coordinate in flixel units
+		 */
+		public function outOfBounds(x:Number, y:Number):Boolean
+		{
+			const BOUNDSBUFFER:int = 300;
+
+			var lowerYbound:Number = ((-BOUNDSBUFFER - FlxG.height/2) + AEWorld.player.getY());
+			var upperYbound:Number = ((BOUNDSBUFFER + FlxG.height/2) + AEWorld.player.getY());
+			var upperXbound:Number = ((BOUNDSBUFFER + FlxG.width/2) + AEWorld.player.getX());
+			var lowerXbound:Number = ((-BOUNDSBUFFER - FlxG.width/2) + AEWorld.player.getX());
+			
+			var outsideYbounds:Boolean = y > upperYbound || y < lowerYbound;
+			var outsideXbounds:Boolean = x > upperXbound || x < lowerXbound;
+
+			return outsideXbounds || outsideYbounds;
 
 		}
 		

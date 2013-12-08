@@ -1,17 +1,25 @@
 Creature Sounds
 	Swimming
-	More swimming
-	Changing direction while swimming
+		// Ten different variations done
+		// Mix and match multiple to make more
 	Ooph! Hurt sound
 		For different voices:
 			VoiceCute
 				// five variations done
 			VoiceClacker
 				// five variations done
+			VoiceMellow
+				// five variations done
+			VoiceMeowk
+				// five variations done
+			VoiceWhobble
+				// five variations done
+			VoiceNyem
+				// five variations done
 	
 Appendage Sounds
 	Tentacle underwater swoosh
-		// nine variations done
+		// nine variations done ("Swipe")
 	BubbleCannon shoot
 		// three variations done
 	Bubble pop!

@@ -14,7 +14,7 @@ package Creature.Images
 		 * Vertices defining the verteces for the shape, have to offset them by half the width
 		 * to assure that they are centered on the sprite
 		 */
-		public static var polygonVerteces:Array = new Array(
+		protected static var PolygonVertices:Array = new Array(
 			//TODO: update these numbers with Nick's locations
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-46.0),AEWorld.b2NumFromFlxNum(0.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-46.0),AEWorld.b2NumFromFlxNum(-6.0)),
@@ -42,29 +42,39 @@ package Creature.Images
 		[Embed(source='../../res/Torso5.png')]
 		private static const IMG:Class;
 		
-		//TODO: update these numbers with Nick's locations
-		public static const suggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(96,64,WIDTH,HEIGHT);
-		public static const suggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(28,64,WIDTH,HEIGHT);
+		protected static const SuggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(32,35,WIDTH,HEIGHT);
+		protected static const SuggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(32,90,WIDTH,HEIGHT);
 		
-		//TODO: update these numbers with Nick's locations
-		public static const suggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(93,87, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot2:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(65,98, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot3:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(34,87, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot4:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(93,23, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot5:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(65,34, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot6:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(34,23, WIDTH, HEIGHT);
+		protected static const SuggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(22,64, WIDTH, HEIGHT);
+		protected static const SuggestedAppendageSlot2:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(42,64, WIDTH, HEIGHT);
 		
-		public static const suggestedAppendageSlots:Array = new Array(	
-			suggestedAppendageSlot1, 
-			suggestedAppendageSlot2, 
-			suggestedAppendageSlot3, 
-			suggestedAppendageSlot4, 
-			suggestedAppendageSlot5, 
-			suggestedAppendageSlot6);
+		protected static const SuggestedAppendageSlots:Array = new Array(	
+			SuggestedAppendageSlot1, 
+			SuggestedAppendageSlot2);
 		
-		public static function image():AEImage
+		override public function image():AEImage
 		{
 			return new AEImage(IMG,WIDTH,HEIGHT);
+		}
+		
+		override public function suggestedHeadAnchor():b2Vec2
+		{
+			return SuggestedHeadAnchor;
+		}
+		
+		override public function suggestedTailAnchor():b2Vec2
+		{
+			return SuggestedTailAnchor;
+		}
+		
+		override public function suggestedAppendageSlots():Array
+		{
+			return SuggestedAppendageSlots;
+		}
+		
+		override public function polygonVertices():Array
+		{
+			return PolygonVertices;
 		}
 	}
 }
