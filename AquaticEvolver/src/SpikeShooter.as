@@ -19,7 +19,9 @@ package
 		// images
 		
 		//for now this is the bubble shooter image, the spike shooter may need its own image at some point
-		[Embed(source='res/bubbleCannon1.png')]
+
+		[Embed(source='res/BubbleCannon1.png')]
+
 		public static var spikeShooterImg:Class;
 		
 		public function SpikeShooter(jointPos:b2Vec2, jointAngle:Number, owner:*, segment:B2FlxSprite)
@@ -51,6 +53,11 @@ package
 			revoluteJointDef.upperAngle = 3*Math.PI/4;
 			revoluteJointDef.collideConnected = false;
 			world.CreateJoint(revoluteJointDef);			
+		}
+		
+		override public function color(color:Number):void {
+			super.color(color);
+			this.spikeShooter.color = color;
 		}
 		
 		override public function attack(point:FlxPoint):void

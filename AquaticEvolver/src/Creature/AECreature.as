@@ -14,6 +14,9 @@ package Creature
 	import Def.AESegmentDef;
 	import Def.AETailDef;
 	import Def.AETorsoDef;
+	
+	import org.flixel.FlxG;
+	import org.flixel.FlxText;
 			
 	public class AECreature
 	{
@@ -38,10 +41,13 @@ package Creature
 		
 		public var x:Number;
 		public var y:Number;
+		protected var currentHealth:int;
+		protected var maxHealth:int;
+		public var healthDisplay:FlxText;
 		protected var speed:Number = 10;
 		
 		
-		public function AECreature(type:Number, x:Number, y:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
+		public function AECreature(type:Number, x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
 		{
 			//Set creature id, then increment current id value
 			trace("constructing creature with id:" + getID());
@@ -60,11 +66,46 @@ package Creature
 			ownBodies(type);
 			//TODO: Should this be done outside the constructor?
 			addToWorld();
+			
+			this.x = x;
+			this.y = y;
+			
+			currentHealth = health;
+			maxHealth = health;
+			this.healthDisplay = new FlxText(0, 0, 50);
+			this.healthDisplay.size = 10;
 		}
 		
 		public function getID():Number
 		{
 			return undefined;
+		}
+		
+		// This method is called often to update the state of the creature.
+		public function update():void {
+			this.healthDisplay.x = this.x - 5;
+			this.healthDisplay.y = this.y + 10;
+			// added code for when the enemey current ratio of health 
+			// is lower then the health threshold, it turns red
+			var threshold:Number = 1.0;
+			var healthRatio:Number = this.currentHealth * 1.0 / this.maxHealth;
+			if (healthRatio <= threshold ) {
+				var redColor:Number = 0xffff0000;
+				var whiteColor:Number = 0xffffffff;
+				var ratio:Number = int(healthRatio * 16) / 16.0;
+				//AEWorld.debugText.text += " " + ratio;
+				this.color(redColor * (1 - ratio) + whiteColor * ratio);
+			}
+			this.healthDisplay.text = this.currentHealth + "/" + this.maxHealth;
+			//			this.adaptationGroup.setAll("x", this.x + 10);
+			
+			//			this.adaptationGroup.setAll("y", this.y);			
+			//for (var i:int = 0; i < this.adaptationGroup.length; i++) {
+			//this.adaptationGroup.members[i].update();
+			//}
+			/*for (var i:int = 0; i < this.adaptations.length; i++) {
+				this.adaptations[i].update();
+			}*/
 		}
 		
 		public function attachAppendage(appendageType:Number):Boolean
@@ -88,13 +129,43 @@ package Creature
 			}
 		}
 		
+		public function handleAttackOn(adaptation:Adaptation, enemy:AECreature):Boolean {
+			var enemyAlive:Boolean = false;
+			if (adaptation == null) {
+				enemyAlive = enemy.getAttacked(0);
+			} else {
+				enemyAlive = enemy.getAttacked(adaptation.attackDamage);	
+			}
+			
+			/*if (!enemyAlive) {
+				//this.inheritFrom(enemy);
+				if (adaptation != null)	{
+					adaptation.attackDamage += 2;					
+				}
+				return true;
+			}
+			return false;*/
+			return true;
+		}
+		
+		public function getAttacked(damage:int):Boolean {
+			this.currentHealth -= damage;
+			if (this.currentHealth <= 0) {
+				this.currentHealth = 0;
+				this.kill();
+				return true;
+			}
+			return false;
+		}
+		
 		public function kill():void
 		{
 			_head.kill();
 			_torso.kill();
 			_tail.kill();
 			
-			//Get random appendage
+			
+			//Get random adaptation
 			var randomAdaptation = this._adaptations[int(Math.random()*(this._adaptations.length - 1))];
 			
 			//Add evolution drop
@@ -104,12 +175,15 @@ package Creature
 			AEWorld.world.add(evolutionDrop);
 			
 			
+			//Get first appendage
+			//var appendage = Appendage.createAppendageWithType(AppendageType.SPIKE		
+			
+			
+			healthDisplay.kill();
 			for each(var adaptation:Adaptation in _adaptations){
 				if (adaptation != null)
 				{
 					adaptation.kill();
-				}
-				else{
 				}
 			}
 		}
@@ -122,6 +196,15 @@ package Creature
 		public function getY():Number
 		{
 			return AEWorld.flxNumFromB2Num(_head.headSegment.getBody().GetPosition().y);
+		}
+		
+		private function color(color:Number):void {
+			_head.color(color);
+			_torso.color(color);
+			_tail.color(color);
+			for each (var adaptation:Adaptation in _adaptations) {
+				adaptation.color(color);
+			}
 		}
 		
 		private function ownBodies(type:Number):void

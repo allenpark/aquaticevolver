@@ -55,5 +55,7 @@ package {
 		override public function update():void {
 			super.update();
 		}
+		
+		public function color(color:Number):void {}
 	}
 }

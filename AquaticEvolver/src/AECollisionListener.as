@@ -20,9 +20,14 @@ package
 		private function handleEvolution(creatureData:CollisionData, evolutionData:CollisionData):void
 		{
 			//Add adaptation to player
-			
+			creatureData.owner.attachAppendage(AppendageType.TENTACLE);
+			trace("Evolution Collision");
+			trace(creatureData.owner);
 			
 			//Kill evolution drop
+			
+			
+			
 		}
 		
 		/**
@@ -37,6 +42,10 @@ package
 			var data2:CollisionData = (fixture2.GetBody().GetUserData() as CollisionData);
 			trace(data1.owner + " " + data1.colliderType + " " + data1.adaptation);
 			trace(data2.owner + " " + data2.colliderType + " " + data2.adaptation);
+			
+			if (data1.owner.creatureType == data2.owner.creatureType) {
+				return;
+			}
 			
 			//if (data1.owner.creatureType == SpriteType.PLAYER && data2.owner.creatureType == SpriteType.ENEMY)
 			if (data1.owner.creatureType != data1.colliderType && data2.owner.creatureType == data2.colliderType) {

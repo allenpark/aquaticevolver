@@ -34,5 +34,10 @@ package Creature
 		{
 			tailSegment.kill();
 		}
+		
+		public function color(color:Number):void
+		{
+			tailSegment.color = color;
+		}
 	}
 }

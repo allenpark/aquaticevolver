@@ -17,6 +17,10 @@ package
 		private var mandibleJawJoint:b2Vec2 = new b2Vec2(-28,11);
 		private var mandibleOtherJawJoint:b2Vec2 = new b2Vec2(-28,-11);
 		
+		private var base:BoxMandibleBase;
+		private var jaw:BoxMandibleJaw;
+		private var otherJaw:BoxMandibleJaw;
+		
 		private var jointAngleCorrection:Number = -Math.PI/2;
 		
 		// images
@@ -34,9 +38,6 @@ package
 			
 			var world:b2World = AEWorld.AEB2World;
 			
-			var base:BoxMandibleBase;
-			var jaw:BoxMandibleJaw;
-			var otherJaw:BoxMandibleJaw;
 			
 			var revoluteJointDef:b2RevoluteJointDef;
 				
@@ -93,6 +94,13 @@ package
 				revoluteJointDef.upperAngle = Math.PI/4;
 				revoluteJointDef.collideConnected = false;
 				world.CreateJoint(revoluteJointDef);			
+		}
+		
+		override public function color(color:Number):void {
+			super.color(color);
+			base.color = color;
+			jaw.color = color;
+			otherJaw.color = color;
 		}
 		
 		override public function update():void

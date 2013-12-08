@@ -21,7 +21,7 @@ package
 		private var bodyHeight:int = 64;
 		public var creature:AECreature;
 		
-		public var adaptation:Adaptation;
+		public var adaptationType:Number;
 		public var pos:b2Vec2;
 		private var bubbleBoxShape:b2PolygonShape;
 		private var polygonVerticies:Array = new Array(
@@ -38,13 +38,13 @@ package
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-14.0),AEWorld.b2NumFromFlxNum(-10.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-11.0),AEWorld.b2NumFromFlxNum(-14.0)));
 		
-		public function EvolutionDrop(x:Number, y:Number, adaptation:Adaptation)
+		public function EvolutionDrop(x:Number, y:Number, adaptationType:Number)
 		{			
-			this.adaptation = adaptation;
+			this.adaptationType = adaptationType;
 			this.bubbleBoxShape = new b2PolygonShape();
 			this.bubbleBoxShape.SetAsArray(polygonVerticies);
 			
-			super(AEWorld.flxNumFromB2Num(x), AEWorld.flxNumFromB2Num(y),0, ImgAttackBubble, width, height, this.bubbleBoxShape);
+			super(x, y, 0, ImgAttackBubble, width, height, this.bubbleBoxShape);
 		}
 		
 		override public function update():void{
@@ -56,7 +56,7 @@ package
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
 				.withShape(shape)
 				.withType(b2Body.b2_staticBody)
-				.withData(new CollisionData(this.creature, SpriteType.EVOLUTIONDROP, adaptation));
+				.withData(new CollisionData(this.creature, SpriteType.EVOLUTIONDROP));
 			return b2bb;
 		}
 	}

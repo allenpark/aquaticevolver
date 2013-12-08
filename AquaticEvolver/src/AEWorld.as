@@ -9,6 +9,8 @@ package
 	import org.flixel.FlxG;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
+	import Creature.AECreature;
+	import org.flixel.FlxText;
 	
 	public class AEWorld extends FlxState
 	{	
@@ -19,15 +21,22 @@ package
 		
 		//Background music
 		[Embed(source="res/Evolving Horizon.mp3")] public var droplet:Class;
+
+		
+		[Embed(source="res/Cursor.png")] public var cursor:Class;
+
 		
 		//Image to enforce the barier at the top
-		[Embed (source = "res/pacman.png")] public var enforcerImage:Class;
+		[Embed (source = "res/StreaksOfLight.png")] public var enforcerImage:Class;
 		
 		//Pausing
 		public var paused:pausescreen;
 		
 		//Flx debugging
 		FlxG.debug = true;
+		
+		public static var debugText:FlxText;
+		
 		/**
 		 * Boolean to have the camera follow the player set to false
 		 *if you don't want the camera to follow player
@@ -37,7 +46,7 @@ package
 		/**
 		 * Boolean to spawn enemies
 		 */
-		private var SPAWNENEMIES:Boolean = false;
+		private var SPAWNENEMIES:Boolean = true;
 		/**
 		 * Drawing bubbles
 		 */
@@ -113,6 +122,7 @@ package
 		 * RGB of the background
 		 * -JAN 11/25/13
 		 */
+		
 		private var redChange:int = 0;
 		private var greenChange:int = 0;
 		private var blueChange:int = 0;
@@ -164,8 +174,10 @@ package
 		//A function that will prevent the player from moving beyond the top
 		private function enforceTop ():void {
 			if (player.y < topLocation ){
+				if (!player.aboveTop){
+				this.add(new FlxSprite(player.x - ScreenWidth/3,topLocation- ScreenHeight/2 - 30  ,enforcerImage));
+				}
 				player.goAboveTop();
-				this.add(new FlxSprite(player.x,topLocation,enforcerImage));
 			}
 			else {
 				player.goBelowTop();
@@ -201,8 +213,9 @@ package
 			//Can't add enemies above the top bound
 			if(newY > topLocation){
 				var newEnemy:AEEnemy = AEEnemy.generateDefaultEnemy(newX, newY);
+				this.add(newEnemy.healthDisplay);
 			}
-			/* 
+			/*
 			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, newEnemy, newEnemy);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, newEnemy);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.MANDIBLE, new b2Vec2(0, 0), 0, newEnemy);
@@ -297,7 +310,8 @@ package
 		
 		private function initializePlayer():void
 		{
-			player = new AEPlayer(ScreenWidth/2.0,ScreenHeight/2.0); 
+			player = new AEPlayer(ScreenWidth/2.0,ScreenHeight/2.0, 10);
+			this.add(player.healthDisplay);
 
 			
 //			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, player);
@@ -343,6 +357,10 @@ package
 		
 		override public function create():void
 		{
+			//FlxG.mouse.hide();
+			FlxG.mouse.load(cursor, 1, -25, -25);
+			//FlxG.mouse.show(cursor);
+			
 			AEWorld.world = this;
 			super.create();
 			setupDefaults();
@@ -356,12 +374,15 @@ package
 			
 			//Create player
 			initializePlayer();
-			//addCreature(player);	
+			//addCreature(player);
 			
+			AEEnemy.enemies = new Array();
 			
 			//Debugging
 			setupB2Debug();
-			setupFlxDebug();			
+			setupFlxDebug();
+			AEWorld.debugText = new FlxText(50, 50, 50);
+			this.add(AEWorld.debugText);
 		}
 		
 		public static function toggleB2DebugDrawing():void
@@ -374,13 +395,11 @@ package
 		{
 			while (KILLLIST.length>0)
 			{
-				/*
 				var attackDescription:Array = KILLLIST.pop();
 				var attacker:AECreature = attackDescription[0] as AECreature;
 				var enemy:AECreature = attackDescription[1] as AECreature;
 				var adaptation:Adaptation = attackDescription[2] as Adaptation;
 				var killedEnemy:Boolean = attacker.handleAttackOn(adaptation, enemy);
-				*/
 				break;
 			}
 		}
@@ -388,8 +407,13 @@ package
 		override public function update():void 
 		{
 			if (!FlxG.paused) {
+				AEWorld.debugText.x = FlxG.camera.scroll.x + 50;
+				AEWorld.debugText.y = FlxG.camera.scroll.y + 50;
 				super.update();
 				player.update();
+				for (var i:Number = 0; i < AEEnemy.enemies.length; i++) {
+					AEEnemy.enemies[i].update();
+				}
 				//Box2D debug stuff
 				if (AquaticEvolver.box2dDebug) {
 					AEB2World.DrawDebugData();
@@ -403,7 +427,7 @@ package
 				
 				if (SPAWNENEMIES)
 				{
-					if (Math.random() < 0.02 && BoxEnemy.getEnemiesLength() < 30) {
+					if (Math.random() < 0.02 && AEEnemy.enemies.length < 30) {
 						addOffscreenEnemy(15, 15);
 					}
 				}

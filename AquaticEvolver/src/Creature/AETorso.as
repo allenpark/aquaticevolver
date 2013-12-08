@@ -100,5 +100,12 @@ package Creature
 				segment.kill();
 			}
 		}
+		
+		public function color(color:Number):void
+		{
+			for each (var segment:AESegment in torsoSegments) {
+				segment.color = color;
+			}
+		}
 	}
 }
