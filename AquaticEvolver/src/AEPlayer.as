@@ -21,8 +21,7 @@ package
 		{	
 
 			//Player has special ID value of 1
-			trace("id has been set to:"+_id);
-			var headDef:AEHeadDef = AECreature.head1Def(x,y);
+			var headDef:AEHeadDef = AECreature.head2Def(x,y);
 			var torsoDef:AETorsoDef = AECreature.torso1Def(x,y);
 			var tailDef:AETailDef = AECreature.tail1Def(x,y);
 			super(SpriteType.PLAYER, x, y, health, headDef, torsoDef, tailDef);

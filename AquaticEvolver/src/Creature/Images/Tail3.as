@@ -14,7 +14,7 @@ package Creature.Images
 		 * Vertices defining the verteces for the shape, have to offset them by half the width
 		 * to assure that they are centered on the sprite
 		 */
-		public static var polygonVerteces:Array = new Array(
+		public static var PolygonVertices:Array = new Array(
 			//TODO: update these numbers with Nick's locations
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-27),AEWorld.b2NumFromFlxNum(4)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-27),AEWorld.b2NumFromFlxNum(-1)),
@@ -32,14 +32,29 @@ package Creature.Images
 		[Embed(source='../../res/Tail3.png')]
 		private static const IMG:Class;
 		
-		public static const suggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,36,WIDTH,HEIGHT);
+		public static const SuggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,36,WIDTH,HEIGHT);
 		
-		public static const suggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,90, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlots:Array = new Array(suggestedAppendageSlot1);
+		public static const SuggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,90, WIDTH, HEIGHT);
+		public static const SuggestedAppendageSlots:Array = new Array(SuggestedAppendageSlot1);
 		
-		public static function image():AEImage
+		override public function image():AEImage
 		{
 			return new AEImage(IMG,WIDTH,HEIGHT);
+		}
+		
+		override public function suggestedTailAnchor():b2Vec2
+		{
+			return SuggestedTailAnchor;;
+		}
+		
+		override public function suggestedAppendageSlots():Array
+		{
+			return SuggestedAppendageSlots;
+		}
+		
+		override public function polygonVertices():Array
+		{
+			return PolygonVertices;
 		}
 	}
 }

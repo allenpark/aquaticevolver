@@ -32,9 +32,7 @@ package Creature
 	import org.flixel.FlxText;
 			
 	public class AECreature
-	{
-		protected var _id:Number;
-		
+	{		
 		protected var _head:AEHead;
 		protected var _torso:AETorso;
 		protected var _tail:AETail;
@@ -260,6 +258,7 @@ package Creature
 		
 		private static function headDef(x:Number, y:Number, headImage:DefaultImage):AEHeadDef
 		{
+			trace("head image:"+headImage);
 			var headSchematic:AESchematic = new AESchematic(headImage.image(), headImage.suggestedAppendageSlots());
 			//Setting up the segment's shape
 			var playerHeadShape:b2PolygonShape = new b2PolygonShape();
