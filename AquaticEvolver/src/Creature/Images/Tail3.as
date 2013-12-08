@@ -32,11 +32,9 @@ package Creature.Images
 		[Embed(source='../../res/Tail3.png')]
 		private static const IMG:Class;
 		
-		//TODO: update these numbers with Nick's locations
-		public static const suggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(50,32,WIDTH,HEIGHT);
+		public static const suggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,36,WIDTH,HEIGHT);
 		
-		//TODO: update these numbers with Nick's locations
-		public static const suggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(11,32, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,90, WIDTH, HEIGHT);
 		public static const suggestedAppendageSlots:Array = new Array(suggestedAppendageSlot1);
 		
 		public static function image():AEImage

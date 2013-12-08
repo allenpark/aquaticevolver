@@ -27,11 +27,9 @@ package Creature.Images
 		[Embed(source='../../res/Head2.png')]
 		private static const Img:Class;
 		
-		//TODO: replace this with Nick's new location
-		public static const suggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(36,64,WIDTH,HEIGHT);
+		public static const suggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,86,WIDTH,HEIGHT);
 		
-		//TODO: replace this with Nick's new location
-		public static const suggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(91,64, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,35, WIDTH, HEIGHT);
 		public static const suggestedAppendageSlots:Array = new Array(suggestedAppendageSlot1);
 		
 		public static function image():AEImage

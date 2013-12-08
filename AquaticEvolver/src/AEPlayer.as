@@ -97,7 +97,7 @@ package
 				if(defaultMovementScheme) {
 					movementBody.ApplyImpulse(getForceVec(xDir, yDir), movementBody.GetPosition());					
 				} else {
-					var angle:Number = movementBody.GetAngle() + Math.PI/2;
+					var angle:Number = movementBody.GetAngle();
 					if (this.aboveTop){
 						yDir= -1*this.speed;
 						xDir = (Math.PI - angle)*50;

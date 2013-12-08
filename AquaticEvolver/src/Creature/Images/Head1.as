@@ -25,10 +25,10 @@ package Creature.Images
 		
 		[Embed(source='../../res/Head1.png')]
 		private static const Img:Class;
-				
-		public static const suggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(36,64,WIDTH,HEIGHT);
+
+		public static const suggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,87,WIDTH,HEIGHT);
 		
-		public static const suggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(91,64, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,37, WIDTH, HEIGHT);
 		public static const suggestedAppendageSlots:Array = new Array(suggestedAppendageSlot1);
 		
 		public static function image():AEImage
