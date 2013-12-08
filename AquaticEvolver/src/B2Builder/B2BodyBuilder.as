@@ -153,6 +153,7 @@ package B2Builder
 			bodyDef.userData = _data;
 			
 			var body:b2Body = AEWorld.AEB2World.CreateBody(bodyDef);
+			trace("BBuilder Body: "+ body);
 			body.CreateFixture(fixDef);
 			return body;
 		}

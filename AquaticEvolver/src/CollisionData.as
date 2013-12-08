@@ -14,5 +14,9 @@ package
 			this.colliderType = type;
 			this.adaptation = adapt;
 		}
+		public function toString():String
+		{
+			return "Collision Data \n\tOwner: " + this.owner + "; ColliderType: " + this.colliderType + "; Adaptation: " + this.adaptation; 
+		}
 	}
 }

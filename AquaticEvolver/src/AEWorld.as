@@ -109,6 +109,8 @@ package
 		
 		public static var REMOVELIST:Array = new Array();
 		
+		public static var EVOLVELIST:Array = new Array();
+		
 		/**
 		 * Number keeping track of the last position the background's color
 		 * was changed in order to figure out whether to change the background
@@ -425,7 +427,16 @@ package
 				REMOVELIST.pop().kill();
 			}
 		}
-		
+		private function processEvolveList():void
+		{
+			while (EVOLVELIST.length > 0)
+			{
+				var evolveDescription:Array = EVOLVELIST.pop();
+				var evolver:AECreature = evolveDescription[0] as AECreature;
+				var appendage = evolveDescription[1] as Number;
+				evolver.attachAppendage(appendage);
+			}
+		}
 		override public function update():void 
 		{
 			var baseLightPos:Number = int(FlxG.camera.scroll.x / 1024) * 1024;
@@ -448,6 +459,7 @@ package
 					toggleB2DebugDrawing();
 				}
 				AEB2World.Step(1.0/60.0, 10, 10);
+				processEvolveList();
 				processKillList();
 				processRemoveList();
 				enforceTop();

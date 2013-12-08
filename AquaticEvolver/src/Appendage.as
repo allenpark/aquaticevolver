@@ -42,23 +42,23 @@ package {
 			
 			switch (type)
 			{
-				case AppendageType.SPIKE:
+				case AdaptationType.SPIKE:
 //					FlxG.log("Creating a new spike");
 					appendage = new Spike(jointPos, jointAngle, creature, segment);
 					break;
-				case AppendageType.TENTACLE:
+				case AdaptationType.TENTACLE:
 //					FlxG.log("Creating a new tentacle");
 					appendage = new Tentacle(jointPos, jointAngle, creature, segment);
 					break;
-				case AppendageType.MANDIBLE:
+				case AdaptationType.MANDIBLE:
 //					FlxG.log("Creating a new mandible");
 					appendage = new Mandible(jointPos, jointAngle, creature, segment);
 					break;
-				case AppendageType.BUBBLEGUN:
+				case AdaptationType.BUBBLEGUN:
 //					FlxG.log("Creating a new bubble gun");
 					appendage = new BubbleGun(jointPos, jointAngle, creature, segment);
 					break;
-				case AppendageType.SPIKESHOOTER:
+				case AdaptationType.SPIKESHOOTER:
 					//					FlxG.log("Creating a new bubble gun");
 					appendage = new SpikeShooter(jointPos, jointAngle, creature, segment);
 					break;

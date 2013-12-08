@@ -33,7 +33,7 @@ package
 		public function Mandible(jointPos:b2Vec2, jointAngle, creature:AECreature, segment:B2FlxSprite)
 		{
 			jointAngle = jointAngle + jointAngleCorrection;
-			super(AppendageType.MANDIBLE, 30, true, 2, jointPos, jointAngle, creature, segment);
+			super(AdaptationType.MANDIBLE, 30, true, 2, jointPos, jointAngle, creature, segment);
 			
 			var world:b2World = AEWorld.AEB2World;
 			
