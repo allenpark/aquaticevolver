@@ -23,7 +23,7 @@ package
 		[Embed(source="res/Evolving Horizon.mp3")] public var droplet:Class;
 		
 		//Image to enforce the barier at the top
-		[Embed (source = "res/pacman.png")] public var enforcerImage:Class;
+		[Embed (source = "res/StreaksOfLight.png")] public var enforcerImage:Class;
 		
 		//Pausing
 		public var paused:pausescreen;
@@ -169,8 +169,10 @@ package
 		//A function that will prevent the player from moving beyond the top
 		private function enforceTop ():void {
 			if (player.y < topLocation ){
+				if (!player.aboveTop){
+				this.add(new FlxSprite(player.x - ScreenWidth/3,topLocation- ScreenHeight/2 - 30  ,enforcerImage));
+				}
 				player.goAboveTop();
-				this.add(new FlxSprite(player.x,topLocation,enforcerImage));
 			}
 			else {
 				player.goBelowTop();
