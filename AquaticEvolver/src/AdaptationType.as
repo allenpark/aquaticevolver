@@ -1,6 +1,6 @@
 package
 {
-	public class AppendageType
+	public class AdaptationType
 	{
 				public static var SPIKE:Number = 1;
 				public static var TENTACLE:Number = 2;
@@ -9,7 +9,7 @@ package
 				public static var SPIKESHOOTER: Number = 5;
 				public static var CLAW: Number = 6;
 				
-				public function AppendageType()
+				public function AdaptationType()
 				{
 				}
 			}

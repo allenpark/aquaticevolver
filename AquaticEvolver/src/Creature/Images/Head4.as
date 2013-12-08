@@ -13,16 +13,19 @@ package Creature.Images
 		 * Vertices defining the verteces for the shape, have to offset them by half the width
 		 * to assure that they are centered on the sprite
 		 */
+
 		protected static var PolygonVertices:Array = new Array(
-			//TODO: update these numbers with Nick's locations
-			new b2Vec2(AEWorld.b2NumFromFlxNum(56),AEWorld.b2NumFromFlxNum(-4)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(35),AEWorld.b2NumFromFlxNum(-30)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-1),AEWorld.b2NumFromFlxNum(-36)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-41),AEWorld.b2NumFromFlxNum(-29)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-56),AEWorld.b2NumFromFlxNum(-3)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-36),AEWorld.b2NumFromFlxNum(27)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(1),AEWorld.b2NumFromFlxNum(35)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(39),AEWorld.b2NumFromFlxNum(28)));
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-6.0),AEWorld.b2NumFromFlxNum(35.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-28.0),AEWorld.b2NumFromFlxNum(16.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-28.0),AEWorld.b2NumFromFlxNum(-1.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-23.0),AEWorld.b2NumFromFlxNum(-20.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-6.0),AEWorld.b2NumFromFlxNum(-38.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(0.0),AEWorld.b2NumFromFlxNum(-38.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(17.0),AEWorld.b2NumFromFlxNum(-21.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(25.0),AEWorld.b2NumFromFlxNum(-2.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(25.0),AEWorld.b2NumFromFlxNum(15.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(1.0),AEWorld.b2NumFromFlxNum(35.0)));
+
 		
 		[Embed(source='../../res/Head4.png')]
 		private static const Img:Class;

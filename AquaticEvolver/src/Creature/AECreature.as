@@ -183,6 +183,7 @@ package Creature
 			
 			//Add to world
 			AEWorld.world.add(evolutionDrop);
+			trace("EVO DROP");
 			
 			
 			//Get first appendage
