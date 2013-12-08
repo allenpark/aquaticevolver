@@ -14,6 +14,9 @@ package Creature
 	import Def.AESegmentDef;
 	import Def.AETailDef;
 	import Def.AETorsoDef;
+	
+	import org.flixel.FlxG;
+	import org.flixel.FlxText;
 			
 	public class AECreature
 	{
@@ -40,6 +43,7 @@ package Creature
 		public var y:Number;
 		protected var currentHealth:int;
 		protected var maxHealth:int;
+		public var healthDisplay:FlxText;
 		protected var speed:Number = 10;
 		
 		
@@ -63,13 +67,45 @@ package Creature
 			//TODO: Should this be done outside the constructor?
 			addToWorld();
 			
+			this.x = x;
+			this.y = y;
+			
 			currentHealth = health;
 			maxHealth = health;
+			this.healthDisplay = new FlxText(0, 0, 50);
+			this.healthDisplay.size = 10;
 		}
 		
 		public function getID():Number
 		{
 			return undefined;
+		}
+		
+		// This method is called often to update the state of the creature.
+		public function update():void {
+			var redColor:Number = 0xffff0000;
+			this.healthDisplay.x = this.x - 5;
+			this.healthDisplay.y = this.y + 10;
+			// added code for when the enemey current ratio of health 
+			// is lower then the health threshold, it turns red
+			/*var threshold = 0.5;
+			var healthRatio = this.currentHealth * 1.0 / this.maxHealth;
+			if (healthRatio <=threshold ) {
+				this.fill(redColor);
+			}*/
+			this.healthDisplay.text = this.currentHealth + "/" + this.maxHealth;
+			if (creatureType != 1) {
+				//AEWorld.debugText.text += " " + this.healthDisplay.text;
+			}
+			//			this.adaptationGroup.setAll("x", this.x + 10);
+			
+			//			this.adaptationGroup.setAll("y", this.y);			
+			//for (var i:int = 0; i < this.adaptationGroup.length; i++) {
+			//this.adaptationGroup.members[i].update();
+			//}
+			/*for (var i:int = 0; i < this.adaptations.length; i++) {
+				this.adaptations[i].update();
+			}*/
 		}
 		
 		public function attachAppendage(appendageType:Number):Boolean
@@ -127,6 +163,7 @@ package Creature
 			_head.kill();
 			_torso.kill();
 			_tail.kill();
+			healthDisplay.kill();
 			for each(var adaptation:Adaptation in _adaptations){
 				if (adaptation != null)
 				{

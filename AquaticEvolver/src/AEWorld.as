@@ -10,6 +10,7 @@ package
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
 	import Creature.AECreature;
+	import org.flixel.FlxText;
 	
 	public class AEWorld extends FlxState
 	{	
@@ -29,6 +30,9 @@ package
 		
 		//Flx debugging
 		FlxG.debug = true;
+		
+		public static var debugText:FlxText;
+		
 		/**
 		 * Boolean to have the camera follow the player set to false
 		 *if you don't want the camera to follow player
@@ -202,8 +206,9 @@ package
 			//Can't add enemies above the top bound
 			if(newY > topLocation){
 				var newEnemy:AEEnemy = AEEnemy.generateDefaultEnemy(newX, newY);
+				this.add(newEnemy.healthDisplay);
 			}
-			/* 
+			/*
 			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, newEnemy, newEnemy);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.TENTACLE, new b2Vec2(0, 0), 0, newEnemy);
 			//var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.MANDIBLE, new b2Vec2(0, 0), 0, newEnemy);
@@ -298,7 +303,8 @@ package
 		
 		private function initializePlayer():void
 		{
-			player = new AEPlayer(ScreenWidth/2.0,ScreenHeight/2.0, 10); 
+			player = new AEPlayer(ScreenWidth/2.0,ScreenHeight/2.0, 10);
+			this.add(player.healthDisplay);
 
 			
 //			var start_adaptation : Adaptation = Appendage.createAppendageWithType(AppendageType.SPIKE, new b2Vec2(0, 0), 0, player);
@@ -357,12 +363,15 @@ package
 			
 			//Create player
 			initializePlayer();
-			//addCreature(player);	
+			//addCreature(player);
 			
+			AEEnemy.enemies = new Array();
 			
 			//Debugging
 			setupB2Debug();
-			setupFlxDebug();			
+			setupFlxDebug();
+			AEWorld.debugText = new FlxText(50, 50, 50);
+			this.add(AEWorld.debugText);
 		}
 		
 		public static function toggleB2DebugDrawing():void
@@ -387,8 +396,17 @@ package
 		override public function update():void 
 		{
 			if (!FlxG.paused) {
+				AEWorld.debugText.x = FlxG.camera.scroll.x + 50;
+				AEWorld.debugText.y = FlxG.camera.scroll.y + 50;
 				super.update();
 				player.update();
+				if (AEEnemy.enemies.length != 0) {
+					//AEWorld.debugText.text += AEEnemy.enemies.length;
+				}
+				for (var i:Number = 0; i < AEEnemy.enemies.length; i++) {
+					//AEWorld.debugText.text += "rawr " + i;
+					AEEnemy.enemies[i].update();
+				}
 				//Box2D debug stuff
 				if (AquaticEvolver.box2dDebug) {
 					AEB2World.DrawDebugData();
@@ -402,7 +420,7 @@ package
 				
 				if (SPAWNENEMIES)
 				{
-					if (Math.random() < 0.02 && BoxEnemy.getEnemiesLength() < 30) {
+					if (Math.random() < 0.02 && AEEnemy.enemies.length < 30) {
 						addOffscreenEnemy(15, 15);
 					}
 				}
