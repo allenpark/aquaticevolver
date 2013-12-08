@@ -1,0 +1,89 @@
+Format:
+BodyPart
+	attachmentpointname X Y
+
+Head1
+	root 64 87
+	attach1 64 37
+
+Head2
+	root 64 86
+	attach1 64 35
+
+Head3
+	root 64 97
+	attach1 64 31
+
+Head4
+	root 64 93
+	attach1 64 40
+
+Head5
+	root 64 90
+	attach1 64 50
+	
+// For torsos: attach to head and tail at relevant points, then
+// appendage attachment points are listed COUNTER-CLOCKWISE from
+// vertical
+
+Torso1
+	tail 64 98
+	head 64 30
+	attach1 43 46
+	attach2 33 64
+	attach3 46 89
+	attach4 82 89
+	attach5 95 64
+	attach6 85 46
+
+Torso2
+	tail 64 100
+	head 64 28
+	attach1 30 32
+	attach2 35 66
+	attach3 47 95
+	attach4 81 95
+	attach5 93 66
+	attach6 98 32
+
+Torso3
+	tail 128 95
+	head 128 35
+	attach1 78 62
+	attach2 75 93
+	attach3 179 93
+	attach4 175 62
+
+Torso4
+	tail 32 100 
+	head 32 27
+	attach1 17 38
+	attach2 19 90
+	attach3 45 90
+	attach4 47 38
+
+Torso5
+	tail 32 90
+	head 32 35
+	attach1 22 64
+	attach2 42 64
+
+Tail1 // tails attach to the torso at root point
+	root 32 16
+	attach1 32 45
+
+Tail2
+	root 32 40
+	attach1 32 82
+
+Tail3
+	root 64 36
+	attach1 64 90
+
+Tail4
+	root 16 16
+	attach1 16 50
+
+Tail5
+	root 32 14
+	attach1 32 50

@@ -4,18 +4,27 @@ package
 	import org.flixel.*;
 	import org.flixel.FlxState;
 	
-	public class InstructionState extends FlxState
+	public class InstructionState extends AEWorld
 	{
+		[Embed (source = "res/mainmenu.png")] public var mainMenuImg:Class;
+		[Embed (source = "res/Cursor.png")] public var cursorImg:Class;
+		
 		override public function create():void
 		{
+			
+			
+			
 			super.create();
-			FlxG.bgColor = 0xffaaaaaa;
+			player.kill(); 
 			
-			var instructions:String = "Press the arrow keys to move\n";
+			var instructions:String = "Press the arrow keys to move and click to move\n";
 			
-			add(new FlxText(FlxG.width/2-30, FlxG.height/5,300,instructions));
-			var backButton:FlxButton = new FlxButton(FlxG.width/2 -45, 3*FlxG.height/5, "Back", mainMenuCallback);
-			add(backButton);
+			add(new FlxText(FlxG.width/2-50, FlxG.height/5,2000,instructions));
+			
+			var menuButton:FlxButton = new FlxButton(FlxG.width/2 - 65, 2*FlxG.height/7.0, "", mainMenuCallback);
+			menuButton.scrollFactor.x = menuButton.scrollFactor.y = 0 ;
+			menuButton.loadGraphic(mainMenuImg);
+			add(menuButton);	
 			
 			
 		}

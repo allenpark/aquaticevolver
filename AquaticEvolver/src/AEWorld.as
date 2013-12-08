@@ -6,10 +6,11 @@ package
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2World;
 	
+	import Creature.AECreature;
+	
 	import org.flixel.FlxG;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
-	import Creature.AECreature;
 	import org.flixel.FlxText;
 	
 	public class AEWorld extends FlxState
@@ -27,7 +28,10 @@ package
 
 		
 		//Image to enforce the barier at the top
-		[Embed (source = "res/StreaksOfLight.png")] public var enforcerImage:Class;
+		//[Embed (source = "res/BackgroundBubble.png")] public var enforcerImage:Class;
+		
+		[Embed (source="res/StreaksOfLight.png")] public var lightsImage:Class;
+		private var lights:Array;
 		
 		//Pausing
 		public var paused:pausescreen;
@@ -116,7 +120,7 @@ package
 		 * of the screen.
 		 * -JAN 11/25/13
 		 */
-		private const PIXELSPERDEPTH:int = 30; //CHANGE THIS TO MAKE BACKGROUND CHANGE FASTER OR SLOWER
+		private const PIXELSPERDEPTH:int = 100; //CHANGE THIS TO MAKE BACKGROUND CHANGE FASTER OR SLOWER
 		/**
 		 * Number keeping track of how much to change the different components
 		 * RGB of the background
@@ -175,7 +179,7 @@ package
 		private function enforceTop ():void {
 			if (player.y < topLocation ){
 				if (!player.aboveTop){
-				this.add(new FlxSprite(player.x - ScreenWidth/3,topLocation- ScreenHeight/2 - 30  ,enforcerImage));
+				//this.add(new FlxSprite(player.x - ScreenWidth/3,topLocation- ScreenHeight/2 - 30  ,enforcerImage));
 				}
 				player.goAboveTop();
 			}
@@ -383,6 +387,14 @@ package
 			setupFlxDebug();
 			AEWorld.debugText = new FlxText(50, 50, 50);
 			this.add(AEWorld.debugText);
+			
+			lights = new Array();
+			var numLights:Number = Math.ceil(FlxG.width / 1024.0) + 1;
+			for (var i:Number = 0; i < numLights; i++) {
+				var newLight:FlxSprite = new FlxSprite(0, topLocation, lightsImage); 
+				lights.push(newLight);
+				this.add(newLight);
+			}
 		}
 		
 		public static function toggleB2DebugDrawing():void
@@ -406,6 +418,10 @@ package
 		
 		override public function update():void 
 		{
+			var baseLightPos:Number = int(FlxG.camera.scroll.x / 1024) * 1024;
+			for (var i = 0; i < lights.length; i++) {
+				lights[i].x = baseLightPos + 1024 * i;
+			}
 			if (!FlxG.paused) {
 				AEWorld.debugText.x = FlxG.camera.scroll.x + 50;
 				AEWorld.debugText.y = FlxG.camera.scroll.y + 50;

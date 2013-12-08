@@ -26,6 +26,7 @@ package
 			var torsoDef:AETorsoDef = AECreature.torso1Def(x,y);
 			var tailDef:AETailDef = AECreature.tail1Def(x,y);
 			super(SpriteType.PLAYER, x, y, health, headDef, torsoDef, tailDef);
+
 			attachAppendage(AppendageType.TENTACLE);
 			attachAppendage(AppendageType.SPIKESHOOTER);
 			attachAppendage(AppendageType.SPIKE);
@@ -96,7 +97,7 @@ package
 				if(defaultMovementScheme) {
 					movementBody.ApplyImpulse(getForceVec(xDir, yDir), movementBody.GetPosition());					
 				} else {
-					var angle:Number = movementBody.GetAngle() + Math.PI/2;
+					var angle:Number = movementBody.GetAngle();
 					if (this.aboveTop){
 						yDir= -1*this.speed;
 						xDir = (Math.PI - angle)*50;

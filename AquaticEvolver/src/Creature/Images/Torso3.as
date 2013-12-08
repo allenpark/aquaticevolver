@@ -4,10 +4,10 @@ package Creature.Images
 	
 	import Creature.Schematics.AESchematic;
 	
-	public class Torso1
+	public class Torso3
 	{
 		
-		private static const WIDTH:Number = 128;
+		private static const WIDTH:Number = 256;
 		private static const HEIGHT:Number = 128;
 		
 		/**
@@ -15,6 +15,7 @@ package Creature.Images
 		 * to assure that they are centered on the sprite
 		 */
 		public static var polygonVerteces:Array = new Array(
+			//TODO: update these numbers with Nick's locations
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-46.0),AEWorld.b2NumFromFlxNum(0.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-46.0),AEWorld.b2NumFromFlxNum(-6.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-43.0),AEWorld.b2NumFromFlxNum(-15.0)),
@@ -38,30 +39,20 @@ package Creature.Images
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-43.0),AEWorld.b2NumFromFlxNum(14.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-46.0),AEWorld.b2NumFromFlxNum(7.0)));
 		
-		[Embed(source='../../res/Torso1.png')]
+		[Embed(source='../../res/Torso3.png')]
 		private static const IMG:Class;
 		
-		/*
-		Torso1
-		tail 64 98
-		head 64 30
-		attach1 43 46
-		attach2 33 64
-		attach3 46 89
-		attach4 82 89
-		attach5 95 64
-		attach6 85 46
-		*/
+		//TODO: update these numbers with Nick's locations
+		public static const suggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(96,64,WIDTH,HEIGHT);
+		public static const suggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(28,64,WIDTH,HEIGHT);
 		
-		public static const suggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,30,WIDTH,HEIGHT);
-		public static const suggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,98,WIDTH,HEIGHT);
-		
-		public static const suggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(43,46, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot2:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(33,64, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot3:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(46,89, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot4:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(82,89, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot5:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(95,64, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot6:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(85,46, WIDTH, HEIGHT);
+		//TODO: update these numbers with Nick's locations
+		public static const suggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(93,87, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot2:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(65,98, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot3:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(34,87, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot4:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(93,23, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot5:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(65,34, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot6:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(34,23, WIDTH, HEIGHT);
 		
 		public static const suggestedAppendageSlots:Array = new Array(	
 			suggestedAppendageSlot1, 

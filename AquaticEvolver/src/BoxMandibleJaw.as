@@ -10,8 +10,8 @@ package
 
 	public class BoxMandibleJaw extends B2FlxSprite
 	{
-		private var bodyWidth:int = 70/2;
-		private var bodyHeight:int = 36/2;
+		private var bodyWidth:int = 35/2;
+		private var bodyHeight:int = 75/2;
 		public var creature:AECreature;
 		public var adaptOwner:Adaptation;
 		
