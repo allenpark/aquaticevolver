@@ -3,7 +3,7 @@ package Creature.Images
 	import Box2D.Common.Math.b2Vec2;
 	
 	import Creature.Schematics.AESchematic;
-
+	
 	public class Torso1
 	{
 		
@@ -41,22 +41,35 @@ package Creature.Images
 		[Embed(source='../../res/Torso1.png')]
 		private static const IMG:Class;
 		
-		public static const suggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(96,64,WIDTH,HEIGHT);
-		public static const suggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(28,64,WIDTH,HEIGHT);
+		/*
+		Torso1
+		tail 64 98
+		head 64 30
+		attach1 43 46
+		attach2 33 64
+		attach3 46 89
+		attach4 82 89
+		attach5 95 64
+		attach6 85 46
+		*/
 		
-		public static const suggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(93,87, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot2:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(65,98, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot3:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(34,87, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot4:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(93,23, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot5:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(65,34, WIDTH, HEIGHT);
-		public static const suggestedAppendageSlot6:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(34,23, WIDTH, HEIGHT);
+		public static const suggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,30,WIDTH,HEIGHT);
+		public static const suggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,98,WIDTH,HEIGHT);
 		
-		public static const suggestedAppendageSlots:Array = new Array(	suggestedAppendageSlot1, 
-																suggestedAppendageSlot2, 
-																suggestedAppendageSlot3, 
-																suggestedAppendageSlot4, 
-																suggestedAppendageSlot5, 
-																suggestedAppendageSlot6);
+		public static const suggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(43,46, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot2:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(33,64, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot3:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(46,89, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot4:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(82,89, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot5:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(95,64, WIDTH, HEIGHT);
+		public static const suggestedAppendageSlot6:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(85,46, WIDTH, HEIGHT);
+		
+		public static const suggestedAppendageSlots:Array = new Array(	
+			suggestedAppendageSlot1, 
+			suggestedAppendageSlot2, 
+			suggestedAppendageSlot3, 
+			suggestedAppendageSlot4, 
+			suggestedAppendageSlot5, 
+			suggestedAppendageSlot6);
 		
 		public static function image():AEImage
 		{

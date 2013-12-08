@@ -19,5 +19,6 @@ package
 		
 		//Neutral Types
 		public static const BUBBLE:Number = 50;
+		public static const EVOLUTIONDROP:Number = 60;
 	}
 }

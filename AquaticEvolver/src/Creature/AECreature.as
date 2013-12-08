@@ -6,8 +6,20 @@ package Creature
 	import Box2D.Dynamics.Joints.b2RevoluteJoint;
 	
 	import Creature.Images.Head1;
+	import Creature.Images.Head2;
+	import Creature.Images.Head3;
+	import Creature.Images.Head4;
+	import Creature.Images.Head5;
 	import Creature.Images.Tail1;
+	import Creature.Images.Tail2;
+	import Creature.Images.Tail3;
+	import Creature.Images.Tail4;
+	import Creature.Images.Tail5;
 	import Creature.Images.Torso1;
+	import Creature.Images.Torso2;
+	import Creature.Images.Torso3;
+	import Creature.Images.Torso4;
+	import Creature.Images.Torso5;
 	import Creature.Schematics.AESchematic;
 	
 	import Def.AEHeadDef;
@@ -162,6 +174,22 @@ package Creature
 			_head.kill();
 			_torso.kill();
 			_tail.kill();
+			
+			
+			//Get random adaptation
+			var randomAdaptation = this._adaptations[int(Math.random()*(this._adaptations.length - 1))];
+			
+			//Add evolution drop
+			var evolutionDrop = new EvolutionDrop(this.x, this.y, randomAdaptation);
+			
+			//Add to world
+			AEWorld.world.add(evolutionDrop);
+			
+			
+			//Get first appendage
+			//var appendage = Appendage.createAppendageWithType(AppendageType.SPIKE		
+			
+			
 			healthDisplay.kill();
 			for each(var adaptation:Adaptation in _adaptations){
 				if (adaptation != null)
@@ -229,40 +257,116 @@ package Creature
 			_occupiedAppendageSlots = new Array();
 		}
 		
-		
-		//Should probably be moved up to the AECreature class
-		protected static function head1Def(x:Number, y:Number):AEHeadDef
+		private static function headDef(x:Number, y:Number, HeadClass:Class):AEHeadDef
 		{
-			var headSchematic:AESchematic = new AESchematic(Head1.image(), Head1.suggestedAppendageSlots);
+			var headSchematic:AESchematic = new AESchematic(HeadClass.image(), HeadClass.suggestedAppendageSlots);
 			//Setting up the segment's shape
 			var playerHeadShape:b2PolygonShape = new b2PolygonShape();
-			playerHeadShape.SetAsArray(Head1.polygonVerteces);
-			var playerHeadSegmentDef:AESegmentDef = new AESegmentDef(x,y, headSchematic, playerHeadShape); //TODO: HeadSegment should have modified height/width... current dimensions make head and tail touch and prevent swiveling
-			var playerHeadDef:AEHeadDef = new AEHeadDef(playerHeadSegmentDef, Head1.suggestedHeadAnchor);
+			playerHeadShape.SetAsArray(HeadClass.polygonVerteces);
+			var playerHeadSegmentDef:AESegmentDef = new AESegmentDef(x,y, headSchematic, playerHeadShape);
+			var playerHeadDef:AEHeadDef = new AEHeadDef(playerHeadSegmentDef, HeadClass.suggestedHeadAnchor);
 			return playerHeadDef;
 		}
-		//Should probably be moved up to the AECreature class
-		protected static function torso1Def(x:Number, y:Number):AETorsoDef
+		
+		protected static function head1Def(x:Number, y:Number):AEHeadDef
 		{
-			var torsoSchematic:AESchematic = new AESchematic(Torso1.image(), Torso1.suggestedAppendageSlots);
+			return headDef(x, y, Head1);
+		}
+		
+		protected static function head2Def(x:Number, y:Number):AEHeadDef
+		{
+			return headDef(x, y, Head2);
+		}
+		
+		protected static function head3Def(x:Number, y:Number):AEHeadDef
+		{
+			return headDef(x, y, Head3);
+		}
+		
+		protected static function head4Def(x:Number, y:Number):AEHeadDef
+		{
+			return headDef(x, y, Head4);
+		}
+		
+		protected static function head5Def(x:Number, y:Number):AEHeadDef
+		{
+			return headDef(x, y, Head5);
+		}
+		
+		/**
+		 * IMPORTANT: Only for single segment torsos
+		 */
+		private static function torsoDef(x, y, TorsoClass:Class):AETorsoDef
+		{
+			var torsoSchematic:AESchematic = new AESchematic(TorsoClass.image(), TorsoClass.suggestedAppendageSlots);
 			//Setting up segment's shape
 			var playerTorsoShape:b2PolygonShape = new b2PolygonShape();
-			playerTorsoShape.SetAsArray(Torso1.polygonVerteces);
+			playerTorsoShape.SetAsArray(TorsoClass.polygonVerteces);
 			var playerTorsoSegmentDef:AESegmentDef = new AESegmentDef(x,y, torsoSchematic, playerTorsoShape);
 			var playerTorsoSegmentDefs:Array = new Array(playerTorsoSegmentDef);
-			var playerTorsoDef:AETorsoDef = new AETorsoDef(Torso1.suggestedHeadAnchor, playerTorsoSegmentDefs, Torso1.suggestedTailAnchor);
+			var playerTorsoDef:AETorsoDef = new AETorsoDef(TorsoClass.suggestedHeadAnchor, playerTorsoSegmentDefs, TorsoClass.suggestedTailAnchor);
 			return playerTorsoDef;
 		}
-		//Should probably be moved up to the AECreature class
-		protected static function tail1Def(x:Number, y:Number):AETailDef
+		
+		protected static function torso1Def(x:Number, y:Number):AETorsoDef
 		{
-			var tailSchematic:AESchematic = new AESchematic(Tail1.image(), Tail1.suggestedAppendageSlots);
+			return torsoDef(x, y, Torso1);
+		}
+		
+		protected static function torso2Def(x:Number, y:Number):AETorsoDef
+		{
+			return torsoDef(x, y, Torso2);
+		}
+		
+		protected static function torso3Def(x:Number, y:Number):AETorsoDef
+		{
+			return torsoDef(x, y, Torso3);
+		}
+		
+		protected static function torso4Def(x:Number, y:Number):AETorsoDef
+		{
+			return torsoDef(x, y, Torso4);
+		}
+		
+		protected static function torso5Def(x:Number, y:Number):AETorsoDef
+		{
+			return torsoDef(x, y, Torso5);
+		}
+		
+		private static function tailDef(x:Number, y:Number, TailClass:Class):AETailDef
+		{
+			var tailSchematic:AESchematic = new AESchematic(TailClass.image(), TailClass.suggestedAppendageSlots);
 			//Setting the segment's shape
 			var playerTailShape:b2PolygonShape = new b2PolygonShape();
-			playerTailShape.SetAsArray(Tail1.polygonVerteces);
+			playerTailShape.SetAsArray(TailClass.polygonVerteces);
 			var playerTailSegmentDef:AESegmentDef = new AESegmentDef(x, y, tailSchematic, playerTailShape);
-			var playerTailDef:AETailDef = new AETailDef(playerTailSegmentDef, Tail1.suggestedTailAnchor);
+			var playerTailDef:AETailDef = new AETailDef(playerTailSegmentDef, TailClass.suggestedTailAnchor);
 			return playerTailDef;
-		}	
+		}
+		
+		protected static function tail1Def(x:Number, y:Number):AETailDef
+		{
+			return tailDef(x, y, Tail1);
+		}
+		
+		protected static function tail2Def(x:Number, y:Number):AETailDef
+		{
+			return tailDef(x, y, Tail2);
+		}
+		
+		protected static function tail3Def(x:Number, y:Number):AETailDef
+		{
+			return tailDef(x, y, Tail3);
+		}
+		
+		protected static function tail4Def(x:Number, y:Number):AETailDef
+		{
+			return tailDef(x, y, Tail4);
+		}
+		
+		protected static function tail5Def(x:Number, y:Number):AETailDef
+		{
+			return tailDef(x, y, Tail5);
+		}
 	}
 }
