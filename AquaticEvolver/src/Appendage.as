@@ -29,6 +29,10 @@ package {
 			super.update();
 		}
 		
+		override public function color(color:Number):void {
+			segment.color = color;
+		}
+		
 		/** takes in a AppendageType int, b2Vec2 in local box2D coordinates that specifies the position of the joint,
 		 * angle in radians specifying the orientation of the joint, and a Creature specifying the owner of the appendage
 		*/

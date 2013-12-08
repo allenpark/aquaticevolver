@@ -20,5 +20,13 @@ package
 			AEEnemy.enemies.push(newEnemy);
 			return newEnemy;
 		}
+		
+		override public function update():void{
+			
+			this.x = this.getX();
+			this.y = this.getY();
+			super.update();
+
+		}
 	}
 }

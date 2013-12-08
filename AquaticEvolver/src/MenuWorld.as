@@ -1,26 +1,39 @@
 package
 {
-	import org.flixel.FlxG;
-	import org.flixel.FlxText;
 	import org.flixel.FlxButton;
+	import org.flixel.FlxG;
+	import org.flixel.FlxSprite;
+	import org.flixel.FlxText;
+
 	public class MenuWorld extends AEWorld
 	{
+		[Embed (source = "res/title.png")] public var titleText:Class;
+		[Embed (source = "res/play.png")] public var playButtonImg:Class;
+		[Embed (source = "res/instructions.png")] public var instructionButtonImg:Class;
+		[Embed (source = "res/credits.png")] public var creditsButtonImg:Class;
+		[Embed (source = "res/Cursor.png")] public var cursorImg:Class;
+		
+		
 		 override public function create():void
 		{
 			super.create();
 			player.kill(); 
-			var menuText:FlxText = new FlxText(FlxG.width/2 - 48, FlxG.height/3, 100, "Aquatic Evolver!");
+			var menuText:FlxSprite = new FlxSprite(FlxG.width/2 - 250, 0, titleText);
 			menuText.scrollFactor.x = menuText.scrollFactor.y = 0 ; 
 			add(menuText);
-			var playButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 3*FlxG.height/7.0, "Start", startButtonCallback);
-			playButton.scrollFactor.x = playButton.scrollFactor.y = 0 ; 
+			var playButton:FlxButton = new FlxButton(FlxG.width/2 - 65, 2*FlxG.height/7.0, "", startButtonCallback);
+			playButton.scrollFactor.x = playButton.scrollFactor.y = 0 ;
+			playButton.loadGraphic(playButtonImg);
 			add(playButton);
-			var instructionButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 4*FlxG.height/7.0, "Instructions", instructionButtonCallback);
+			var instructionButton:FlxButton = new FlxButton(FlxG.width/2 -120, 3*FlxG.height/7.0, "", instructionButtonCallback);
 			instructionButton.scrollFactor.x = instructionButton.scrollFactor.y = 0 ; 
+			instructionButton.loadGraphic(instructionButtonImg);
 			add(instructionButton);
-			var creditButton:FlxButton = new FlxButton(FlxG.width/2 - 45, 5*FlxG.height/7.0, "Credits", creditButtonCallback);
+			var creditButton:FlxButton = new FlxButton(FlxG.width/2 - 125, 4*FlxG.height/7.0, "", creditButtonCallback);
 			creditButton.scrollFactor.x = creditButton.scrollFactor.y = 0 ; 
+			creditButton.loadGraphic(creditsButtonImg);
 			add(creditButton);
+			FlxG.mouse.load(cursorImg);
 			FlxG.mouse.show();
 		}
 		 public function startButtonCallback():void {

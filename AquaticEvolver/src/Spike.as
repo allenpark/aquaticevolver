@@ -47,6 +47,11 @@ package
 			world.CreateJoint(weldJointDef);
 		}
 		
+		override public function color(color:Number):void {
+			super.color(color);
+			this.spike.color = color;
+		}
+		
 		override public function update():void
 		{
 			super.update();
