@@ -42,29 +42,29 @@ package {
 			
 			switch (type)
 			{
-				case AppendageType.SPIKE:
-					//					FlxG.log("Creating a new spike");
+				case AdaptationType.SPIKE:
+//					FlxG.log("Creating a new spike");
 					appendage = new Spike(jointPos, jointAngle, creature, segment);
 					break;
-				case AppendageType.TENTACLE:
-					//					FlxG.log("Creating a new tentacle");
+				case AdaptationType.TENTACLE:
+//					FlxG.log("Creating a new tentacle");
 					appendage = new Tentacle(jointPos, jointAngle, creature, segment);
 					break;
-				case AppendageType.MANDIBLE:
-					//					FlxG.log("Creating a new mandible");
+				case AdaptationType.MANDIBLE:
+//					FlxG.log("Creating a new mandible");
 					appendage = new Mandible(jointPos, jointAngle, creature, segment);
 					break;
-				case AppendageType.CLAW:
-					//					FlxG.log("Creating a new claw");
-					appendage = new Claw(jointPos, jointAngle, creature, segment);
-					break;
-				case AppendageType.BUBBLEGUN:
-					//					FlxG.log("Creating a new bubble gun");
+				case AdaptationType.BUBBLEGUN:
+//					FlxG.log("Creating a new bubble gun");
 					appendage = new BubbleGun(jointPos, jointAngle, creature, segment);
 					break;
-				case AppendageType.SPIKESHOOTER:
-					//					FlxG.log("Creating a new spike gun");
+				case AdaptationType.SPIKESHOOTER:
+					//					FlxG.log("Creating a new bubble gun");
 					appendage = new SpikeShooter(jointPos, jointAngle, creature, segment);
+					break;
+				case AdaptationType.POISONCANNON:
+					//					FlxG.log("Creating a new poison cannon");
+					appendage = new PoisonCannon(jointPos, jointAngle, creature, segment);
 					break;
 				default:
 					//					FlxG.log("Creating a new default spike");

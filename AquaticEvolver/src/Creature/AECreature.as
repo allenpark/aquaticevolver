@@ -183,6 +183,7 @@ package Creature
 			
 			//Add to world
 			AEWorld.world.add(evolutionDrop);
+			trace("EVO DROP");
 			
 			
 			//Get first appendage
@@ -256,6 +257,13 @@ package Creature
 			_occupiedAppendageSlots = new Array();
 		}
 		
+		public static function randomHeadDef(x:Number, y:Number):AEHeadDef
+		{
+			var headImages:Array = new Array(new Head1(), new Head2(), new Head3(), new Head4(), new Head5());
+			var randomHeadImage:DefaultImage = headImages[int(Math.random()*headImages.length)]
+			return headDef(x,y,randomHeadImage);
+		}
+		
 		private static function headDef(x:Number, y:Number, headImage:DefaultImage):AEHeadDef
 		{
 			trace("head image:"+headImage);
@@ -291,6 +299,13 @@ package Creature
 		protected static function head5Def(x:Number, y:Number):AEHeadDef
 		{
 			return headDef(x, y, new Head5());
+		}
+		
+		public static function randomTorsoDef(x:Number, y:Number):AETorsoDef
+		{
+			var torsoImages:Array = new Array(new Torso1(), new Torso2(), new Torso3(), new Torso4(), new Torso5());
+			var randomTorsoImage:DefaultImage = torsoImages[int(Math.random()*torsoImages.length)]
+			return torsoDef(x,y,randomTorsoImage);
 		}
 		
 		/**
@@ -331,6 +346,13 @@ package Creature
 		protected static function torso5Def(x:Number, y:Number):AETorsoDef
 		{
 			return torsoDef(x, y, new Torso5());
+		}
+		
+		public static function randomTailDef(x:Number, y:Number):AETailDef
+		{
+			var tailImages:Array = new Array(new Tail1(), new Tail2(), new Tail3(), new Tail4(), new Tail5());
+			var randomTailImage:DefaultImage = tailImages[int(Math.random()*tailImages.length)]
+			return tailDef(x,y,randomTailImage);
 		}
 		
 		private static function tailDef(x:Number, y:Number, tailImage:DefaultImage):AETailDef

@@ -24,7 +24,7 @@ package
 		public function BubbleGun(jointPos:b2Vec2, jointAngle:Number, owner:*, segment:B2FlxSprite)
 		{
 			jointAngle = jointAngle + jointAngleCorrection;
-			super(AppendageType.BUBBLEGUN, 30, true, 2, jointPos, jointAngle, owner, segment);
+			super(AdaptationType.BUBBLEGUN, 30, true, 2, jointPos, jointAngle, owner, segment);
 			
 			var world:b2World = AEWorld.AEB2World;
 			

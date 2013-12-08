@@ -107,6 +107,10 @@ package
 		 */
 		public static var KILLLIST:Array = new Array();
 		
+		public static var REMOVELIST:Array = new Array();
+		
+		public static var EVOLVELIST:Array = new Array();
+		
 		/**
 		 * Number keeping track of the last position the background's color
 		 * was changed in order to figure out whether to change the background
@@ -216,7 +220,7 @@ package
 			this.defaultHealth += 2
 			//Can't add enemies above the top bound
 			if(newY > topLocation){
-				var newEnemy:AEEnemy = AEEnemy.generateEnemy(newX, newY);
+				var newEnemy:AEEnemy = AEEnemy.generateRandomEnemy(newX, newY);
 				if (newEnemy)
 				{
 					this.add(newEnemy.healthDisplay);
@@ -439,6 +443,23 @@ package
 			}
 		}
 		
+		private function processRemoveList():void
+		{
+			while (REMOVELIST.length > 0)
+			{
+				REMOVELIST.pop().kill();
+			}
+		}
+		private function processEvolveList():void
+		{
+			while (EVOLVELIST.length > 0)
+			{
+				var evolveDescription:Array = EVOLVELIST.pop();
+				var evolver:AECreature = evolveDescription[0] as AECreature;
+				var appendage = evolveDescription[1] as Number;
+				evolver.attachAppendage(appendage);
+			}
+		}
 		override public function update():void 
 		{
 			var baseLightPos:Number = int(FlxG.camera.scroll.x / 1024) * 1024;
@@ -461,7 +482,9 @@ package
 					toggleB2DebugDrawing();
 				}
 				AEB2World.Step(1.0/60.0, 10, 10);
+				processEvolveList();
 				processKillList();
+				processRemoveList();
 				enforceTop();
 				
 				if (SPAWNENEMIES)

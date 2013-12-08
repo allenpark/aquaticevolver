@@ -7,7 +7,7 @@ package
 	import org.flixel.FlxGame;
 	import org.flixel.FlxGroup;
 
-	[SWF(width="1280", height="960", backgroundColor="#000000")]
+	[SWF(width="1080", height="810", backgroundColor="#000000")]
 	public class AquaticEvolver extends FlxGame
 	{
 		public static var DEBUG_SPRITE:Sprite;
@@ -18,7 +18,7 @@ package
 		public function AquaticEvolver() 
 		{
 			
-			super(1280,960,MenuWorld,1);
+			super(1080,810,MenuWorld,1);
 			// this.pause = new PauseScreen();
 			forceDebugger = true;
 			//Box2D debug stuff
