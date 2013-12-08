@@ -87,3 +87,6 @@ Tail4
 Tail5
 	root 32 14
 	attach1 32 50
+	
+// APPENDAGES
+// _all_ appendages attach to a body part at the root attachment point. other attachment points
