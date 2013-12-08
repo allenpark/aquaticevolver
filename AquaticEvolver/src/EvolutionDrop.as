@@ -20,6 +20,7 @@ package
 		private var bodyWidth:int = 64;
 		private var bodyHeight:int = 64;
 		public var owner:EvolutionDrop;
+		public var creatureType:Number;
 		
 		public var adaptationType:Number;
 		public var pos:b2Vec2;
@@ -43,6 +44,7 @@ package
 			this.adaptationType = adaptationType;
 			this.bubbleBoxShape = new b2PolygonShape();
 			this.bubbleBoxShape.SetAsArray(polygonVerticies);
+			this.creatureType = SpriteType.EVOLUTIONDROP;
 			this.owner = this;
 			
 			super(x, y, 0, ImgAttackBubble, width, height, this.bubbleBoxShape);
