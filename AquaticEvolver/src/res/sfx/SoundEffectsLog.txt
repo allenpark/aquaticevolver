@@ -23,5 +23,8 @@ Appendage Sounds
 	BubbleCannon shoot
 		// three variations done
 	Bubble pop!
+		// five variations done
 	Poison spray
+		// three variations done
 	Shell chk!
+		// three variations done
