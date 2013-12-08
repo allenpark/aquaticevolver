@@ -1,0 +1,19 @@
+Creature Sounds
+	Swimming
+	More swimming
+	Changing direction while swimming
+	Ooph! Hurt sound
+		For different voices:
+			VoiceCute
+				// five variations done
+			VoiceClacker
+				// five variations done
+	
+Appendage Sounds
+	Tentacle underwater swoosh
+		// nine variations done
+	BubbleCannon shoot
+		// three variations done
+	Bubble pop!
+	Poison spray
+	Shell chk!
