@@ -220,6 +220,7 @@ package
 			this.defaultHealth += 2
 			//Can't add enemies above the top bound
 			if(newY > topLocation){
+				trace("Generate enemy at x:",+newX+", y:"+newY);
 				var newEnemy:AEEnemy = AEEnemy.generateRandomEnemy(newX, newY);
 				if (newEnemy)
 				{

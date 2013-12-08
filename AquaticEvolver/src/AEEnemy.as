@@ -18,7 +18,6 @@ package
 		public function AEEnemy(id:Number, type:Number, x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
 		{
 			_id = id;
-			trace('Enemy created with id:' + _id);
 			super(type, x, y, health, headDef, torsoDef, tailDef);
 		}
 		
@@ -37,7 +36,7 @@ package
 				var id:Number = unusedIDs.pop();
 				var newEnemy:AEEnemy = new AEEnemy(id, SpriteType.ENEMY, x, y, 10, headDef, torsoDef, tailDef);
 				usedIDs.push(id);
-				AEEnemy.enemies.push(newEnemy);
+				enemies.push(newEnemy);
 				return newEnemy;
 			}else {
 				for each (var enemy:AEEnemy in enemies)
@@ -67,6 +66,8 @@ package
 		override public function kill():void
 		{
 			unusedIDs.push(_id);
+			var index:Number = enemies.indexOf(this);
+			enemies.splice(index, 1);
 			super.kill();
 		}
 	}

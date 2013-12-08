@@ -41,7 +41,7 @@ package B2Builder
 			boxShape.SetAsBox(1.0, 1.0);
 			_shape = boxShape;
 			
-			_position = b2Position; //new b2Vec2(AEWorld.b2NumFromFlxNum(AEWorld.ScreenWidth)/2.0, AEWorld.b2NumFromFlxNum(AEWorld.ScreenHeight/2.0));
+			_position = b2Position;
 			_angle = b2Angle;
 			_type = b2Body.b2_dynamicBody;
 			
@@ -136,12 +136,12 @@ package B2Builder
 			fixDef.shape = _shape;
 			if (_groupFilter) 
 			{
-				trace("Setting group filter to:"+_groupFilter);
+				//trace("Setting group filter to:"+_groupFilter);
 				fixDef.filter.groupIndex = _groupFilter;
 			}
 			else
 			{
-				trace("NOT setting group filter to:"+_groupFilter);
+				//trace("NOT setting group filter to:"+_groupFilter);
 			}
 			
 			var bodyDef:b2BodyDef = new b2BodyDef();
@@ -153,7 +153,6 @@ package B2Builder
 			bodyDef.userData = _data;
 			
 			var body:b2Body = AEWorld.AEB2World.CreateBody(bodyDef);
-			trace("BBuilder Body: "+ body);
 			body.CreateFixture(fixDef);
 			return body;
 		}

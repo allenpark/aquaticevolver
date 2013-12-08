@@ -266,9 +266,7 @@ package Creature
 		
 		private static function headDef(x:Number, y:Number, headImage:DefaultImage):AEHeadDef
 		{
-			trace("head image:"+headImage);
 			var headSchematic:AESchematic = new AESchematic(headImage.image(), headImage.suggestedAppendageSlots());
-			//Setting up the segment's shape
 			var playerHeadShape:b2PolygonShape = new b2PolygonShape();
 			playerHeadShape.SetAsArray(headImage.polygonVertices());
 			var playerHeadSegmentDef:AESegmentDef = new AESegmentDef(x,y, headSchematic, playerHeadShape);
@@ -314,7 +312,6 @@ package Creature
 		private static function torsoDef(x, y, torsoImage:DefaultImage):AETorsoDef
 		{
 			var torsoSchematic:AESchematic = new AESchematic(torsoImage.image(), torsoImage.suggestedAppendageSlots());
-			//Setting up segment's shape
 			var playerTorsoShape:b2PolygonShape = new b2PolygonShape();
 			playerTorsoShape.SetAsArray(torsoImage.polygonVertices());
 			var playerTorsoSegmentDef:AESegmentDef = new AESegmentDef(x,y, torsoSchematic, playerTorsoShape);
@@ -358,7 +355,6 @@ package Creature
 		private static function tailDef(x:Number, y:Number, tailImage:DefaultImage):AETailDef
 		{
 			var tailSchematic:AESchematic = new AESchematic(tailImage.image(), tailImage.suggestedAppendageSlots());
-			//Setting the segment's shape
 			var playerTailShape:b2PolygonShape = new b2PolygonShape();
 			playerTailShape.SetAsArray(tailImage.polygonVertices());
 			var playerTailSegmentDef:AESegmentDef = new AESegmentDef(x, y, tailSchematic, playerTailShape);
