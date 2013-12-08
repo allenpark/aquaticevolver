@@ -35,7 +35,7 @@ package {
 		
 		/** takes in a AppendageType int, b2Vec2 in local box2D coordinates that specifies the position of the joint,
 		 * angle in radians specifying the orientation of the joint, and a Creature specifying the owner of the appendage
-		*/
+		 */
 		public static function createAppendageWithType(type:Number, jointPos:b2Vec2, jointAngle:Number, creature:AECreature, segment:B2FlxSprite): Appendage
 		{
 			var appendage:Appendage;
@@ -43,27 +43,31 @@ package {
 			switch (type)
 			{
 				case AppendageType.SPIKE:
-//					FlxG.log("Creating a new spike");
+					//					FlxG.log("Creating a new spike");
 					appendage = new Spike(jointPos, jointAngle, creature, segment);
 					break;
 				case AppendageType.TENTACLE:
-//					FlxG.log("Creating a new tentacle");
+					//					FlxG.log("Creating a new tentacle");
 					appendage = new Tentacle(jointPos, jointAngle, creature, segment);
 					break;
 				case AppendageType.MANDIBLE:
-//					FlxG.log("Creating a new mandible");
+					//					FlxG.log("Creating a new mandible");
 					appendage = new Mandible(jointPos, jointAngle, creature, segment);
 					break;
+				case AppendageType.CLAW:
+					//					FlxG.log("Creating a new claw");
+					appendage = new Claw(jointPos, jointAngle, creature, segment);
+					break;
 				case AppendageType.BUBBLEGUN:
-//					FlxG.log("Creating a new bubble gun");
+					//					FlxG.log("Creating a new bubble gun");
 					appendage = new BubbleGun(jointPos, jointAngle, creature, segment);
 					break;
 				case AppendageType.SPIKESHOOTER:
-					//					FlxG.log("Creating a new bubble gun");
+					//					FlxG.log("Creating a new spike gun");
 					appendage = new SpikeShooter(jointPos, jointAngle, creature, segment);
 					break;
 				default:
-//					FlxG.log("Creating a new default spike");
+					//					FlxG.log("Creating a new default spike");
 					appendage = new Spike(jointPos, jointAngle, creature, segment);
 					break;
 			}
@@ -89,14 +93,14 @@ package {
 		}
 		
 		/*override public function kill():void {
-			super.kill();
-			
-			
+		super.kill();
+		
+		
 		}*/
 		
 		protected function calcB2Impulse(point:FlxPoint, bodyPoint:FlxPoint):b2Vec2 {
 			var angle:Number = Math.atan2(point.y - bodyPoint.y,point.x - bodyPoint.x);
-		    var magnitude:Number = 0.001;
+			var magnitude:Number = 0.001;
 			return new b2Vec2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
 			/*var vec:b2Vec2 = new b2Vec2(point.x - bodyPoint.x, point.y - bodyPoint.y);
 			vec.Normalize();
