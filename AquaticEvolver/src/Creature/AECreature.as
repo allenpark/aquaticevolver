@@ -32,9 +32,7 @@ package Creature
 	import org.flixel.FlxText;
 			
 	public class AECreature
-	{
-		protected var _id:Number;
-		
+	{		
 		protected var _head:AEHead;
 		protected var _torso:AETorso;
 		protected var _tail:AETail;
