@@ -83,15 +83,18 @@ package Creature
 		
 		// This method is called often to update the state of the creature.
 		public function update():void {
-			var redColor:Number = 0xffff0000;
 			this.healthDisplay.x = this.x - 5;
 			this.healthDisplay.y = this.y + 10;
 			// added code for when the enemey current ratio of health 
 			// is lower then the health threshold, it turns red
-			var threshold = 0.5;
-			var healthRatio = this.currentHealth * 1.0 / this.maxHealth;
+			var threshold:Number = 1.0;
+			var healthRatio:Number = this.currentHealth * 1.0 / this.maxHealth;
 			if (healthRatio <= threshold ) {
-				//this.fill(redColor);
+				var redColor:Number = 0xffff0000;
+				var whiteColor:Number = 0xffffffff;
+				var ratio:Number = int(healthRatio * 16) / 16.0;
+				//AEWorld.debugText.text += " " + ratio;
+				this.color(redColor * (1 - ratio) + whiteColor * ratio);
 			}
 			this.healthDisplay.text = this.currentHealth + "/" + this.maxHealth;
 			//			this.adaptationGroup.setAll("x", this.x + 10);
@@ -166,8 +169,6 @@ package Creature
 				{
 					adaptation.kill();
 				}
-				else{
-				}
 			}
 		}
 		
@@ -179,6 +180,15 @@ package Creature
 		public function getY():Number
 		{
 			return AEWorld.flxNumFromB2Num(_head.headSegment.getBody().GetPosition().y);
+		}
+		
+		private function color(color:Number):void {
+			_head.color(color);
+			_torso.color(color);
+			_tail.color(color);
+			for each (var adaptation:Adaptation in _adaptations) {
+				adaptation.color(color);
+			}
 		}
 		
 		private function ownBodies(type:Number):void

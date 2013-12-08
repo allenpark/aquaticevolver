@@ -12,5 +12,11 @@ package Creature
 			this.segment = segment;
 			this.slotLocation = slotLocation;
 		}
+		
+		public function color(color:Number):void {
+			if (this.segment) {
+				this.segment.color = color;
+			}
+		}
 	}
 }
