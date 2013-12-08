@@ -15,19 +15,16 @@ package Creature.Images
 		 * to assure that they are centered on the sprite
 		 */
 		protected static var PolygonVertices:Array = new Array(
-			//TODO: update these numbers with Nick's locations
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-27),AEWorld.b2NumFromFlxNum(4)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-27),AEWorld.b2NumFromFlxNum(-1)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-13),AEWorld.b2NumFromFlxNum(-11)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(2),AEWorld.b2NumFromFlxNum(-17)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(12),AEWorld.b2NumFromFlxNum(-17)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(20),AEWorld.b2NumFromFlxNum(-11)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(25),AEWorld.b2NumFromFlxNum(-3)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(25),AEWorld.b2NumFromFlxNum(4)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(19),AEWorld.b2NumFromFlxNum(12)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(11),AEWorld.b2NumFromFlxNum(16)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(0),AEWorld.b2NumFromFlxNum(16)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-12),AEWorld.b2NumFromFlxNum(12)));
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-4.0),AEWorld.b2NumFromFlxNum(31.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-16.0),AEWorld.b2NumFromFlxNum(24.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-29.0),AEWorld.b2NumFromFlxNum(17.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-30.0),AEWorld.b2NumFromFlxNum(9.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(-2.0),AEWorld.b2NumFromFlxNum(-32.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(2.0),AEWorld.b2NumFromFlxNum(-32.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(28.0),AEWorld.b2NumFromFlxNum(7.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(29.0),AEWorld.b2NumFromFlxNum(18.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(18.0),AEWorld.b2NumFromFlxNum(24.0)),
+			new b2Vec2(AEWorld.b2NumFromFlxNum(8.0),AEWorld.b2NumFromFlxNum(31.0)));
 		
 		[Embed(source='../../res/Tail5.png')]
 		private static const IMG:Class;

@@ -26,12 +26,12 @@ package
 			var tailDef:AETailDef = AECreature.tail1Def(x,y);
 			super(SpriteType.PLAYER, x, y, health, headDef, torsoDef, tailDef);
 			
-			attachAppendage(AppendageType.CLAW);
-			attachAppendage(AppendageType.BUBBLEGUN);
-			attachAppendage(AppendageType.TENTACLE);
-			attachAppendage(AppendageType.SPIKESHOOTER);
-			attachAppendage(AppendageType.SPIKE);
-			attachAppendage(AppendageType.MANDIBLE);	
+//			attachAppendage(AppendageType.CLAW);
+//			attachAppendage(AppendageType.BUBBLEGUN);
+//			attachAppendage(AppendageType.TENTACLE);
+//			attachAppendage(AppendageType.SPIKESHOOTER);
+//			attachAppendage(AppendageType.SPIKE);
+//			attachAppendage(AppendageType.MANDIBLE);	
 
 		}
 		
