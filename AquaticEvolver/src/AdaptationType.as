@@ -8,6 +8,7 @@ package
 				public static var BUBBLEGUN:Number = 4;
 				public static var SPIKESHOOTER: Number = 5;
 				public static var CLAW: Number = 6;
+				public static var POISONCANNON: Number = 7;
 				
 				public function AdaptationType()
 				{
