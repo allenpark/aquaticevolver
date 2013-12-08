@@ -90,8 +90,8 @@ package Creature
 			// is lower then the health threshold, it turns red
 			var threshold = 0.5;
 			var healthRatio = this.currentHealth * 1.0 / this.maxHealth;
-			if (healthRatio <=threshold ) {
-				this.fill(redColor);
+			if (healthRatio <= threshold ) {
+				//this.fill(redColor);
 			}
 			this.healthDisplay.text = this.currentHealth + "/" + this.maxHealth;
 			//			this.adaptationGroup.setAll("x", this.x + 10);
