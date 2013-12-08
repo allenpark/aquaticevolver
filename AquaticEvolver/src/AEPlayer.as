@@ -26,7 +26,7 @@ package
 			var torsoDef:AETorsoDef = AECreature.torso1Def(x,y);
 			var tailDef:AETailDef = AECreature.tail1Def(x,y);
 			super(SpriteType.PLAYER, x, y, health, headDef, torsoDef, tailDef);
-			attachAppendage(AppendageType.TENTACLE);
+			attachAppendage(AppendageType.MANDIBLE);
 			attachAppendage(AppendageType.SPIKESHOOTER);
 			attachAppendage(AppendageType.SPIKE);
 			attachAppendage(AppendageType.SPIKE);

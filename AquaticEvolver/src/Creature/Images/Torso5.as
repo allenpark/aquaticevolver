@@ -4,10 +4,10 @@ package Creature.Images
 	
 	import Creature.Schematics.AESchematic;
 	
-	public class Torso1
+	public class Torso5
 	{
 		
-		private static const WIDTH:Number = 128;
+		private static const WIDTH:Number = 64;
 		private static const HEIGHT:Number = 128;
 		
 		/**
@@ -15,6 +15,7 @@ package Creature.Images
 		 * to assure that they are centered on the sprite
 		 */
 		public static var polygonVerteces:Array = new Array(
+			//TODO: update these numbers with Nick's locations
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-46.0),AEWorld.b2NumFromFlxNum(0.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-46.0),AEWorld.b2NumFromFlxNum(-6.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-43.0),AEWorld.b2NumFromFlxNum(-15.0)),
@@ -38,12 +39,14 @@ package Creature.Images
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-43.0),AEWorld.b2NumFromFlxNum(14.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-46.0),AEWorld.b2NumFromFlxNum(7.0)));
 		
-		[Embed(source='../../res/Torso1.png')]
+		[Embed(source='../../res/Torso5.png')]
 		private static const IMG:Class;
 		
+		//TODO: update these numbers with Nick's locations
 		public static const suggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(96,64,WIDTH,HEIGHT);
 		public static const suggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(28,64,WIDTH,HEIGHT);
 		
+		//TODO: update these numbers with Nick's locations
 		public static const suggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(93,87, WIDTH, HEIGHT);
 		public static const suggestedAppendageSlot2:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(65,98, WIDTH, HEIGHT);
 		public static const suggestedAppendageSlot3:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(34,87, WIDTH, HEIGHT);
