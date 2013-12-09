@@ -62,5 +62,9 @@ package
 				.withData(new CollisionData(this.owner, SpriteType.EVOLUTIONDROP));
 			return b2bb;
 		}
+		
+		public function getID():Number {
+			return -1;
+		}
 	}
 }
