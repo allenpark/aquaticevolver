@@ -10,7 +10,6 @@ package
 	import Def.AETorsoDef;
 	
 	import org.flixel.FlxG;
-	import org.flixel.FlxGroup;
 	import org.flixel.FlxPoint;
 	
 	public class AEEnemy extends AECreature
@@ -92,7 +91,7 @@ package
 			counter += FlxG.elapsed;
 			this.movementBody = this._head.headSegment.getBody();
 			if (attitude == "Passive") {
-				//passiveMovement();
+				passiveMovement();
 			} else {
 				aggressiveMovement();
 			}
