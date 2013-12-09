@@ -13,7 +13,11 @@ package
 	import org.flixel.FlxPoint;
 	
 	public class AEPlayer extends AECreature
-	{
+	{	
+		//Swimming sound effects
+		[Embed(source='res/sfx/Swim1.mp3')]
+		public var Swim1SFX:Class;
+		
 		private var defaultMovementScheme:Boolean = false; 
 		public var aboveTop: Boolean = false; 
 		
@@ -21,12 +25,16 @@ package
 		{	
 			
 			//Player has special ID value of 1
-			var headDef:AEHeadDef = AECreature.head3Def(x,y);
+			var headDef:AEHeadDef = AECreature.head1Def(x,y);
 			var torsoDef:AETorsoDef = AECreature.torso1Def(x,y);
 			var tailDef:AETailDef = AECreature.tail1Def(x,y);
 			super(SpriteType.PLAYER, x, y, health, headDef, torsoDef, tailDef);
 
+			attachAppendage(AdaptationType.TENTACLE);
 			//attachAppendage(AdaptationType.POISONCANNON);	
+			//attachAppendage(AdaptationType.SPIKESHOOTER);
+			attachAppendage(AdaptationType.BUBBLEGUN);
+			//attachAppendage(AdaptationType.SHELL);
 		}
 		
 		override public function getID():Number
@@ -49,6 +57,9 @@ package
 				var xDir:Number = 0;
 				var yDir:Number = 0;
 				
+				if(FlxG.keys.justPressed("LEFT") || FlxG.keys.justPressed("RIGHT") || FlxG.keys.justPressed("UP") || FlxG.keys.justPressed("DOWN")){
+					FlxG.play(Swim1SFX);
+				}
 				if(FlxG.mouse.justPressed())
 					//if(FlxG.mouse.pressed())
 				{
@@ -62,7 +73,7 @@ package
 					
 					// moving the player based on the arrow keys inputs
 				else if (FlxG.keys.LEFT && FlxG.keys.RIGHT) {
-				} 
+				}
 				else if (FlxG.keys.LEFT) {
 					//					trace("BoxPlayer: left");
 					xDir = -1*this.speed;
@@ -104,6 +115,10 @@ package
 		{
 			for each (var adapt:Adaptation in _adaptations)
 			{
+				/*
+				else if (adapt.adaptationType == AdaptationType.SHELL){
+					FlxG.play(ShellSFX);
+				}*/
 				adapt.attack(FlxG.mouse.getScreenPosition());
 			}
 		}

@@ -17,7 +17,7 @@ package {
 		protected var segment:B2FlxSprite;
 		
 		public function Appendage(type:Number, cost:int, isAttack:Boolean, attackDamage:int, jointPos:b2Vec2, jointAngle:Number, creature:AECreature, segment:B2FlxSprite) {
-			super(cost, isAttack, attackDamage, creature);
+			super(cost, isAttack, attackDamage, creature, type);
 			this.type = type;
 			this.jointPos = jointPos;
 			// jointAngle is given in radians with 0 defined as being completely vertical and positive clockwise
