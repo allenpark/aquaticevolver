@@ -10,36 +10,36 @@ package
 	import org.flixel.FlxPoint;
 	import Creature.AECreature;
 	
-	public class Spike extends Appendage
+	public class Shell extends Appendage
 	{
-		private var spike:B2FlxSprite;
+		private var shell:B2FlxSprite;
 		
 		// spike joint location
-		private var spikeJoint:b2Vec2 = new b2Vec2(0,45);
+		private var shellJoint:b2Vec2 = new b2Vec2(-3,34);
 		
 		// image
-		[Embed(source='res/Spike1.png')]
-		public static var spikeImg:Class;
+		[Embed(source='res/Shell1.png')]
+		public static var shellImg:Class;
 		
 		// jointPos is given from the local box2D coordinate system of the player and is the location of the attached point for the adatation
-		public function Spike(jointPos:b2Vec2, jointAngle, creature:AECreature, segment:B2FlxSprite)
+		public function Shell(jointPos:b2Vec2, jointAngle, creature:AECreature, segment:B2FlxSprite)
 		{
-			super(AdaptationType.SPIKE, 20, true, 1, jointPos, jointAngle, creature, segment);
+			super(AdaptationType.SHELL, 20, true, 1, jointPos, jointAngle, creature, segment);
 			
 			var world:b2World = AEWorld.AEB2World;
 			
 			// create the sprite
-			spike = new BoxSpike(0,0,creature,spikeImg,32,128);
-			this.add(spike);
+			shell = new BoxShell(0,0,creature,shellImg,256,128);
+			this.add(shell);
 			
 			// create the jointDef
 			var weldJointDef:b2WeldJointDef = new b2WeldJointDef();
 			weldJointDef.bodyA = segment.getBody();
-			weldJointDef.bodyB = spike.getBody();
+			weldJointDef.bodyB = shell.getBody();
 			weldJointDef.localAnchorA = jointPos;
-//			FlxG.log("AanchorCoords = " + weldJointDef.localAnchorA.x + ", " + weldJointDef.localAnchorA.y);
-			weldJointDef.localAnchorB = convertToBox2D(spikeJoint);
-//			FlxG.log("BanchorCoords = " + weldJointDef.localAnchorB.x + ", " + weldJointDef.localAnchorB.y);
+			//			FlxG.log("AanchorCoords = " + weldJointDef.localAnchorA.x + ", " + weldJointDef.localAnchorA.y);
+			weldJointDef.localAnchorB = convertToBox2D(shellJoint);
+			//			FlxG.log("BanchorCoords = " + weldJointDef.localAnchorB.x + ", " + weldJointDef.localAnchorB.y);
 			weldJointDef.collideConnected = false;
 			weldJointDef.referenceAngle = jointAngle;
 			
@@ -49,7 +49,7 @@ package
 		
 		override public function color(color:Number):void {
 			super.color(color);
-			this.spike.color = color;
+			this.shell.color = color;
 		}
 		
 		override public function update():void

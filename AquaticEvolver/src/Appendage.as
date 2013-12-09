@@ -66,6 +66,10 @@ package {
 					//					FlxG.log("Creating a new poison cannon");
 					appendage = new PoisonCannon(jointPos, jointAngle, creature, segment);
 					break;
+				case AdaptationType.SHELL:
+					//					FlxG.log("Creating a new poison cannon");
+					appendage = new Shell(jointPos, jointAngle, creature, segment);
+					break;
 				default:
 					//					FlxG.log("Creating a new default spike");
 					appendage = new Spike(jointPos, jointAngle, creature, segment);

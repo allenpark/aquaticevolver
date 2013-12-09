@@ -181,7 +181,7 @@ package
 		}
 		//A function that will prevent the player from moving beyond the top
 		private function enforceTop ():void {
-			if (player.y < topLocation ){
+			if (player.getY() < topLocation ){
 				if (!player.aboveTop){
 				//this.add(new FlxSprite(player.x - ScreenWidth/3,topLocation- ScreenHeight/2 - 30  ,enforcerImage));
 				}
@@ -242,10 +242,10 @@ package
 		 * @param x X coordinate in flixel units
 		 * @param y Y coordinate in flixel units
 		 */
-		public function outOfBounds(x:Number, y:Number):Boolean
+		public function outOfBufferBounds(x:Number, y:Number):Boolean
 		{
 			const BOUNDSBUFFER:int = 300;
-
+			
 			var lowerYbound:Number = ((-BOUNDSBUFFER - FlxG.height/2) + AEWorld.player.getY());
 			var upperYbound:Number = ((BOUNDSBUFFER + FlxG.height/2) + AEWorld.player.getY());
 			var upperXbound:Number = ((BOUNDSBUFFER + FlxG.width/2) + AEWorld.player.getX());
@@ -472,9 +472,7 @@ package
 				AEWorld.debugText.y = FlxG.camera.scroll.y + 50;
 				super.update();
 				player.update();
-				for (var i:Number = 0; i < AEEnemy.enemies.length; i++) {
-					AEEnemy.enemies[i].update();
-				}
+				AEEnemy.updateEnemies();
 				//Box2D debug stuff
 				if (AquaticEvolver.box2dDebug) {
 					AEB2World.DrawDebugData();
@@ -490,7 +488,7 @@ package
 				
 				if (SPAWNENEMIES)
 				{
-					if (Math.random() < 0.02 && AEEnemy.enemies.length < 30) {
+					if (Math.random() < 0.02) {
 						addOffscreenEnemy(15, 15);
 					}
 				}

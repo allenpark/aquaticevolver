@@ -50,8 +50,6 @@ package Creature
 		
 		public var creatureType:Number;
 		
-		public var x:Number;
-		public var y:Number;
 		protected var currentHealth:int;
 		protected var maxHealth:int;
 		public var healthDisplay:FlxText;
@@ -62,9 +60,10 @@ package Creature
 		{
 			//Set creature id, then increment current id value
 			trace("constructing creature with id:" + getID());
-			_head = headDef.createHeadWithCreatureID(getID());
-			_torso = torsoDef.createTorsoWithCreatureID(getID());
-			_tail = tailDef.createTailWithCreatureID(getID());
+			var id:Number = this.getID();
+			_head = headDef.createHeadWithCreatureID(id);
+			_torso = torsoDef.createTorsoWithCreatureID(id);
+			_tail = tailDef.createTailWithCreatureID(id);
 
 			_adaptations = new Array();
 			
@@ -77,9 +76,6 @@ package Creature
 			ownBodies(type);
 			//TODO: Should this be done outside the constructor?
 			addToWorld();
-			
-			this.x = x;
-			this.y = y;
 			
 			currentHealth = health;
 			maxHealth = health;
@@ -94,8 +90,8 @@ package Creature
 		
 		// This method is called often to update the state of the creature.
 		public function update():void {
-			this.healthDisplay.x = this.x - 5;
-			this.healthDisplay.y = this.y + 10;
+			this.healthDisplay.x = getX() - 5;
+			this.healthDisplay.y = getY() + 10;
 			// added code for when the enemey current ratio of health 
 			// is lower then the health threshold, it turns red
 			var threshold:Number = 1.0;
@@ -179,7 +175,7 @@ package Creature
 			var randomAdaptation = this._adaptations[int(Math.random()*(this._adaptations.length - 1))];
 			
 			//Add evolution drop
-			var evolutionDrop = new EvolutionDrop(this.x, this.y, randomAdaptation);
+			var evolutionDrop = new EvolutionDrop(getX(), getY(), randomAdaptation);
 			
 			//Add to world
 			AEWorld.world.add(evolutionDrop);

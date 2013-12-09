@@ -18,7 +18,7 @@ package
 		public function B2FlxSprite(x:int, y:int,  angle:Number=0,Graphic:Class=null, 
 									width:Number=0, height:Number=0,shape:b2PolygonShape=null, groupFilter:Number=undefined):void
 		{
-			//trace("Constructing b2flxsprite with groupfilter:"+groupFilter);
+			trace("Constructing b2flxsprite with groupfilter:"+groupFilter);
 			_groupFilter = groupFilter;
 			super(x,y);
 			if (Graphic) {

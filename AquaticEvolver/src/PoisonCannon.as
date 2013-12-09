@@ -10,9 +10,9 @@ package
 	public class PoisonCannon extends Appendage
 	{
 		// bubble gun joint locations
-		private var bubbleGunJoint:b2Vec2 = new b2Vec2(0,32);
+		private var poisonCannonJoint:b2Vec2 = new b2Vec2(0,32);
 		
-		private var bubbleGun:BoxBubbleGun;
+		private var poisonCannon:BoxBubbleGun;
 		
 		private var jointAngleCorrection:Number = 0;
 		
@@ -33,16 +33,16 @@ package
 			
 			// create the sprites
 			trace(owner);
-			bubbleGun = new BoxBubbleGun(0, 0, owner, this, bubbleGunImg, 128, 128);
-			this.add(bubbleGun);
+			poisonCannon = new BoxBubbleGun(0, 0, owner, this, bubbleGunImg, 128, 128);
+			this.add(poisonCannon);
 			
 			// create the joint from base to creature
 			revoluteJointDef = new b2RevoluteJointDef();
 			revoluteJointDef.bodyA = segment.getBody();
-			revoluteJointDef.bodyB = bubbleGun.getBody();
+			revoluteJointDef.bodyB = poisonCannon.getBody();
 			revoluteJointDef.localAnchorA = jointPos;
 			//			FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);
-			revoluteJointDef.localAnchorB = convertToBox2D(bubbleGunJoint);
+			revoluteJointDef.localAnchorB = convertToBox2D(poisonCannonJoint);
 			//			FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
 			revoluteJointDef.referenceAngle = jointAngle;
 			revoluteJointDef.enableLimit = true;
