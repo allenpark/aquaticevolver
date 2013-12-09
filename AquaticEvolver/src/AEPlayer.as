@@ -136,7 +136,7 @@ package
 		public function goAboveTop():void{
 			this.aboveTop = true;
 		}
-		public function goBelowTop (): void{
+		public function goBelowTop(): void{
 			this.aboveTop = false 
 		}
 		

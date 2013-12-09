@@ -25,10 +25,9 @@ package
 		private var target:FlxPoint = new FlxPoint(AEWorld.player.getX(), AEWorld.player.getY());
         private var counter:Number = 0;
 		public var aggroRadius:int = 200;
-		private const BOUNDSBUFFER:int = 300;
 		private var movementBody:b2Body;
 		
-		private var attitude:String = "Aggressive";
+		private var attitude:String = "Passive";
 		private var original:FlxPoint;
 		private var current:FlxPoint;
 		private var boxBound:int = Math.random()*300+50;
@@ -44,8 +43,11 @@ package
 			this.original = new FlxPoint(getX(), getY());
 			this.current  = new FlxPoint(original.x + boxBound, original.y);
 			if(Math.random() > 0.5){
-				attitude = "aggressive";
+				attitude = "Aggressive";
 			}
+			attachAppendage(AdaptationType.TENTACLE);
+			attachAppendage(AdaptationType.TENTACLE);
+			attachAppendage(AdaptationType.BUBBLEGUN);
 		}
 		
 		public static function generateRandomEnemy(x:Number, y:Number):AEEnemy
@@ -93,7 +95,7 @@ package
 			counter += FlxG.elapsed;
 			this.movementBody = this._head.headSegment.getBody();
 			if (attitude == "Passive") {
-				//passiveMovement();
+				passiveMovement();
 			} else {
 				aggressiveMovement();
 			}
@@ -115,8 +117,12 @@ package
 
 		private function aggressiveMovement():void {
 			this.moveCloseToEnemy(AEWorld.player, 240);
-			target = new FlxPoint(AEWorld.player.getX(), AEWorld.player.getY());
-			attack(target);	
+			target = new FlxPoint(FlxG.width  / 2.0, FlxG.height / 2.0);
+			aim(target);
+			if (counter > 1) {
+				counter = 0;
+				attack(target);
+			}
 		}
 		
 		private function runAwayFromEnemy(enemy:AECreature):void {
