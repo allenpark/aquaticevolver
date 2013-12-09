@@ -136,11 +136,11 @@ package Creature
 		}
 		
 		public function handleAttackOn(adaptation:Adaptation, enemy:AECreature):Boolean {
-			var enemyAlive:Boolean = false;
-			if (adaptation == null) {
-				enemyAlive = enemy.getAttacked(0);
+			var enemyDead:Boolean = false;
+			if (adaptation == null || adaptation.adaptationType == SpriteType.SHELL) {
+				enemyDead = enemy.getAttacked(0);
 			} else {
-				enemyAlive = enemy.getAttacked(adaptation.attackDamage);	
+				enemyDead = enemy.getAttacked(adaptation.attackDamage);	
 			}
 			
 			/*if (!enemyAlive) {
@@ -151,7 +151,7 @@ package Creature
 				return true;
 			}
 			return false;*/
-			return enemyAlive;
+			return enemyDead;
 		}
 		
 		public function getAttacked(damage:int):Boolean {
@@ -173,10 +173,10 @@ package Creature
 			
 			
 			//Get random adaptation
-			var randomAdaptation = this._adaptations[int(Math.random()*(this._adaptations.length - 1))];
+			var randomAdaptation:Number = this._adaptations[int(Math.random()*(this._adaptations.length - 1))].adaptationType;
 			
 			//Add evolution drop
-			var evolutionDrop = new EvolutionDrop(getX(), getY(), randomAdaptation);
+			var evolutionDrop:EvolutionDrop = new EvolutionDrop(getX(), getY(), randomAdaptation);
 			
 			//Add to world
 			AEWorld.world.add(evolutionDrop);
