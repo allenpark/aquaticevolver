@@ -82,7 +82,7 @@ package Creature
 			maxHealth = health;
 			this.healthDisplay = new FlxText(0, 0, 50);
 			this.healthDisplay.size = 10;
-			killed = false;
+			this.killed = false;
 		}
 		
 		public function getID():Number
@@ -177,19 +177,19 @@ package Creature
 			_tail.kill();
 			trace("KILLING ENEMY");
 			
-			//Get random adaptation
-			var randomAdaptation:Number = this._adaptations[int(Math.random()*(this._adaptations.length - 1))].adaptationType;
-			
-			//Add evolution drop
-			var evolutionDrop:EvolutionDrop = new EvolutionDrop(getX(), getY(), randomAdaptation);
-			
-			//Add to world
-			AEWorld.world.add(evolutionDrop);
-			
+			if (this._adaptations.length != 0) {
+				//Get random adaptation
+				var randomAdaptation:Number = this._adaptations[int(Math.random()*(this._adaptations.length - 1))].adaptationType;
+				
+				//Add evolution drop
+				var evolutionDrop:EvolutionDrop = new EvolutionDrop(getX(), getY(), randomAdaptation);
+				
+				//Add to world
+				AEWorld.world.add(evolutionDrop);
+			}
 			
 			//Get first appendage
 			//var appendage = Appendage.createAppendageWithType(AppendageType.SPIKE		
-			
 			
 			healthDisplay.kill();
 			for each(var adaptation:Adaptation in _adaptations) {

@@ -27,48 +27,94 @@ package
 		public var aggroRadius:int = 200;
 		private var movementBody:b2Body;
 		
-		private var attitude:String = "Passive";
+		private var attitude:String;
 		private var original:FlxPoint;
 		private var current:FlxPoint;
 		private var boxBound:int = Math.random()*300+50;
+		
+		private var distTraveled:Number = 0;
+
 		
 		private static var unusedIDs:Array = new Array(2,3,4,5,6,7,8,9,10,11,12,13,14,15);
 		
 		private var _id:Number;
 		
-		public function AEEnemy(id:Number, type:Number, x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
+		public function AEEnemy(id:Number, type:Number, appen:int, behavior:String, x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
 		{
 			_id = id;
 			super(type, x, y, health, headDef, torsoDef, tailDef);
 			this.original = new FlxPoint(getX(), getY());
 			this.current  = new FlxPoint(original.x + boxBound, original.y);
-			if(Math.random() > 0.5){
+			/*
+			if(Math.random() > 0.8){
 				attitude = "Aggressive";
 			}
-			attachAppendage(AdaptationType.TENTACLE);
-			attachAppendage(AdaptationType.TENTACLE);
-			//attachAppendage(AdaptationType.BUBBLEGUN);
+			*/
+			attitude = behavior;
+			trace("app " + appen);
+			var z:Number = Math.random();
+			if (appen == 1) {
+				if(z>0.5){
+					attachAppendage(AdaptationType.TENTACLE);
+				} else {
+					attachAppendage(AdaptationType.SPIKE);
+				}
+			}
+			if (appen == 2) {
+				if(z<0.33){
+					attachAppendage(AdaptationType.TENTACLE);
+					attachAppendage(AdaptationType.SPIKE);
+				} else if (z>=0.33 && z<0.66){
+					attachAppendage(AdaptationType.TENTACLE);
+					attachAppendage(AdaptationType.BUBBLEGUN);
+				} else{
+					attachAppendage(AdaptationType.MANDIBLE);
+					attachAppendage(AdaptationType.SPIKESHOOTER);
+				}
+			}
+			if (appen == 3) {
+				if (z<0.2) {
+					attachAppendage(AdaptationType.TENTACLE);
+					attachAppendage(AdaptationType.SPIKE);
+					attachAppendage(AdaptationType.CLAW);
+				} else if (z>=0.2 && z<0.4) {
+					attachAppendage(AdaptationType.TENTACLE);
+					attachAppendage(AdaptationType.BUBBLEGUN);
+					attachAppendage(AdaptationType.SPIKESHOOTER);
+				} else if (z>=0.4 && z<0.6) {
+					attachAppendage(AdaptationType.TENTACLE);
+					attachAppendage(AdaptationType.BUBBLEGUN);
+					attachAppendage(AdaptationType.MANDIBLE);
+				} else if (z>=0.6 && z<0.8) {
+					attachAppendage(AdaptationType.TENTACLE);
+					attachAppendage(AdaptationType.SPIKESHOOTER);
+					attachAppendage(AdaptationType.MANDIBLE);
+				} else {
+					attachAppendage(AdaptationType.CLAW);
+					attachAppendage(AdaptationType.BUBBLEGUN);
+					attachAppendage(AdaptationType.SHELL);
+				}
+			}
 		}
 		
-		public static function generateRandomEnemy(x:Number, y:Number):AEEnemy
+		public static function generateRandomEnemy(app:int, behavior:String, x:Number, y:Number):AEEnemy
 		{
 			var headDef:AEHeadDef = AECreature.randomHeadDef(x,y);
 			var torsoDef:AETorsoDef = AECreature.randomTorsoDef(x,y);
 			var tailDef:AETailDef = AECreature.randomTailDef(x,y);
-			return generateEnemy(x, y, headDef, torsoDef, tailDef);
+			return generateEnemy(app, behavior, x, y, headDef, torsoDef, tailDef);
 		}
 		
 		/**
 		 * @param x In flixel coords
 		 * @param y In flixel coords
 		 */
-		public static function generateEnemy(x:Number, y:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef):AEEnemy
+		public static function generateEnemy(app:int, behavior:String, x:Number, y:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef):AEEnemy
 		{
 			if (unusedIDs.length != 0)
 			{
 				var id:Number = unusedIDs.pop();
-				AEWorld.debugText.text += "\nMaking " + id;
-				var newEnemy:AEEnemy = new AEEnemy(id, SpriteType.ENEMY, x, y, 10, headDef, torsoDef, tailDef);
+				var newEnemy:AEEnemy = new AEEnemy(id, SpriteType.ENEMY,app,  behavior, x, y, 10, headDef, torsoDef, tailDef);
 				enemies.push(newEnemy);
 				return newEnemy;
 			} else {
@@ -79,7 +125,7 @@ package
 						trace("enemy out of bounds killed");
 						enemy.kill();
 						// try again
-						return generateEnemy(x,y, headDef, torsoDef, tailDef);
+						return generateEnemy(app, behavior, x,y, headDef, torsoDef, tailDef);
 					}
 				}
 				return null;
@@ -95,7 +141,7 @@ package
 			super.update();
 			counter += FlxG.elapsed;
 			this.movementBody = this._head.headSegment.getBody();
-			if (attitude == "Passive") {
+			if (attitude == "passive") {
 				passiveMovement();
 			} else {
 				aggressiveMovement();
@@ -107,12 +153,9 @@ package
 			if (this.killed) {
 				return;
 			}
-			AEWorld.debugText.text += "\nEnemy killed " + this.getID();
 			unusedIDs.push(_id);
 
-			//AEWorld.debugText.text = AEEnemy.enemies.length + " ";
 			AEEnemy.enemies.splice(AEEnemy.enemies.indexOf(this),1);
-			//AEWorld.debugText.text += " " + AEEnemy.enemies.length;
 			super.kill();
         }
 		
@@ -130,6 +173,7 @@ package
 		}
 
 		private function aggressiveMovement():void {
+			
 			this.moveCloseToEnemy(AEWorld.player, 240);
 			target = new FlxPoint(FlxG.width  / 2.0, FlxG.height / 2.0);
 			aim(target);
