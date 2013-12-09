@@ -14,6 +14,8 @@ package
 	
 	public class Claw extends Appendage
 	{
+		[Embed(source='res/sfx/VoiceClacker1.mp3')]
+		public var ClawSFX:Class;
 		private var tentacleMidSegments:int = 3;
 		
 		// tentacle joint locations
@@ -179,6 +181,7 @@ package
 		
 		override public function attack(point:FlxPoint):void
 		{
+			FlxG.play(ClawSFX);
 		}
 		
 		override public function aim(point:FlxPoint):void

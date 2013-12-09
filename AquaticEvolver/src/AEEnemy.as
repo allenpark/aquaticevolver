@@ -1,5 +1,6 @@
 package
 {	
+	import Box2D.Common.Math.b2Math;
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2Body;
 	
@@ -27,22 +28,20 @@ package
 		private const BOUNDSBUFFER:int = 300;
 		private var movementBody:b2Body;
 		
-		private var attitude:String = "Passive";
+		private var attitude:String = "Aggressive";
 		private var original:FlxPoint;
 		private var current:FlxPoint;
 		private var boxBound:int = Math.random()*300+50;
 		
 		private static var unusedIDs:Array = new Array(2,3,4,5,6,7,8,9,10,11,12,13,14,15);
-		private static var usedIDs:Array = new Array();
 		
 		private var _id:Number;
 		
 		public function AEEnemy(id:Number, type:Number, x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
 		{
 			_id = id;
-			trace('Enemy created with id:' + _id);
 			super(type, x, y, health, headDef, torsoDef, tailDef);
-			this.original = new FlxPoint(this.x, this.y);
+			this.original = new FlxPoint(getX(), getY());
 			this.current  = new FlxPoint(original.x + boxBound, original.y);
 			if(Math.random() > 0.5){
 				attitude = "aggressive";
@@ -57,20 +56,24 @@ package
 			return generateEnemy(x, y, headDef, torsoDef, tailDef);
 		}
 		
+		/**
+		 * @param x In flixel coords
+		 * @param y In flixel coords
+		 */
 		public static function generateEnemy(x:Number, y:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef):AEEnemy
 		{
 			if (unusedIDs.length != 0)
 			{
 				var id:Number = unusedIDs.pop();
 				var newEnemy:AEEnemy = new AEEnemy(id, SpriteType.ENEMY, x, y, 10, headDef, torsoDef, tailDef);
-				usedIDs.push(id);
-				AEEnemy.enemies.push(newEnemy);
+				enemies.push(newEnemy);
 				return newEnemy;
 			}else {
 				for each (var enemy:AEEnemy in enemies)
 				{
-					if (AEWorld.world.outOfBounds(AEWorld.flxNumFromB2Num(enemy.getX()), AEWorld.flxNumFromB2Num(enemy.getY())))
+					if (AEWorld.world.outOfBufferBounds(enemy.getX(), enemy.getY()))
 					{
+						trace("enemy out of bounds killed");
 						enemy.kill();
 						// try again
 						return generateEnemy(x,y, headDef, torsoDef, tailDef);
@@ -86,8 +89,6 @@ package
 		}
 		
 		override public function update():void{		
-			this.x = this.getX();
-			this.y = this.getY();
 			super.update();
 			counter += FlxG.elapsed;
 			this.movementBody = this._head.headSegment.getBody();
@@ -101,6 +102,7 @@ package
 		override public function kill():void
 		{
 			unusedIDs.push(_id);
+
 			enemies.splice(enemies.indexOf(this),1); 
 			super.kill();
         }
@@ -113,9 +115,8 @@ package
 
 		private function aggressiveMovement():void {
 			this.moveCloseToEnemy(AEWorld.player, 240);
-			target = new FlxPoint(AEWorld.player.x, AEWorld.player.y);
-			attack(target);
-			
+			target = new FlxPoint(AEWorld.player.getX(), AEWorld.player.getY());
+			attack(target);	
 		}
 		
 		private function runAwayFromEnemy(enemy:AECreature):void {
@@ -128,15 +129,29 @@ package
 		
 		private function moveRelativeToEnemy(enemy:AECreature, towards:Boolean):void {
 			var impulseSize:int = (towards) ? super.speed: -1*super.speed;
-			var dirX:int = (enemy.x - this.x);
-			var dirY:int = (enemy.y - this.y);
+			var dirX:int = (enemy.getX() - this.getX());
+			var dirY:int = (enemy.getY() - this.getY());
 			var forceVec:b2Vec2 = getForceVec(dirX, dirY, impulseSize);
+			
+			var headAngle:Number = movementBody.GetAngle();
+			var headDirection:b2Vec2 = new b2Vec2(Math.sin(headAngle) * -1, Math.cos(headAngle));
+			var goalDirection:b2Vec2 = new b2Vec2(dirX, dirY);
+			var cross:Number = b2Math.CrossVV(headDirection, goalDirection);
+			
+			var torque:Number = 5;
+			if (cross > 0) {
+				movementBody.SetAngularVelocity(-1 * torque);
+			} else {
+				movementBody.SetAngularVelocity(torque);
+			}
+
+			
 			this.movementBody.ApplyImpulse(forceVec, this.movementBody.GetPosition());
 		}
 		
 		private function moveCloseToEnemy(enemy:AECreature, distance:Number):void {
 			var impulseSize:int = super.speed;
-			var distanceFromEnemy:int = Math.sqrt(Math.pow(this.x - enemy.x, 2) + Math.pow(this.y - enemy.y, 2));
+			var distanceFromEnemy:int = Math.sqrt(Math.pow(this.getX() - enemy.getX(), 2) + Math.pow(this.getY() - enemy.getY(), 2));
 			if (distanceFromEnemy < distance)
 				impulseSize = -1*super.speed;
 			// Non-ideal, but OK convergence.
@@ -146,9 +161,24 @@ package
 			} else if (Math.abs(distanceFromEnemy - distance) < 20) {
 				impulseSize = (impulseSize / super.speed);
 			}
-			var dirX:int = (enemy.x - this.x);
-			var dirY:int = (enemy.y - this.y);
-			var forceVec:b2Vec2 = getForceVec(dirX, dirY, impulseSize*3);
+			var dirX:int = (enemy.getX() - this.getX());
+			var dirY:int = (enemy.getY() - this.getY());
+			var forceVec:b2Vec2 = getForceVec(dirX, dirY, impulseSize*2);
+			
+			var headAngle:Number = movementBody.GetAngle();
+			var headDirection:b2Vec2 = new b2Vec2(Math.sin(headAngle) * -1, Math.cos(headAngle));
+			var goalDirection:b2Vec2 = new b2Vec2(dirX, dirY);
+			var cross:Number = b2Math.CrossVV(headDirection, goalDirection);
+//			var angle:Number = Math.abs(Math.atan2(dirY, dirX) - Math.atan2(headDirection.y, headDirection.x));
+
+			var torque:Number = 10;
+//			if (angle < 3.1) // A small angle will be between 3 and 3.14159
+			if (cross > 0) {
+				movementBody.SetAngularVelocity(-1 * torque);
+			} else {
+				movementBody.SetAngularVelocity(torque);
+			}
+
 			this.movementBody.ApplyImpulse(forceVec, this.movementBody.GetPosition());
 			
 		}
@@ -175,16 +205,16 @@ package
 		
 		private function passiveMovement():void{
 						
-			if(Math.abs(this.x-original.x)<20 && Math.abs(this.y-original.y)<20){
+			if(Math.abs(this.getX()-original.x)<20 && Math.abs(this.getY()-original.y)<20){
 				current = new FlxPoint(original.x + boxBound, original.y);
 			}
-			else if(Math.abs(this.x-(original.x + boxBound))<20 && Math.abs(this.y-original.y)<20){
+			else if(Math.abs(this.getX()-(original.x + boxBound))<20 && Math.abs(this.getY()-original.y)<20){
 				current = new FlxPoint(original.x + boxBound, original.y - boxBound);
 			}
-			else if(Math.abs(this.x-(original.x + boxBound))<20 && Math.abs(this.y-(original.y - boxBound))<20){
+			else if(Math.abs(this.getX()-(original.x + boxBound))<20 && Math.abs(this.getY()-(original.y - boxBound))<20){
 				current = new FlxPoint(original.x, original.y - boxBound);
 			}
-			else if(Math.abs(this.x-original.x)<20 && Math.abs(this.y-(original.y - boxBound))<20){
+			else if(Math.abs(this.getX()-original.x)<20 && Math.abs(this.getY()-(original.y - boxBound))<20){
 				current = new FlxPoint(original.x, original.y);
 			}
 			
@@ -193,7 +223,7 @@ package
 			
 		private function movetoPoint(target:FlxPoint, distance:Number):void {
 			var impulseSize:int = super.speed;
-			var distanceFromPoint:int = Math.sqrt(Math.pow(this.x - target.x, 2) + Math.pow(this.y - target.y, 2));
+			var distanceFromPoint:int = Math.sqrt(Math.pow(this.getX() - target.x, 2) + Math.pow(this.getY() - target.y, 2));
 			if (distanceFromPoint < distance)
 				impulseSize = -1*super.speed;
 			// Non-ideal, but OK convergence.
@@ -203,9 +233,22 @@ package
 			} else if (Math.abs(distanceFromPoint - distance) < 20) {
 				impulseSize = (impulseSize / super.speed);
 			}
-			var dirX:int = (target.x - this.x);
-			var dirY:int = (target.y - this.y);
+			var dirX:int = (target.x - this.getX());
+			var dirY:int = (target.y - this.getY());
 			var forceVec:b2Vec2 = getForceVec(dirX, dirY, impulseSize);
+			
+			var headAngle:Number = movementBody.GetAngle();
+			var headDirection:b2Vec2 = new b2Vec2(Math.sin(headAngle) * -1, Math.cos(headAngle));
+			var goalDirection:b2Vec2 = new b2Vec2(dirX, dirY);
+			var cross:Number = b2Math.CrossVV(headDirection, goalDirection);
+			
+			var torque:Number = 5;
+			if (cross > 0) {
+				movementBody.SetAngularVelocity(-1 * torque);
+			} else {
+				movementBody.SetAngularVelocity(torque);
+			}
+				
 			this.movementBody.ApplyImpulse(forceVec, this.movementBody.GetPosition());
 		}
 	}

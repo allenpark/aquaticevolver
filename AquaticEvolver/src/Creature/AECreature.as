@@ -50,8 +50,6 @@ package Creature
 		
 		public var creatureType:Number;
 		
-		public var x:Number;
-		public var y:Number;
 		protected var currentHealth:int;
 		protected var maxHealth:int;
 		public var healthDisplay:FlxText;
@@ -62,9 +60,10 @@ package Creature
 		{
 			//Set creature id, then increment current id value
 			trace("constructing creature with id:" + getID());
-			_head = headDef.createHeadWithCreatureID(getID());
-			_torso = torsoDef.createTorsoWithCreatureID(getID());
-			_tail = tailDef.createTailWithCreatureID(getID());
+			var id:Number = this.getID();
+			_head = headDef.createHeadWithCreatureID(id);
+			_torso = torsoDef.createTorsoWithCreatureID(id);
+			_tail = tailDef.createTailWithCreatureID(id);
 
 			_adaptations = new Array();
 			
@@ -77,9 +76,6 @@ package Creature
 			ownBodies(type);
 			//TODO: Should this be done outside the constructor?
 			addToWorld();
-			
-			this.x = x;
-			this.y = y;
 			
 			currentHealth = health;
 			maxHealth = health;
@@ -94,8 +90,8 @@ package Creature
 		
 		// This method is called often to update the state of the creature.
 		public function update():void {
-			this.healthDisplay.x = this.x - 5;
-			this.healthDisplay.y = this.y + 10;
+			this.healthDisplay.x = getX() - 5;
+			this.healthDisplay.y = getY() + 10;
 			// added code for when the enemey current ratio of health 
 			// is lower then the health threshold, it turns red
 			var threshold:Number = 1.0;
@@ -180,7 +176,7 @@ package Creature
 			var randomAdaptation = this._adaptations[int(Math.random()*(this._adaptations.length - 1))];
 			
 			//Add evolution drop
-			var evolutionDrop = new EvolutionDrop(this.x, this.y, randomAdaptation);
+			var evolutionDrop = new EvolutionDrop(getX(), getY(), randomAdaptation);
 			
 			//Add to world
 			AEWorld.world.add(evolutionDrop);
@@ -266,9 +262,7 @@ package Creature
 		
 		private static function headDef(x:Number, y:Number, headImage:DefaultImage):AEHeadDef
 		{
-			trace("head image:"+headImage);
 			var headSchematic:AESchematic = new AESchematic(headImage.image(), headImage.suggestedAppendageSlots());
-			//Setting up the segment's shape
 			var playerHeadShape:b2PolygonShape = new b2PolygonShape();
 			playerHeadShape.SetAsArray(headImage.polygonVertices());
 			var playerHeadSegmentDef:AESegmentDef = new AESegmentDef(x,y, headSchematic, playerHeadShape);
@@ -314,7 +308,6 @@ package Creature
 		private static function torsoDef(x, y, torsoImage:DefaultImage):AETorsoDef
 		{
 			var torsoSchematic:AESchematic = new AESchematic(torsoImage.image(), torsoImage.suggestedAppendageSlots());
-			//Setting up segment's shape
 			var playerTorsoShape:b2PolygonShape = new b2PolygonShape();
 			playerTorsoShape.SetAsArray(torsoImage.polygonVertices());
 			var playerTorsoSegmentDef:AESegmentDef = new AESegmentDef(x,y, torsoSchematic, playerTorsoShape);
@@ -358,7 +351,6 @@ package Creature
 		private static function tailDef(x:Number, y:Number, tailImage:DefaultImage):AETailDef
 		{
 			var tailSchematic:AESchematic = new AESchematic(tailImage.image(), tailImage.suggestedAppendageSlots());
-			//Setting the segment's shape
 			var playerTailShape:b2PolygonShape = new b2PolygonShape();
 			playerTailShape.SetAsArray(tailImage.polygonVertices());
 			var playerTailSegmentDef:AESegmentDef = new AESegmentDef(x, y, tailSchematic, playerTailShape);

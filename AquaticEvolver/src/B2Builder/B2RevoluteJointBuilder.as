@@ -50,8 +50,6 @@ package B2Builder
 			revoluteJoint.referenceAngle = _referenceAngle;
 			revoluteJoint.enableLimit = _enableLimit;
 			if (revoluteJoint.enableLimit){
-				trace("LA: " + _lowerAngle);
-				trace("UA: " + _upperAngle);
 				revoluteJoint.lowerAngle = _lowerAngle;
 				revoluteJoint.upperAngle = _upperAngle;
 			}

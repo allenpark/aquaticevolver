@@ -5,10 +5,14 @@ package
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2World;
 	
+	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
 	
 	public class BubbleGun extends Appendage
 	{
+		[Embed(source='res/sfx/BubbleCannonShoot1.mp3')]
+		public var BubbleGunSFX:Class;
+		
 		// bubble gun joint locations
 		private var bubbleGunJoint:b2Vec2 = new b2Vec2(0,32);
 		
@@ -54,6 +58,8 @@ package
 		
 		override public function attack(point:FlxPoint):void
 		{
+			FlxG.play(BubbleGunSFX);
+			
 			super.attack(point);
 			trace("bubble gun attacking");
 			// insert code to shoot a bubble here
