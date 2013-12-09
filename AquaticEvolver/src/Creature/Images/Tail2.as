@@ -16,14 +16,14 @@ package Creature.Images
 		 */
 		protected static var PolygonVertices:Array = new Array(
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-2.0),AEWorld.b2NumFromFlxNum(35.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(-10.0),AEWorld.b2NumFromFlxNum(11.0)),
+			//new b2Vec2(AEWorld.b2NumFromFlxNum(-10.0),AEWorld.b2NumFromFlxNum(11.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-19.0),AEWorld.b2NumFromFlxNum(-10.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-19.0),AEWorld.b2NumFromFlxNum(-24.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-5.0),AEWorld.b2NumFromFlxNum(-36.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(7.0),AEWorld.b2NumFromFlxNum(-36.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(18.0),AEWorld.b2NumFromFlxNum(-25.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(19.0),AEWorld.b2NumFromFlxNum(-10.0)),
-			new b2Vec2(AEWorld.b2NumFromFlxNum(9.0),AEWorld.b2NumFromFlxNum(10.0)),
+			//new b2Vec2(AEWorld.b2NumFromFlxNum(9.0),AEWorld.b2NumFromFlxNum(10.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(4.0),AEWorld.b2NumFromFlxNum(35.0)));
 		
 		[Embed(source='../../res/Tail2.png')]

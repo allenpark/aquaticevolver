@@ -2,6 +2,7 @@ package
 {
 	import org.flixel.FlxButton;
 	import org.flixel.FlxG;
+	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxText;
 
@@ -12,6 +13,8 @@ package
 		[Embed (source = "res/instructions.png")] public var instructionButtonImg:Class;
 		[Embed (source = "res/credits.png")] public var creditsButtonImg:Class;
 		[Embed (source = "res/Cursor.png")] public var cursorImg:Class;
+		
+		var buttonOffset:FlxPoint = new FlxPoint(10,10)
 		
 		
 		 override public function create():void
@@ -33,8 +36,8 @@ package
 			creditButton.scrollFactor.x = creditButton.scrollFactor.y = 0 ; 
 			creditButton.loadGraphic(creditsButtonImg);
 			add(creditButton);
-			FlxG.mouse.load(cursorImg);
 			FlxG.mouse.show();
+			FlxG.mouse.load(cursorImg);
 		}
 		 public function startButtonCallback():void {
 			 FlxG.switchState(new  AEWorld);
