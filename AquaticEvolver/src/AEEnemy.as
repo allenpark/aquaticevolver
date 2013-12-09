@@ -51,9 +51,9 @@ package
 		
 		public static function generateRandomEnemy(x:Number, y:Number):AEEnemy
 		{
-			var headDef:AEHeadDef = AECreature.randomHeadDef(x,y);
-			var torsoDef:AETorsoDef = AECreature.randomTorsoDef(x,y);
-			var tailDef:AETailDef = AECreature.randomTailDef(x,y);
+			var headDef:AEHeadDef = AECreature.head1Def(x,y);
+			var torsoDef:AETorsoDef = AECreature.torso5Def(x,y);
+			var tailDef:AETailDef = AECreature.tail5Def(x,y);
 			return generateEnemy(x, y, headDef, torsoDef, tailDef);
 		}
 		
@@ -92,9 +92,9 @@ package
 			counter += FlxG.elapsed;
 			this.movementBody = this._head.headSegment.getBody();
 			if (attitude == "Passive") {
-				passiveMovement();
+				//passiveMovement();
 			} else {
-				aggressiveMovement();
+				//aggressiveMovement();
 			}
 		}
 		
