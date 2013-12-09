@@ -34,7 +34,7 @@ package
 			//attachAppendage(AdaptationType.SPIKESHOOTER);
 			//attachAppendage(AdaptationType.BUBBLEGUN);
 			//attachAppendage(AdaptationType.SHELL);
-			attachAppendage(AdaptationType.TENTACLE);
+			addAdaptation(AdaptationType.TENTACLE);
 		}
 		
 		override public function getID():Number

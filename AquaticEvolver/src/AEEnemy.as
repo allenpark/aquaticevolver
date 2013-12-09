@@ -45,9 +45,9 @@ package
 			if(Math.random() > 0.5){
 				attitude = "Aggressive";
 			}
-			attachAppendage(AdaptationType.TENTACLE);
-			attachAppendage(AdaptationType.TENTACLE);
-			attachAppendage(AdaptationType.BUBBLEGUN);
+			addAdaptation(AdaptationType.TENTACLE);
+			addAdaptation(AdaptationType.TENTACLE);
+			addAdaptation(AdaptationType.BUBBLEGUN);
 		}
 		
 		public static function generateRandomEnemy(x:Number, y:Number):AEEnemy
