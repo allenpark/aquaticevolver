@@ -6,6 +6,7 @@ package
 	import Box2D.Common.Math.b2Vec2;
 	
 	import Creature.AECreature;
+	import Collisions.AECollisionData;
 
 	public class BoxTentacleMid extends B2FlxSprite
 	{
@@ -28,7 +29,7 @@ package
 			boxShape.SetAsBox(AEWorld.b2NumFromFlxNum(bodyWidth), AEWorld.b2NumFromFlxNum(bodyHeight));
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle).withShape(boxShape)
 				.withLinearDamping(2)
-				.withData(new CollisionData(this.creature, SpriteType.TENTACLEMID, this.adaptOwner));
+				.withData(new AECollisionData(SpriteType.TENTACLEMID, this, this.adaptOwner, this.creature));
 			return b2bb;
 		}
 	}

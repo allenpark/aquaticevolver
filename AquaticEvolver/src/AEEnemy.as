@@ -35,10 +35,10 @@ package
 		
 		private var _id:Number;
 		
-		public function AEEnemy(id:Number, type:Number, x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
+		public function AEEnemy(id:Number, x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
 		{
 			_id = id;
-			super(type, x, y, health, headDef, torsoDef, tailDef);
+			super(x, y, health, headDef, torsoDef, tailDef);
 			this.original = new FlxPoint(getX(), getY());
 			this.current  = new FlxPoint(original.x + boxBound, original.y);
 			if(Math.random() > 0.5){
@@ -66,7 +66,7 @@ package
 			if (unusedIDs.length != 0)
 			{
 				var id:Number = unusedIDs.pop();
-				var newEnemy:AEEnemy = new AEEnemy(id, SpriteType.ENEMY, x, y, 10, headDef, torsoDef, tailDef);
+				var newEnemy:AEEnemy = new AEEnemy(id, x, y, 10, headDef, torsoDef, tailDef);
 				enemies.push(newEnemy);
 				return newEnemy;
 			}else {

@@ -12,6 +12,7 @@ package
 	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
 	import Creature.AECreature;
+	import Collisions.AECollisionData;
 
 	public class AttackBubble extends B2FlxSprite
 	{
@@ -65,7 +66,7 @@ package
 				.withShape(shape)
 				.withType(b2Body.b2_kinematicBody)
 				.asBullet()
-				.withData(new CollisionData(this.creature, SpriteType.BUBBLE, adaptOwner));
+				.withData(new AECollisionData(SpriteType.BUBBLE, this, adaptOwner, this.creature));
 			return b2bb;
 		}
 	}

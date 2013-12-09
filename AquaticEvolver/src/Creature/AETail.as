@@ -2,6 +2,8 @@ package Creature
 {
 	import Box2D.Common.Math.b2Vec2;
 	
+	import Collisions.AECollisionData;
+	
 	import Def.AESegmentDef;
 
 	public class AETail
@@ -15,9 +17,9 @@ package Creature
 			this.tailAnchor = tailAnchor;
 		}
 		
-		public function ownBodies(owner:*, type:Number):void 
+		public function ownBodies(creature:AECreature):void 
 		{
-			tailSegment.getBody().SetUserData(new CollisionData(owner, type));
+			tailSegment.getBody().SetUserData(new AECollisionData(SpriteType.CREATURE, tailSegment, null, creature));
 		}
 		
 		public function addToWorld():void

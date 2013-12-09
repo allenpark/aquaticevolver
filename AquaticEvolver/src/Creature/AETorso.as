@@ -2,6 +2,8 @@ package Creature
 {	
 	import Box2D.Common.Math.b2Vec2;
 	
+	import Collisions.AECollisionData;
+	
 	import Def.AESegmentDef;
 	import Def.AETorsoDef;
 	
@@ -63,11 +65,11 @@ package Creature
 			}
 		}
 		
-		public function ownBodies(owner:*, type:Number):void
+		public function ownBodies(creature:AECreature):void
 		{
 			for each (var torsoSegment:AESegment in torsoSegments)
 			{
-				torsoSegment.getBody().SetUserData(new CollisionData(owner, type));
+				torsoSegment.getBody().SetUserData(new AECollisionData(SpriteType.CREATURE, torsoSegment, null, creature));
 			}
 		}
 		

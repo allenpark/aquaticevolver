@@ -5,6 +5,7 @@ package
 	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Common.Math.b2Vec2;
 	import Creature.AECreature;
+	import Collisions.AECollisionData;
 	
 	
 	public class BoxSpikeShooter extends B2FlxSprite
@@ -29,7 +30,7 @@ package
 			
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle).withShape(boxShape)
 				.withLinearDamping(2)
-				.withData(new CollisionData(this.creature, SpriteType.SPIKESHOOTER, this.adaptOwner));
+				.withData(new AECollisionData(SpriteType.SPIKESHOOTER, this, this.adaptOwner, this.creature));
 			return b2bb;
 		}
 		

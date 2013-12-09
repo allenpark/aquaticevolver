@@ -11,6 +11,7 @@ package
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
+	import Collisions.AECollisionData;
 	
 	public class SpikeBullet extends B2FlxSprite
 	{
@@ -60,7 +61,7 @@ package
 				.withShape(shape)
 				.withType(b2Body.b2_kinematicBody)
 				.asBullet()
-				.withData(new CollisionData(this.creature, SpriteType.SPIKE, adaptOwner));
+				.withData(new AECollisionData(SpriteType.SPIKE, this, this.adaptOwner, this.creature));
 			return b2bb;
 		}
 	}

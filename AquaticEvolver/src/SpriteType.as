@@ -2,6 +2,7 @@ package
 {
 	public class SpriteType
 	{
+		public static const CREATURE:Number = 0;
 		//Creature Types
 		public static const PLAYER:Number = 1;
 		public static const ENEMY:Number = 2;

@@ -47,16 +47,14 @@ package Creature
 		
 		private static const HeadSwivel:Number = Math.PI/2.0;
 		private static const TailSwivel:Number = Math.PI/2.0;
-		
-		public var creatureType:Number;
-		
+				
 		protected var currentHealth:int;
 		protected var maxHealth:int;
 		public var healthDisplay:FlxText;
 		protected var speed:Number = 10;
 		
 		
-		public function AECreature(type:Number, x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
+		public function AECreature(x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
 		{
 			//Set creature id, then increment current id value
 			trace("constructing creature with id:" + getID());
@@ -67,13 +65,12 @@ package Creature
 
 			_adaptations = new Array();
 			
-			creatureType = type;
 			//TODO: is having a null torso vaild? eg. head-tail architecture?
 			attachHeadTorsoTail();
 			
 			initializeAppendageSlots();
 			
-			ownBodies(type);
+			ownBodies();
 			//TODO: Should this be done outside the constructor?
 			addToWorld();
 			
@@ -214,11 +211,11 @@ package Creature
 			}
 		}
 		
-		private function ownBodies(type:Number):void
+		private function ownBodies():void
 		{
-			_head.ownBodies(this,type);
-			_torso.ownBodies(this,type);
-			_tail.ownBodies(this,type);
+			_head.ownBodies(this);
+			_torso.ownBodies(this);
+			_tail.ownBodies(this);
 		}
 		
 		private function addToWorld():void

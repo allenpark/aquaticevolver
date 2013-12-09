@@ -2,6 +2,8 @@ package Creature
 {
 	import Box2D.Common.Math.b2Vec2;
 	
+	import Collisions.AECollisionData;
+	
 	import Def.AESegmentDef;
 
 	public class AEHead
@@ -15,9 +17,9 @@ package Creature
 			this.headAnchor = headAnchor;
 		}
 		
-		public function ownBodies(owner:*, type:Number):void
+		public function ownBodies(creature:AECreature):void
 		{
-			headSegment.getBody().SetUserData(new CollisionData(owner, type));
+			headSegment.getBody().SetUserData(new AECollisionData(SpriteType.CREATURE, headSegment, null, creature));
 		}
 		
 		public function addToWorld():void
