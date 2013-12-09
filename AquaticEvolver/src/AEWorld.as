@@ -419,7 +419,7 @@ package
 			lights = new Array();
 			var numLights:Number = Math.ceil(FlxG.width / 1024.0) + 1;
 			for (var i:Number = 0; i < numLights; i++) {
-				var newLight:FlxSprite = new FlxSprite(0, topLocation, lightsImage); 
+				var newLight:FlxSprite = new FlxSprite(0, topLocation - FlxG.height / 2, lightsImage); 
 				lights.push(newLight);
 				this.add(newLight);
 			}
@@ -460,15 +460,21 @@ package
 			{
 				var evolveDescription:Array = EVOLVELIST.pop();
 				var evolver:AECreature = evolveDescription[0] as AECreature;
-				var appendage = evolveDescription[1] as Number;
+				var appendage:Number = evolveDescription[1] as Number;
 				evolver.attachAppendage(appendage);
 			}
 		}
 		override public function update():void 
 		{
-			var baseLightPos:Number = int(FlxG.camera.scroll.x / 1024) * 1024;
-			for (var i = 0; i < lights.length; i++) {
+			var baseLightPos:Number = Math.floor(FlxG.camera.scroll.x / 1024) * 1024;
+			for (var i:Number = 0; i < lights.length; i++) {
 				lights[i].x = baseLightPos + 1024 * i;
+			}
+			if (player.getY() < topLocation) {
+				FlxG.camera.follow(null);
+				FlxG.camera.scroll.x = player.getX() - FlxG.width/2;
+			} else {
+				FlxG.camera.follow(AEWorld.player.getFollowObject());
 			}
 			if (!FlxG.paused) {
 				AEWorld.debugText.x = FlxG.camera.scroll.x + 50;
