@@ -15,8 +15,9 @@ package {
 		public var speedBoost:int;
 		public var healthBoost:int;
 		public var creature:AECreature;
+		public var adaptationType:Number;
 		
-		public function Adaptation(cost:int, isAttack:Boolean, attackDamage:int, creature:AECreature) {
+		public function Adaptation(cost:int, isAttack:Boolean, attackDamage:int, creature:AECreature, adaptationType:Number) {
 			super();
 			this.cost = cost;
 			this.isAttack = isAttack;
@@ -28,6 +29,7 @@ package {
 			this.creature = creature;
 			this.speedBoost = 0;
 			this.healthBoost = 0;
+			this.adaptationType = adaptationType;
 		}
 
 		// Use Creature.addAdaptation instead.

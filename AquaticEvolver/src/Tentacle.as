@@ -14,6 +14,8 @@ package
 	
 	public class Tentacle extends Appendage
 	{
+		[Embed(source='res/sfx/Swipe1.mp3')]
+		public var TentacleSFX:Class;
 		private var tentacleMidSegments:int = 4;
 		private var tentacleHead:BoxTentacleHead;
 		
@@ -130,6 +132,7 @@ package
 		
 		override public function attack(point:FlxPoint):void
 		{
+			FlxG.play(TentacleSFX);
 			super.attack(point);
 			//trace("tentacle attacking");
 			
