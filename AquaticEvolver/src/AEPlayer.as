@@ -31,8 +31,9 @@ package
 			super(SpriteType.PLAYER, x, y, health, headDef, torsoDef, tailDef);
 
 			//attachAppendage(AdaptationType.POISONCANNON);	
-			//attachAppendage(AdaptationType.SPIKESHOOTER);
-			//attachAppendage(AdaptationType.BUBBLEGUN);
+			attachAppendage(AdaptationType.SPIKESHOOTER);
+			attachAppendage(AdaptationType.SPIKESHOOTER);
+			attachAppendage(AdaptationType.BUBBLEGUN);
 			//attachAppendage(AdaptationType.SHELL);
 		}
 		
@@ -56,7 +57,8 @@ package
 				var xDir:Number = 0;
 				var yDir:Number = 0;
 				
-				if(FlxG.keys.justPressed("LEFT") || FlxG.keys.justPressed("RIGHT") || FlxG.keys.justPressed("UP") || FlxG.keys.justPressed("DOWN")){
+				if(FlxG.keys.justPressed("LEFT") || FlxG.keys.justPressed("RIGHT") || FlxG.keys.justPressed("UP") || FlxG.keys.justPressed("DOWN") || 
+				   FlxG.keys.justPressed("W") || FlxG.keys.justPressed("A") || FlxG.keys.justPressed("S") || FlxG.keys.justPressed("D")){
 					FlxG.play(Swim1SFX);
 				}
 				if(FlxG.mouse.justPressed())
@@ -71,22 +73,22 @@ package
 				}
 					
 					// moving the player based on the arrow keys inputs
-				else if (FlxG.keys.LEFT && FlxG.keys.RIGHT) {
+				else if (FlxG.keys.LEFT && FlxG.keys.RIGHT || FlxG.keys.A && FlxG.keys.D) {
 				}
-				else if (FlxG.keys.LEFT) {
+				else if (FlxG.keys.LEFT || FlxG.keys.A) {
 					//					trace("BoxPlayer: left");
 					xDir = -1*this.speed;
-				} else if (FlxG.keys.RIGHT) {
+				} else if (FlxG.keys.RIGHT || FlxG.keys.D) {
 					//					trace("BoxPlayer: right");
 					xDir = 1*this.speed;
 				}
 				
-				if (FlxG.keys.UP && FlxG.keys.DOWN)	{
+				if (FlxG.keys.UP && FlxG.keys.DOWN || FlxG.keys.W && FlxG.keys.S)	{
 				}
-				else if (FlxG.keys.UP) {
+				else if (FlxG.keys.UP || FlxG.keys.W) {
 					//					trace("BoxPlayer: up");
 					yDir = -1*this.speed;
-				} else if (FlxG.keys.DOWN) {
+				} else if (FlxG.keys.DOWN || FlxG.keys.S) {
 					//					trace("BoxPlayer: down");
 					yDir = 1*this.speed;
 				}
