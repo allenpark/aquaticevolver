@@ -52,7 +52,7 @@ package
 			trace(data1.owner + " " + data1.colliderType + " " + data1.adaptation);
 			trace(data2.owner + " " + data2.colliderType + " " + data2.adaptation);
 			
-			if (data1.owner.creatureType == data2.owner.creatureType) {
+			if (data1.owner.getID() == data2.owner.getID()) {
 				return;
 			}
 			

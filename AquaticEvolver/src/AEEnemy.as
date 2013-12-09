@@ -108,6 +108,12 @@ package
 			enemies.splice(enemies.indexOf(this),1); 
 			super.kill();
         }
+		
+		public static function killAll():void {
+			while (AEEnemy.enemies.length > 0) {
+				AEEnemy.enemies.pop().kill();
+			}
+		}
 
 		public static function updateEnemies():void {
 			for each (var enemy:AEEnemy in enemies) {

@@ -50,8 +50,8 @@ package Creature
 		
 		public var creatureType:Number;
 		
-		protected var currentHealth:int;
-		protected var maxHealth:int;
+		public var currentHealth:int;
+		public var maxHealth:int;
 		public var healthDisplay:FlxText;
 		protected var speed:Number = 10;
 		

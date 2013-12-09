@@ -442,6 +442,7 @@ package
 				var killedEnemy:Boolean = attacker.handleAttackOn(adaptation, enemy);
 				if (killedEnemy && enemy.creatureType == SpriteType.PLAYER)
 				{
+					AEEnemy.killAll();
 					FlxG.switchState(new GameOverState);	
 				}
 			}
@@ -569,6 +570,10 @@ package
 				
 				if (FlxG.keys.justPressed("G")) {
 					FlxG.switchState(new GameOverState);				
+				}
+				
+				if (FlxG.keys.justPressed("K")) {
+					AEEnemy.killAll();
 				}
 			}
 			else {
