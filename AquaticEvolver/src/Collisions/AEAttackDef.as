@@ -6,12 +6,18 @@ package Collisions
 
 	public class AEAttackDef
 	{
-		public var attackerBody:b2Body;
-		public var victimBody:b2Body;
+		public var attacker:AECreature;
+		public var victim:AECreature;
 		
-		public function AEAttackDef(attacker:AECreature, victim:AECreature, attackerBody:b2Body, victimBody:b2Body)
+		public var attackerB2FS:B2FlxSprite;
+		public var victimB2FS:B2FlxSprite;
+		
+		public function AEAttackDef(attacker:AECreature, victim:AECreature, attackerB2FS:B2FlxSprite, victimB2FS:B2FlxSprite)
 		{
-			
+			this.attacker = attacker;
+			this.victim = victim;
+			this.attackerB2FS = attackerB2FS;
+			this.victimB2FS = victimB2FS;
 		}
 	}
 }

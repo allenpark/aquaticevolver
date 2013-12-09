@@ -63,5 +63,9 @@ package
 				.withData(new AECollisionData(SpriteType.EVOLUTIONDROP, this));
 			return b2bb;
 		}
+		
+		public function getID():Number {
+			return -1;
+		}
 	}
 }

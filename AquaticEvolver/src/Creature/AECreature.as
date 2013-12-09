@@ -30,7 +30,7 @@ package Creature
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxText;
-			
+	
 	public class AECreature
 	{		
 		protected var _head:AEHead;
@@ -47,11 +47,12 @@ package Creature
 		
 		private static const HeadSwivel:Number = Math.PI/2.0;
 		private static const TailSwivel:Number = Math.PI/2.0;
-				
-		protected var currentHealth:int;
-		protected var maxHealth:int;
+
+		
+		public var currentHealth:int;
+		public var maxHealth:int;
 		public var healthDisplay:FlxText;
-		protected var speed:Number = 10;
+		public var speed:Number = 10;
 		
 		
 		public function AECreature(x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
@@ -62,7 +63,7 @@ package Creature
 			_head = headDef.createHeadWithCreatureID(id);
 			_torso = torsoDef.createTorsoWithCreatureID(id);
 			_tail = tailDef.createTailWithCreatureID(id);
-
+			
 			_adaptations = new Array();
 			
 			//TODO: is having a null torso vaild? eg. head-tail architecture?
@@ -107,48 +108,59 @@ package Creature
 			//this.adaptationGroup.members[i].update();
 			//}
 			/*for (var i:int = 0; i < this.adaptations.length; i++) {
-				this.adaptations[i].update();
+			this.adaptations[i].update();
 			}*/
 		}
 		
-		public function attachAppendage(appendageType:Number):Boolean
+		public function addAdaptation(adaptationType:Number):Boolean
 		{
-			if (_unoccupiedAppendageSlots.length == 0)
+			
+			// if the adaptation is not an appendage
+			if (!AdaptationType.isAppendage(adaptationType))
 			{
-				//TODO: Evolve a bigger body & attack the new appendage!
-				return false;
+				var adaptation:Adaptation = Adaptation.createAdaptationWithType(adaptationType,this);
+				_adaptations.push(adaptation);
+				return true;
 			}
 			else
 			{
-				var appendageSlot:AESlot = _unoccupiedAppendageSlots.pop();
-				//TODO: appendage locations need to be rotated with body
-				var angle:Number = Math.atan2(appendageSlot.slotLocation.y, appendageSlot.slotLocation.x) + Math.PI/2;
-				//TODO: Fix angle for appendages
-				var appendage:Appendage = Appendage.createAppendageWithType(appendageType,appendageSlot.slotLocation, angle, this, appendageSlot.segment);
-				//TODO: keep track of appendages... in adaptations array? or separate appendage array?
-				_occupiedAppendageSlots.push(appendageSlot);
-				_adaptations.push(appendage);
-				return true;
+				if (_unoccupiedAppendageSlots.length == 0)
+				{
+					//TODO: Evolve a bigger body & attack the new appendage!
+					return false;
+				}
+				else
+				{
+					var appendageSlot:AESlot = _unoccupiedAppendageSlots.pop();
+					//TODO: appendage locations need to be rotated with body
+					var angle:Number = Math.atan2(appendageSlot.slotLocation.y, appendageSlot.slotLocation.x) + Math.PI/2;
+					//TODO: Fix angle for appendages
+					var appendage:Appendage = Appendage.createAppendageWithType(adaptationType,appendageSlot.slotLocation, angle, this, appendageSlot.segment);
+					//TODO: keep track of appendages... in adaptations array? or separate appendage array?
+					_occupiedAppendageSlots.push(appendageSlot);
+					_adaptations.push(appendage);
+					return true;
+				}
 			}
 		}
 		
 		public function handleAttackOn(adaptation:Adaptation, enemy:AECreature):Boolean {
-			var enemyAlive:Boolean = false;
-			if (adaptation == null) {
-				enemyAlive = enemy.getAttacked(0);
+			var enemyDead:Boolean = false;
+			if (adaptation == null) {// || adaptation.adaptationType == SpriteType.SHELL) {
+				enemyDead = enemy.getAttacked(0);
 			} else {
-				enemyAlive = enemy.getAttacked(adaptation.attackDamage);	
+				enemyDead = enemy.getAttacked(adaptation.attackDamage);	
 			}
 			
 			/*if (!enemyAlive) {
-				//this.inheritFrom(enemy);
-				if (adaptation != null)	{
-					adaptation.attackDamage += 2;					
-				}
-				return true;
+			//this.inheritFrom(enemy);
+			if (adaptation != null)	{
+			adaptation.attackDamage += 2;					
+			}
+			return true;
 			}
 			return false;*/
-			return enemyAlive;
+			return enemyDead;
 		}
 		
 		public function getAttacked(damage:int):Boolean {
@@ -170,10 +182,10 @@ package Creature
 			
 			
 			//Get random adaptation
-			var randomAdaptation = this._adaptations[int(Math.random()*(this._adaptations.length - 1))];
+			var randomAdaptation:Number = this._adaptations[int(Math.random()*(this._adaptations.length - 1))].adaptationType;
 			
 			//Add evolution drop
-			var evolutionDrop = new EvolutionDrop(getX(), getY(), randomAdaptation);
+			var evolutionDrop:EvolutionDrop = new EvolutionDrop(getX(), getY(), randomAdaptation);
 			
 			//Add to world
 			AEWorld.world.add(evolutionDrop);
@@ -233,7 +245,7 @@ package Creature
 			_headTorsoJoint = new B2RevoluteJointBuilder(_head.headSegment.getBody(), _torso.headSegment.getBody(), _head.headAnchor, _torso.headAnchor)
 				.withEnabledLimit().withSwivelAngle(HeadSwivel)
 				.build();
-						
+			
 			//Torso -- Tail
 			_torsoTailJoint = new B2RevoluteJointBuilder(_torso.tailSegment.getBody(), _tail.tailSegment.getBody(), _torso.tailAnchor, _tail.tailAnchor)
 				.withEnabledLimit().withSwivelAngle(TailSwivel)

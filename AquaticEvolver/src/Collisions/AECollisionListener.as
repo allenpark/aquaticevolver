@@ -31,7 +31,7 @@ package Collisions
 		{			
 			//trace(attackerData);
 			//trace(victimData);
-			var attackDef:AEAttackDef = new AEAttackDef(attackerData.creature, victimData.creature, attackerData.b2FlxSprite.getBody(), victimData.b2FlxSprite.getBody());
+			var attackDef:AEAttackDef = new AEAttackDef(attackerData.creature, victimData.creature, attackerData.b2FlxSprite, victimData.b2FlxSprite);
 			AEWorld.AttackList.push(attackDef);
 		}
 		

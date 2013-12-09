@@ -6,6 +6,7 @@ package
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2World;
 	
+	import Collisions.AEAttackDef;
 	import Collisions.AECollisionListener;
 	import Collisions.AEEvolutionDef;
 	
@@ -197,6 +198,8 @@ package
 		
 		// Creates an enemy randomly slightly off screen.
 		public function addOffscreenEnemy(xBuffer: int = 0, yBuffer: int = 0):void {
+			var behave:String;
+			var appen:int;
 			var newX:Number;
 			var newY:Number;
 			
@@ -219,12 +222,49 @@ package
 				}
 			}
 			
+			trace(newX + " " + newY);
+			if(newY<=3000){
+				behave = "passive";
+				if(Math.random()>0.5){
+					appen = 1;
+				}
+				else
+					appen = 0;
+			}
+			
+			else if(newY<=6000 && newY >3000){
+				if(Math.random()>0.4){
+					behave = "passive";
+					
+				}
+				else{
+					behave = "aggressive";
+				}
+				if(Math.random()>0.5){
+					appen = 1;
+				}
+				else
+					appen = 2;
+			}
+			else if(newY<=9000 && newY > 6000){
+				
+					behave = "aggressive";
+					if(Math.random()>0.5){
+						appen = 2;
+					}
+					else
+						appen = 3;
+				
+			}
+			
+		
+			
 			
 			this.defaultHealth += 2
 			//Can't add enemies above the top bound
 			if(newY > topLocation){
 				trace("Generate enemy at x:",+newX+", y:"+newY);
-				var newEnemy:AEEnemy = AEEnemy.generateRandomEnemy(newX, newY);
+				var newEnemy:AEEnemy = AEEnemy.generateRandomEnemy(appen, behave, newX, newY);
 				if (newEnemy)
 				{
 					this.add(newEnemy.healthDisplay);
@@ -323,12 +363,6 @@ package
 			}
 		}
 		
-		private function addCreature(creature:Creature):void
-		{
-			this.add(creature);
-			this.add(creature.healthDisplay);
-		}
-		
 		private function setupDefaults():void
 		{
 			FlxG.bgColor = 0xff3366ff;
@@ -346,6 +380,7 @@ package
 		private function initializePlayer():void
 		{
 			player = new AEPlayer(ScreenWidth/2.0,ScreenHeight/2.0, 10);
+			
 			this.add(player.healthDisplay);
 
 			
@@ -422,7 +457,7 @@ package
 			lights = new Array();
 			var numLights:Number = Math.ceil(FlxG.width / 1024.0) + 1;
 			for (var i:Number = 0; i < numLights; i++) {
-				var newLight:FlxSprite = new FlxSprite(0, topLocation, lightsImage); 
+				var newLight:FlxSprite = new FlxSprite(0, topLocation - FlxG.height / 2, lightsImage); 
 				lights.push(newLight);
 				this.add(newLight);
 			}
@@ -446,18 +481,9 @@ package
 			//TODO: revamp attacking::dependent on relative angle/speed
 			while (AttackList.length>0)
 			{
-				var attackDescription:Array = AttackList.pop();
-				var attacker:AECreature = attackDescription[0] as AECreature;
-				var enemy:AECreature = attackDescription[1] as AECreature;
-				var adaptation:Adaptation = attackDescription[2] as Adaptation;
-				var killedEnemy:Boolean = attacker.handleAttackOn(adaptation, enemy);
-				//TODO: detect player death
-				/*
-				if (killedEnemy && enemy.creatureType == SpriteType.PLAYER)
-				{
-					FlxG.switchState(new GameOverState);	
-				}
-				*/
+				var attackDef:AEAttackDef = AttackList.pop();
+				//attackDef.attacker.handleAttackOn(attackDef.victim);
+				//TODO: detect player death in handle attack
 			}
 		}
 		
@@ -476,14 +502,20 @@ package
 				var evolver:AECreature = evolutionDef.creature;
 				var evolutionDrop:EvolutionDrop = evolutionDef.evolutionDrop;
 				//TODO: revamp evolving::can evolve with adaptations, not just appendages
-				evolver.attachAppendage(evolutionDrop.adaptationType);
+				evolver.addAdaptation(evolutionDrop.adaptationType);
 			}
 		}
 		override public function update():void 
 		{
-			var baseLightPos:Number = int(FlxG.camera.scroll.x / 1024) * 1024;
+			var baseLightPos:Number = Math.floor(FlxG.camera.scroll.x / 1024) * 1024;
 			for (var i:Number = 0; i < lights.length; i++) {
 				lights[i].x = baseLightPos + 1024 * i;
+			}
+			if (player.getY() < topLocation) {
+				FlxG.camera.follow(null);
+				FlxG.camera.scroll.x = player.getX() - FlxG.width/2;
+			} else {
+				FlxG.camera.follow(AEWorld.player.getFollowObject());
 			}
 			if (!FlxG.paused) {
 				AEWorld.debugText.x = FlxG.camera.scroll.x + 50;
@@ -575,6 +607,10 @@ package
 				
 				if (FlxG.keys.justPressed("G")) {
 					FlxG.switchState(new GameOverState);				
+				}
+				
+				if (FlxG.keys.justPressed("K")) {
+					AEEnemy.killAll();
 				}
 			}
 			else {
