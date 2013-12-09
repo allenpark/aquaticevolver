@@ -105,14 +105,15 @@ package
 		{
 			unusedIDs.push(_id);
 
-			AEEnemy.enemies.splice(AEEnemy.enemies.indexOf(this),1,true); 
+			AEEnemy.enemies.splice(AEEnemy.enemies.indexOf(this),1); 
 			super.kill();
         }
 		
 		public static function killAll():void {
-			while (AEEnemy.enemies.length > 0) {
+			/*while (AEEnemy.enemies.length > 0) {
+				AEWorld.debugText.text += " " + AEEnemy.enemies[0].getID();
 				AEEnemy.enemies[0].kill();
-			}
+			}*/
 		}
 
 		public static function updateEnemies():void {

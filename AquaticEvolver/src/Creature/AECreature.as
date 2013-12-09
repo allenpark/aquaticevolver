@@ -137,7 +137,7 @@ package Creature
 		
 		public function handleAttackOn(adaptation:Adaptation, enemy:AECreature):Boolean {
 			var enemyDead:Boolean = false;
-			if (adaptation == null || adaptation.adaptationType == SpriteType.SHELL) {
+			if (adaptation == null) {// || adaptation.adaptationType == SpriteType.SHELL) {
 				enemyDead = enemy.getAttacked(0);
 			} else {
 				enemyDead = enemy.getAttacked(adaptation.attackDamage);	
