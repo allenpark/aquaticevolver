@@ -25,15 +25,14 @@ package
 		{	
 			
 			//Player has special ID value of 1
-			var headDef:AEHeadDef = AECreature.head1Def(x,y);
+			var headDef:AEHeadDef = AECreature.head5Def(x,y);
 			var torsoDef:AETorsoDef = AECreature.torso1Def(x,y);
 			var tailDef:AETailDef = AECreature.tail1Def(x,y);
 			super(SpriteType.PLAYER, x, y, health, headDef, torsoDef, tailDef);
 
-			attachAppendage(AdaptationType.TENTACLE);
 			//attachAppendage(AdaptationType.POISONCANNON);	
 			//attachAppendage(AdaptationType.SPIKESHOOTER);
-			attachAppendage(AdaptationType.BUBBLEGUN);
+			//attachAppendage(AdaptationType.BUBBLEGUN);
 			//attachAppendage(AdaptationType.SHELL);
 		}
 		
@@ -136,7 +135,7 @@ package
 		public function goAboveTop():void{
 			this.aboveTop = true;
 		}
-		public function goBelowTop (): void{
+		public function goBelowTop(): void{
 			this.aboveTop = false 
 		}
 		

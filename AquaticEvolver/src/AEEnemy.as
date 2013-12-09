@@ -1,5 +1,6 @@
 package
 {	
+	import Box2D.Common.Math.b2Math;
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2Body;
 	
@@ -23,7 +24,6 @@ package
 		private var target:FlxPoint = new FlxPoint(AEWorld.player.getX(), AEWorld.player.getY());
         private var counter:Number = 0;
 		public var aggroRadius:int = 200;
-		private const BOUNDSBUFFER:int = 300;
 		private var movementBody:b2Body;
 		
 		private var attitude:String = "Passive";
@@ -42,8 +42,11 @@ package
 			this.original = new FlxPoint(getX(), getY());
 			this.current  = new FlxPoint(original.x + boxBound, original.y);
 			if(Math.random() > 0.5){
-				attitude = "aggressive";
+				attitude = "Aggressive";
 			}
+			attachAppendage(AdaptationType.TENTACLE);
+			attachAppendage(AdaptationType.TENTACLE);
+			attachAppendage(AdaptationType.BUBBLEGUN);
 		}
 		
 		public static function generateRandomEnemy(x:Number, y:Number):AEEnemy
@@ -113,8 +116,12 @@ package
 
 		private function aggressiveMovement():void {
 			this.moveCloseToEnemy(AEWorld.player, 240);
-			target = new FlxPoint(AEWorld.player.getX(), AEWorld.player.getY());
-			attack(target);	
+			target = new FlxPoint(FlxG.width  / 2.0, FlxG.height / 2.0);
+			aim(target);
+			if (counter > 1) {
+				counter = 0;
+				attack(target);
+			}
 		}
 		
 		private function runAwayFromEnemy(enemy:AECreature):void {
@@ -130,6 +137,20 @@ package
 			var dirX:int = (enemy.getX() - this.getX());
 			var dirY:int = (enemy.getY() - this.getY());
 			var forceVec:b2Vec2 = getForceVec(dirX, dirY, impulseSize);
+			
+			var headAngle:Number = movementBody.GetAngle();
+			var headDirection:b2Vec2 = new b2Vec2(Math.sin(headAngle) * -1, Math.cos(headAngle));
+			var goalDirection:b2Vec2 = new b2Vec2(dirX, dirY);
+			var cross:Number = b2Math.CrossVV(headDirection, goalDirection);
+			
+			var torque:Number = 5;
+			if (cross > 0) {
+				movementBody.SetAngularVelocity(-1 * torque);
+			} else {
+				movementBody.SetAngularVelocity(torque);
+			}
+
+			
 			this.movementBody.ApplyImpulse(forceVec, this.movementBody.GetPosition());
 		}
 		
@@ -147,7 +168,22 @@ package
 			}
 			var dirX:int = (enemy.getX() - this.getX());
 			var dirY:int = (enemy.getY() - this.getY());
-			var forceVec:b2Vec2 = getForceVec(dirX, dirY, impulseSize*3);
+			var forceVec:b2Vec2 = getForceVec(dirX, dirY, impulseSize*2);
+			
+			var headAngle:Number = movementBody.GetAngle();
+			var headDirection:b2Vec2 = new b2Vec2(Math.sin(headAngle) * -1, Math.cos(headAngle));
+			var goalDirection:b2Vec2 = new b2Vec2(dirX, dirY);
+			var cross:Number = b2Math.CrossVV(headDirection, goalDirection);
+//			var angle:Number = Math.abs(Math.atan2(dirY, dirX) - Math.atan2(headDirection.y, headDirection.x));
+
+			var torque:Number = 10;
+//			if (angle < 3.1) // A small angle will be between 3 and 3.14159
+			if (cross > 0) {
+				movementBody.SetAngularVelocity(-1 * torque);
+			} else {
+				movementBody.SetAngularVelocity(torque);
+			}
+
 			this.movementBody.ApplyImpulse(forceVec, this.movementBody.GetPosition());
 			
 		}
@@ -205,6 +241,19 @@ package
 			var dirX:int = (target.x - this.getX());
 			var dirY:int = (target.y - this.getY());
 			var forceVec:b2Vec2 = getForceVec(dirX, dirY, impulseSize);
+			
+			var headAngle:Number = movementBody.GetAngle();
+			var headDirection:b2Vec2 = new b2Vec2(Math.sin(headAngle) * -1, Math.cos(headAngle));
+			var goalDirection:b2Vec2 = new b2Vec2(dirX, dirY);
+			var cross:Number = b2Math.CrossVV(headDirection, goalDirection);
+			
+			var torque:Number = 5;
+			if (cross > 0) {
+				movementBody.SetAngularVelocity(-1 * torque);
+			} else {
+				movementBody.SetAngularVelocity(torque);
+			}
+				
 			this.movementBody.ApplyImpulse(forceVec, this.movementBody.GetPosition());
 		}
 	}
