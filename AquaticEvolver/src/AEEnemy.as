@@ -44,6 +44,9 @@ package
 			super(type, x, y, health, headDef, torsoDef, tailDef);
 			this.original = new FlxPoint(this.x, this.y);
 			this.current  = new FlxPoint(original.x + boxBound, original.y);
+			if(Math.random() > 0.5){
+				attitude = "aggressive";
+			}
 		}
 		
 		public static function generateRandomEnemy(x:Number, y:Number):AEEnemy
@@ -111,6 +114,8 @@ package
 		private function aggressiveMovement():void {
 			this.moveCloseToEnemy(AEWorld.player, 240);
 			target = new FlxPoint(AEWorld.player.x, AEWorld.player.y);
+			attack(target);
+			
 		}
 		
 		private function runAwayFromEnemy(enemy:AECreature):void {
