@@ -7,7 +7,7 @@ package Collisions
 		public var creature:AECreature;
 		public var evolutionDrop:EvolutionDrop;
 		
-		public function AEEvolutionDef(creatre:AECreature, evolutionDrop:EvolutionDrop)
+		public function AEEvolutionDef(creature:AECreature, evolutionDrop:EvolutionDrop)
 		{
 			this.creature = creature;
 			this.evolutionDrop = evolutionDrop;

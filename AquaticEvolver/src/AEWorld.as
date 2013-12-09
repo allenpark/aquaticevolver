@@ -478,13 +478,19 @@ package
 		
 		private function processAttackList():void
 		{
-			//TODO: revamp attacking::dependent on relative angle/speed
 			while (AttackList.length>0)
 			{
 				var attackDef:AEAttackDef = AttackList.pop();
-				//attackDef.attacker.handleAttackOn(attackDef.victim);
-				//TODO: detect player death in handle attack
+				handleAttack(attackDef);
 			}
+		}
+		
+		private function handleAttack(attackDef:AEAttackDef):void
+		{
+			//TODO: revamp attacking::dependent on relative angle/speed
+			//TODO: detect player death in handle attack
+			
+
 		}
 		
 		private function processRemoveList():void
@@ -502,6 +508,8 @@ package
 				var evolver:AECreature = evolutionDef.creature;
 				var evolutionDrop:EvolutionDrop = evolutionDef.evolutionDrop;
 				//TODO: revamp evolving::can evolve with adaptations, not just appendages
+				trace("evolver:"+evolver);
+				trace("adaptation type:" + evolutionDrop.adaptationType);
 				evolver.addAdaptation(evolutionDrop.adaptationType);
 			}
 		}

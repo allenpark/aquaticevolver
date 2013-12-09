@@ -144,6 +144,14 @@ package Creature
 			}
 		}
 		
+		//TODO: call this...?
+		private function takeDamage():void
+		{
+			//TODO: implement this
+		}
+		
+		/*
+		*** OLD IMPLEMENTATION ***
 		public function handleAttackOn(adaptation:Adaptation, enemy:AECreature):Boolean {
 			var enemyDead:Boolean = false;
 			if (adaptation == null) {// || adaptation.adaptationType == SpriteType.SHELL) {
@@ -152,17 +160,21 @@ package Creature
 				enemyDead = enemy.getAttacked(adaptation.attackDamage);	
 			}
 			
-			/*if (!enemyAlive) {
-			//this.inheritFrom(enemy);
-			if (adaptation != null)	{
-			adaptation.attackDamage += 2;					
-			}
-			return true;
-			}
-			return false;*/
+			
+			//if (!enemyAlive) {
+			////this.inheritFrom(enemy);
+			//if (adaptation != null)	{
+			//adaptation.attackDamage += 2;					
+			//}
+			//return true;
+			//}
+			//return false;
 			return enemyDead;
 		}
+		*/
 		
+		/*
+		*** OLD IMPLEMENTATION ***
 		public function getAttacked(damage:int):Boolean {
 			this.currentHealth -= damage;
 			if (this.currentHealth <= 0) {
@@ -172,6 +184,7 @@ package Creature
 			}
 			return false;
 		}
+		*/
 		
 		public function kill():void
 		{
@@ -182,16 +195,20 @@ package Creature
 			
 			
 			//Get random adaptation
-			var randomAdaptation:Number = this._adaptations[int(Math.random()*(this._adaptations.length - 1))].adaptationType;
+			if (this._adaptations.length != 0)
+			{
+				var randomIndex:int = int(Math.random()*(this._adaptations.length - 1));
+				
+				var randomAdaptationType:Number = this._adaptations[randomIndex].adaptationType;
+				
+				//Add evolution drop
+				var evolutionDrop:EvolutionDrop = new EvolutionDrop(getX(), getY(), randomAdaptationType);
+				
+				//Add to world
+				AEWorld.world.add(evolutionDrop);
+			}
 			
-			//Add evolution drop
-			var evolutionDrop:EvolutionDrop = new EvolutionDrop(getX(), getY(), randomAdaptation);
 			
-			//Add to world
-			AEWorld.world.add(evolutionDrop);
-			
-			
-			//Get first appendage
 			//var appendage = Appendage.createAppendageWithType(AppendageType.SPIKE		
 			
 			

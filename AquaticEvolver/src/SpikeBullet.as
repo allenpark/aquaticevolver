@@ -49,6 +49,7 @@ package
 		override public function update():void{
 			if (!this.onScreen(null))
 			{
+				trace("Offscreen spike bullet killed!");
 				this.kill();
 				return;
 			}
@@ -60,7 +61,6 @@ package
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
 				.withShape(shape)
 				.withType(b2Body.b2_kinematicBody)
-				.asBullet()
 				.withData(new AECollisionData(SpriteType.SPIKE, this, this.adaptOwner, this.creature));
 			return b2bb;
 		}

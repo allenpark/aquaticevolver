@@ -3,7 +3,7 @@ package Collisions
 	import Box2D.Dynamics.b2ContactListener;
 	import Box2D.Dynamics.b2Fixture;
 	import Box2D.Dynamics.Contacts.b2Contact;
-		
+	
 	public class AECollisionListener extends b2ContactListener
 	{
 		protected static const DAMAGE_DEALING_SPRITES:Array = new Array(
@@ -20,6 +20,10 @@ package Collisions
 			SpriteType.SPIKESHOOTER,
 			SpriteType.TENTACLEMID);
 		
+		protected static const PROJECTILES:Array = new Array(
+			SpriteType.BUBBLE,
+			SpriteType.SPIKEBULLET);
+		
 		
 		private function elemInArray(element:*, array:Array):Boolean
 		{
@@ -31,7 +35,7 @@ package Collisions
 		{			
 			//trace(attackerData);
 			//trace(victimData);
-			var attackDef:AEAttackDef = new AEAttackDef(attackerData.creature, victimData.creature, attackerData.b2FlxSprite, victimData.b2FlxSprite);
+			var attackDef:AEAttackDef = new AEAttackDef(attackerData.creature, attackerData.spriteType, attackerData.b2FlxSprite, victimData.creature, victimData.spriteType, victimData.b2FlxSprite);
 			AEWorld.AttackList.push(attackDef);
 		}
 		
@@ -39,6 +43,8 @@ package Collisions
 		{			
 			// Evolve player with evolution drop
 			var evolutionDrop:EvolutionDrop = (evolutionData.b2FlxSprite as EvolutionDrop);
+			trace("evolution drop grabbed with adaptation type:"+evolutionDrop.adaptationType);
+			trace("evolving creautre:"+creatureData.creature);
 			var evolutionDef:AEEvolutionDef = new AEEvolutionDef(creatureData.creature, evolutionDrop);
 			AEWorld.EvolveList.push(evolutionDef);
 			
@@ -78,69 +84,82 @@ package Collisions
 			var data2:AECollisionData = (fixture2.GetBody().GetUserData() as AECollisionData);
 			trace("Collision data1: \n" + data1);
 			trace("Collision data2: \n" + data2);
+			if (data1.creature && data2.creature){
+				if (data1.creature.getID() == data2.creature.getID()) 
+				{
+					// Creature hit itself
+					return;
+				}
+			}
 			
-			if (data1.creature.getID() == data2.creature.getID()) 
+			if (elemInArray(data1.spriteType, DAMAGE_DEALING_SPRITES) && elemInArray(data2.spriteType, DAMAGE_TAKING_SPRITES))
 			{
-				// Creature hit itself
+				// data1 deals damage to data2
+				AECollisionListener.handleAttack(data1, data2);
+				if (elemInArray(data1.spriteType, PROJECTILES))
+				{
+					AEWorld.RemoveList.push(data1.b2FlxSprite);
+				}
+				return
+				
+			}
+			else if (elemInArray(data1.spriteType, DAMAGE_TAKING_SPRITES) && elemInArray(data2.spriteType, DAMAGE_DEALING_SPRITES))
+			{
+				// data2 deals damage to data1
+				AECollisionListener.handleAttack(data2, data1);
+				if (elemInArray(data2.spriteType, PROJECTILES))
+				{
+					AEWorld.RemoveList.push(data2.b2FlxSprite);
+				}
+				return
+				
+			}
+			else if (data1.creature && (data2.spriteType == SpriteType.EVOLUTIONDROP))
+			{
+				// trigger evolution of data1 with data2
+				AECollisionListener.handleEvolution(data1, data2);
 				return;
 			}
-			else
+			else if ((data1.spriteType == SpriteType.EVOLUTIONDROP) && data2.creature) 
 			{
-				if (elemInArray(data1.spriteType, DAMAGE_DEALING_SPRITES) && elemInArray(data2.spriteType, DAMAGE_TAKING_SPRITES))
-				{
-					// data1 deals damage to data2
-					AECollisionListener.handleAttack(data1, data2);
-					
-				}
-				else if (elemInArray(data1.spriteType, DAMAGE_TAKING_SPRITES) && elemInArray(data2.spriteType, DAMAGE_DEALING_SPRITES))
-				{
-					// data2 deals damage to data1
-					AECollisionListener.handleAttack(data2, data1);
-					
-				}
-				else if (data1.creature && (data2.spriteType == SpriteType.EVOLUTIONDROP))
-				{
-					// trigger evolution of data1 with data2
-					AECollisionListener.handleEvolution(data1, data2);
-				}
-				else if ((data1.spriteType == SpriteType.EVOLUTIONDROP) && data2.creature) 
-				{
-					// trigger evolution of data2 with data1
-					AECollisionListener.handleEvolution(data2, data1);
-				}
-				//  By not handling shell collisions, we don't deal damage		
+				// trigger evolution of data2 with data1
+				AECollisionListener.handleEvolution(data2, data1);
+				return;
 			}
+			return;
+			//  By not handling shell collisions, we don't deal damage		
+			
 			/*
 			
 			*** OLD IMPLEMENTATION ***
 			
 			//if (data1.owner.creatureType == SpriteType.PLAYER && data2.owner.creatureType == SpriteType.ENEMY)
 			if (data1.creature.creatureType != data1.colliderType && data2.creature.creatureType == data2.colliderType) {
-				// data1 is an adaptation and data2 is a body.
-				if (data2.creature.creatureType == SpriteType.EVOLUTIONDROP)
-				{
-					handleEvolution(data1, data2);
-				}
-				else
-				{
-					handleAttack(data1, data2);	
-				}
+			// data1 is an adaptation and data2 is a body.
+			if (data2.creature.creatureType == SpriteType.EVOLUTIONDROP)
+			{
+			handleEvolution(data1, data2);
+			}
+			else
+			{
+			handleAttack(data1, data2);	
+			}
 			} else if (data1.creature.creatureType == data1.colliderType && data2.creature.creatureType != data2.colliderType) {
-				// data1 is a body and data2 is an adaptation.
-				if (data1.creature.creatureType == SpriteType.EVOLUTIONDROP)
-				{
-					handleEvolution(data2, data1);
-				}
-				else
-				{
-					handleAttack(data2, data1);	
-				}
+			// data1 is a body and data2 is an adaptation.
+			if (data1.creature.creatureType == SpriteType.EVOLUTIONDROP)
+			{
+			handleEvolution(data2, data1);
+			}
+			else
+			{
+			handleAttack(data2, data1);	
+			}
 			} // else do not register the attack
 			else if ((data1.creature.creatureType == SpriteType.PLAYER || data1.creature.creatureType == SpriteType.ENEMY) && data2.creature.creatureType == SpriteType.EVOLUTIONDROP) {
-				handleEvolution(data1, data2);
+			handleEvolution(data1, data2);
 			}
 			else if (data1.creature.creatureType == SpriteType.EVOLUTIONDROP && (data1.creature.creatureType == SpriteType.PLAYER || data1.creature.creatureType == SpriteType.ENEMY)) {
-				handleEvolution(data2, data1);
+			handleEvolution(data2, data1);
 			}
 			*/
 		}

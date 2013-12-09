@@ -22,7 +22,7 @@ package Collisions
 		public function toString():String
 		{
 			//TODO: remake this
-			return "Collision Data \n\tOwner: " + this.creature + "; ColliderType: " + this.spriteType + "; Adaptation: " + this.adaptation; 
+			return "Collision Data \n\tspriteType: " + this.spriteType + "; b2FlxSprite: " + this.b2FlxSprite + "; adaptation: " + this.adaptation + "; creature: " + this.creature; 
 		}
 	}
 }

@@ -20,6 +20,8 @@ package
 		public static const SHELL:Number = 12;
 		public static const POISONCANNON:Number = 13;
 		public static const SPIKESHOOTER:Number = 14;
+		public static const SPIKEBULLET:Number = 15;
+
 		
 		//Neutral Types
 		public static const BUBBLE:Number = 50;
