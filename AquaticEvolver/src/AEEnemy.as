@@ -70,7 +70,7 @@ package
 				var newEnemy:AEEnemy = new AEEnemy(id, SpriteType.ENEMY, x, y, 10, headDef, torsoDef, tailDef);
 				enemies.push(newEnemy);
 				return newEnemy;
-			}else {
+			} else {
 				for each (var enemy:AEEnemy in enemies)
 				{
 					if (AEWorld.world.outOfBufferBounds(enemy.getX(), enemy.getY()))
@@ -105,13 +105,13 @@ package
 		{
 			unusedIDs.push(_id);
 
-			enemies.splice(enemies.indexOf(this),1); 
+			AEEnemy.enemies.splice(AEEnemy.enemies.indexOf(this),1,true); 
 			super.kill();
         }
 		
 		public static function killAll():void {
 			while (AEEnemy.enemies.length > 0) {
-				AEEnemy.enemies.pop().kill();
+				AEEnemy.enemies[0].kill();
 			}
 		}
 
