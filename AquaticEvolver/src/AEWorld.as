@@ -194,6 +194,8 @@ package
 		
 		// Creates an enemy randomly slightly off screen.
 		public function addOffscreenEnemy(xBuffer: int = 0, yBuffer: int = 0):void {
+			var behave:String;
+			var appen:int;
 			var newX:Number;
 			var newY:Number;
 			
@@ -216,12 +218,49 @@ package
 				}
 			}
 			
+			trace(newX + " " + newY);
+			if(newY<=3000){
+				behave = "passive";
+				if(Math.random()>0.5){
+					appen = 1;
+				}
+				else
+					appen = 0;
+			}
+			
+			else if(newY<=6000 && newY >3000){
+				if(Math.random()>0.4){
+					behave = "passive";
+					
+				}
+				else{
+					behave = "aggressive";
+				}
+				if(Math.random()>0.5){
+					appen = 1;
+				}
+				else
+					appen = 2;
+			}
+			else if(newY<=9000 && newY > 6000){
+				
+					behave = "aggressive";
+					if(Math.random()>0.5){
+						appen = 2;
+					}
+					else
+						appen = 3;
+				
+			}
+			
+		
+			
 			
 			this.defaultHealth += 2
 			//Can't add enemies above the top bound
 			if(newY > topLocation){
 				trace("Generate enemy at x:",+newX+", y:"+newY);
-				var newEnemy:AEEnemy = AEEnemy.generateRandomEnemy(newX, newY);
+				var newEnemy:AEEnemy = AEEnemy.generateRandomEnemy(appen, behave, newX, newY);
 				if (newEnemy)
 				{
 					this.add(newEnemy.healthDisplay);
