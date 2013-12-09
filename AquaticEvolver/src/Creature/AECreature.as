@@ -54,6 +54,7 @@ package Creature
 		public var maxHealth:int;
 		public var healthDisplay:FlxText;
 		protected var speed:Number = 10;
+		protected var killed:Boolean;
 		
 		
 		public function AECreature(type:Number, x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
@@ -81,6 +82,7 @@ package Creature
 			maxHealth = health;
 			this.healthDisplay = new FlxText(0, 0, 50);
 			this.healthDisplay.size = 10;
+			killed = false;
 		}
 		
 		public function getID():Number
@@ -166,11 +168,14 @@ package Creature
 		
 		public function kill():void
 		{
+			if (this.killed) {
+				return;
+			}
+			this.killed = true;
 			_head.kill();
 			_torso.kill();
 			_tail.kill();
-			trace("KILLING ENEMY")
-			
+			trace("KILLING ENEMY");
 			
 			//Get random adaptation
 			var randomAdaptation:Number = this._adaptations[int(Math.random()*(this._adaptations.length - 1))].adaptationType;
@@ -187,9 +192,8 @@ package Creature
 			
 			
 			healthDisplay.kill();
-			for each(var adaptation:Adaptation in _adaptations){
-				if (adaptation != null)
-				{
+			for each(var adaptation:Adaptation in _adaptations) {
+				if (adaptation != null) {
 					adaptation.kill();
 				}
 			}

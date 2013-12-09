@@ -14,7 +14,7 @@ package
 		[Embed (source = "res/credits.png")] public var creditsButtonImg:Class;
 		[Embed (source = "res/Cursor.png")] public var cursorImg:Class;
 		
-		var buttonOffset:FlxPoint = new FlxPoint(10,10)
+		public var buttonOffset:FlxPoint = new FlxPoint(10,10)
 		
 		
 		 override public function create():void
@@ -37,10 +37,11 @@ package
 			creditButton.loadGraphic(creditsButtonImg);
 			add(creditButton);
 			FlxG.mouse.show();
-			FlxG.mouse.load(cursorImg);
+			FlxG.mouse.load(cursorImg, 1, -32, -32);
 		}
 		 public function startButtonCallback():void {
-			 FlxG.switchState(new  AEWorld);
+			 AEEnemy.killAll();
+			 FlxG.switchState(new AEWorld);
 		 }
 		 public function creditButtonCallback():void {
 			 FlxG.switchState(new CreditState);

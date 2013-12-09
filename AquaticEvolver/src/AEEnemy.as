@@ -47,7 +47,7 @@ package
 			}
 			attachAppendage(AdaptationType.TENTACLE);
 			attachAppendage(AdaptationType.TENTACLE);
-			attachAppendage(AdaptationType.BUBBLEGUN);
+			//attachAppendage(AdaptationType.BUBBLEGUN);
 		}
 		
 		public static function generateRandomEnemy(x:Number, y:Number):AEEnemy
@@ -67,6 +67,7 @@ package
 			if (unusedIDs.length != 0)
 			{
 				var id:Number = unusedIDs.pop();
+				AEWorld.debugText.text += "\nMaking " + id;
 				var newEnemy:AEEnemy = new AEEnemy(id, SpriteType.ENEMY, x, y, 10, headDef, torsoDef, tailDef);
 				enemies.push(newEnemy);
 				return newEnemy;
@@ -103,21 +104,27 @@ package
 		
 		override public function kill():void
 		{
+			if (this.killed) {
+				return;
+			}
+			AEWorld.debugText.text += "\nEnemy killed " + this.getID();
 			unusedIDs.push(_id);
 
-			AEEnemy.enemies.splice(AEEnemy.enemies.indexOf(this),1); 
+			//AEWorld.debugText.text = AEEnemy.enemies.length + " ";
+			AEEnemy.enemies.splice(AEEnemy.enemies.indexOf(this),1);
+			//AEWorld.debugText.text += " " + AEEnemy.enemies.length;
 			super.kill();
         }
 		
 		public static function killAll():void {
-			/*while (AEEnemy.enemies.length > 0) {
+			while (AEEnemy.enemies.length > 0) {
 				AEWorld.debugText.text += " " + AEEnemy.enemies[0].getID();
 				AEEnemy.enemies[0].kill();
-			}*/
+			}
 		}
 
 		public static function updateEnemies():void {
-			for each (var enemy:AEEnemy in enemies) {
+			for each (var enemy:AEEnemy in AEEnemy.enemies) {
 				enemy.update();
 			}
 		}

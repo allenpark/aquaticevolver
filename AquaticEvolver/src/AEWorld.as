@@ -390,7 +390,7 @@ package
 		override public function create():void
 		{
 			//FlxG.mouse.hide();
-			FlxG.mouse.load(cursor, 1, -25, -25);
+			FlxG.mouse.load(cursor, 1, -32, -32);
 			//FlxG.mouse.show(cursor);
 			
 			AEWorld.world = this;
@@ -413,7 +413,7 @@ package
 			//Debugging
 			setupB2Debug();
 			setupFlxDebug();
-			AEWorld.debugText = new FlxText(50, 50, 50);
+			AEWorld.debugText = new FlxText(50, 50, 100);
 			this.add(AEWorld.debugText);
 			
 			lights = new Array();
