@@ -55,44 +55,44 @@ package
 			var z:Number = Math.random();
 			if (appen == 1) {
 				if(z>0.5){
-					attachAppendage(AdaptationType.TENTACLE);
+					addAdaptation(AdaptationType.TENTACLE);
 				} else {
-					attachAppendage(AdaptationType.SPIKE);
+					addAdaptation(AdaptationType.SPIKE);
 				}
 			}
 			if (appen == 2) {
-				if(z<0.33){
-					attachAppendage(AdaptationType.TENTACLE);
-					attachAppendage(AdaptationType.SPIKE);
+				if (z<0.33) {
+					addAdaptation(AdaptationType.TENTACLE);
+					addAdaptation(AdaptationType.SPIKE);
 				} else if (z>=0.33 && z<0.66){
-					attachAppendage(AdaptationType.TENTACLE);
-					attachAppendage(AdaptationType.BUBBLEGUN);
+					addAdaptation(AdaptationType.TENTACLE);
+					addAdaptation(AdaptationType.BUBBLEGUN);
 				} else{
-					attachAppendage(AdaptationType.MANDIBLE);
-					attachAppendage(AdaptationType.SPIKESHOOTER);
+					addAdaptation(AdaptationType.MANDIBLE);
+					addAdaptation(AdaptationType.SPIKESHOOTER);
 				}
 			}
 			if (appen == 3) {
 				if (z<0.2) {
-					attachAppendage(AdaptationType.TENTACLE);
-					attachAppendage(AdaptationType.SPIKE);
-					attachAppendage(AdaptationType.CLAW);
+					addAdaptation(AdaptationType.TENTACLE);
+					addAdaptation(AdaptationType.SPIKE);
+					addAdaptation(AdaptationType.CLAW);
 				} else if (z>=0.2 && z<0.4) {
-					attachAppendage(AdaptationType.TENTACLE);
-					attachAppendage(AdaptationType.BUBBLEGUN);
-					attachAppendage(AdaptationType.SPIKESHOOTER);
+					addAdaptation(AdaptationType.TENTACLE);
+					addAdaptation(AdaptationType.BUBBLEGUN);
+					addAdaptation(AdaptationType.SPIKESHOOTER);
 				} else if (z>=0.4 && z<0.6) {
-					attachAppendage(AdaptationType.TENTACLE);
-					attachAppendage(AdaptationType.BUBBLEGUN);
-					attachAppendage(AdaptationType.MANDIBLE);
+					addAdaptation(AdaptationType.TENTACLE);
+					addAdaptation(AdaptationType.BUBBLEGUN);
+					addAdaptation(AdaptationType.MANDIBLE);
 				} else if (z>=0.6 && z<0.8) {
-					attachAppendage(AdaptationType.TENTACLE);
-					attachAppendage(AdaptationType.SPIKESHOOTER);
-					attachAppendage(AdaptationType.MANDIBLE);
+					addAdaptation(AdaptationType.TENTACLE);
+					addAdaptation(AdaptationType.SPIKESHOOTER);
+					addAdaptation(AdaptationType.MANDIBLE);
 				} else {
-					attachAppendage(AdaptationType.CLAW);
-					attachAppendage(AdaptationType.BUBBLEGUN);
-					attachAppendage(AdaptationType.SHELL);
+					addAdaptation(AdaptationType.CLAW);
+					addAdaptation(AdaptationType.BUBBLEGUN);
+					addAdaptation(AdaptationType.SHELL);
 				}
 			}
 		}

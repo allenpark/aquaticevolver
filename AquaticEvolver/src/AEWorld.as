@@ -359,12 +359,6 @@ package
 			}
 		}
 		
-		private function addCreature(creature:Creature):void
-		{
-			this.add(creature);
-			this.add(creature.healthDisplay);
-		}
-		
 		private function setupDefaults():void
 		{
 			FlxG.bgColor = 0xff3366ff;
@@ -382,6 +376,7 @@ package
 		private function initializePlayer():void
 		{
 			player = new AEPlayer(ScreenWidth/2.0,ScreenHeight/2.0, 10);
+			
 			this.add(player.healthDisplay);
 
 			
@@ -501,7 +496,7 @@ package
 				var evolveDescription:Array = EVOLVELIST.pop();
 				var evolver:AECreature = evolveDescription[0] as AECreature;
 				var appendage:Number = evolveDescription[1] as Number;
-				evolver.attachAppendage(appendage);
+				evolver.addAdaptation(appendage);
 			}
 		}
 		override public function update():void 
