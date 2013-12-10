@@ -5,9 +5,9 @@ package
 	
 	import Creature.AECreature;
 	
-	import Def.AEHeadDef;
-	import Def.AETailDef;
-	import Def.AETorsoDef;
+	import Creature.Def.AEHeadDef;
+	import Creature.Def.AETailDef;
+	import Creature.Def.AETorsoDef;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
@@ -28,7 +28,7 @@ package
 			var headDef:AEHeadDef = AECreature.head5Def(x,y);
 			var torsoDef:AETorsoDef = AECreature.torso1Def(x,y);
 			var tailDef:AETailDef = AECreature.tail1Def(x,y);
-			super(SpriteType.PLAYER, x, y, health, headDef, torsoDef, tailDef);
+			super(x, y, health, headDef, torsoDef, tailDef);
 
 			//attachAppendage(AdaptationType.POISONCANNON);	
 			//attachAppendage(AdaptationType.SPIKESHOOTER);

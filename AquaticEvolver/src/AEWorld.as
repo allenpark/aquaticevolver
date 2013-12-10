@@ -6,6 +6,10 @@ package
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2World;
 	
+	import Collisions.AEAttackDef;
+	import Collisions.AECollisionListener;
+	import Collisions.AEEvolutionDef;
+	
 	import Creature.AECreature;
 	
 	import org.flixel.FlxG;
@@ -105,11 +109,11 @@ package
 		 * 
 		 * - MARCEL 11/17/13
 		 */
-		public static var KILLLIST:Array = new Array();
+		public static var AttackList:Array = new Array();
 		
-		public static var REMOVELIST:Array = new Array();
+		public static var RemoveList:Array = new Array();
 		
-		public static var EVOLVELIST:Array = new Array();
+		public static var EvolveList:Array = new Array();
 		
 		/**
 		 * Number keeping track of the last position the background's color
@@ -465,38 +469,78 @@ package
 			AquaticEvolver.DEBUG_SPRITE.visible = AquaticEvolver.box2dDebug;
 		}
 		
-		private function processKillList():void
+		private function processLists():void
 		{
-			while (KILLLIST.length>0)
+			processEvolveList();
+			processAttackList();
+			processRemoveList();
+		}
+		
+		private function processAttackList():void
+		{
+			while (AttackList.length>0)
 			{
-				var attackDescription:Array = KILLLIST.pop();
-				var attacker:AECreature = attackDescription[0] as AECreature;
-				var enemy:AECreature = attackDescription[1] as AECreature;
-				var adaptation:Adaptation = attackDescription[2] as Adaptation;
-				var killedEnemy:Boolean = attacker.handleAttackOn(adaptation, enemy);
-				if (killedEnemy && enemy.creatureType == SpriteType.PLAYER)
+				var attackDef:AEAttackDef = AttackList.pop();
+				handleAttack(attackDef);
+			}
+		}
+		
+		private function handleAttack(attackDef:AEAttackDef):void
+		{
+			//TODO: revamp attacking::dependent on relative angle/speed
+			//TODO: detect player death in handle attack
+			/*
+			//Deal damage
+			TENTACLEHEAD = speed/angle based
+			SPIKE = speed/angle based
+			MANDIBLEJAW = ???
+			BUBBLE = constant
+			SPIKESHOOTER
+			*/		
+			trace("attackDef.attackAppendage" + attackDef.attackAppendage);
+			if (attackDef.victim)
+			{
+				if(attackDef.attackAppendage)
 				{
-					AEEnemy.killAll();
-					FlxG.switchState(new GameOverState);	
+					attackDef.victim.takeDamage(attackDef.attackAppendage.attackDamage);
+					
+				}
+				else
+				{
+					if (attackDef.attackType == SpriteType.BUBBLE)
+					{
+						var bubble:AttackBubble = (attackDef.attackB2FS as AttackBubble);
+						attackDef.victim.takeDamage(bubble.attackDamage);
+					}
+					else if (attackDef.attackType == SpriteType.SPIKEBULLET)
+					{
+						var bullet:SpikeBullet = (attackDef.attackB2FS as SpikeBullet);
+						attackDef.victim.takeDamage(bullet.attackDamage);
+					}
 				}
 			}
 		}
 		
+		private function relativeVelocity(v1:b2Vec2, v2:b2Vec2):b2Vec2
+		{
+			return new b2Vec2(v1.x - v2.x, v1.y - v2.y);
+		}
+		
 		private function processRemoveList():void
 		{
-			while (REMOVELIST.length > 0)
+			while (RemoveList.length > 0)
 			{
-				REMOVELIST.pop().kill();
+				RemoveList.pop().kill();
 			}
 		}
 		private function processEvolveList():void
 		{
-			while (EVOLVELIST.length > 0)
+			while (EvolveList.length > 0)
 			{
-				var evolveDescription:Array = EVOLVELIST.pop();
-				var evolver:AECreature = evolveDescription[0] as AECreature;
-				var appendage:Number = evolveDescription[1] as Number;
-				evolver.addAdaptation(appendage);
+				var evolutionDef:AEEvolutionDef = EvolveList.pop();
+				var evolver:AECreature = evolutionDef.creature;
+				var evolutionDrop:EvolutionDrop = evolutionDef.evolutionDrop;
+				evolver.addAdaptation(evolutionDrop.adaptationType);
 			}
 		}
 		override public function update():void 
@@ -525,9 +569,7 @@ package
 					toggleB2DebugDrawing();
 				}
 				AEB2World.Step(1.0/60.0, 10, 10);
-				processEvolveList();
-				processKillList();
-				processRemoveList();
+				processLists();
 				enforceTop();
 				
 				if (SPAWNENEMIES)
@@ -594,7 +636,6 @@ package
 				AquaticEvolver.DEBUG_SPRITE.x = - FlxG.camera.scroll.x;
 				AquaticEvolver.DEBUG_SPRITE.y = - FlxG.camera.scroll.y;		
 				
-				//TODO: We should revamp pausing... this isn't the best way of doing it, but it gets the job done for now
 				if (FlxG.keys.justPressed("P")) {
 					paused = new pausescreen();
 					paused.displayPaused();

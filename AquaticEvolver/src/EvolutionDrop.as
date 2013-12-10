@@ -11,6 +11,7 @@ package
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
+	import Collisions.AECollisionData;
 
 	public class EvolutionDrop extends B2FlxSprite
 	{
@@ -59,7 +60,7 @@ package
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
 				.withShape(shape)
 				.withType(b2Body.b2_staticBody)
-				.withData(new CollisionData(this.owner, SpriteType.EVOLUTIONDROP));
+				.withData(new AECollisionData(SpriteType.EVOLUTIONDROP, this));
 			return b2bb;
 		}
 		

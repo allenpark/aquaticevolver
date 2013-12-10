@@ -6,6 +6,7 @@ package
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
+	import Collisions.AECollisionData;
 
 	//import org.osmf.layout.AbsoluteLayoutFacet;
 	
@@ -128,7 +129,7 @@ package
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
 				.withFriction(0.8).withRestitution(0.3).withDensity(0.1)
 				.withLinearDamping(10.0).withAngularDamping(40.0)
-				.withData(new CollisionData(this, SpriteType.PLAYER));
+				.withData(new AECollisionData(this, SpriteType.PLAYER));
 			return b2bb;
 		}
 	}

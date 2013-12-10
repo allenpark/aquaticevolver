@@ -7,7 +7,7 @@ package Creature
 	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Common.Math.b2Vec2;
 		
-	import Def.AESegmentDef;
+	import Creature.Def.AESegmentDef;
 	
 	import org.flixel.FlxG;
 	

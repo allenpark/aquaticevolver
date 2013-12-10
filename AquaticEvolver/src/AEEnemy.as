@@ -6,12 +6,11 @@ package
 	
 	import Creature.AECreature;
 	
-	import Def.AEHeadDef;
-	import Def.AETailDef;
-	import Def.AETorsoDef;
+	import Creature.Def.AEHeadDef;
+	import Creature.Def.AETailDef;
+	import Creature.Def.AETorsoDef;
 	
 	import org.flixel.FlxG;
-	import org.flixel.FlxGroup;
 	import org.flixel.FlxPoint;
 	
 	public class AEEnemy extends AECreature
@@ -33,16 +32,15 @@ package
 		private var boxBound:int = Math.random()*300+50;
 		
 		private var distTraveled:Number = 0;
-
 		
-		private static var unusedIDs:Array = new Array(2,3,4,5,6,7,8,9,10,11,12,13,14,15);
+		private static var unusedIDs:Array = new Array(2,3,4,5,6);
 		
 		private var _id:Number;
 		
-		public function AEEnemy(id:Number, type:Number, appen:int, behavior:String, x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
+		public function AEEnemy(id:Number, appen:int, behavior:String, x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
 		{
 			_id = id;
-			super(type, x, y, health, headDef, torsoDef, tailDef);
+			super(x, y, health, headDef, torsoDef, tailDef);
 			this.original = new FlxPoint(getX(), getY());
 			this.current  = new FlxPoint(original.x + boxBound, original.y);
 			/*
@@ -67,9 +65,13 @@ package
 				} else if (z>=0.33 && z<0.66){
 					addAdaptation(AdaptationType.TENTACLE);
 					addAdaptation(AdaptationType.BUBBLEGUN);
+					//addAdaptation(AdaptationType.SPIKE);
 				} else{
 					addAdaptation(AdaptationType.MANDIBLE);
 					addAdaptation(AdaptationType.SPIKESHOOTER);
+					//addAdaptation(AdaptationType.SPIKE);
+					//addAdaptation(AdaptationType.SPIKE);
+
 				}
 			}
 			if (appen == 3) {
@@ -81,17 +83,25 @@ package
 					addAdaptation(AdaptationType.TENTACLE);
 					addAdaptation(AdaptationType.BUBBLEGUN);
 					addAdaptation(AdaptationType.SPIKESHOOTER);
+					//addAdaptation(AdaptationType.SPIKE);
+					//addAdaptation(AdaptationType.SPIKE);
 				} else if (z>=0.4 && z<0.6) {
 					addAdaptation(AdaptationType.TENTACLE);
 					addAdaptation(AdaptationType.BUBBLEGUN);
+					//addAdaptation(AdaptationType.SPIKE);
 					addAdaptation(AdaptationType.MANDIBLE);
+					//addAdaptation(AdaptationType.SPIKE);
+
 				} else if (z>=0.6 && z<0.8) {
 					addAdaptation(AdaptationType.TENTACLE);
 					addAdaptation(AdaptationType.SPIKESHOOTER);
+					//addAdaptation(AdaptationType.SPIKE);
 					addAdaptation(AdaptationType.MANDIBLE);
+					//addAdaptation(AdaptationType.SPIKE);
 				} else {
 					addAdaptation(AdaptationType.CLAW);
 					addAdaptation(AdaptationType.BUBBLEGUN);
+					//addAdaptation(AdaptationType.SPIKE);
 					addAdaptation(AdaptationType.SHELL);
 				}
 			}
@@ -114,7 +124,7 @@ package
 			if (unusedIDs.length != 0)
 			{
 				var id:Number = unusedIDs.pop();
-				var newEnemy:AEEnemy = new AEEnemy(id, SpriteType.ENEMY,app,  behavior, x, y, 10, headDef, torsoDef, tailDef);
+				var newEnemy:AEEnemy = new AEEnemy(id, app,  behavior, x, y, 10, headDef, torsoDef, tailDef);
 				enemies.push(newEnemy);
 				return newEnemy;
 			} else {

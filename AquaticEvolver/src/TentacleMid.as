@@ -20,7 +20,7 @@ package
 		{     
 			var boxShape:b2PolygonShape = new b2PolygonShape();
 			boxShape.SetAsBox(AEWorld.b2NumFromFlxNum(bodyWidth), AEWorld.b2NumFromFlxNum(bodyHeight));
-			var b2bb:B2BodyBuilder = new B2BodyBuilder(position, angle).withShape(boxShape).withType(b2Body.b2_dynamicBody)
+			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle).withShape(boxShape)
 				.withDensity(0.01).withLinearDamping(2);
 			return b2bb;
 		}
