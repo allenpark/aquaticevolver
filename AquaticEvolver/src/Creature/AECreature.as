@@ -151,11 +151,11 @@ package Creature
 			this.currentHealth -= damage;
 			if (this.currentHealth <= 0) {
 				this.currentHealth = 0;
-				this.kill();
 				if (this == AEWorld.player)
 				{
 					FlxG.switchState(new GameOverState());
 				}
+				this.kill();
 			}
 		}
 		

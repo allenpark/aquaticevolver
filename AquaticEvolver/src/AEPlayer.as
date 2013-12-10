@@ -145,5 +145,15 @@ package
 			var magnitude:Number = 0.002;
 			return new b2Vec2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
 		}
+		
+		override public function kill():void
+		{
+			for each (var adaptation:Adaptation in this._adaptations)
+			{
+				adaptation.kill();
+			}
+			this._adaptations = new Array();
+			super.kill();
+		}
 	}
 }
