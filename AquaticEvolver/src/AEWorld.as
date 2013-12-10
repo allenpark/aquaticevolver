@@ -223,7 +223,7 @@ package
 			}
 			
 			trace(newX + " " + newY);
-			if(newY<=3000){
+			if(newY<=2000){
 				behave = "passive";
 				if(Math.random()>0.5){
 					appen = 1;
@@ -232,7 +232,7 @@ package
 					appen = 0;
 			}
 			
-			else if(newY<=6000 && newY >3000){
+			else if(newY<=5000 && newY >2000){
 				if(Math.random()>0.4){
 					behave = "passive";
 					
@@ -246,7 +246,7 @@ package
 				else
 					appen = 2;
 			}
-			else if(newY<=9000 && newY > 6000){
+			else {
 				
 					behave = "aggressive";
 					if(Math.random()>0.5){
