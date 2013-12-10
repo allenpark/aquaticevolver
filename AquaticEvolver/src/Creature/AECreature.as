@@ -57,6 +57,8 @@ package Creature
 		public var flashingEvoState:Number = 0;
 		public var flashFrame:Number = 0;
 		public var lastAddedAdaptation:String;
+		public var evoGainCount:Number;
+		public var killCount:Number;
 		
 		
 		public function AECreature(x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
@@ -84,6 +86,8 @@ package Creature
 			this.healthDisplay = new FlxText(0, 0, 50);
 			this.healthDisplay.size = 10;
 			this.killed = false;
+			evoGainCount = 0;
+			killCount = 0;
 		}
 		
 		public function getID():Number
@@ -183,7 +187,27 @@ package Creature
 			return weakestAppendageSlot;
 		}
 		
-		public function addAdaptation(adaptationType:Number):Boolean
+		public function gainAdaptation(adaptationType:Number):void {
+			this.addAdaptation(adaptationType);
+			this.flashingEvoState = 1;
+			this.flashingHealthState = 0;
+			this.flashFrame = 0;
+			this.lastAddedAdaptation = AdaptationType.toString(adaptationType);
+			this.evoGainCount += 1;
+		}
+		
+		public function healCreature():void {
+			this.flashingHealthState = 1;
+			this.flashingEvoState = 0;
+			this.flashFrame = 0;
+			this.lastAddedAdaptation = AdaptationType.toString(AdaptationType.HEALTHINCREASE);
+			if (this.currentHealth < this.maxHealth) {
+				var healthRegain:int = this.maxHealth - this.currentHealth;
+				this.currentHealth += healthRegain;
+			}
+		}
+		
+		protected function addAdaptation(adaptationType:Number):Boolean
 		{
 			
 			// if the adaptation is not an appendage
@@ -229,7 +253,8 @@ package Creature
 		}
 		
 		//TODO: call this...?
-		public function takeDamage(damage:Number):void
+		// returns if creature is killed
+		public function takeDamage(damage:Number):Boolean
 		{
 			this.currentHealth -= damage;
 			if (this == AEWorld.player)
@@ -243,8 +268,9 @@ package Creature
 				{
 					AEWorld.world.gameOver();
 				}
-				this.kill();
+				return this.kill();
 			}
+			return false;
 		}
 		
 		/*
@@ -283,10 +309,10 @@ package Creature
 		}
 		*/
 		
-		public function kill():void
+		public function kill():Boolean
 		{
 			if (this.killed) {
-				return;
+				return false;
 			}
 			this.killed = true;
 			_head.kill();
@@ -294,26 +320,23 @@ package Creature
 			_tail.kill();
 			
 			var generator:Number = Math.random();
-			if(generator < .5) {
-			//Get random adaptation
-			if (this._adaptations.length != 0) {
-			//Get random adaptation
-			var randomAdaptation:Number = this._adaptations[int(Math.random()*(this._adaptations.length - 1))].adaptationType;
-			
-			//Add evolution drop
-			var evolutionDrop:EvolutionDrop = new EvolutionDrop(getX(), getY(), randomAdaptation);
-			
-			//Add to world
-			AEWorld.world.add(evolutionDrop);
+			if (generator < .5) {
+				//Get random adaptation
+				if (this._adaptations.length != 0) {
+					//Get random adaptation
+					var randomAdaptation:Number = this._adaptations[int(Math.random()*(this._adaptations.length - 1))].adaptationType;
+					
+					//Add evolution drop
+					var evolutionDrop:EvolutionDrop = new EvolutionDrop(getX(), getY(), randomAdaptation);
+					
+					//Add to world
+					AEWorld.world.add(evolutionDrop);
+				}
+			} else if (generator > .5) {
+				var healthDrop:HealthDrop = new HealthDrop(getX(), getY());
+				AEWorld.world.add(healthDrop);
 			}
 			
-			}
-			else if (generator > .5){
-			var healthDrop = new HealthDrop(getX(), getY());
-			
-			AEWorld.world.add(healthDrop);
-			}
-	
 			healthDisplay.kill();
 			AEWorld.world.remove(healthDisplay);
 			for each(var adaptation:Adaptation in _adaptations) {
@@ -321,6 +344,7 @@ package Creature
 					adaptation.kill();
 				}
 			}
+			return true;
 		}
 		
 		public function getX():Number
