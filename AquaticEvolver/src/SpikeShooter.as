@@ -43,13 +43,8 @@ package
 			
 			
 			// create the sprites
-<<<<<<< HEAD
-			//trace(owner);
-			spikeShooter = new BoxSpikeShooter(0, 0, owner, this, spikeShooterImg, 128, 128);
-=======
-			trace(creature);
+			//trace(creature);
 			spikeShooter = new BoxSpikeShooter(0, 0, creature, this, spikeShooterImg, 128, 128);
->>>>>>> 51adddae9a0e6d45f42457ed77114396137dd012
 			this.add(spikeShooter);
 			
 			// create the joint from base to creature
