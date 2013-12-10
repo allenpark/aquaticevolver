@@ -88,6 +88,7 @@ package
 			//this.x = FlxG.camera.scroll.x + (FlxG.width  / 2.0);
 			//this.y = FlxG.camera.scroll.y + (FlxG.height / 2.0);
 			super.update();
+			teaserText.x = this.getX()- FlxG.width/2.0;
 			if (!FlxG.paused) {
 				if (flashingHealthState != 0 || flashingEvoState != 0) {
 					AEWorld.world.pickupText.text = lastAddedAdaptation;
