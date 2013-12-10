@@ -15,7 +15,7 @@ package
 	
 	public class HealthDrop extends B2FlxSprite
 	{
-		[Embed(source='res/yellow-bubble.png')]
+		[Embed(source='res/red-bubble.png')]
 		public static var ImgAttackBubble:Class;
 		
 		private var bodyWidth:int = 64;

@@ -239,7 +239,7 @@ package Creature
 			_tail.kill();
 			
 			var generator:Number = Math.random();
-			if(generator < .4) {
+			if(generator < .5) {
 			//Get random adaptation
 			if (this._adaptations.length != 0) {
 			//Get random adaptation
@@ -253,15 +253,12 @@ package Creature
 			}
 			
 			}
-			else if (generator > .4 && generator < .8){
+			else if (generator > .5){
 			var healthDrop = new HealthDrop(getX(), getY());
 			
 			AEWorld.world.add(healthDrop);
 			}
-			else{
-			//Don't drop anything
-			}
-			
+	
 			healthDisplay.kill();
 			for each(var adaptation:Adaptation in _adaptations) {
 				if (adaptation != null) {
