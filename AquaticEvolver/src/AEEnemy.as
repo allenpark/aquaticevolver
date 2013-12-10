@@ -260,15 +260,15 @@ package
 			*/
 		}
 		
-		override public function kill():void
+		override public function kill():Boolean
 		{
 			if (this.killed) {
-				return;
+				return false;
 			}
 			unusedIDs.push(_id);
 
 			AEEnemy.enemies.splice(AEEnemy.enemies.indexOf(this),1);
-			super.kill();
+			return super.kill();
         }
 		
 		public static function killAll():void {

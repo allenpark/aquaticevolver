@@ -21,6 +21,9 @@ package
 		
 		private var bodyWidth:int = 64;
 		private var bodyHeight:int = 64;
+		
+		private var creature:AECreature;
+		private var appendage:Appendage;
 
 		public var attackDamage:Number;
 		public var pos:b2Vec2;
@@ -39,7 +42,7 @@ package
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-14.0),AEWorld.b2NumFromFlxNum(-10.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-11.0),AEWorld.b2NumFromFlxNum(-14.0)));
 		
-		public function AttackBubble(pos:b2Vec2, width:Number, height:Number, attackDamage:Number, creatureID:Number, speed:Number, targetPoint:FlxPoint)
+		public function AttackBubble(pos:b2Vec2, width:Number, height:Number, attackDamage:Number, creature:AECreature, appendage:Appendage, speed:Number, targetPoint:FlxPoint)
 
 		{
 			this.attackDamage = attackDamage;
@@ -47,7 +50,9 @@ package
 			this.pos = pos;
 			this.bubbleBoxShape = new b2PolygonShape();
 			this.bubbleBoxShape.SetAsArray(polygonVerticies);
-			super(AEWorld.flxNumFromB2Num(pos.x), AEWorld.flxNumFromB2Num(pos.y),0, ImgAttackBubble, width, height, this.bubbleBoxShape, -creatureID);
+			this.creature = creature;
+			this.appendage = appendage;
+			super(AEWorld.flxNumFromB2Num(pos.x), AEWorld.flxNumFromB2Num(pos.y),0, ImgAttackBubble, width, height, this.bubbleBoxShape, -creature.getID());
 		}
 		override public function update():void{
 			if (!this.onScreen(null))
@@ -64,7 +69,7 @@ package
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
 				.withShape(shape)
 				.withType(b2Body.b2_kinematicBody)
-				.withData(new AECollisionData(SpriteType.BUBBLE, this));
+				.withData(new AECollisionData(SpriteType.BUBBLE, this, this.appendage, this.creature));
 			return b2bb;
 		}
 	}

@@ -278,14 +278,12 @@ package
 					appen = 2;
 			}
 			else {
-				
 					behave = "aggressive";
 					if(Math.random()>0.5){
 						appen = 2;
 					}
 					else
 						appen = 3;
-				
 			}
 			
 			this.defaultHealth += 2
@@ -455,11 +453,6 @@ package
 			}
 			return shortestDist;
 		}
-		
-		public function getInstance():AEWorld
-		{
-			return this;
-		}
 		 
 		private function updateVolume():void
 		{
@@ -477,8 +470,6 @@ package
 			}
 			Flxdroplet.volume = (1- battleVolume);
 			FlxbattleMusic.volume = battleVolume;
-			
-			
 		}
 		
 		
@@ -562,23 +553,26 @@ package
 			//trace("attackDef.attackAppendage" + attackDef.attackAppendage);
 			if (attackDef.victim)
 			{
+				var killed:Boolean = false;
 				if(attackDef.attackAppendage)
 				{
-					attackDef.victim.takeDamage(attackDef.attackAppendage.attackDamage);
-					
+					killed = attackDef.victim.takeDamage(attackDef.attackAppendage.attackDamage);
 				}
 				else
 				{
 					if (attackDef.attackType == SpriteType.BUBBLE)
 					{
 						var bubble:AttackBubble = (attackDef.attackB2FS as AttackBubble);
-						attackDef.victim.takeDamage(bubble.attackDamage);
+						killed = attackDef.victim.takeDamage(bubble.attackDamage);
 					}
 					else if (attackDef.attackType == SpriteType.SPIKEBULLET)
 					{
 						var bullet:SpikeBullet = (attackDef.attackB2FS as SpikeBullet);
-						attackDef.victim.takeDamage(bullet.attackDamage);
+						killed = attackDef.victim.takeDamage(bullet.attackDamage);
 					}
+				}
+				if (killed) {
+					attackDef.attacker.killCount += 1;
 				}
 			}
 		}
@@ -602,11 +596,7 @@ package
 				var evolutionDef:AEEvolutionDef = EvolveList.pop();
 				var evolver:AECreature = evolutionDef.creature;
 				var evolutionDrop:EvolutionDrop = evolutionDef.evolutionDrop;
-				evolver.addAdaptation(evolutionDrop.adaptationType);
-				evolver.flashingEvoState = 1;
-				evolver.flashingHealthState = 0;
-				evolver.flashFrame = 0;
-				evolver.lastAddedAdaptation = AdaptationType.toString(evolutionDrop.adaptationType);
+				evolver.gainAdaptation(evolutionDrop.adaptationType);
 			}
 		}
 		
@@ -616,23 +606,19 @@ package
 			{
 				var healthDef:AEHealthDef = HealthList.pop();
 				var creatureBeingHealed:AECreature = healthDef.creature;
-				creatureBeingHealed.flashingHealthState = 1;
-				creatureBeingHealed.flashingEvoState = 0;
-				creatureBeingHealed.flashFrame = 0;
-				creatureBeingHealed.lastAddedAdaptation = AdaptationType.toString(AdaptationType.HEALTHINCREASE);
-				if (creatureBeingHealed.currentHealth < creatureBeingHealed.maxHealth) {
-					var healthRegain:int = creatureBeingHealed.maxHealth - creatureBeingHealed.currentHealth;
-					creatureBeingHealed.currentHealth += healthRegain;
-				}
+				creatureBeingHealed.healCreature();
 			}	
 		}
 		
 		public function gameOver():void
 		{
 			AEEnemy.killAll();
+			FlxG.score = player.killCount;
+			FlxG.level = player.evoGainCount;
 			FlxG.switchState(new GameOverState);
 		}
-		override public function update():void 
+		
+		override public function update():void
 		{
 			if (!FlxG.paused) {
 				AEWorld.debugText.x = FlxG.camera.scroll.x + 50;

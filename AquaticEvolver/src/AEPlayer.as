@@ -197,14 +197,14 @@ package
 			return new b2Vec2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
 		}
 		
-		override public function kill():void
+		override public function kill():Boolean
 		{
 			for each (var adaptation:Adaptation in this._adaptations)
 			{
 				adaptation.kill();
 			}
 			this._adaptations = new Array();
-			super.kill();
+			return super.kill();
 		}
 	}
 }
