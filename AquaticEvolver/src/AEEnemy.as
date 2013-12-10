@@ -5,7 +5,6 @@ package
 	import Box2D.Dynamics.b2Body;
 	
 	import Creature.AECreature;
-	
 	import Creature.Def.AEHeadDef;
 	import Creature.Def.AETailDef;
 	import Creature.Def.AETorsoDef;
@@ -51,58 +50,150 @@ package
 			attitude = behavior;
 			//trace("app " + appen);
 			var z:Number = Math.random();
+			var m:Number = Math.random();
+			var n:Number = Math.random();
 			if (appen == 1) {
-				if(z>0.5){
+				if(z<=0.1){
 					addAdaptation(AdaptationType.TENTACLE);
-				} else {
+				} else if( z<= 0.2 && z > 0.1) {
+					addAdaptation(AdaptationType.BUBBLEGUN);
+				}else if( z<= 0.3 && z > 0.2) {
+					addAdaptation(AdaptationType.CLAW);
+				}else if( z<= 0.4 && z > 0.3) {
+					addAdaptation(AdaptationType.HEALTHINCREASE);
+				}else if( z<= 0.5 && z > 0.4) {
+					addAdaptation(AdaptationType.MANDIBLE);
+				}else if( z<= 0.6 && z > 0.5) {
+					addAdaptation(AdaptationType.POISONCANNON);
+				}else if( z<= 0.7 && z > 0.8) {
+					addAdaptation(AdaptationType.SHELL);
+				}
+				else if( z<= 0.8 && z > 0.7) {
+					addAdaptation(AdaptationType.SPEEDINCREASE);
+				}else if( z< 0.9 && z > 0.8) {
 					addAdaptation(AdaptationType.SPIKE);
+				}
+				else{
+					addAdaptation(AdaptationType.SPIKESHOOTER);
 				}
 			}
 			if (appen == 2) {
-				if (z<0.33) {
+				if(z<=0.1){
 					addAdaptation(AdaptationType.TENTACLE);
-					addAdaptation(AdaptationType.SPIKE);
-				} else if (z>=0.33 && z<0.66){
-					addAdaptation(AdaptationType.TENTACLE);
+				} else if( z<= 0.2 && z > 0.1) {
 					addAdaptation(AdaptationType.BUBBLEGUN);
-					//addAdaptation(AdaptationType.SPIKE);
-				} else{
+				}else if( z<= 0.3 && z > 0.2) {
+					addAdaptation(AdaptationType.CLAW);
+				}else if( z<= 0.4 && z > 0.3) {
+					addAdaptation(AdaptationType.HEALTHINCREASE);
+				}else if( z<= 0.5 && z > 0.4) {
 					addAdaptation(AdaptationType.MANDIBLE);
+				}else if( z<= 0.6 && z > 0.5) {
+					addAdaptation(AdaptationType.POISONCANNON);
+				}else if( z<= 0.7 && z > 0.8) {
+					addAdaptation(AdaptationType.SHELL);
+				}
+				else if( z<= 0.8 && z > 0.7) {
+					addAdaptation(AdaptationType.SPEEDINCREASE);
+				}else if( z< 0.9 && z > 0.8) {
+					addAdaptation(AdaptationType.SPIKE);
+				}
+				else{
 					addAdaptation(AdaptationType.SPIKESHOOTER);
-					//addAdaptation(AdaptationType.SPIKE);
-					//addAdaptation(AdaptationType.SPIKE);
-
+				}
+				if(m<=0.1){
+					addAdaptation(AdaptationType.TENTACLE);
+				} else if( m<= 0.2 && m > 0.1) {
+					addAdaptation(AdaptationType.BUBBLEGUN);
+				}else if( m<= 0.3 && m > 0.2) {
+					addAdaptation(AdaptationType.CLAW);
+				}else if( m<= 0.4 && m > 0.3) {
+					addAdaptation(AdaptationType.HEALTHINCREASE);
+				}else if( m<= 0.5 && m > 0.4) {
+					addAdaptation(AdaptationType.MANDIBLE);
+				}else if( m<= 0.6 && m > 0.5) {
+					addAdaptation(AdaptationType.POISONCANNON);
+				}else if( m<= 0.7 && m > 0.8) {
+					addAdaptation(AdaptationType.SHELL);
+				}
+				else if( m<= 0.8 && m > 0.7) {
+					addAdaptation(AdaptationType.SPEEDINCREASE);
+				}else if( m< 0.9 && m > 0.8) {
+					addAdaptation(AdaptationType.SPIKE);
+				}
+				else{
+					addAdaptation(AdaptationType.SPIKESHOOTER);
 				}
 			}
 			if (appen == 3) {
-				if (z<0.2) {
+				if(z<=0.1){
 					addAdaptation(AdaptationType.TENTACLE);
-					addAdaptation(AdaptationType.SPIKE);
+				} else if( z<= 0.2 && z > 0.1) {
+					addAdaptation(AdaptationType.BUBBLEGUN);
+				}else if( z<= 0.3 && z > 0.2) {
 					addAdaptation(AdaptationType.CLAW);
-				} else if (z>=0.2 && z<0.4) {
-					addAdaptation(AdaptationType.TENTACLE);
-					addAdaptation(AdaptationType.BUBBLEGUN);
-					addAdaptation(AdaptationType.SPIKESHOOTER);
-					//addAdaptation(AdaptationType.SPIKE);
-					//addAdaptation(AdaptationType.SPIKE);
-				} else if (z>=0.4 && z<0.6) {
-					addAdaptation(AdaptationType.TENTACLE);
-					addAdaptation(AdaptationType.BUBBLEGUN);
-					//addAdaptation(AdaptationType.SPIKE);
+				}else if( z<= 0.4 && z > 0.3) {
+					addAdaptation(AdaptationType.HEALTHINCREASE);
+				}else if( z<= 0.5 && z > 0.4) {
 					addAdaptation(AdaptationType.MANDIBLE);
-					//addAdaptation(AdaptationType.SPIKE);
-
-				} else if (z>=0.6 && z<0.8) {
-					addAdaptation(AdaptationType.TENTACLE);
-					addAdaptation(AdaptationType.SPIKESHOOTER);
-					//addAdaptation(AdaptationType.SPIKE);
-					addAdaptation(AdaptationType.MANDIBLE);
-					//addAdaptation(AdaptationType.SPIKE);
-				} else {
-					addAdaptation(AdaptationType.CLAW);
-					addAdaptation(AdaptationType.BUBBLEGUN);
-					//addAdaptation(AdaptationType.SPIKE);
+				}else if( z<= 0.6 && z > 0.5) {
+					addAdaptation(AdaptationType.POISONCANNON);
+				}else if( z<= 0.7 && z > 0.8) {
 					addAdaptation(AdaptationType.SHELL);
+				}
+				else if( z<= 0.8 && z > 0.7) {
+					addAdaptation(AdaptationType.SPEEDINCREASE);
+				}else if( z< 0.9 && z > 0.8) {
+					addAdaptation(AdaptationType.SPIKE);
+				}
+				else{
+					addAdaptation(AdaptationType.SPIKESHOOTER);
+				}
+				if(m<=0.1){
+					addAdaptation(AdaptationType.TENTACLE);
+				} else if( m<= 0.2 && m > 0.1) {
+					addAdaptation(AdaptationType.BUBBLEGUN);
+				}else if( m<= 0.3 && m > 0.2) {
+					addAdaptation(AdaptationType.CLAW);
+				}else if( m<= 0.4 && m > 0.3) {
+					addAdaptation(AdaptationType.HEALTHINCREASE);
+				}else if( m<= 0.5 && m > 0.4) {
+					addAdaptation(AdaptationType.MANDIBLE);
+				}else if( m<= 0.6 && m > 0.5) {
+					addAdaptation(AdaptationType.POISONCANNON);
+				}else if( m<= 0.7 && m > 0.8) {
+					addAdaptation(AdaptationType.SHELL);
+				}
+				else if( m<= 0.8 && m > 0.7) {
+					addAdaptation(AdaptationType.SPEEDINCREASE);
+				}else if( m< 0.9 && m > 0.8) {
+					addAdaptation(AdaptationType.SPIKE);
+				}
+				else{
+					addAdaptation(AdaptationType.SPIKESHOOTER);
+				}
+				if(n<=0.1){
+					addAdaptation(AdaptationType.TENTACLE);
+				} else if( n<= 0.2 && n > 0.1) {
+					addAdaptation(AdaptationType.BUBBLEGUN);
+				}else if( n<= 0.3 && n > 0.2) {
+					addAdaptation(AdaptationType.CLAW);
+				}else if( n<= 0.4 && n > 0.3) {
+					addAdaptation(AdaptationType.HEALTHINCREASE);
+				}else if( n<= 0.5 && n > 0.4) {
+					addAdaptation(AdaptationType.MANDIBLE);
+				}else if( n<= 0.6 && n > 0.5) {
+					addAdaptation(AdaptationType.POISONCANNON);
+				}else if( n<= 0.7 && n > 0.8) {
+					addAdaptation(AdaptationType.SHELL);
+				}
+				else if( n<= 0.8 && n > 0.7) {
+					addAdaptation(AdaptationType.SPEEDINCREASE);
+				}else if( n< 0.9 && n > 0.8) {
+					addAdaptation(AdaptationType.SPIKE);
+				}
+				else{
+					addAdaptation(AdaptationType.SPIKESHOOTER);
 				}
 			}
 		}
@@ -155,6 +246,14 @@ package
 				passiveMovement();
 			} else {
 				aggressiveMovement();
+			}
+			if(Math.random()>0.8){
+				if(attitude == "aggressive"){
+					attitude = "passive";
+				}
+				if(attitude == "passive"){
+					attitude = "aggressive";
+				}
 			}
 		}
 		
