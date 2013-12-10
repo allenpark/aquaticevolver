@@ -265,7 +265,7 @@ package
 			//trace(newX + " " + newY);
 			if(newY<=2000){
 				behave = "passive";
-				if(Math.random()>0.5){
+				if(Math.random()>0.2){
 					appen = 1;
 				}
 				else
@@ -704,18 +704,18 @@ package
 					}
 		*/
 					if(timer<30){
-						if (Math.random() < 0.002) {
+						if (Math.random() < 0.015) {
 							addOffscreenEnemy(15, 15);
 						}
 					}
 						
-					else if(timer<90){
-						if (Math.random() < 0.01) {
+					else if(timer< 90 && timer >=30){
+						if (Math.random() < 0.03) {
 							addOffscreenEnemy(15, 15);
 						}
 					}
 					else {
-						if (Math.random() < 0.02) {
+						if (Math.random() < 0.05) {
 							addOffscreenEnemy(15, 15);
 						}
 						
