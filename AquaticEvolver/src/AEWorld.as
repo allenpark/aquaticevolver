@@ -19,6 +19,8 @@ package
 	import org.flixel.FlxState;
 	import org.flixel.FlxText;
 	import org.flixel.FlxU;
+	import Collisions.AEHealthDef;
+
 	
 	public class AEWorld extends FlxState
 	{
@@ -121,6 +123,8 @@ package
 		public static var RemoveList:Array = new Array();
 		
 		public static var EvolveList:Array = new Array();
+		
+		public static var HealthList:Array = new Array();
 		
 		/**
 		 * Number keeping track of the last position the background's color
@@ -249,9 +253,8 @@ package
 				}
 			}
 			
-			trace(newX + " " + newY);
+			//trace(newX + " " + newY);
 			if(newY<=2000){
-		
 				behave = "passive";
 				if(Math.random()>0.5){
 					appen = 1;
@@ -285,13 +288,9 @@ package
 				
 			}
 			
-		
-			
-			
 			this.defaultHealth += 2
 			//Can't add enemies above the top bound
 			if(newY > topLocation){
-				//trace("Generate enemy at x:",+newX+", y:"+newY);
 				var newEnemy:AEEnemy = AEEnemy.generateRandomEnemy(appen, behave, newX, newY);
 				if (newEnemy)
 				{
@@ -530,6 +529,7 @@ package
 		private function processLists():void
 		{
 			processEvolveList();
+			processHealthList();
 			processAttackList();
 			processRemoveList();
 		}
@@ -555,7 +555,7 @@ package
 			BUBBLE = constant
 			SPIKESHOOTER
 			*/		
-			trace("attackDef.attackAppendage" + attackDef.attackAppendage);
+			//trace("attackDef.attackAppendage" + attackDef.attackAppendage);
 			if (attackDef.victim)
 			{
 				if(attackDef.attackAppendage)
@@ -602,6 +602,19 @@ package
 			}
 		}
 		
+		private function processHealthList():void
+		{
+			while (HealthList.length > 0)
+			{
+				var healthDef:AEHealthDef = HealthList.pop();
+				var creatureBeingHealed:AECreature = healthDef.creature;
+				if (creatureBeingHealed.currentHealth < creatureBeingHealed.maxHealth) {
+					var healthRegain:int = creatureBeingHealed.maxHealth - creatureBeingHealed.currentHealth;
+					creatureBeingHealed.currentHealth += healthRegain;
+				}
+			}	
+		}
+		
 		public function gameOver():void
 		{
 			AEEnemy.killAll();
@@ -633,7 +646,7 @@ package
 				if (AquaticEvolver.box2dDebug) {
 					AEB2World.DrawDebugData();
 				}
-				if (FlxG.keys.justPressed("D")) {
+				if (FlxG.keys.justPressed("I")) {
 					toggleB2DebugDrawing();
 				}
 				AEB2World.Step(1.0/60.0, 10, 10);

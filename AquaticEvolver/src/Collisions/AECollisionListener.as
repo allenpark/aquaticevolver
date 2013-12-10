@@ -33,10 +33,7 @@ package Collisions
 		
 		
 		private static function handleAttack(attackerData:AECollisionData, victimData:AECollisionData):void
-		{			
-			//trace(attackerData);
-			//trace(victimData);
-			trace("attacker sprite type"+attackerData.spriteType);
+		{
 			var attackDef:AEAttackDef = new AEAttackDef(attackerData.creature, attackerData.spriteType, attackerData.b2FlxSprite, attackerData.appendage, victimData.creature);
 			AEWorld.AttackList.push(attackDef);
 		}
@@ -50,6 +47,16 @@ package Collisions
 			
 			//Kill evolution drop
 			AEWorld.RemoveList.push(evolutionDrop);
+		}
+		
+		private static function handleHealthRegen(creatureData:AECollisionData, healthData:AECollisionData):void
+		{
+			var healthDrop:HealthDrop = (healthData.b2FlxSprite as HealthDrop);
+			var healthDef:AEHealthDef = new AEHealthDef(creatureData.creature, healthDrop);
+			AEWorld.HealthList.push(healthDef);
+			
+			//Kill health drop	
+			AEWorld.RemoveList.push(healthDrop);
 		}
 		
 		/**
@@ -82,8 +89,6 @@ package Collisions
 			var fixture2:b2Fixture = contact.GetFixtureB();
 			var data1:AECollisionData = (fixture1.GetBody().GetUserData() as AECollisionData);
 			var data2:AECollisionData = (fixture2.GetBody().GetUserData() as AECollisionData);
-			//trace("Collision data1: \n" + data1);
-			//trace("Collision data2: \n" + data2);
 			if (data1.creature && data2.creature){
 				if (data1.creature.getID() == data2.creature.getID()) 
 				{
@@ -98,12 +103,12 @@ package Collisions
 				AECollisionListener.handleAttack(data1, data2);
 				if (elemInArray(data1.spriteType, PROJECTILES))
 				{
-					trace("sprite should be killed!:" + data1.spriteType);
+					//trace("sprite should be killed!:" + data1.spriteType);
 					AEWorld.RemoveList.push(data1.b2FlxSprite);
 				}
 				else
 				{
-					trace(data1.spriteType+" spriteType should not be a projectile");
+					//trace(data1.spriteType+" spriteType should not be a projectile");
 				}
 				return
 				
@@ -114,12 +119,12 @@ package Collisions
 				AECollisionListener.handleAttack(data2, data1);
 				if (elemInArray(data2.spriteType, PROJECTILES))
 				{
-					trace("sprite should be killed!:" + data2.spriteType);
+					//trace("sprite should be killed!:" + data2.spriteType);
 					AEWorld.RemoveList.push(data2.b2FlxSprite);
 				}
 				else
 				{
-					trace(data2.spriteType+" spriteType should not be a projectile");
+					//trace(data2.spriteType+" spriteType should not be a projectile");
 
 				}
 				return
@@ -135,6 +140,18 @@ package Collisions
 			{
 				// trigger evolution of data2 with data1
 				AECollisionListener.handleEvolution(data2, data1);
+				return;
+			}
+			else if (data1.creature && (data2.spriteType == SpriteType.HEALTHDROP))
+			{
+				// trigger evolution of data1 with data2
+				AECollisionListener.handleHealthRegen(data1, data2);
+				return;
+			}
+			else if ((data1.spriteType == SpriteType.HEALTHDROP) && data2.creature) 
+			{
+				// trigger evolution of data2 with data1
+				AECollisionListener.handleHealthRegen(data2, data1);
 				return;
 			}
 			return;

@@ -32,7 +32,7 @@ package
 		
 		private var distTraveled:Number = 0;
 		
-		private static var unusedIDs:Array = new Array(2,3,4,5,6);
+		private static var unusedIDs:Array = new Array(2,3,4,5);
 		
 		private var _id:Number;
 		
@@ -48,7 +48,6 @@ package
 			}
 			*/
 			attitude = behavior;
-			//trace("app " + appen);
 			var z:Number = Math.random();
 			var m:Number = Math.random();
 			var n:Number = Math.random();
@@ -223,7 +222,6 @@ package
 				{
 					if (AEWorld.world.outOfBufferBounds(enemy.getX(), enemy.getY()))
 					{
-						//trace("enemy out of bounds killed");
 						enemy.kill();
 						// try again
 						return generateEnemy(app, behavior, x,y, headDef, torsoDef, tailDef);

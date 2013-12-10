@@ -4,10 +4,14 @@ package
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2World;
 	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
+	import Box2D.Dynamics.Joints.b2WeldJointDef;
+	
+	import Creature.AECreature;
+	
+	import Creature.AECreature;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
-	import Creature.AECreature;
 	
 	public class SpikeShooter extends Appendage
 	{
@@ -21,6 +25,10 @@ package
 		
 		private var jointAngleCorrection:Number = 0;
 		
+		private var lastAttackTime:Number = 0;
+		
+		private var ATTACKDELAY:Number = .5;
+		
 		public var creatureID:Number;
 		
 		// images
@@ -30,6 +38,7 @@ package
 		[Embed(source='res/BubbleCannon1.png')]
 
 		public static var spikeShooterImg:Class;
+		
 		
 		public function SpikeShooter(jointPos:b2Vec2, jointAngle:Number, creature:AECreature, segment:B2FlxSprite)
 		{
@@ -47,6 +56,7 @@ package
 			spikeShooter = new BoxSpikeShooter(0, 0, creature, this, spikeShooterImg, 128, 128);
 			this.add(spikeShooter);
 			
+			
 			// create the joint from base to creature
 			revoluteJointDef = new b2RevoluteJointDef();
 			revoluteJointDef.bodyA = segment.getBody();
@@ -60,7 +70,8 @@ package
 			revoluteJointDef.lowerAngle = -Math.PI/4;
 			revoluteJointDef.upperAngle = Math.PI/4;
 			revoluteJointDef.collideConnected = false;
-			world.CreateJoint(revoluteJointDef);			
+			world.CreateJoint(revoluteJointDef);	
+			
 		}
 		
 		override public function color(color:Number):void {
@@ -70,17 +81,21 @@ package
 		
 		override public function attack(point:FlxPoint):void
 		{
-			FlxG.play(SpikeShooterSFX);
-			super.attack(point);
-			// insert code to shoot a bubble here
-			
-			var headPoint:b2Vec2 = spikeShooter.getBody().GetPosition();
-			var spawnPoint :b2Vec2 = calcBulletSpawnPoint(point, spikeShooter.getScreenXY(), headPoint);
-			var orientation: Number = calcBulletOrientation (point, spikeShooter.getScreenXY());
-			var spike:SpikeBullet = new SpikeBullet(spawnPoint, 16, 64, this.attackDamage, this.creature.getID(), orientation, 5, point);
-			AEWorld.world.add(spike);
-			var spikeBody:b2Body = spike.getBody();
-			spikeBody.SetLinearVelocity(calcBulletVelocity(point, spikeShooter.getScreenXY()));//calcB2Impulse(point, bubbleGun.getScreenXY()));
+			if(lastAttackTime <= 0){
+
+				FlxG.play(SpikeShooterSFX);
+				super.attack(point);
+				// insert code to shoot a bubble here
+				
+				var headPoint:b2Vec2 = spikeShooter.getBody().GetPosition();
+				var spawnPoint :b2Vec2 = calcBulletSpawnPoint(point, spikeShooter.getScreenXY(), headPoint);
+				var orientation: Number = calcBulletOrientation (point, spikeShooter.getScreenXY());
+				var spike:SpikeBullet = new SpikeBullet(spawnPoint, 16, 64, this.attackDamage, this.creature.getID(), orientation, 5, point);
+				AEWorld.world.add(spike);
+				var spikeBody:b2Body = spike.getBody();
+				spikeBody.SetLinearVelocity(calcBulletVelocity(point, spikeShooter.getScreenXY()));//calcB2Impulse(point, bubbleGun.getScreenXY()));
+				lastAttackTime = ATTACKDELAY;
+			}
 		}
 		
 		protected function calcBulletVelocity(mousePoint:FlxPoint, bodyPoint:FlxPoint):b2Vec2 {
@@ -103,6 +118,11 @@ package
 		
 		override public function update():void
 		{
+			if(lastAttackTime > 0){
+				lastAttackTime -= FlxG.elapsed;
+			}else if (lastAttackTime < 0){
+				lastAttackTime = 0;
+			}
 			super.update();
 		}
 	}
