@@ -30,10 +30,12 @@ package
 		public static var world:AEWorld;
 		
 		// music
-		[Embed(source="res/Evolving Horizon.mp3")] public var droplet:Class;
+		[Embed(source="res/Evolving Horizon.mp3")] public var exploreMusic:Class;
 		[Embed(source="res/Tailchasing.mp3")] public var battleMusic:Class;
-		public var Flxdroplet:FlxSound = new  FlxSound();
-		public var FlxbattleMusic:FlxSound = new FlxSound();
+
+		protected var FlxexploreMusic:FlxSound = new  FlxSound();
+		protected var FlxbattleMusic:FlxSound = new FlxSound();
+
 
 		[Embed(source="res/Cursor.png")] public var cursor:Class;
 
@@ -221,15 +223,15 @@ package
 		}
 		
 		private function setupSound():void {
-			Flxdroplet.loadEmbedded(droplet,true);
+			FlxexploreMusic.loadEmbedded(exploreMusic,true);
 			FlxbattleMusic.loadEmbedded(battleMusic, true);
 			if (! ((this is  MenuWorld)||(this is  InstructionState)||(this is  CreditState)||(this is GameOverState))){
-			Flxdroplet.play();
+			FlxexploreMusic.play();
 			}
 			FlxbattleMusic.play();
-			Flxdroplet.active = true;
+			FlxexploreMusic.active = true;
 			FlxbattleMusic.active = true;
-			Flxdroplet.survive = false;
+			FlxexploreMusic.survive = false;
 			FlxbattleMusic.survive  = false;
 		}
 		
@@ -472,7 +474,7 @@ package
 			var distance:Number = distanceToNearestEnemy();
 			if (!this.playerInDanger){
 				battleVolume = 0;
-				Flxdroplet.volume = 1;
+				FlxexploreMusic.volume = 1;
 			}
 			else if (distance < safeDistance)
 			{
@@ -481,7 +483,7 @@ package
 			else if (distance > safeDistance){
 				this.playerInDanger = false;
 			}
-			Flxdroplet.volume = (1- battleVolume);
+			FlxexploreMusic.volume = (1- battleVolume);
 			FlxbattleMusic.volume = battleVolume;
 			
 			
@@ -636,7 +638,7 @@ package
 		
 		public function gameOver():void
 		{
-			Flxdroplet.kill();
+			FlxexploreMusic.kill();
 			FlxbattleMusic.kill();
 			AEEnemy.killAll();
 			FlxG.switchState(new GameOverState);

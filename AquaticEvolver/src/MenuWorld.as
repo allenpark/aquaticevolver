@@ -43,12 +43,14 @@ package
 			FlxG.mouse.load(cursorImg, 1, -32, -32);
 			FlxMainMenuMusic.loadEmbedded(mainMenuMusic,true);
 			FlxMainMenuMusic.play();
+
 				
 		}
 		 public function startButtonCallback():void {
 			 FlxMainMenuMusic.kill();
 			 AEEnemy.killAll();
 			 FlxG.switchState(new AEWorld);
+			 FlxG.music.stop();
 		 }
 		 public function creditButtonCallback():void {
 			 AEEnemy.killAll();

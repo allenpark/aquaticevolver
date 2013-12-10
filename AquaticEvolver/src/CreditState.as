@@ -14,7 +14,7 @@ package
 		//Variable to controll the speed at which text will move on the screen 
 		public var scroll_speed:int = 20; 
 		//A list to keep track of all the things we want on the credits, the last item in the list will go first 
-		public var text_list: Array  = ["Put Legal information here" ,"Legal","Marcel Polanco", "Carlo Biedenharn", "Travis Wagner", "Justin White", "Allen Park", "Nick Benson", "Rohan Mahajan", "Jancarlo Perez", "Jan Rodriguez", "Skyler Seto", "Pedro Cattori", "Main Contributors "]; 
+		public var text_list: Array  = ["Some sound effects provided royalty-free from sounddogs.com" ,"Legal", "", "", "Nick Benson", "Producer", "", "Marcel Polanco", "Scrum Master", "", "Marcel Polanco", "Carlo Biedenharn", "Travis Wagner", "Justin White", "Allen Park", "Nick Benson", "Rohan Mahajan", "Jancarlo Perez", "Jan Rodriguez", "Skyler Seto", "Pedro Cattori", "Main Contributors "]; 
 		//A variable that will keep track of time so all the credits don't come at once
 		public var counter:Number = 0 ; 
 		override public function create():void

@@ -43,7 +43,7 @@ package
 		}
 		
 		public function replayCallback():void{
-			Flxdroplet.kill();
+			FlxexploreMusic.kill();
 			FlxbattleMusic.kill();
 			AEEnemy.killAll();
 			FlxG.switchState(new AEWorld);
