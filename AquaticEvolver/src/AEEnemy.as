@@ -278,7 +278,6 @@ package
 		public static function updateEnemies():void {
 			for each (var enemy:AEEnemy in AEEnemy.enemies) {
 				enemy.update();
-				FlxG.log(unusedIDs);
 			}
 		}
 
