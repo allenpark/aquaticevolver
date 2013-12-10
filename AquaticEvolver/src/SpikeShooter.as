@@ -4,10 +4,12 @@ package
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2World;
 	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
+	import Box2D.Dynamics.Joints.b2WeldJointDef;
+	
+	import Creature.AECreature;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
-	import Creature.AECreature;
 	
 	public class SpikeShooter extends Appendage
 	{
@@ -47,6 +49,7 @@ package
 			spikeShooter = new BoxSpikeShooter(0, 0, creature, this, spikeShooterImg, 128, 128);
 			this.add(spikeShooter);
 			
+			
 			// create the joint from base to creature
 			revoluteJointDef = new b2RevoluteJointDef();
 			revoluteJointDef.bodyA = segment.getBody();
@@ -60,7 +63,8 @@ package
 			revoluteJointDef.lowerAngle = -Math.PI/4;
 			revoluteJointDef.upperAngle = Math.PI/4;
 			revoluteJointDef.collideConnected = false;
-			world.CreateJoint(revoluteJointDef);			
+			world.CreateJoint(revoluteJointDef);	
+			
 		}
 		
 		override public function color(color:Number):void {
