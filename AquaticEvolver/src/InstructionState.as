@@ -119,6 +119,7 @@ package
 			
 		}
 		public function mainMenuCallback():void{
+			AEEnemy.killAll();
 			FlxG.resetGame();
 		}
 	}
