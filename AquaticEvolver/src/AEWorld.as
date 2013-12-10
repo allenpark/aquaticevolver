@@ -544,7 +544,7 @@ package
 			}
 		}
 		
-		private function gameOver():void
+		public function gameOver():void
 		{
 			AEEnemy.killAll();
 			FlxG.switchState(new GameOverState);
