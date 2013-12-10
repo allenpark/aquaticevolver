@@ -111,7 +111,7 @@ package
 				}else if( m<= 0.5 && m > 0.4) {
 					addAdaptation(AdaptationType.MANDIBLE);
 				}else if( m<= 0.6 && m > 0.5) {
-					addAdaptation(AdaptationType.POISONCANNON);
+					//addAdaptation(AdaptationType.POISONCANNON);
 				}else if( m<= 0.7 && m > 0.8) {
 					addAdaptation(AdaptationType.SHELL);
 				}
@@ -159,7 +159,7 @@ package
 				}else if( m<= 0.5 && m > 0.4) {
 					addAdaptation(AdaptationType.MANDIBLE);
 				}else if( m<= 0.6 && m > 0.5) {
-					addAdaptation(AdaptationType.POISONCANNON);
+					//addAdaptation(AdaptationType.POISONCANNON);
 				}else if( m<= 0.7 && m > 0.8) {
 					addAdaptation(AdaptationType.SHELL);
 				}
