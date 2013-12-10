@@ -7,6 +7,7 @@ package
 	import Box2D.Dynamics.b2Body;
 	
 	import Creature.AECreature;
+	import Collisions.AECollisionData;
 	
 	public class BoxShell extends B2FlxSprite
 	{
@@ -35,7 +36,7 @@ package
 			var boxShape:b2PolygonShape = new b2PolygonShape();
 			boxShape.SetAsArray(polygonVerteces);
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle).withShape(boxShape)
-				.withLinearDamping(2).withData(new CollisionData(this.creature, SpriteType.SHELL));
+				.withLinearDamping(2).withData(new AECollisionData(SpriteType.SHELL, this, null, this.creature));
 			return b2bb;
 		}
 	}

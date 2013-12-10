@@ -29,7 +29,7 @@ package
 			var world:b2World = AEWorld.AEB2World;
 			
 			// create the sprite
-			spike = new BoxSpike(0,0,creature,spikeImg,32,128);
+			spike = new BoxSpike(0,0,creature,this, spikeImg,32,128);
 			this.add(spike);
 			
 			// create the jointDef

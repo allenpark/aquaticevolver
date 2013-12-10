@@ -73,7 +73,7 @@ package
 			var headPoint:b2Vec2 = spikeShooter.getBody().GetPosition();
 			var spawnPoint :b2Vec2 = calcBulletSpawnPoint(point, spikeShooter.getScreenXY(), headPoint);
 			var orientation: Number = calcBulletOrientation (point, spikeShooter.getScreenXY());
-			var spike:SpikeBullet = new SpikeBullet(spawnPoint, this.creature, this, 16, 64,orientation, 5, point);
+			var spike:SpikeBullet = new SpikeBullet(spawnPoint, 16, 64,orientation, 5, point);
 			AEWorld.world.add(spike);
 			var spikeBody:b2Body = spike.getBody();
 			spikeBody.SetLinearVelocity(calcBulletVelocity(point, spikeShooter.getScreenXY()));//calcB2Impulse(point, bubbleGun.getScreenXY()));

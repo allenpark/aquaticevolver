@@ -9,8 +9,7 @@ package
 		
 		private var _bg:FlxSprite;
 		
-		
-		private var _field:FlxText;
+
 		
 		private var _fields:FlxText;
 		
@@ -43,16 +42,13 @@ package
 			
 			
 			
-			_field = new FlxText(-40,40, 410, "Paused");
-			_field.setFormat(null, 12, 0xff00FFFF, "center");
-			_field.scrollFactor.x = _field.scrollFactor.y = 0;
-			add(_field);
+		
 			
-			var gameText:FlxSprite = new FlxSprite(FlxG.width/2 - 250, 0, gamePauseText);
+			var gameText:FlxSprite = new FlxSprite(FlxG.width/2 - 100, 250, gamePauseText);
 			gameText.scrollFactor.x = gameText.scrollFactor.y = 0 ; 
 			add(gameText);
 			
-			var resumeButton:FlxButton = new FlxButton(FlxG.width/2 - 65, 2*FlxG.height/7.0, "", resumeCallback);
+			var resumeButton:FlxButton = new FlxButton(FlxG.width/2 - 100, 2*FlxG.height/7.0 + 200, "", resumeCallback);
 			resumeButton.scrollFactor.x = resumeButton.scrollFactor.y = 0 ;
 			resumeButton.loadGraphic(resume);
 			add(resumeButton);
@@ -108,9 +104,6 @@ package
 			if(FlxG.paused)
 				//if (_displaying)
 			{
-				{
-					_field.text = "Paused";
-				}
 				if(FlxG.keys.justPressed("P"))
 				{
 					FlxG.music.resume();

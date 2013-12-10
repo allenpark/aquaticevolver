@@ -6,6 +6,7 @@ package B2Builder
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2BodyDef;
 	import Box2D.Dynamics.b2FixtureDef;
+	import Collisions.AECollisionData;
 
 	public class B2BodyBuilder
 	{
@@ -114,7 +115,7 @@ package B2Builder
 			return this;
 		}
 		
-		public function withData(data:CollisionData):B2BodyBuilder
+		public function withData(data:AECollisionData):B2BodyBuilder
 		{
 			_data = data;
 			return this;

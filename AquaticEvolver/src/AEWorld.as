@@ -6,6 +6,10 @@ package
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2World;
 	
+	import Collisions.AEAttackDef;
+	import Collisions.AECollisionListener;
+	import Collisions.AEEvolutionDef;
+	
 	import Creature.AECreature;
 	
 	import org.flixel.FlxG;
@@ -105,11 +109,11 @@ package
 		 * 
 		 * - MARCEL 11/17/13
 		 */
-		public static var KILLLIST:Array = new Array();
+		public static var AttackList:Array = new Array();
 		
-		public static var REMOVELIST:Array = new Array();
+		public static var RemoveList:Array = new Array();
 		
-		public static var EVOLVELIST:Array = new Array();
+		public static var EvolveList:Array = new Array();
 		
 		/**
 		 * Number keeping track of the last position the background's color
@@ -194,6 +198,8 @@ package
 		
 		// Creates an enemy randomly slightly off screen.
 		public function addOffscreenEnemy(xBuffer: int = 0, yBuffer: int = 0):void {
+			var behave:String;
+			var appen:int;
 			var newX:Number;
 			var newY:Number;
 			
@@ -216,12 +222,49 @@ package
 				}
 			}
 			
+			trace(newX + " " + newY);
+			if(newY<=3000){
+				behave = "passive";
+				if(Math.random()>0.5){
+					appen = 1;
+				}
+				else
+					appen = 0;
+			}
+			
+			else if(newY<=6000 && newY >3000){
+				if(Math.random()>0.4){
+					behave = "passive";
+					
+				}
+				else{
+					behave = "aggressive";
+				}
+				if(Math.random()>0.5){
+					appen = 1;
+				}
+				else
+					appen = 2;
+			}
+			else if(newY<=9000 && newY > 6000){
+				
+					behave = "aggressive";
+					if(Math.random()>0.5){
+						appen = 2;
+					}
+					else
+						appen = 3;
+				
+			}
+			
+		
+			
 			
 			this.defaultHealth += 2
 			//Can't add enemies above the top bound
 			if(newY > topLocation){
 				trace("Generate enemy at x:",+newX+", y:"+newY);
-				var newEnemy:AEEnemy = AEEnemy.generateRandomEnemy(newX, newY);
+				var newEnemy:AEEnemy = AEEnemy.generateRandomEnemy(appen, behave, newX, newY);
 				if (newEnemy)
 				{
 					this.add(newEnemy.healthDisplay);
@@ -320,12 +363,6 @@ package
 			}
 		}
 		
-		private function addCreature(creature:Creature):void
-		{
-			this.add(creature);
-			this.add(creature.healthDisplay);
-		}
-		
 		private function setupDefaults():void
 		{
 			FlxG.bgColor = 0xff3366ff;
@@ -343,6 +380,7 @@ package
 		private function initializePlayer():void
 		{
 			player = new AEPlayer(ScreenWidth/2.0,ScreenHeight/2.0, 10);
+			
 			this.add(player.healthDisplay);
 
 			
@@ -390,7 +428,7 @@ package
 		override public function create():void
 		{
 			//FlxG.mouse.hide();
-			FlxG.mouse.load(cursor, 1, -25, -25);
+			FlxG.mouse.load(cursor, 1, -32, -32);
 			//FlxG.mouse.show(cursor);
 			
 			AEWorld.world = this;
@@ -413,7 +451,7 @@ package
 			//Debugging
 			setupB2Debug();
 			setupFlxDebug();
-			AEWorld.debugText = new FlxText(50, 50, 50);
+			AEWorld.debugText = new FlxText(50, 50, 100);
 			this.add(AEWorld.debugText);
 			
 			lights = new Array();
@@ -431,38 +469,59 @@ package
 			AquaticEvolver.DEBUG_SPRITE.visible = AquaticEvolver.box2dDebug;
 		}
 		
-		private function processKillList():void
+		private function processLists():void
 		{
-			while (KILLLIST.length>0)
+			processEvolveList();
+			processAttackList();
+			processRemoveList();
+		}
+		
+		private function processAttackList():void
+		{
+			while (AttackList.length>0)
 			{
-				var attackDescription:Array = KILLLIST.pop();
-				var attacker:AECreature = attackDescription[0] as AECreature;
-				var enemy:AECreature = attackDescription[1] as AECreature;
-				var adaptation:Adaptation = attackDescription[2] as Adaptation;
-				var killedEnemy:Boolean = attacker.handleAttackOn(adaptation, enemy);
-				if (killedEnemy && enemy.creatureType == SpriteType.PLAYER)
-				{
-					AEEnemy.killAll();
-					FlxG.switchState(new GameOverState);	
-				}
+				var attackDef:AEAttackDef = AttackList.pop();
+				handleAttack(attackDef);
 			}
+		}
+		
+		private function handleAttack(attackDef:AEAttackDef):void
+		{
+			//TODO: revamp attacking::dependent on relative angle/speed
+			//TODO: detect player death in handle attack
+			/*
+			//Deal damage
+			TENTACLEHEAD = speed/angle based
+			SPIKE = speed/angle based
+			MANDIBLEJAW = ???
+			BUBBLE = constant
+			SPIKESHOOTER
+			*/		
+			trace("victim:"+attackDef.victim);
+			trace("appendage:"+attackDef.attackAppendage);
+			attackDef.victim.takeDamage(attackDef.attackAppendage.attackDamage);
+		}
+		
+		private function relativeVelocity(v1:b2Vec2, v2:b2Vec2):b2Vec2
+		{
+			return new b2Vec2(v1.x - v2.x, v1.y - v2.y);
 		}
 		
 		private function processRemoveList():void
 		{
-			while (REMOVELIST.length > 0)
+			while (RemoveList.length > 0)
 			{
-				REMOVELIST.pop().kill();
+				RemoveList.pop().kill();
 			}
 		}
 		private function processEvolveList():void
 		{
-			while (EVOLVELIST.length > 0)
+			while (EvolveList.length > 0)
 			{
-				var evolveDescription:Array = EVOLVELIST.pop();
-				var evolver:AECreature = evolveDescription[0] as AECreature;
-				var appendage:Number = evolveDescription[1] as Number;
-				evolver.attachAppendage(appendage);
+				var evolutionDef:AEEvolutionDef = EvolveList.pop();
+				var evolver:AECreature = evolutionDef.creature;
+				var evolutionDrop:EvolutionDrop = evolutionDef.evolutionDrop;
+				evolver.addAdaptation(evolutionDrop.adaptationType);
 			}
 		}
 		override public function update():void 
@@ -491,9 +550,7 @@ package
 					toggleB2DebugDrawing();
 				}
 				AEB2World.Step(1.0/60.0, 10, 10);
-				processEvolveList();
-				processKillList();
-				processRemoveList();
+				processLists();
 				enforceTop();
 				
 				if (SPAWNENEMIES)
@@ -560,7 +617,6 @@ package
 				AquaticEvolver.DEBUG_SPRITE.x = - FlxG.camera.scroll.x;
 				AquaticEvolver.DEBUG_SPRITE.y = - FlxG.camera.scroll.y;		
 				
-				//TODO: We should revamp pausing... this isn't the best way of doing it, but it gets the job done for now
 				if (FlxG.keys.justPressed("P")) {
 					paused = new pausescreen();
 					paused.displayPaused();

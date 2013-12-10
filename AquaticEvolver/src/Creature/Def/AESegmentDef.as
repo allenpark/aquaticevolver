@@ -1,4 +1,4 @@
-package Def
+package Creature.Def
 {
 	import Box2D.Collision.Shapes.b2PolygonShape;
 	

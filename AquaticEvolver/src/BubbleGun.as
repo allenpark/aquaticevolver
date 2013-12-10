@@ -1,9 +1,9 @@
 package
 {
 	import Box2D.Common.Math.b2Vec2;
-	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2World;
+	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
@@ -66,10 +66,10 @@ package
 
 			var headPoint:b2Vec2 = bubbleGun.getBody().GetPosition();
 			var spawnPoint :b2Vec2 = calcBulletSpawnPoint(point, bubbleGun.getScreenXY(), headPoint);
-			var bubble:AttackBubble = new AttackBubble(spawnPoint, this.creature, this, 64, 64, 5, point);
+			var bubble:AttackBubble = new AttackBubble(spawnPoint, 64, 64, 5, point);
 			AEWorld.world.add(bubble);
 			var bubbleBody:b2Body = bubble.getBody();
-			bubbleBody.SetLinearVelocity(calcBulletVelocity(point, bubbleGun.getScreenXY()));//calcB2Impulse(point, bubbleGun.getScreenXY()));
+			bubbleBody.SetLinearVelocity(calcBulletVelocity(point, bubbleGun.getScreenXY()));
 		}
 		
 		protected function calcBulletVelocity(mousePoint:FlxPoint, bodyPoint:FlxPoint):b2Vec2 {

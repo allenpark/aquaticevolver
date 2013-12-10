@@ -1,4 +1,4 @@
-package Def
+package Creature.Def
 {
 	public class AEDefinition
 	{
