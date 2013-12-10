@@ -67,7 +67,7 @@ package
 					var playerPoint:FlxPoint = new FlxPoint(AEWorld.flxNumFromB2Num(movementBody.GetPosition().x), AEWorld.flxNumFromB2Num(movementBody.GetPosition().y));
 					movementBody.ApplyImpulse(calcB2Impulse(mousePoint, playerPoint), movementBody.GetPosition());
 					attack();
-					trace("attack!");
+					//trace("attack!");
 				}
 					
 					// moving the player based on the arrow keys inputs

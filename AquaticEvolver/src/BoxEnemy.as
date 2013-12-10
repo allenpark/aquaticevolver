@@ -135,7 +135,7 @@ package
 			if (seeSomething) {
 				this.moveCloseToEnemy(AEWorld.player, 240);
 				target = new FlxPoint(AEWorld.player.x, AEWorld.player.y);
-				trace("PLAYER: (" + target.x + "," + target.y + ")");
+				//trace("PLAYER: (" + target.x + "," + target.y + ")");
 				if (weakestStrength == 0) {
 					//trace("RUN AWAY");
 					//this.runAwayFromEnemy(enemies.members[strongestIndex]);

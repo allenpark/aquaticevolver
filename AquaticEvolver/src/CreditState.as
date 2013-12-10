@@ -47,7 +47,8 @@ package
 		
 		public function menuButtonCallback():void
 		{
-			FlxG.switchState(new MenuWorld)
+			AEEnemy.killAll();
+			FlxG.resetGame();
 		}
 		public function CreditScroll (credit_words:String) : void 
 		{
