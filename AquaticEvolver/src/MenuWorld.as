@@ -40,6 +40,7 @@ package
 			FlxG.mouse.show();
 			FlxG.mouse.load(cursorImg, 1, -32, -32);
 			FlxG.playMusic(mainMenuMusic);
+				
 		}
 		 public function startButtonCallback():void {
 			 AEEnemy.killAll();

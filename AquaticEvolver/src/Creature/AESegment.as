@@ -62,7 +62,7 @@ package Creature
 				.withLinearDamping(3.0)
 				.withAngularDamping(30.0)
 			if(shape != null){
-				FlxG.log('Created with a different shape');
+				//FlxG.log('Created with a different shape');
 				b2bb.withShape(shape);
 			}
 			return b2bb;

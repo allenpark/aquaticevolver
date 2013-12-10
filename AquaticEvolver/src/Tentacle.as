@@ -34,7 +34,7 @@ package
 		[Embed(source='res/sfx/Swipe9.mp3')]
 		public var TentacleSFX9:Class;
 		public var tentacleNoises:Array = new Array();
-		private var tentacleMidSegments:int = 4;
+		private var tentacleMidSegments:int = 6;
 		private var tentacleHead:BoxTentacleHead;
 		
 		// tentacle joint locations
@@ -73,7 +73,7 @@ package
 			
 			var revoluteJointDef:b2RevoluteJointDef;
 			
-			var flixelPos;
+			var flixelPos:b2Vec2;
 			
 			var xOffset:Number = 0*Math.cos(jointAngle);
 			var yOffset:Number = 30*Math.sin(jointAngle);
