@@ -4,7 +4,6 @@ package
 	import Box2D.Dynamics.b2Body;
 	
 	import Creature.AECreature;
-	
 	import Creature.Def.AEHeadDef;
 	import Creature.Def.AETailDef;
 	import Creature.Def.AETorsoDef;
