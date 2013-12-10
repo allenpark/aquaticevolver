@@ -232,6 +232,7 @@ package Creature
 					trace("weakest appendage killed in sacrifice to darwin");
 					var newAppendage:Appendage = Appendage.createAppendageWithType(adaptationType,weakestAppendageSlot.slotLocation, angle, this, weakestAppendageSlot.segment);
 					weakestAppendageSlot.appendage = newAppendage;
+					_adaptations.push(newAppendage);
 					
 					return false;
 				}
