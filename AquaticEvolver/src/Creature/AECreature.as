@@ -46,7 +46,7 @@ package Creature
 		
 		private static const HeadSwivel:Number = Math.PI/2.0;
 		private static const TailSwivel:Number = Math.PI/2.0;
-
+		
 		
 		public var currentHealth:int;
 		public var maxHealth:int;
@@ -113,6 +113,26 @@ package Creature
 			}*/
 		}
 		
+		private function weakestAppendageSlot():AESlot
+		{
+			var weakestAppendageSlot:AESlot;
+			for each (var appendageSlot:AESlot in this._occupiedAppendageSlots)
+			{
+				var appendage:Appendage = appendageSlot.appendage;
+				if (!weakestAppendageSlot)
+				{
+					weakestAppendageSlot = appendageSlot;
+				}
+				else if (appendageSlot.appendage.attackDamage < weakestAppendageSlot.appendage.attackDamage)
+				{
+					weakestAppendageSlot = appendageSlot;
+				}
+				
+				
+			}
+			return weakestAppendageSlot;
+		}
+		
 		public function addAdaptation(adaptationType:Number):Boolean
 		{
 			
@@ -125,19 +145,25 @@ package Creature
 			}
 			else
 			{
+
 				if (_unoccupiedAppendageSlots.length == 0)
 				{
-					//TODO: Evolve a bigger body & attack the new appendage!
+					//TODO: Evolve a bigger body & attach the new appendage!
+					var weakestAppendageSlot:AESlot = this.weakestAppendageSlot();
+					var angle:Number = Math.atan2(weakestAppendageSlot.slotLocation.y, weakestAppendageSlot.slotLocation.x) + Math.PI/2;
+					weakestAppendageSlot.appendage.kill();
+					var newAppendage:Appendage = Appendage.createAppendageWithType(adaptationType,weakestAppendageSlot.slotLocation, angle, this, weakestAppendageSlot.segment);
+					weakestAppendageSlot.appendage = newAppendage;
 					return false;
 				}
 				else
 				{
 					var appendageSlot:AESlot = _unoccupiedAppendageSlots.pop();
 					//TODO: appendage locations need to be rotated with body
-					var angle:Number = Math.atan2(appendageSlot.slotLocation.y, appendageSlot.slotLocation.x) + Math.PI/2;
 					//TODO: Fix angle for appendages
 					var appendage:Appendage = Appendage.createAppendageWithType(adaptationType,appendageSlot.slotLocation, angle, this, appendageSlot.segment);
 					//TODO: keep track of appendages... in adaptations array? or separate appendage array?
+					appendageSlot.appendage = appendage;
 					_occupiedAppendageSlots.push(appendageSlot);
 					_adaptations.push(appendage);
 					return true;
@@ -162,36 +188,36 @@ package Creature
 		/*
 		*** OLD IMPLEMENTATION ***
 		public function handleAttackOn(adaptation:Adaptation, enemy:AECreature):Boolean {
-			var enemyDead:Boolean = false;
-			if (adaptation == null) {// || adaptation.adaptationType == SpriteType.SHELL) {
-				enemyDead = enemy.getAttacked(0);
-			} else {
-				enemyDead = enemy.getAttacked(adaptation.attackDamage);	
-			}
-			
-			
-			//if (!enemyAlive) {
-			////this.inheritFrom(enemy);
-			//if (adaptation != null)	{
-			//adaptation.attackDamage += 2;					
-			//}
-			//return true;
-			//}
-			//return false;
-			return enemyDead;
+		var enemyDead:Boolean = false;
+		if (adaptation == null) {// || adaptation.adaptationType == SpriteType.SHELL) {
+		enemyDead = enemy.getAttacked(0);
+		} else {
+		enemyDead = enemy.getAttacked(adaptation.attackDamage);	
+		}
+		
+		
+		//if (!enemyAlive) {
+		////this.inheritFrom(enemy);
+		//if (adaptation != null)	{
+		//adaptation.attackDamage += 2;					
+		//}
+		//return true;
+		//}
+		//return false;
+		return enemyDead;
 		}
 		*/
 		
 		/*
 		*** OLD IMPLEMENTATION ***
 		public function getAttacked(damage:int):Boolean {
-			this.currentHealth -= damage;
-			if (this.currentHealth <= 0) {
-				this.currentHealth = 0;
-				this.kill();
-				return true;
-			}
-			return false;
+		this.currentHealth -= damage;
+		if (this.currentHealth <= 0) {
+		this.currentHealth = 0;
+		this.kill();
+		return true;
+		}
+		return false;
 		}
 		*/
 		

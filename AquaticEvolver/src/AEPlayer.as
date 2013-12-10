@@ -105,7 +105,7 @@ package
 					var force:b2Vec2 = new b2Vec2(0.05 * Math.sin(angle) * yDir * -1, 0.05 * Math.cos(angle) * yDir);
 					
 					movementBody.ApplyImpulse(force, movementBody.GetPosition());
-					var torque:Number = 0.5;
+					var torque:Number = 1.0;
 					movementBody.SetAngularVelocity(torque * xDir);
 				}
 			}
