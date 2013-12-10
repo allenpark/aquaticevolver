@@ -18,6 +18,7 @@ package
 	import org.flixel.FlxText;
 	import org.flixel.FlxU;
 	import org.flixel.FlxPoint;
+	import Collisions.AEHealthDef;
 	
 	public class AEWorld extends FlxState
 	{
@@ -116,6 +117,8 @@ package
 		public static var RemoveList:Array = new Array();
 		
 		public static var EvolveList:Array = new Array();
+		
+		public static var HealthList:Array = new Array();
 		
 		/**
 		 * Number keeping track of the last position the background's color
@@ -501,6 +504,7 @@ package
 		private function processLists():void
 		{
 			processEvolveList();
+			processHealthList();
 			processAttackList();
 			processRemoveList();
 		}
@@ -571,6 +575,19 @@ package
 				var evolutionDrop:EvolutionDrop = evolutionDef.evolutionDrop;
 				evolver.addAdaptation(evolutionDrop.adaptationType);
 			}
+		}
+		
+		private function processHealthList():void
+		{
+			while (HealthList.length > 0)
+			{
+				var healthDef:AEHealthDef = HealthList.pop();
+				var creatureBeingHealed:AECreature = healthDef.creature;
+				if (creatureBeingHealed.currentHealth < creatureBeingHealed.maxHealth) {
+					var healthRegain:int = creatureBeingHealed.maxHealth - creatureBeingHealed.currentHealth;
+					creatureBeingHealed.currentHealth += healthRegain;
+				}
+			}	
 		}
 		
 		public function gameOver():void

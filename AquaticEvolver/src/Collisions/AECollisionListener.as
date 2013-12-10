@@ -52,6 +52,16 @@ package Collisions
 			AEWorld.RemoveList.push(evolutionDrop);
 		}
 		
+		private static function handleHealthRegen(creatureData:AECollisionData, healthData:AECollisionData):void
+		{
+			var healthDrop:HealthDrop = (healthData.b2FlxSprite as HealthDrop);
+			var healthDef:AEHealthDef = new AEHealthDef(creatureData.creature, healthDrop);
+			AEWorld.HealthList.push(healthDef);
+			
+			//Kill health drop	
+			AEWorld.RemoveList.push(healthDrop);
+		}
+		
 		/**
 		 * Called when two fixtures begin to touch.
 		 */
@@ -135,6 +145,18 @@ package Collisions
 			{
 				// trigger evolution of data2 with data1
 				AECollisionListener.handleEvolution(data2, data1);
+				return;
+			}
+			else if (data1.creature && (data2.spriteType == SpriteType.HEALTHDROP))
+			{
+				// trigger evolution of data1 with data2
+				AECollisionListener.handleHealthRegen(data1, data2);
+				return;
+			}
+			else if ((data1.spriteType == SpriteType.HEALTHDROP) && data2.creature) 
+			{
+				// trigger evolution of data2 with data1
+				AECollisionListener.handleHealthRegen(data2, data1);
 				return;
 			}
 			return;

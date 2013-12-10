@@ -205,18 +205,29 @@ package Creature
 			_torso.kill();
 			_tail.kill();
 			
+			var generator:Number = Math.random();
+			if(generator < .4) {
+			//Get random adaptation
 			if (this._adaptations.length != 0) {
-				//Get random adaptation
-				var randomAdaptation:Number = this._adaptations[int(Math.random()*(this._adaptations.length - 1))].adaptationType;
-				
-				//Add evolution drop
-				var evolutionDrop:EvolutionDrop = new EvolutionDrop(getX(), getY(), randomAdaptation);
-				
-				//Add to world
-				AEWorld.world.add(evolutionDrop);
+			//Get random adaptation
+			var randomAdaptation:Number = this._adaptations[int(Math.random()*(this._adaptations.length - 1))].adaptationType;
+			
+			//Add evolution drop
+			var evolutionDrop:EvolutionDrop = new EvolutionDrop(getX(), getY(), randomAdaptation);
+			
+			//Add to world
+			AEWorld.world.add(evolutionDrop);
 			}
 			
-			//var appendage = Appendage.createAppendageWithType(AppendageType.SPIKE		
+			}
+			else if (generator > .4 && generator < .8){
+			var healthDrop = new HealthDrop(getX(), getY());
+			
+			AEWorld.world.add(healthDrop);
+			}
+			else{
+			//Don't drop anything
+			}
 			
 			healthDisplay.kill();
 			for each(var adaptation:Adaptation in _adaptations) {
