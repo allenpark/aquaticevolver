@@ -58,10 +58,11 @@ package
 			super(x, y, health, headDef, torsoDef, tailDef);
 
 			//attachAppendage(AdaptationType.POISONCANNON);	
-			addAdaptation(AdaptationType.SPIKESHOOTER);
-			addAdaptation(AdaptationType.SPIKESHOOTER);
-			addAdaptation(AdaptationType.BUBBLEGUN);
+			//addAdaptation(AdaptationType.SPIKESHOOTER);
+			//addAdaptation(AdaptationType.SPIKESHOOTER);
+			//addAdaptation(AdaptationType.BUBBLEGUN);
 			//attachAppendage(AdaptationType.SHELL);
+			//addAdaptation(AdaptationType.TENTACLE);
 			addAdaptation(AdaptationType.TENTACLE);
 		}
 		

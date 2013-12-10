@@ -58,12 +58,12 @@ package Creature.Images
 		protected static const SuggestedHeadAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,30,WIDTH,HEIGHT);
 		protected static const SuggestedTailAnchor:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(64,98,WIDTH,HEIGHT);
 		
-		protected static const SuggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(43,46, WIDTH, HEIGHT);
-		protected static const SuggestedAppendageSlot2:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(33,64, WIDTH, HEIGHT);
-		protected static const SuggestedAppendageSlot3:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(46,89, WIDTH, HEIGHT);
-		protected static const SuggestedAppendageSlot4:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(82,89, WIDTH, HEIGHT);
-		protected static const SuggestedAppendageSlot5:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(95,64, WIDTH, HEIGHT);
-		protected static const SuggestedAppendageSlot6:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(85,46, WIDTH, HEIGHT);
+		protected static const SuggestedAppendageSlot1:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(33,64, WIDTH, HEIGHT);
+		protected static const SuggestedAppendageSlot2:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(95,64, WIDTH, HEIGHT);
+		protected static const SuggestedAppendageSlot3:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(43,46, WIDTH, HEIGHT);
+		protected static const SuggestedAppendageSlot4:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(85,46, WIDTH, HEIGHT);
+		protected static const SuggestedAppendageSlot5:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(46,89, WIDTH, HEIGHT);
+		protected static const SuggestedAppendageSlot6:b2Vec2 = AESchematic.b2Vec2FromFlxCoords(82,89, WIDTH, HEIGHT);
 		
 		protected static const SuggestedAppendageSlots:Array = new Array(	
 			SuggestedAppendageSlot1, 
