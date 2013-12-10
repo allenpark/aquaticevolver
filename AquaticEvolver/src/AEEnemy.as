@@ -241,10 +241,14 @@ package
 			counter += FlxG.elapsed;
 			this.movementBody = this._head.headSegment.getBody();
 			if (attitude == "passive") {
-				passiveMovement();
+				if(this.currentHealth < this.maxHealth)
+					passiveMovement(1);
+				else
+					passiveMovement(0);
 			} else {
 				aggressiveMovement();
 			}
+			/*
 			if(Math.random()>0.8){
 				if(attitude == "aggressive"){
 					attitude = "passive";
@@ -253,6 +257,7 @@ package
 					attitude = "aggressive";
 				}
 			}
+			*/
 		}
 		
 		override public function kill():void
@@ -374,22 +379,29 @@ package
 			}
 		}
 		
-		private function passiveMovement():void{
-						
-			if(Math.abs(this.getX()-original.x)<20 && Math.abs(this.getY()-original.y)<20){
-				current = new FlxPoint(original.x + boxBound, original.y);
+		private function passiveMovement(attacked:int):void{
+			if(attacked==0){			
+				if(Math.abs(this.getX()-original.x)<20 && Math.abs(this.getY()-original.y)<20){
+					current = new FlxPoint(original.x + boxBound, original.y);
+				}
+				else if(Math.abs(this.getX()-(original.x + boxBound))<20 && Math.abs(this.getY()-original.y)<20){
+					current = new FlxPoint(original.x + boxBound, original.y - boxBound);
+				}
+				else if(Math.abs(this.getX()-(original.x + boxBound))<20 && Math.abs(this.getY()-(original.y - boxBound))<20){
+					current = new FlxPoint(original.x, original.y - boxBound);
+				}
+				else if(Math.abs(this.getX()-original.x)<20 && Math.abs(this.getY()-(original.y - boxBound))<20){
+					current = new FlxPoint(original.x, original.y);
+				}
+				
+				movetoPoint(current, 10);
 			}
-			else if(Math.abs(this.getX()-(original.x + boxBound))<20 && Math.abs(this.getY()-original.y)<20){
-				current = new FlxPoint(original.x + boxBound, original.y - boxBound);
+			else{
+				var distanceFromPoint:int = Math.sqrt(Math.pow(this.getX() - AEWorld.player.getX(), 2) + Math.pow(this.getY() - AEWorld.player.getY(), 2));
+				if(distanceFromPoint < this.boxBound){
+					aggressiveMovement();
+				}
 			}
-			else if(Math.abs(this.getX()-(original.x + boxBound))<20 && Math.abs(this.getY()-(original.y - boxBound))<20){
-				current = new FlxPoint(original.x, original.y - boxBound);
-			}
-			else if(Math.abs(this.getX()-original.x)<20 && Math.abs(this.getY()-(original.y - boxBound))<20){
-				current = new FlxPoint(original.x, original.y);
-			}
-			
-			movetoPoint(current, 10);
 		}
 			
 		private function movetoPoint(target:FlxPoint, distance:Number):void {
