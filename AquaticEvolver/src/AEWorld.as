@@ -645,8 +645,8 @@ package
 				player.update();
 				AEEnemy.updateEnemies();
 				updateVolume();
-				FlxG.log("batt"+ FlxbattleMusic.volume);
-				FlxG.log(Flxdroplet.volume);
+				//FlxG.log("batt"+ FlxbattleMusic.volume);
+				//FlxG.log(Flxdroplet.volume);
 
 				//Box2D debug stuff
 				if (AquaticEvolver.box2dDebug) {
@@ -655,7 +655,7 @@ package
 				if (FlxG.keys.justPressed("I")) {
 					toggleB2DebugDrawing();
 				}
-				AEB2World.Step(1.0/60.0, 10, 10);
+				AEB2World.Step(1.0/60.0, 8, 3);
 				processLists();
 				enforceTop();
 				
