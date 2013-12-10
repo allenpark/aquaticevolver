@@ -4,8 +4,8 @@ package Creature
 	
 	import Collisions.AECollisionData;
 	
-	import Def.AESegmentDef;
-	import Def.AETorsoDef;
+	import Creature.Def.AESegmentDef;
+	import Creature.Def.AETorsoDef;
 	
 	public class AETorso
 	{

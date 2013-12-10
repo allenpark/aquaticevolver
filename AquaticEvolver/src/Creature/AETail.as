@@ -4,7 +4,7 @@ package Creature
 	
 	import Collisions.AECollisionData;
 	
-	import Def.AESegmentDef;
+	import Creature.Def.AESegmentDef;
 
 	public class AETail
 	{

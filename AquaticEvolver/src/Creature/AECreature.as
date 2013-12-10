@@ -23,10 +23,10 @@ package Creature
 	import Creature.Images.Torso5;
 	import Creature.Schematics.AESchematic;
 	
-	import Def.AEHeadDef;
-	import Def.AESegmentDef;
-	import Def.AETailDef;
-	import Def.AETorsoDef;
+	import Creature.Def.AEHeadDef;
+	import Creature.Def.AESegmentDef;
+	import Creature.Def.AETailDef;
+	import Creature.Def.AETorsoDef;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxText;

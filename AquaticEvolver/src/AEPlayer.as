@@ -5,9 +5,9 @@ package
 	
 	import Creature.AECreature;
 	
-	import Def.AEHeadDef;
-	import Def.AETailDef;
-	import Def.AETorsoDef;
+	import Creature.Def.AEHeadDef;
+	import Creature.Def.AETailDef;
+	import Creature.Def.AETorsoDef;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
