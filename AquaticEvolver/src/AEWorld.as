@@ -782,7 +782,6 @@ package
 					paused = new pausescreen();
 					paused.displayPaused();
 					add(paused);		
-					FlxG.music.pause();
 				} 
 				
 				if (FlxG.keys.justPressed("G")) {

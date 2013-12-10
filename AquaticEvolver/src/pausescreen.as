@@ -108,7 +108,6 @@ package
 			{
 				if(FlxG.keys.justPressed("P"))
 				{
-					FlxG.music.resume();
 					this.exists = false;
 					this.showing = false;
 					this._displaying = false;
