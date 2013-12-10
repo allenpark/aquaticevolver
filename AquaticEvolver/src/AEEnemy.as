@@ -48,8 +48,8 @@ package
 				attitude = "Aggressive";
 			}
 			*/
-			attitude = 'aggressive';
-			trace("app " + appen);
+			attitude = behavior;
+			//trace("app " + appen);
 			var z:Number = Math.random();
 			if (appen == 1) {
 				if(z>0.5){
@@ -132,7 +132,7 @@ package
 				{
 					if (AEWorld.world.outOfBufferBounds(enemy.getX(), enemy.getY()))
 					{
-						trace("enemy out of bounds killed");
+						//trace("enemy out of bounds killed");
 						enemy.kill();
 						// try again
 						return generateEnemy(app, behavior, x,y, headDef, torsoDef, tailDef);

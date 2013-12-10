@@ -37,7 +37,7 @@ package Creature
 		public function AESegment(segmentDef:AESegmentDef, creatureID:Number)
 		{
 			//Pass in negative creatureID --> negative group filters means no collisions between members of that group
-			trace("Constructing segment with creature id:" +creatureID);
+			//trace("Constructing segment with creature id:" +creatureID);
 			super(segmentDef.x, segmentDef.y, 0, segmentDef.schematic.img(), segmentDef.schematic.width(), segmentDef.schematic.height(), segmentDef.shape, -creatureID);
 			_torsoSlots = segmentDef.schematic.torsoSlots();
 			appendageSlots = generateSlotsFromLocations(segmentDef.schematic.appendageSlots());

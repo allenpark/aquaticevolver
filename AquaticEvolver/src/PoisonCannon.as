@@ -35,7 +35,7 @@ package
 			
 			
 			// create the sprites
-			trace(owner);
+			//trace(owner);
 			poisonCannon = new BoxPoisonCannon(0, 0, owner, this, poisonCannonImg, 128, 128);
 			this.add(poisonCannon);
 			

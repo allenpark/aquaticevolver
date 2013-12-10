@@ -36,7 +36,7 @@ package
 			
 			
 			// create the sprites
-			trace(owner);
+			//trace(owner);
 			bubbleGun = new BoxBubbleGun(0, 0, owner, this, bubbleGunImg, 128, 128);
 			this.add(bubbleGun);
 			
@@ -61,7 +61,7 @@ package
 			FlxG.play(BubbleGunSFX);
 			
 			super.attack(point);
-			trace("bubble gun attacking");
+			//trace("bubble gun attacking");
 			// insert code to shoot a bubble here
 
 			var headPoint:b2Vec2 = bubbleGun.getBody().GetPosition();
