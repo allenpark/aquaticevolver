@@ -58,7 +58,7 @@ package
 			var torsoDef:AETorsoDef = AECreature.randomTorsoDef(x,y);
 			var tailDef:AETailDef = AECreature.randomTailDef(x,y);
 			super(x, y, health, headDef, torsoDef, tailDef);
-			teaserText =  new FlxText(60  ,FlxG.height +50 ,FlxG.width,"The shallows are calm... \n but what lies below");
+			teaserText =  new FlxText(60, FlxG.height+10, FlxG.width, "Explore the shallows... \n then venture below");
 			teaserText.alignment = "center" ; 
 			teaserText.size = 60;
 			AEWorld.world.add (teaserText);
