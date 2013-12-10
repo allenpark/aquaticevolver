@@ -16,7 +16,7 @@ package
 		[Embed (source = "res/wasd-arrow.png")] public var movementKeysImg:Class;
 		[Embed (source = "res/full_tentacle.png")] public var tentacleImg:Class;
 		//ADD HEALTH DROP IMAGE HERE
-		[Embed (source = "res/life.png")] public var healthDropImg:Class;
+		[Embed (source = "res/red-bubble.png")] public var healthDropImg:Class;
 		//ADD POWERUP DROP IMAGE HERE
 		[Embed(source="res/yellow-bubble.png")] public var powerUpDropImg:Class;
 		
@@ -79,8 +79,9 @@ package
 			tentacleDesc.scale.x = tentacleDesc.scale.y = textScale;
 			add(tentacleDesc);
 			
-			currentYpos += tentacle.height;			
-			var healthDrop:FlxSprite = new FlxSprite(140, currentYpos, healthDropImg);
+			currentYpos += tentacle.height - 30;			
+			var healthDrop:FlxSprite = new FlxSprite(125, currentYpos, healthDropImg);
+			healthDrop.scale.x = healthDrop.scale.y = imageScale;
 			add(healthDrop);
 			
 			var healthDropText:String = "-Be sure to replenish your health after fighting a tough enemy";
@@ -88,9 +89,9 @@ package
 			healthDropDesc.scale.x = healthDropDesc.scale.y = textScale;
 			add(healthDropDesc);
 			
-			currentYpos += healthDrop.height + 30;
+			currentYpos += healthDrop.height;
 			var powerUpDrop:FlxSprite = new FlxSprite(125, currentYpos, powerUpDropImg);
-			powerUpDrop.scale.x = powerUpDrop.scale.y = .5;
+			powerUpDrop.scale.x = powerUpDrop.scale.y = imageScale;
 			add(powerUpDrop);
 			
 			var powerUpdropText:String = "-Killing enemies will allow you to pick up their abilities and strengthen your character";
