@@ -81,6 +81,11 @@ package
 			//this.y = FlxG.camera.scroll.y + (FlxG.height / 2.0);
 			super.update();
 			if (!FlxG.paused) {
+				if (flashingHealthState != 0 || flashingEvoState != 0) {
+					AEWorld.world.pickupText.text = lastAddedAdaptation;
+				} else {
+					AEWorld.world.pickupText.text = "";
+				}
 				var movementBody:b2Body = _head.headSegment.getBody();
 				var xDir:Number = 0;
 				var yDir:Number = 0;

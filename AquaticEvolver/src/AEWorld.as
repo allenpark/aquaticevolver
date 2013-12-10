@@ -9,6 +9,7 @@ package
 	import Collisions.AEAttackDef;
 	import Collisions.AECollisionListener;
 	import Collisions.AEEvolutionDef;
+	import Collisions.AEHealthDef;
 	
 	import Creature.AECreature;
 	
@@ -19,7 +20,6 @@ package
 	import org.flixel.FlxState;
 	import org.flixel.FlxText;
 	import org.flixel.FlxU;
-	import Collisions.AEHealthDef;
 
 	
 	public class AEWorld extends FlxState
@@ -34,9 +34,7 @@ package
 		[Embed(source="res/Tailchasing.mp3")] public var battleMusic:Class;
 		private var Flxdroplet:FlxSound = new  FlxSound();
 		private var FlxbattleMusic:FlxSound = new FlxSound();
-		
 
-		
 		[Embed(source="res/Cursor.png")] public var cursor:Class;
 
 		
@@ -125,6 +123,8 @@ package
 		public static var EvolveList:Array = new Array();
 		
 		public static var HealthList:Array = new Array();
+		
+		public var pickupText:FlxText;
 		
 		/**
 		 * Number keeping track of the last position the background's color
@@ -518,6 +518,10 @@ package
 				lights.push(newLight);
 				this.add(newLight);
 			}
+			
+			pickupText = new FlxText(0, 0, 200);
+			pickupText.size = 20;
+			this.add(pickupText);
 		}
 		
 		public static function toggleB2DebugDrawing():void
@@ -602,6 +606,7 @@ package
 				evolver.flashingEvoState = 1;
 				evolver.flashingHealthState = 0;
 				evolver.flashFrame = 0;
+				evolver.lastAddedAdaptation = AdaptationType.toString(evolutionDrop.adaptationType);
 			}
 		}
 		
@@ -614,6 +619,7 @@ package
 				creatureBeingHealed.flashingHealthState = 1;
 				creatureBeingHealed.flashingEvoState = 0;
 				creatureBeingHealed.flashFrame = 0;
+				creatureBeingHealed.lastAddedAdaptation = AdaptationType.toString(AdaptationType.HEALTHINCREASE);
 				if (creatureBeingHealed.currentHealth < creatureBeingHealed.maxHealth) {
 					var healthRegain:int = creatureBeingHealed.maxHealth - creatureBeingHealed.currentHealth;
 					creatureBeingHealed.currentHealth += healthRegain;
@@ -628,19 +634,21 @@ package
 		}
 		override public function update():void 
 		{
-			var baseLightPos:Number = Math.floor(FlxG.camera.scroll.x / 1024) * 1024;
-			for (var i:Number = 0; i < lights.length; i++) {
-				lights[i].x = baseLightPos + 1024 * i;
-			}
-			if (player.getY() < topLocation) {
-				FlxG.camera.follow(null);
-				FlxG.camera.scroll.x = player.getX() - FlxG.width/2;
-			} else {
-				FlxG.camera.follow(AEWorld.player.getFollowObject());
-			}
 			if (!FlxG.paused) {
 				AEWorld.debugText.x = FlxG.camera.scroll.x + 50;
 				AEWorld.debugText.y = FlxG.camera.scroll.y + 50;
+				var baseLightPos:Number = Math.floor(FlxG.camera.scroll.x / 1024) * 1024;
+				for (var i:Number = 0; i < lights.length; i++) {
+					lights[i].x = baseLightPos + 1024 * i;
+				}
+				if (player.getY() < topLocation) {
+					FlxG.camera.follow(null);
+					FlxG.camera.scroll.x = player.getX() - FlxG.width/2;
+				} else {
+					FlxG.camera.follow(AEWorld.player.getFollowObject());
+				}
+				pickupText.x = FlxG.camera.scroll.x + FlxG.width / 2 - 50;
+				pickupText.y = FlxG.camera.scroll.y + FlxG.height / 2 + 100;
 				super.update();
 				player.update();
 				AEEnemy.updateEnemies();
