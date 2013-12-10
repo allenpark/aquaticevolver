@@ -222,7 +222,7 @@ package Creature
 			this.flashingHealthState = 1;
 			this.flashingEvoState = 0;
 			this.flashFrame = 0;
-			this.lastAddedAdaptation = AdaptationType.toString(AdaptationType.HEALTHINCREASE);
+			this.lastAddedAdaptation = "Health bonus";
 			if (this.currentHealth < this.maxHealth) {
 				var healthRegain:int = this.maxHealth - this.currentHealth;
 				this.currentHealth += healthRegain;
