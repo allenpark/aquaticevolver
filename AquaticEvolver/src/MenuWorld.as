@@ -50,7 +50,6 @@ package
 			 FlxMainMenuMusic.kill();
 			 AEEnemy.killAll();
 			 FlxG.switchState(new AEWorld);
-			 FlxG.music.stop();
 		 }
 		 public function creditButtonCallback():void {
 			 AEEnemy.killAll();
