@@ -9,6 +9,7 @@ package
 	import Collisions.AEAttackDef;
 	import Collisions.AECollisionListener;
 	import Collisions.AEEvolutionDef;
+	import Collisions.AEHealthDef;
 	
 	import Creature.AECreature;
 	
@@ -19,7 +20,6 @@ package
 	import org.flixel.FlxState;
 	import org.flixel.FlxText;
 	import org.flixel.FlxU;
-	import Collisions.AEHealthDef;
 
 	
 	public class AEWorld extends FlxState
@@ -661,10 +661,36 @@ package
 				
 				if (SPAWNENEMIES)
 				{
-
-					if (Math.random() < 0.01) {
-						addOffscreenEnemy(15, 15);
+					var yBuffer:Number = 0;
+					var lowerYbound:Number = -(ScreenHeight / 2) - yBuffer - 100;
+					var upperYbound:Number = (ScreenHeight / 2) + yBuffer + 100;
+					if (Math.random()>.5) {
+						// On the vertical edges.
+						var newY:Number = (Math.random() * ScreenHeight)- ScreenHeight/2 + player.getY();
+					} else {
+						// On the horizontal edges.
+						var newY:Number = (Math.random() > 0.5 ? lowerYbound : upperYbound) + player.getY();	
 					}
+					
+					if(newY<=2000){
+						if (Math.random() < 0.003) {
+							addOffscreenEnemy(15, 15);
+						}
+					}
+						
+					else if(newY<=5000 && newY >2000){
+						if (Math.random() < 0.01) {
+							addOffscreenEnemy(15, 15);
+						}
+					}
+					else {
+						if (Math.random() < 0.02) {
+							addOffscreenEnemy(15, 15);
+						}
+						
+					}
+
+					
 				}
 				
 				//If the player has descended more than PIXELSPERDEPTH pixels
