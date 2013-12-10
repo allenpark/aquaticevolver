@@ -25,7 +25,11 @@ package
 			var menuButton:FlxButton = new FlxButton(FlxG.width/2 - 65, 2*FlxG.height/7.0, "", menuButtonCallback);
 			menuButton.scrollFactor.x = menuButton.scrollFactor.y = 0 ;
 			menuButton.loadGraphic(mainMenuImg);
-			add(menuButton);			
+			add(menuButton);
+			
+			// Stop wrong music from playing
+			FlxbattleMusic.stop();
+			FlxexploreMusic.stop();
 		}
 		override public function update():void
 		{
