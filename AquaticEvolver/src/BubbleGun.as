@@ -6,13 +6,18 @@ package
 	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
 	
 	import org.flixel.FlxG;
+	import org.flixel.FlxU;
 	import org.flixel.FlxPoint;
 	
 	public class BubbleGun extends Appendage
 	{
 		[Embed(source='res/sfx/BubbleCannonShoot1.mp3')]
-		public var BubbleGunSFX:Class;
-		
+		public var BubbleGunSFX1:Class;
+		[Embed(source='res/sfx/BubbleCannonShoot2.mp3')]
+		public var BubbleGunSFX2:Class;
+		[Embed(source='res/sfx/BubbleCannonShoot3.mp3')]
+		public var BubbleGunSFX3:Class;
+		public var bubbleGunNoises:Array = new Array();
 		// bubble gun joint locations
 		private var bubbleGunJoint:b2Vec2 = new b2Vec2(0,32);
 		
@@ -21,12 +26,15 @@ package
 		private var jointAngleCorrection:Number = 0;
 		
 		// images
-
+		
 		[Embed(source='res/BubbleCannon1.png')]
 		public static var bubbleGunImg:Class;
 		
 		public function BubbleGun(jointPos:b2Vec2, jointAngle:Number, owner:*, segment:B2FlxSprite)
 		{
+			bubbleGunNoises[0] = BubbleGunSFX1;
+			bubbleGunNoises[1] = BubbleGunSFX2;
+			bubbleGunNoises[2] = BubbleGunSFX3;
 			jointAngle = jointAngle + jointAngleCorrection;
 			super(AdaptationType.BUBBLEGUN, 30, true, 1, jointPos, jointAngle, owner, segment);
 			
@@ -45,9 +53,9 @@ package
 			revoluteJointDef.bodyA = segment.getBody();
 			revoluteJointDef.bodyB = bubbleGun.getBody();
 			revoluteJointDef.localAnchorA = jointPos;
-//			FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);
+			//			FlxG.log("AanchorCoords = " + revoluteJointDef.localAnchorA.x + ", " + revoluteJointDef.localAnchorA.y);
 			revoluteJointDef.localAnchorB = convertToBox2D(bubbleGunJoint);
-//			FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
+			//			FlxG.log("BanchorCoords = " + revoluteJointDef.localAnchorB.x + ", " + revoluteJointDef.localAnchorB.y);
 			revoluteJointDef.referenceAngle = jointAngle;
 			revoluteJointDef.enableLimit = true;
 			revoluteJointDef.lowerAngle = -Math.PI/4;
@@ -58,12 +66,12 @@ package
 		
 		override public function attack(point:FlxPoint):void
 		{
-			FlxG.play(BubbleGunSFX);
-			
+			var randomSong = FlxU.getRandom(bubbleGunNoises,0, 3);
+			FlxG.play(randomSong);				
 			super.attack(point);
 			//trace("bubble gun attacking");
 			// insert code to shoot a bubble here
-
+			
 			var headPoint:b2Vec2 = bubbleGun.getBody().GetPosition();
 			var spawnPoint :b2Vec2 = calcBulletSpawnPoint(point, bubbleGun.getScreenXY(), headPoint);
 			var bubble:AttackBubble = new AttackBubble(spawnPoint, 64, 64, this.attackDamage, this.creature.getID(), 5, point);

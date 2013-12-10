@@ -151,6 +151,10 @@ package Creature
 			this.currentHealth -= damage;
 			if (this.currentHealth <= 0) {
 				this.currentHealth = 0;
+				if (this == AEWorld.player)
+				{
+					AEWorld.world.gameOver();
+				}
 				this.kill();
 			}
 		}

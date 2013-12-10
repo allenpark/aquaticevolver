@@ -29,14 +29,16 @@ package
 		
 		[Embed (source = "res/gamepaused.png")] public var gamePauseText:Class;
 		[Embed (source = "res/resume.png")] public var resume:Class;
-		[Embed (source = "res/Cursor.png")] public var cursorImg:Class;
+		[Embed (source = "res/Cursor.png")] public var cursorImg:Class
+		[Embed (source = "res/PauseBox.png")] public var pauseImg:Class;
 		
 		
 		public function pausescreen()
 		{
 			
 			
-			_bg = new FlxSprite(30,30).makeGraphic(1280, 960, 0xff3366ff);
+			_bg = new FlxSprite(30,30);
+			_bg.loadGraphic(pauseImg);
 			_bg.scrollFactor.x = _bg.scrollFactor.y = 0;
 			add(_bg);
 			

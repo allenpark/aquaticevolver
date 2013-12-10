@@ -63,13 +63,5 @@ package
 				.withData(new AECollisionData(SpriteType.SPIKEBULLET, this));
 			return b2bb;
 		}
-		
-		override public function kill():void
-		{
-			trace("SPIKE BULLET SHOULD BE KILLED!");
-			AEWorld.AEB2World.DestroyBody(this.getBody());
-
-			super.kill();
-		}
 	}
 }
