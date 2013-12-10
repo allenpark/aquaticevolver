@@ -205,8 +205,6 @@ package Creature
 				{
 					weakestAppendageSlot = appendageSlot;
 				}
-				
-				
 			}
 			return weakestAppendageSlot;
 		}
@@ -239,6 +237,9 @@ package Creature
 			{
 				var adaptation:Adaptation = Adaptation.createAdaptationWithType(adaptationType,this);
 				_adaptations.push(adaptation);
+				if (adaptationType == AdaptationType.SPEEDINCREASE) {
+					this.speed += 5;
+				}
 				return true;
 			}
 			else
@@ -262,7 +263,8 @@ package Creature
 				}
 				else
 				{
-					var appendageSlot:AESlot = _unoccupiedAppendageSlots.pop();
+					var appendageSlot:AESlot = _unoccupiedAppendageSlots[int(Math.random()*(this._unoccupiedAppendageSlots.length - 1))];
+					_unoccupiedAppendageSlots.splice(_unoccupiedAppendageSlots.indexOf(appendageSlot),1);
 					//TODO: appendage locations need to be rotated with body
 					//TODO: Fix angle for appendages
 					var angle:Number = Math.atan2(appendageSlot.slotLocation.y, appendageSlot.slotLocation.x) + Math.PI/2;

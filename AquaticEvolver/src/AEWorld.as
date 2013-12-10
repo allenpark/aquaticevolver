@@ -786,7 +786,6 @@ package
 				
 				if (FlxG.keys.justPressed("G")) {
 					gameOver();
-					
 				}
 				
 				if (FlxG.keys.justPressed("K")) {
