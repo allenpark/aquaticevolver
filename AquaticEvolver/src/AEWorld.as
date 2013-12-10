@@ -194,6 +194,8 @@ package
 		
 		// Creates an enemy randomly slightly off screen.
 		public function addOffscreenEnemy(xBuffer: int = 0, yBuffer: int = 0):void {
+			var behave:String;
+			var appen:int;
 			var newX:Number;
 			var newY:Number;
 			
@@ -216,12 +218,49 @@ package
 				}
 			}
 			
+			trace(newX + " " + newY);
+			if(newY<=3000){
+				behave = "passive";
+				if(Math.random()>0.5){
+					appen = 1;
+				}
+				else
+					appen = 0;
+			}
+			
+			else if(newY<=6000 && newY >3000){
+				if(Math.random()>0.4){
+					behave = "passive";
+					
+				}
+				else{
+					behave = "aggressive";
+				}
+				if(Math.random()>0.5){
+					appen = 1;
+				}
+				else
+					appen = 2;
+			}
+			else if(newY<=9000 && newY > 6000){
+				
+					behave = "aggressive";
+					if(Math.random()>0.5){
+						appen = 2;
+					}
+					else
+						appen = 3;
+				
+			}
+			
+		
+			
 			
 			this.defaultHealth += 2
 			//Can't add enemies above the top bound
 			if(newY > topLocation){
 				trace("Generate enemy at x:",+newX+", y:"+newY);
-				var newEnemy:AEEnemy = AEEnemy.generateRandomEnemy(newX, newY);
+				var newEnemy:AEEnemy = AEEnemy.generateRandomEnemy(appen, behave, newX, newY);
 				if (newEnemy)
 				{
 					this.add(newEnemy.healthDisplay);
@@ -320,12 +359,6 @@ package
 			}
 		}
 		
-		private function addCreature(creature:Creature):void
-		{
-			this.add(creature);
-			this.add(creature.healthDisplay);
-		}
-		
 		private function setupDefaults():void
 		{
 			FlxG.bgColor = 0xff3366ff;
@@ -343,6 +376,7 @@ package
 		private function initializePlayer():void
 		{
 			player = new AEPlayer(ScreenWidth/2.0,ScreenHeight/2.0, 10);
+			
 			this.add(player.healthDisplay);
 
 			
@@ -390,7 +424,7 @@ package
 		override public function create():void
 		{
 			//FlxG.mouse.hide();
-			FlxG.mouse.load(cursor, 1, -25, -25);
+			FlxG.mouse.load(cursor, 1, -32, -32);
 			//FlxG.mouse.show(cursor);
 			
 			AEWorld.world = this;
@@ -413,7 +447,7 @@ package
 			//Debugging
 			setupB2Debug();
 			setupFlxDebug();
-			AEWorld.debugText = new FlxText(50, 50, 50);
+			AEWorld.debugText = new FlxText(50, 50, 100);
 			this.add(AEWorld.debugText);
 			
 			lights = new Array();
@@ -462,7 +496,7 @@ package
 				var evolveDescription:Array = EVOLVELIST.pop();
 				var evolver:AECreature = evolveDescription[0] as AECreature;
 				var appendage:Number = evolveDescription[1] as Number;
-				evolver.attachAppendage(appendage);
+				evolver.addAdaptation(appendage);
 			}
 		}
 		override public function update():void 

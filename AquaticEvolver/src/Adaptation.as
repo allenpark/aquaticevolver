@@ -6,7 +6,8 @@ package {
 	
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxPoint;
-
+	import org.flixel.FlxG;
+	
 	public class Adaptation extends FlxGroup {
 		
 		public var cost:int;
@@ -31,27 +32,36 @@ package {
 			this.healthBoost = 0;
 			this.adaptationType = adaptationType;
 		}
-
-		// Use Creature.addAdaptation instead.
-		public function addToCreature(creature:Creature):void {
-			creature.currentHealth += this.healthBoost;
-			creature.maxHealth += this.healthBoost;
-			creature.speed += this.speedBoost;
-		}
 		
-		// Use Creature.removeAdaptation instead.
-		public function removeFromCreature(creature:Creature):void {
-			creature.maxHealth -= this.healthBoost;
-			creature.speed -= this.speedBoost;
+		public static function createAdaptationWithType(type:Number, creature:AECreature): Adaptation
+		{
+			var adaptation:Adaptation;
+			
+			switch (type)
+			{
+				case AdaptationType.HEALTHINCREASE:
+//					FlxG.log("Creating a new health increase");
+					adaptation = new HealthIncrease(creature);
+					break;
+				case AdaptationType.SPEEDINCREASE:
+//					FlxG.log("Creating a new speed increase");
+					adaptation = new SpeedIncrease(creature);
+					break;
+				default:
+//					FlxG.log("Creating a new default health increase");
+					adaptation = new HealthIncrease(creature);
+					break;
+			}
+			return adaptation;
 		}
 		
 		public function attack(point:FlxPoint):void {}
 		public function aim(target:FlxPoint):void {}
 		
 		/*override public function kill():void {
-			super.kill();
-			
-			
+		super.kill();
+		
+		
 		}*/
 		
 		override public function update():void {
