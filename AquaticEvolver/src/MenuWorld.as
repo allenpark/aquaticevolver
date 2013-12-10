@@ -44,9 +44,11 @@ package
 			 FlxG.switchState(new AEWorld);
 		 }
 		 public function creditButtonCallback():void {
+			 AEEnemy.killAll();
 			 FlxG.switchState(new CreditState);
 		 }
 		 public function instructionButtonCallback():void {
+			 AEEnemy.killAll();
 			 FlxG.switchState(new InstructionState);
 		 }
 		

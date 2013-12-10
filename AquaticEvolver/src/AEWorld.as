@@ -543,6 +543,12 @@ package
 				evolver.addAdaptation(evolutionDrop.adaptationType);
 			}
 		}
+		
+		private function gameOver():void
+		{
+			AEEnemy.killAll();
+			FlxG.switchState(new GameOverState);
+		}
 		override public function update():void 
 		{
 			var baseLightPos:Number = Math.floor(FlxG.camera.scroll.x / 1024) * 1024;
@@ -644,7 +650,8 @@ package
 				} 
 				
 				if (FlxG.keys.justPressed("G")) {
-					FlxG.switchState(new GameOverState);				
+					gameOver();
+					
 				}
 				
 				if (FlxG.keys.justPressed("K")) {

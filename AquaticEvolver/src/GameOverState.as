@@ -43,10 +43,12 @@ package
 		}
 		
 		public function replayCallback():void{
+			AEEnemy.killAll();
 			FlxG.switchState(new AEWorld);
 		}
 		public function mainMenuCallback():void{
-			FlxG.switchState(new MenuWorld);
+			AEEnemy.killAll();
+			FlxG.resetGame();
 		}
 	}
 }
