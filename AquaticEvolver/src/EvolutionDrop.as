@@ -15,7 +15,7 @@ package
 
 	public class EvolutionDrop extends B2FlxSprite
 	{
-		[Embed(source='res/yellow-bubble.png')]
+		[Embed(source='res/EvoDrop.png')]
 		public static var ImgAttackBubble:Class;
 		
 		private var bodyWidth:int = 64;
