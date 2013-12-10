@@ -28,5 +28,33 @@ package
 				return true;
 			}
 		}
+		
+		public static function toString(adaptationType:Number):String {
+			switch (adaptationType) {
+				case SPIKE:
+					return "Spike";
+				case TENTACLE:
+					return "Tentacle";
+				case MANDIBLE:
+					return "Mandible";
+				case BUBBLEGUN:
+					return "Bubble gun";
+				case SPIKESHOOTER:
+					return "Spike shooter";
+				case CLAW:
+					return "Claw";
+				case POISONCANNON:
+					return "Poison cannon";
+				case SHELL:
+					return "Shell";
+				case HEALTHINCREASE:
+					return "Health increase";
+				case SPEEDINCREASE:
+					return "Speed increase";
+				default:
+					return "Nothing";
+			}
+			return "";
+		}
 	}
 }
