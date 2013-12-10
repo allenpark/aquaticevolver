@@ -74,7 +74,6 @@ package
 		}
 		
 		public function resumeCallback():void{
-				FlxG.music.resume();
 				this.exists = false;
 				this.showing = false;
 				this._displaying = false;
@@ -108,6 +107,7 @@ package
 			{
 				if(FlxG.keys.justPressed("P"))
 				{
+				
 					this.exists = false;
 					this.showing = false;
 					this._displaying = false;
