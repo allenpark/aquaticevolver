@@ -599,6 +599,7 @@ package
 				var evolver:AECreature = evolutionDef.creature;
 				var evolutionDrop:EvolutionDrop = evolutionDef.evolutionDrop;
 				evolver.addAdaptation(evolutionDrop.adaptationType);
+				evolver.flashingEvoState = 1;
 			}
 		}
 		
@@ -608,6 +609,7 @@ package
 			{
 				var healthDef:AEHealthDef = HealthList.pop();
 				var creatureBeingHealed:AECreature = healthDef.creature;
+				creatureBeingHealed.flashingHealthState = 1;
 				if (creatureBeingHealed.currentHealth < creatureBeingHealed.maxHealth) {
 					var healthRegain:int = creatureBeingHealed.maxHealth - creatureBeingHealed.currentHealth;
 					creatureBeingHealed.currentHealth += healthRegain;

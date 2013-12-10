@@ -53,6 +53,9 @@ package Creature
 		public var healthDisplay:FlxText;
 		public var speed:Number = 10;
 		protected var killed:Boolean;
+		public var flashingHealthState:Number = 0;
+		public var flashingEvoState:Number = 0;
+		public var flashFrame:Number = 0;
 		
 		
 		public function AECreature(x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
@@ -100,6 +103,40 @@ package Creature
 				var whiteColor:Number = 0xffffffff;
 				var ratio:Number = int(healthRatio * 16) / 16.0;
 				this.color(redColor * (1 - ratio) + whiteColor * ratio);
+			}
+			if (flashingHealthState == 1) {
+				var redColor:Number = 0xff00ff00;
+				var whiteColor:Number = 0xffffffff;
+				var ratio:Number = int(flashFrame) / 16.0;
+				this.color(redColor * (ratio) + whiteColor * (1 - ratio));
+				this.flashFrame += 1;
+				if (flashFrame == 15) flashingHealthState = 2;
+			}
+			if(flashingHealthState == 2)
+			{
+				var redColor:Number = 0xff00ff00;
+				var whiteColor:Number = 0xffffffff;
+				var ratio:Number = int(flashFrame) / 16.0;
+				this.color(redColor * (ratio) + whiteColor * (1 - ratio));
+				this.flashFrame -= 1;
+				if (flashFrame == 0) flashingHealthState = 0;
+			}
+			if (flashingEvoState == 1) {
+				var redColor:Number = 0xffffff00;
+				var whiteColor:Number = 0xffffffff;
+				var ratio:Number = int(flashFrame) / 16.0;
+				this.color(redColor * (ratio) + whiteColor * (1 - ratio));
+				this.flashFrame += 1;
+				if (flashFrame == 15) flashingEvoState = 2;
+			}
+			if(flashingEvoState == 2)
+			{
+				var redColor:Number = 0xffffff00;
+				var whiteColor:Number = 0xffffffff;
+				var ratio:Number = int(flashFrame) / 16.0;
+				this.color(redColor * (ratio) + whiteColor * (1 - ratio));
+				this.flashFrame -= 1;
+				if (flashFrame == 0) flashingEvoState = 0;
 			}
 			this.healthDisplay.text = this.currentHealth + "/" + this.maxHealth;
 			//			this.adaptationGroup.setAll("x", this.x + 10);
