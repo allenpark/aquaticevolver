@@ -41,7 +41,7 @@ package
 			var revoluteJointDef:b2RevoluteJointDef;
 				
 				// create the sprites
-				trace(creature);
+				//trace(creature);
 				base = new BoxMandibleBase(0, 0, creature, this, mandibleBaseImg, 64, 64);
 				this.add(base);
 				jaw = new BoxMandibleJaw(0, 0, creature, this, mandibleJawImg, 128, 128);

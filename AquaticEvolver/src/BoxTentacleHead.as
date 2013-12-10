@@ -19,7 +19,7 @@ package
 		
 		public function BoxTentacleHead(x:Number, y:Number, creature:AECreature, appendage:Appendage, Graphic:Class=null, width:Number=0, height:Number=0)
 		{
-			trace("Constructing tentacle head");
+			//trace("Constructing tentacle head");
 			this.creature = creature;
 			this.appendage = appendage;
 			super(x, y,0,Graphic, width, height, null, -creature.getID());

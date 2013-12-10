@@ -58,7 +58,7 @@ package Creature
 		public function AECreature(x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
 		{
 			//Set creature id, then increment current id value
-			trace("constructing creature with id:" + getID());
+			//trace("constructing creature with id:" + getID());
 			var id:Number = this.getID();
 			_head = headDef.createHeadWithCreatureID(id);
 			_torso = torsoDef.createTorsoWithCreatureID(id);
@@ -151,6 +151,10 @@ package Creature
 			this.currentHealth -= damage;
 			if (this.currentHealth <= 0) {
 				this.currentHealth = 0;
+				if (this == AEWorld.player)
+				{
+					AEWorld.world.gameOver();
+				}
 				this.kill();
 			}
 		}

@@ -47,8 +47,8 @@ package
 				attitude = "Aggressive";
 			}
 			*/
-			attitude = 'aggressive';
-			trace("app " + appen);
+			attitude = behavior;
+			//trace("app " + appen);
 			var z:Number = Math.random();
 			var m:Number = Math.random();
 			var n:Number = Math.random();
@@ -223,7 +223,7 @@ package
 				{
 					if (AEWorld.world.outOfBufferBounds(enemy.getX(), enemy.getY()))
 					{
-						trace("enemy out of bounds killed");
+						//trace("enemy out of bounds killed");
 						enemy.kill();
 						// try again
 						return generateEnemy(app, behavior, x,y, headDef, torsoDef, tailDef);
@@ -278,6 +278,7 @@ package
 		public static function updateEnemies():void {
 			for each (var enemy:AEEnemy in AEEnemy.enemies) {
 				enemy.update();
+				FlxG.log(unusedIDs);
 			}
 		}
 

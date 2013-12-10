@@ -18,7 +18,7 @@ package
 	import org.flixel.FlxText;
 	
 	public class AEWorld extends FlxState
-	{	
+	{
 		/**
 		 * Reference to the singleton instance of AEWorld
 		 */
@@ -224,6 +224,7 @@ package
 			
 			trace(newX + " " + newY);
 			if(newY<=2000){
+		
 				behave = "passive";
 				if(Math.random()>0.5){
 					appen = 1;
@@ -263,7 +264,7 @@ package
 			this.defaultHealth += 2
 			//Can't add enemies above the top bound
 			if(newY > topLocation){
-				trace("Generate enemy at x:",+newX+", y:"+newY);
+				//trace("Generate enemy at x:",+newX+", y:"+newY);
 				var newEnemy:AEEnemy = AEEnemy.generateRandomEnemy(appen, behave, newX, newY);
 				if (newEnemy)
 				{
@@ -543,6 +544,12 @@ package
 				evolver.addAdaptation(evolutionDrop.adaptationType);
 			}
 		}
+		
+		public function gameOver():void
+		{
+			AEEnemy.killAll();
+			FlxG.switchState(new GameOverState);
+		}
 		override public function update():void 
 		{
 			var baseLightPos:Number = Math.floor(FlxG.camera.scroll.x / 1024) * 1024;
@@ -644,7 +651,8 @@ package
 				} 
 				
 				if (FlxG.keys.justPressed("G")) {
-					FlxG.switchState(new GameOverState);				
+					gameOver();
+					
 				}
 				
 				if (FlxG.keys.justPressed("K")) {
