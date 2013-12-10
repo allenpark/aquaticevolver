@@ -182,6 +182,11 @@ package Creature
 		public function takeDamage(damage:Number):void
 		{
 			this.currentHealth -= damage;
+			if (this == AEWorld.player)
+			{
+				//this is for the sound effect
+				AEWorld.world.playerInDanger = true;
+			}
 			if (this.currentHealth <= 0) {
 				this.currentHealth = 0;
 				if (this == AEWorld.player)

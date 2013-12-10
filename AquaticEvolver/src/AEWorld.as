@@ -13,12 +13,14 @@ package
 	import Creature.AECreature;
 	
 	import org.flixel.FlxG;
+	import org.flixel.FlxPoint;
+	import org.flixel.FlxSound;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
 	import org.flixel.FlxText;
 	import org.flixel.FlxU;
-	import org.flixel.FlxPoint;
 	import Collisions.AEHealthDef;
+
 	
 	public class AEWorld extends FlxState
 	{
@@ -27,8 +29,12 @@ package
 		 */
 		public static var world:AEWorld;
 		
-		//Background music
+		// music
 		[Embed(source="res/Evolving Horizon.mp3")] public var droplet:Class;
+		[Embed(source="res/Tailchasing.mp3")] public var battleMusic:Class;
+		private var Flxdroplet:FlxSound = new  FlxSound();
+		private var FlxbattleMusic:FlxSound = new FlxSound();
+		
 
 		
 		[Embed(source="res/Cursor.png")] public var cursor:Class;
@@ -155,8 +161,10 @@ package
 		 * be a function of player's distance to nearest enemy. 
 		 * JTW 12/9/13
 		 */
-		private var safeDistance : Number  = 50;
+		private var safeDistance : Number  = 700;
 		private var battleVolume : Number = 0;
+		public var playerInDanger:Boolean = false;
+		
 		
 		/**
 		 * Constructs and initializes the Box2D b2World.
@@ -169,6 +177,8 @@ package
 			AEB2World = new b2World(GRAVITY, true);
 			AEB2World.SetContactListener(collisionHandler);
 		}
+		
+		
 		
 		public static function flxAngleFromB2Angle(b2Angle:Number):Number
 		{
@@ -208,6 +218,13 @@ package
 			else {
 				player.goBelowTop();
 			}
+		}
+		
+		private function setupSound():void {
+			Flxdroplet.loadEmbedded(droplet,true);
+			FlxbattleMusic.loadEmbedded(battleMusic, true);
+			Flxdroplet.play();
+			FlxbattleMusic.play();
 		}
 		
 		// Creates an enemy randomly slightly off screen.
@@ -444,12 +461,25 @@ package
 			return this;
 		}
 		 
-//		private function updateBattleVolume():void
-//		{
-//			var distance:Number = distanceToNearestEnemy();
-//			if (
-//			
-//		}
+		private function updateVolume():void
+		{
+			var distance:Number = distanceToNearestEnemy();
+			if (!this.playerInDanger){
+				battleVolume = 0;
+				Flxdroplet.volume = 1;
+			}
+			else if (distance < safeDistance)
+			{
+				battleVolume = Math.min(1.3-distance/safeDistance, 1);  
+			}
+			else if (distance > safeDistance){
+				this.playerInDanger = false;
+			}
+			Flxdroplet.volume = (1- battleVolume);
+			FlxbattleMusic.volume = battleVolume;
+			
+			
+		}
 		
 		
 		override public function create():void
@@ -464,7 +494,7 @@ package
 			this.createBox2DWorld();	
 			
 			//Music
-			FlxG.playMusic(droplet);
+			setupSound();
 			
 			//Pausing
 			setupPausing();
@@ -608,7 +638,10 @@ package
 				super.update();
 				player.update();
 				AEEnemy.updateEnemies();
-				distanceToNearestEnemy();
+				updateVolume();
+				FlxG.log("batt"+ FlxbattleMusic.volume);
+				FlxG.log(Flxdroplet.volume);
+
 				//Box2D debug stuff
 				if (AquaticEvolver.box2dDebug) {
 					AEB2World.DrawDebugData();
