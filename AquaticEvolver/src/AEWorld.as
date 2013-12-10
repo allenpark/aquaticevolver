@@ -30,10 +30,12 @@ package
 		public static var world:AEWorld;
 		
 		// music
-		[Embed(source="res/Evolving Horizon.mp3")] public var droplet:Class;
+		[Embed(source="res/Evolving Horizon.mp3")] public var exploreMusic:Class;
 		[Embed(source="res/Tailchasing.mp3")] public var battleMusic:Class;
-		private var Flxdroplet:FlxSound = new  FlxSound();
-		private var FlxbattleMusic:FlxSound = new FlxSound();
+
+		protected var FlxexploreMusic:FlxSound = new  FlxSound();
+		protected var FlxbattleMusic:FlxSound = new FlxSound();
+
 
 		[Embed(source="res/Cursor.png")] public var cursor:Class;
 
@@ -221,10 +223,16 @@ package
 		}
 		
 		private function setupSound():void {
-			Flxdroplet.loadEmbedded(droplet,true);
+			FlxexploreMusic.loadEmbedded(exploreMusic,true);
 			FlxbattleMusic.loadEmbedded(battleMusic, true);
-			Flxdroplet.play();
+			if (! ((this is  MenuWorld)||(this is  InstructionState)||(this is  CreditState)||(this is GameOverState))){
+			FlxexploreMusic.play();
+			}
 			FlxbattleMusic.play();
+			FlxexploreMusic.active = true;
+			FlxbattleMusic.active = true;
+			FlxexploreMusic.survive = false;
+			FlxbattleMusic.survive  = false;
 		}
 		
 		// Creates an enemy randomly slightly off screen.
@@ -459,7 +467,7 @@ package
 			var distance:Number = distanceToNearestEnemy();
 			if (!this.playerInDanger){
 				battleVolume = 0;
-				Flxdroplet.volume = 1;
+				FlxexploreMusic.volume = 1;
 			}
 			else if (distance < safeDistance)
 			{
@@ -468,7 +476,7 @@ package
 			else if (distance > safeDistance){
 				this.playerInDanger = false;
 			}
-			Flxdroplet.volume = (1- battleVolume);
+			FlxexploreMusic.volume = (1- battleVolume);
 			FlxbattleMusic.volume = battleVolume;
 		}
 		
@@ -612,6 +620,8 @@ package
 		
 		public function gameOver():void
 		{
+			FlxexploreMusic.kill();
+			FlxbattleMusic.kill();
 			AEEnemy.killAll();
 			FlxG.score = player.killCount;
 			FlxG.level = player.evoGainCount;
