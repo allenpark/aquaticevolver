@@ -293,7 +293,7 @@ package
 
 		private function aggressiveMovement():void {
 			var creature:AECreature = nearestCreature();
-			this.moveCloseToEnemy(creature, 240);
+			this.moveCloseToEnemy(creature, 200);
 			//target = new FlxPoint(FlxG.width  / 2.0, FlxG.height / 2.0);
 			//TODO: convert to proper screen coords
 			var target:FlxPoint = new FlxPoint(creature.getX() - FlxG.camera.scroll.x, creature.getY() - FlxG.camera.scroll.y);
@@ -306,7 +306,7 @@ package
 		
 		private function bullyPlayer():void{
 			var creature:AECreature = AEWorld.player;
-			this.moveCloseToEnemy(creature, 240);
+			this.moveCloseToEnemy(creature, 220);
 			//target = new FlxPoint(FlxG.width  / 2.0, FlxG.height / 2.0);
 			//TODO: convert to proper screen coords
 			var target:FlxPoint = new FlxPoint(creature.getX() - FlxG.camera.scroll.x, creature.getY() - FlxG.camera.scroll.y);
