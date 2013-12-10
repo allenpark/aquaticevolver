@@ -6,6 +6,8 @@ package
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2Body;
 	
+	import Collisions.AECollisionData;
+	
 	import Creature.AECreature;
 	
 	import org.flixel.FlxG;
@@ -20,10 +22,9 @@ package
 		
 		private var bodyWidth:int = 32;
 		private var bodyHeight:int = 128;
-		public var creature:AECreature;
-		
-		public var adaptOwner:Adaptation;
+
 		public var pos:b2Vec2;
+		public var attackDamage:Number;
 		private var SpikeBulletShape:b2PolygonShape;
 		private var polygonVerticies:Array = new Array(
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-3.0/2),AEWorld.b2NumFromFlxNum(51.0/2)),
@@ -34,20 +35,20 @@ package
 			new b2Vec2(AEWorld.b2NumFromFlxNum(19.0/2),AEWorld.b2NumFromFlxNum(45.0/2)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(15.0/2),AEWorld.b2NumFromFlxNum(51.0/2)));
 		
-		public function SpikeBullet(pos:b2Vec2, creature:AECreature, adaptOwner:Adaptation, width:Number, height:Number,orientation:Number, speed:Number, targetPoint:FlxPoint)
+		public function SpikeBullet(pos:b2Vec2, width:Number, height:Number, attackDamage:Number, creatureID:Number, orientation:Number, speed:Number, targetPoint:FlxPoint)
 			
 		{
 			//this.loadGraphic(ImgAttackBubble, false, false);
-			this.creature = creature;
-			this.adaptOwner = adaptOwner;
+			this.attackDamage = attackDamage;
 			this.pos = pos;
 			this.SpikeBulletShape = new b2PolygonShape();
 			this.SpikeBulletShape.SetAsArray(polygonVerticies);
-			super(AEWorld.flxNumFromB2Num(pos.x), AEWorld.flxNumFromB2Num(pos.y),orientation, SpikeBulletImg, width, height, this.SpikeBulletShape);
+			super(AEWorld.flxNumFromB2Num(pos.x), AEWorld.flxNumFromB2Num(pos.y),orientation, SpikeBulletImg, width, height, this.SpikeBulletShape, -creatureID);
 		}
 		override public function update():void{
 			if (!this.onScreen(null))
 			{
+				trace("Offscreen spike bullet killed!");
 				this.kill();
 				return;
 			}
@@ -59,8 +60,7 @@ package
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
 				.withShape(shape)
 				.withType(b2Body.b2_kinematicBody)
-				.asBullet()
-				.withData(new CollisionData(this.creature, SpriteType.SPIKE, adaptOwner));
+				.withData(new AECollisionData(SpriteType.SPIKEBULLET, this));
 			return b2bb;
 		}
 	}

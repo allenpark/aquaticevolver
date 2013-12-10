@@ -4,6 +4,9 @@ package
 	
 	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Common.Math.b2Vec2;
+	
+	import Collisions.AECollisionData;
+	
 	import Creature.AECreature;
 	
 	
@@ -12,13 +15,13 @@ package
 		private var bodyWidth:int = 66/2;
 		private var bodyHeight:int = 85/2;
 		public var creature:AECreature;
-		public var adaptOwner:Adaptation;
+		public var appendage:Appendage;
 		
-		public function BoxPoisonCannon(x:Number, y:Number, creature:AECreature, adaptOwner:Adaptation, Graphic:Class=null, width:Number=0, height:Number=0)
+		public function BoxPoisonCannon(x:Number, y:Number, creature:AECreature, appendage:Appendage, Graphic:Class=null, width:Number=0, height:Number=0)
 			
 		{
 			this.creature = creature;
-			this.adaptOwner = adaptOwner;
+			this.appendage = appendage;
 			super(x, y,0, Graphic, width, height, null, -creature.getID());
 		}
 		
@@ -29,7 +32,7 @@ package
 			
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle).withShape(boxShape)
 				.withLinearDamping(2)
-				.withData(new CollisionData(this.creature, SpriteType.POISONCANNON, this.adaptOwner));
+				.withData(new AECollisionData(SpriteType.POISONCANNON, this, this.appendage, this.creature));
 			return b2bb;
 		}
 		

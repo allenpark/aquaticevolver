@@ -10,6 +10,7 @@ package
 	import org.flixel.FlxG;
 	import org.flixel.FlxGroup;
 	import org.flixel.FlxPoint;
+	import Collisions.AECollisionData;
 	
 	public class BoxEnemy extends Creature
 	{
@@ -134,7 +135,7 @@ package
 			if (seeSomething) {
 				this.moveCloseToEnemy(AEWorld.player, 240);
 				target = new FlxPoint(AEWorld.player.x, AEWorld.player.y);
-				trace("PLAYER: (" + target.x + "," + target.y + ")");
+				//trace("PLAYER: (" + target.x + "," + target.y + ")");
 				if (weakestStrength == 0) {
 					//trace("RUN AWAY");
 					//this.runAwayFromEnemy(enemies.members[strongestIndex]);
@@ -217,7 +218,7 @@ package
 		override protected function bodyBuilder(position:b2Vec2, angle:Number, shape:b2PolygonShape = null):B2BodyBuilder
 		{
 			var bodyBuilder:B2BodyBuilder = super.bodyBuilder(position, angle)
-				.withData(new CollisionData(this, SpriteType.ENEMY));
+				.withData(new AECollisionData(this, SpriteType.ENEMY));
 			return bodyBuilder;
 		}
 	}

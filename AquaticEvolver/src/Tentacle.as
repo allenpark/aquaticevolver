@@ -9,13 +9,31 @@ package
 	import Creature.AECreature;
 	
 	import org.flixel.FlxG;
+	import org.flixel.FlxU;
 	import org.flixel.FlxParticle;
 	import org.flixel.FlxPoint;
 	
 	public class Tentacle extends Appendage
 	{
 		[Embed(source='res/sfx/Swipe1.mp3')]
-		public var TentacleSFX:Class;
+		public var TentacleSFX1:Class;
+		[Embed(source='res/sfx/Swipe2.mp3')]
+		public var TentacleSFX2:Class;
+		[Embed(source='res/sfx/Swipe3.mp3')]
+		public var TentacleSFX3:Class;
+		[Embed(source='res/sfx/Swipe4.mp3')]
+		public var TentacleSFX4:Class;
+		[Embed(source='res/sfx/Swipe5.mp3')]
+		public var TentacleSFX5:Class;
+		[Embed(source='res/sfx/Swipe6.mp3')]
+		public var TentacleSFX6:Class;
+		[Embed(source='res/sfx/Swipe7.mp3')]
+		public var TentacleSFX7:Class;
+		[Embed(source='res/sfx/Swipe8.mp3')]
+		public var TentacleSFX8:Class;
+		[Embed(source='res/sfx/Swipe9.mp3')]
+		public var TentacleSFX9:Class;
+		public var tentacleNoises:Array = new Array();
 		private var tentacleMidSegments:int = 4;
 		private var tentacleHead:BoxTentacleHead;
 		
@@ -36,6 +54,15 @@ package
 		// jointPos is given from the local box2D coordinate system of the player and is the location of the attached point for the adatation
 		public function Tentacle(jointPos:b2Vec2, jointAngle:Number, creature:AECreature, segment:B2FlxSprite)
 		{
+			tentacleNoises[0] = TentacleSFX1;
+			tentacleNoises[1] = TentacleSFX2;
+			tentacleNoises[2] = TentacleSFX3;
+			tentacleNoises[3] = TentacleSFX4;
+			tentacleNoises[4] = TentacleSFX5;
+			tentacleNoises[5] = TentacleSFX6;
+			tentacleNoises[6] = TentacleSFX7;
+			tentacleNoises[7] = TentacleSFX8;
+			tentacleNoises[8] = TentacleSFX9;
 			jointAngle = jointAngle + jointAngleCorrection;
 			super(AdaptationType.TENTACLE, 50, true, 2, jointPos, jointAngle, creature, segment);
 			
@@ -53,7 +80,7 @@ package
 			for (var i:int = 0; i < tentacleMidSegments; i++) {
 				
 				// create the sprite
-				trace(creature);
+				//trace(creature);
 				
 				flixelPos = convertJointPosToFlixel(segment,jointPos);
 				sprite = new BoxTentacleMid(flixelPos.x, flixelPos.y, creature, this, tentacleMidImg, 32, 64);
@@ -127,12 +154,13 @@ package
 			this.tentacleHead.color = color;
 			for each (var mid:BoxTentacleMid in this.midSegments) {
 				mid.color = color;
-			}
+			}			
 		}
 		
 		override public function attack(point:FlxPoint):void
 		{
-			FlxG.play(TentacleSFX);
+			var randomSong = FlxU.getRandom(tentacleNoises,0, 9);
+			FlxG.play(randomSong);			
 			super.attack(point);
 			//trace("tentacle attacking");
 			

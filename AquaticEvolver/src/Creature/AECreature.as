@@ -5,6 +5,10 @@ package Creature
 	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Dynamics.Joints.b2RevoluteJoint;
 	
+	import Creature.Def.AEHeadDef;
+	import Creature.Def.AESegmentDef;
+	import Creature.Def.AETailDef;
+	import Creature.Def.AETorsoDef;
 	import Creature.Images.DefaultImage;
 	import Creature.Images.Head1;
 	import Creature.Images.Head2;
@@ -22,11 +26,6 @@ package Creature
 	import Creature.Images.Torso4;
 	import Creature.Images.Torso5;
 	import Creature.Schematics.AESchematic;
-	
-	import Def.AEHeadDef;
-	import Def.AESegmentDef;
-	import Def.AETailDef;
-	import Def.AETorsoDef;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxText;
@@ -47,8 +46,7 @@ package Creature
 		
 		private static const HeadSwivel:Number = Math.PI/2.0;
 		private static const TailSwivel:Number = Math.PI/2.0;
-		
-		public var creatureType:Number;
+
 		
 		public var currentHealth:int;
 		public var maxHealth:int;
@@ -57,10 +55,10 @@ package Creature
 		protected var killed:Boolean;
 		
 		
-		public function AECreature(type:Number, x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
+		public function AECreature(x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
 		{
 			//Set creature id, then increment current id value
-			trace("constructing creature with id:" + getID());
+			//trace("constructing creature with id:" + getID());
 			var id:Number = this.getID();
 			_head = headDef.createHeadWithCreatureID(id);
 			_torso = torsoDef.createTorsoWithCreatureID(id);
@@ -68,13 +66,12 @@ package Creature
 			
 			_adaptations = new Array();
 			
-			creatureType = type;
 			//TODO: is having a null torso vaild? eg. head-tail architecture?
 			attachHeadTorsoTail();
 			
 			initializeAppendageSlots();
 			
-			ownBodies(type);
+			ownBodies();
 			//TODO: Should this be done outside the constructor?
 			addToWorld();
 			
@@ -148,6 +145,22 @@ package Creature
 			}
 		}
 		
+		//TODO: call this...?
+		public function takeDamage(damage:Number):void
+		{
+			this.currentHealth -= damage;
+			if (this.currentHealth <= 0) {
+				this.currentHealth = 0;
+				if (this == AEWorld.player)
+				{
+					AEWorld.world.gameOver();
+				}
+				this.kill();
+			}
+		}
+		
+		/*
+		*** OLD IMPLEMENTATION ***
 		public function handleAttackOn(adaptation:Adaptation, enemy:AECreature):Boolean {
 			var enemyDead:Boolean = false;
 			if (adaptation == null) {// || adaptation.adaptationType == SpriteType.SHELL) {
@@ -156,17 +169,21 @@ package Creature
 				enemyDead = enemy.getAttacked(adaptation.attackDamage);	
 			}
 			
-			/*if (!enemyAlive) {
-			//this.inheritFrom(enemy);
-			if (adaptation != null)	{
-			adaptation.attackDamage += 2;					
-			}
-			return true;
-			}
-			return false;*/
+			
+			//if (!enemyAlive) {
+			////this.inheritFrom(enemy);
+			//if (adaptation != null)	{
+			//adaptation.attackDamage += 2;					
+			//}
+			//return true;
+			//}
+			//return false;
 			return enemyDead;
 		}
+		*/
 		
+		/*
+		*** OLD IMPLEMENTATION ***
 		public function getAttacked(damage:int):Boolean {
 			this.currentHealth -= damage;
 			if (this.currentHealth <= 0) {
@@ -176,6 +193,7 @@ package Creature
 			}
 			return false;
 		}
+		*/
 		
 		public function kill():void
 		{
@@ -186,7 +204,6 @@ package Creature
 			_head.kill();
 			_torso.kill();
 			_tail.kill();
-			trace("KILLING ENEMY");
 			
 			if (this._adaptations.length != 0) {
 				//Get random adaptation
@@ -199,7 +216,6 @@ package Creature
 				AEWorld.world.add(evolutionDrop);
 			}
 			
-			//Get first appendage
 			//var appendage = Appendage.createAppendageWithType(AppendageType.SPIKE		
 			
 			healthDisplay.kill();
@@ -229,11 +245,11 @@ package Creature
 			}
 		}
 		
-		private function ownBodies(type:Number):void
+		private function ownBodies():void
 		{
-			_head.ownBodies(this,type);
-			_torso.ownBodies(this,type);
-			_tail.ownBodies(this,type);
+			_head.ownBodies(this);
+			_torso.ownBodies(this);
+			_tail.ownBodies(this);
 		}
 		
 		private function addToWorld():void

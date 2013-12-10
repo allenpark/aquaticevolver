@@ -4,12 +4,12 @@ package
 	import Box2D.Dynamics.b2Body;
 	
 	import Creature.AECreature;
-	
-	import Def.AEHeadDef;
-	import Def.AETailDef;
-	import Def.AETorsoDef;
+	import Creature.Def.AEHeadDef;
+	import Creature.Def.AETailDef;
+	import Creature.Def.AETorsoDef;
 	
 	import org.flixel.FlxG;
+	import org.flixel.FlxU;
 	import org.flixel.FlxPoint;
 	
 	public class AEPlayer extends AECreature
@@ -17,23 +17,49 @@ package
 		//Swimming sound effects
 		[Embed(source='res/sfx/Swim1.mp3')]
 		public var Swim1SFX:Class;
+		[Embed(source='res/sfx/Swim2.mp3')]
+		public var Swim2SFX:Class;
+		[Embed(source='res/sfx/Swim3.mp3')]
+		public var Swim3SFX:Class;
+		[Embed(source='res/sfx/Swim4.mp3')]
+		public var Swim4SFX:Class;
+		[Embed(source='res/sfx/Swim5.mp3')]
+		public var Swim5SFX:Class;
+		[Embed(source='res/sfx/Swim6.mp3')]
+		public var Swim6SFX:Class;
+		[Embed(source='res/sfx/Swim7.mp3')]
+		public var Swim7SFX:Class;
+		[Embed(source='res/sfx/Swim8.mp3')]
+		public var Swim8SFX:Class;
+		[Embed(source='res/sfx/Swim9.mp3')]
+		public var Swim9SFX:Class;
+		public var swimNoises:Array = new Array();
 		
 		private var defaultMovementScheme:Boolean = false; 
 		public var aboveTop: Boolean = false; 
 		
 		public function AEPlayer(x:Number, y:Number, health:Number)
 		{	
+			swimNoises[0] = Swim1SFX;
+			swimNoises[1] = Swim2SFX;
+			swimNoises[2] = Swim3SFX;
+			swimNoises[3] = Swim4SFX;
+			swimNoises[4] = Swim5SFX;
+			swimNoises[5] = Swim6SFX;
+			swimNoises[6] = Swim7SFX;
+			swimNoises[7] = Swim8SFX;
+			swimNoises[8] = Swim9SFX;
 			
 			//Player has special ID value of 1
 			var headDef:AEHeadDef = AECreature.head5Def(x,y);
 			var torsoDef:AETorsoDef = AECreature.torso1Def(x,y);
 			var tailDef:AETailDef = AECreature.tail1Def(x,y);
-			super(SpriteType.PLAYER, x, y, health, headDef, torsoDef, tailDef);
+			super(x, y, health, headDef, torsoDef, tailDef);
 
 			//attachAppendage(AdaptationType.POISONCANNON);	
-			attachAppendage(AdaptationType.SPIKESHOOTER);
-			attachAppendage(AdaptationType.SPIKESHOOTER);
-			attachAppendage(AdaptationType.BUBBLEGUN);
+			addAdaptation(AdaptationType.SPIKESHOOTER);
+			addAdaptation(AdaptationType.SPIKESHOOTER);
+			addAdaptation(AdaptationType.BUBBLEGUN);
 			//attachAppendage(AdaptationType.SHELL);
 			addAdaptation(AdaptationType.TENTACLE);
 		}
@@ -58,9 +84,11 @@ package
 				var xDir:Number = 0;
 				var yDir:Number = 0;
 				
+
 				if(FlxG.keys.justPressed("LEFT") || FlxG.keys.justPressed("RIGHT") || FlxG.keys.justPressed("UP") || FlxG.keys.justPressed("DOWN") || 
-				   FlxG.keys.justPressed("W") || FlxG.keys.justPressed("A") || FlxG.keys.justPressed("S") || FlxG.keys.justPressed("D")){
-					FlxG.play(Swim1SFX);
+					FlxG.keys.justPressed("W") || FlxG.keys.justPressed("A") || FlxG.keys.justPressed("S") || FlxG.keys.justPressed("D")){
+					var randomSong = FlxU.getRandom(swimNoises,0, 9);
+					FlxG.play(randomSong);
 				}
 				if(FlxG.mouse.justPressed())
 					//if(FlxG.mouse.pressed())
@@ -70,7 +98,7 @@ package
 					var playerPoint:FlxPoint = new FlxPoint(AEWorld.flxNumFromB2Num(movementBody.GetPosition().x), AEWorld.flxNumFromB2Num(movementBody.GetPosition().y));
 					movementBody.ApplyImpulse(calcB2Impulse(mousePoint, playerPoint), movementBody.GetPosition());
 					attack();
-					trace("attack!");
+					//trace("attack!");
 				}
 					
 					// moving the player based on the arrow keys inputs
@@ -147,6 +175,16 @@ package
 			var angle:Number = Math.atan2(mousePoint.y - bodyPoint.y,mousePoint.x - bodyPoint.x);
 			var magnitude:Number = 0.002;
 			return new b2Vec2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
+		}
+		
+		override public function kill():void
+		{
+			for each (var adaptation:Adaptation in this._adaptations)
+			{
+				adaptation.kill();
+			}
+			this._adaptations = new Array();
+			super.kill();
 		}
 	}
 }

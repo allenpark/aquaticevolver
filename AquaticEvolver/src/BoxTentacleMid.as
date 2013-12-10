@@ -5,6 +5,8 @@ package
 	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Common.Math.b2Vec2;
 	
+	import Collisions.AECollisionData;
+	
 	import Creature.AECreature;
 
 	public class BoxTentacleMid extends B2FlxSprite
@@ -12,13 +14,13 @@ package
 		private var bodyWidth:int = 24/2;
 		private var bodyHeight:int = 40/2;
 		public var creature:AECreature;
-		public var adaptOwner:Adaptation;
+		public var appendage:Appendage;
 		
-		public function BoxTentacleMid(x:Number, y:Number, creature:AECreature, adaptOwner:Adaptation, Graphic:Class=null, width:Number=0, height:Number=0)
+		public function BoxTentacleMid(x:Number, y:Number, creature:AECreature, appendage:Appendage, Graphic:Class=null, width:Number=0, height:Number=0)
 		{
-			trace("Constructing tentacle mid");
+			//trace("Constructing tentacle mid");
 			this.creature = creature;
-			this.adaptOwner = adaptOwner;
+			this.appendage = appendage;
 			super(x, y, 0, Graphic, width, height, null, -creature.getID());
 		}
 		
@@ -28,7 +30,7 @@ package
 			boxShape.SetAsBox(AEWorld.b2NumFromFlxNum(bodyWidth), AEWorld.b2NumFromFlxNum(bodyHeight));
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle).withShape(boxShape)
 				.withLinearDamping(2)
-				.withData(new CollisionData(this.creature, SpriteType.TENTACLEMID, this.adaptOwner));
+				.withData(new AECollisionData(SpriteType.TENTACLEMID, this, this.appendage, this.creature));
 			return b2bb;
 		}
 	}

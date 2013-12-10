@@ -1,12 +1,13 @@
 package
 {
 	import Box2D.Common.Math.b2Vec2;
-	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
 	import Box2D.Dynamics.b2Body;
 	import Box2D.Dynamics.b2World;
+	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
+	import Creature.AECreature;
 	
 	public class SpikeShooter extends Appendage
 	{
@@ -20,6 +21,8 @@ package
 		
 		private var jointAngleCorrection:Number = 0;
 		
+		public var creatureID:Number;
+		
 		// images
 		
 		//for now this is the bubble shooter image, the spike shooter may need its own image at some point
@@ -28,10 +31,11 @@ package
 
 		public static var spikeShooterImg:Class;
 		
-		public function SpikeShooter(jointPos:b2Vec2, jointAngle:Number, owner:*, segment:B2FlxSprite)
+		public function SpikeShooter(jointPos:b2Vec2, jointAngle:Number, creature:AECreature, segment:B2FlxSprite)
 		{
+			this.creatureID = creatureID;
 			jointAngle = jointAngle + jointAngleCorrection;
-			super(AdaptationType.SPIKESHOOTER, 30, true, 2, jointPos, jointAngle, owner, segment);
+			super(AdaptationType.SPIKESHOOTER, 30, true, 1, jointPos, jointAngle, creature, segment);
 			
 			var world:b2World = AEWorld.AEB2World;
 			
@@ -39,8 +43,8 @@ package
 			
 			
 			// create the sprites
-			trace(owner);
-			spikeShooter = new BoxSpikeShooter(0, 0, owner, this, spikeShooterImg, 128, 128);
+			//trace(creature);
+			spikeShooter = new BoxSpikeShooter(0, 0, creature, this, spikeShooterImg, 128, 128);
 			this.add(spikeShooter);
 			
 			// create the joint from base to creature
@@ -73,7 +77,7 @@ package
 			var headPoint:b2Vec2 = spikeShooter.getBody().GetPosition();
 			var spawnPoint :b2Vec2 = calcBulletSpawnPoint(point, spikeShooter.getScreenXY(), headPoint);
 			var orientation: Number = calcBulletOrientation (point, spikeShooter.getScreenXY());
-			var spike:SpikeBullet = new SpikeBullet(spawnPoint, this.creature, this, 16, 64,orientation, 5, point);
+			var spike:SpikeBullet = new SpikeBullet(spawnPoint, 16, 64, this.attackDamage, this.creature.getID(), orientation, 5, point);
 			AEWorld.world.add(spike);
 			var spikeBody:b2Body = spike.getBody();
 			spikeBody.SetLinearVelocity(calcBulletVelocity(point, spikeShooter.getScreenXY()));//calcB2Impulse(point, bubbleGun.getScreenXY()));
