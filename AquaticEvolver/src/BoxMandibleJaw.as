@@ -14,13 +14,13 @@ package
 		private var bodyWidth:int = 35/2;
 		private var bodyHeight:int = 75/2;
 		public var creature:AECreature;
-		public var adaptOwner:Adaptation;
+		public var appendage:Appendage;
 		
-		public function BoxMandibleJaw(x:Number, y:Number, creature:AECreature, adaptOwner:Adaptation, Graphic:Class=null, width:Number=0, height:Number=0)
+		public function BoxMandibleJaw(x:Number, y:Number, creature:AECreature, appendage:Appendage, Graphic:Class=null, width:Number=0, height:Number=0)
 		{
 			super(x, y, 0, Graphic, width, height, null, -creature.getID());
 			this.creature = creature;
-			this.adaptOwner = adaptOwner;
+			this.appendage = appendage;
 		}
 		
 		override protected function bodyBuilder(position:b2Vec2, angle:Number, shape:b2PolygonShape = null):B2BodyBuilder
@@ -29,7 +29,7 @@ package
 			boxShape.SetAsBox(AEWorld.b2NumFromFlxNum(bodyWidth), AEWorld.b2NumFromFlxNum(bodyHeight));
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle).withShape(boxShape)
 				.withLinearDamping(2).
-				withData(new AECollisionData(SpriteType.MANDIBLEJAW, this, this.adaptOwner, this.creature));
+				withData(new AECollisionData(SpriteType.MANDIBLEJAW, this, this.appendage, this.creature));
 			return b2bb;
 		}
 		

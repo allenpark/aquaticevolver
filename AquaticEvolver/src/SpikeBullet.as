@@ -6,12 +6,13 @@ package
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2Body;
 	
+	import Collisions.AECollisionData;
+	
 	import Creature.AECreature;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
-	import Collisions.AECollisionData;
 	
 	public class SpikeBullet extends B2FlxSprite
 	{
@@ -21,9 +22,7 @@ package
 		
 		private var bodyWidth:int = 32;
 		private var bodyHeight:int = 128;
-		public var creature:AECreature;
-		
-		public var adaptOwner:Adaptation;
+
 		public var pos:b2Vec2;
 		private var SpikeBulletShape:b2PolygonShape;
 		private var polygonVerticies:Array = new Array(
@@ -35,12 +34,11 @@ package
 			new b2Vec2(AEWorld.b2NumFromFlxNum(19.0/2),AEWorld.b2NumFromFlxNum(45.0/2)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(15.0/2),AEWorld.b2NumFromFlxNum(51.0/2)));
 		
-		public function SpikeBullet(pos:b2Vec2, creature:AECreature, adaptOwner:Adaptation, width:Number, height:Number,orientation:Number, speed:Number, targetPoint:FlxPoint)
+		public function SpikeBullet(pos:b2Vec2, width:Number, height:Number,orientation:Number, speed:Number, targetPoint:FlxPoint)
 			
 		{
 			//this.loadGraphic(ImgAttackBubble, false, false);
-			this.creature = creature;
-			this.adaptOwner = adaptOwner;
+	
 			this.pos = pos;
 			this.SpikeBulletShape = new b2PolygonShape();
 			this.SpikeBulletShape.SetAsArray(polygonVerticies);
@@ -61,7 +59,7 @@ package
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
 				.withShape(shape)
 				.withType(b2Body.b2_kinematicBody)
-				.withData(new AECollisionData(SpriteType.SPIKE, this, this.adaptOwner, this.creature));
+				.withData(new AECollisionData(SpriteType.SPIKE, this));
 			return b2bb;
 		}
 	}

@@ -35,7 +35,8 @@ package Collisions
 		{			
 			//trace(attackerData);
 			//trace(victimData);
-			var attackDef:AEAttackDef = new AEAttackDef(attackerData.creature, attackerData.spriteType, attackerData.b2FlxSprite, victimData.creature, victimData.spriteType, victimData.b2FlxSprite);
+			trace("attacker sprite type"+attackerData.spriteType);
+			var attackDef:AEAttackDef = new AEAttackDef(attackerData.creature, attackerData.appendage, victimData.creature);
 			AEWorld.AttackList.push(attackDef);
 		}
 		
@@ -43,8 +44,6 @@ package Collisions
 		{			
 			// Evolve player with evolution drop
 			var evolutionDrop:EvolutionDrop = (evolutionData.b2FlxSprite as EvolutionDrop);
-			trace("evolution drop grabbed with adaptation type:"+evolutionDrop.adaptationType);
-			trace("evolving creautre:"+creatureData.creature);
 			var evolutionDef:AEEvolutionDef = new AEEvolutionDef(creatureData.creature, evolutionDrop);
 			AEWorld.EvolveList.push(evolutionDef);
 			
@@ -82,8 +81,8 @@ package Collisions
 			var fixture2:b2Fixture = contact.GetFixtureB();
 			var data1:AECollisionData = (fixture1.GetBody().GetUserData() as AECollisionData);
 			var data2:AECollisionData = (fixture2.GetBody().GetUserData() as AECollisionData);
-			trace("Collision data1: \n" + data1);
-			trace("Collision data2: \n" + data2);
+			//trace("Collision data1: \n" + data1);
+			//trace("Collision data2: \n" + data2);
 			if (data1.creature && data2.creature){
 				if (data1.creature.getID() == data2.creature.getID()) 
 				{

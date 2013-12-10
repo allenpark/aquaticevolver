@@ -8,19 +8,14 @@ package Collisions
 	{
 		public var attacker:AECreature;
 		public var victim:AECreature;
+
+		public var attackAppendage:Appendage;
 		
-		public var attackType:Number;
-		public var victimType:Number;
-		
-		public var attackB2FS:B2FlxSprite;
-		public var victimB2FS:B2FlxSprite;
-		
-		public function AEAttackDef(attacker:AECreature, attackerType:Number, attackB2FS:B2FlxSprite, victim:AECreature, victimType:Number, victimB2FS:B2FlxSprite)
+		public function AEAttackDef(attacker:AECreature, attackAppendage:Appendage, victim:AECreature)
 		{
 			this.attacker = attacker;
+			this.attackAppendage = attackAppendage;
 			this.victim = victim;
-			this.attackB2FS = attackB2FS;
-			this.victimB2FS = victimB2FS;
 		}
 	}
 }

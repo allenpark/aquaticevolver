@@ -6,13 +6,13 @@ package
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2Body;
 	
+	import Collisions.AECollisionData;
+	
 	import Creature.AECreature;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
-	import Creature.AECreature;
-	import Collisions.AECollisionData;
 
 	public class AttackBubble extends B2FlxSprite
 	{
@@ -21,9 +21,7 @@ package
 		
 		private var bodyWidth:int = 64;
 		private var bodyHeight:int = 64;
-		public var creature:AECreature;
 
-		public var adaptOwner:Adaptation;
 		public var pos:b2Vec2;
 		private var bubbleBoxShape:b2PolygonShape;
 		private var polygonVerticies:Array = new Array(
@@ -40,12 +38,10 @@ package
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-14.0),AEWorld.b2NumFromFlxNum(-10.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-11.0),AEWorld.b2NumFromFlxNum(-14.0)));
 		
-		public function AttackBubble(pos:b2Vec2, creature:AECreature, adaptOwner:Adaptation, width:Number, height:Number, speed:Number, targetPoint:FlxPoint)
+		public function AttackBubble(pos:b2Vec2, width:Number, height:Number, speed:Number, targetPoint:FlxPoint)
 
 		{
 			//this.loadGraphic(ImgAttackBubble, false, false);
-			this.creature = creature;
-			this.adaptOwner = adaptOwner;
 			this.pos = pos;
 			this.bubbleBoxShape = new b2PolygonShape();
 			this.bubbleBoxShape.SetAsArray(polygonVerticies);
@@ -66,7 +62,7 @@ package
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
 				.withShape(shape)
 				.withType(b2Body.b2_kinematicBody)
-				.withData(new AECollisionData(SpriteType.BUBBLE, this, adaptOwner, this.creature));
+				.withData(new AECollisionData(SpriteType.BUBBLE, this));
 			return b2bb;
 		}
 	}

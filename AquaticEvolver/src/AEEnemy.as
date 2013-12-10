@@ -32,9 +32,8 @@ package
 		private var boxBound:int = Math.random()*300+50;
 		
 		private var distTraveled:Number = 0;
-
 		
-		private static var unusedIDs:Array = new Array(2,3,4,5,6,7,8,9,10,11,12,13,14,15);
+		private static var unusedIDs:Array = new Array(2,3,4,5,6);
 		
 		private var _id:Number;
 		
@@ -51,67 +50,61 @@ package
 			*/
 			attitude = behavior;
 			trace("app " + appen);
-			if(appen == 1){
-				if(Math.random()>0.5){
+			var z:Number = Math.random();
+			if (appen == 1) {
+				if(z>0.5){
 					addAdaptation(AdaptationType.TENTACLE);
-				}
-				else
+				} else {
 					addAdaptation(AdaptationType.SPIKE);
-			}
-			if(appen == 2){
-				var z:Number = Math.random();
-				if(z<0.33){
-					addAdaptation(AdaptationType.TENTACLE);
-					addAdaptation(AdaptationType.SPIKE);
-
-				}
-				else if (z>=0.33 && z<0.66){
-					addAdaptation(AdaptationType.TENTACLE);
-					addAdaptation(AdaptationType.BUBBLEGUN);
-
-				}
-				else{
-					addAdaptation(AdaptationType.MANDIBLE);
-					addAdaptation(AdaptationType.SPIKESHOOTER);
 				}
 			}
-				if(appen == 3){
-					var z:Number = Math.random();
-					if(z<0.2){
-						addAdaptation(AdaptationType.TENTACLE);
-						addAdaptation(AdaptationType.SPIKE);
-						addAdaptation(AdaptationType.CLAW);
+			if (appen == 2) {
+				if (z<0.33) {
+					addAdaptation(AdaptationType.TENTACLE);
+					addAdaptation(AdaptationType.SPIKE);
+				} else if (z>=0.33 && z<0.66){
+					addAdaptation(AdaptationType.TENTACLE);
+					//addAdaptation(AdaptationType.BUBBLEGUN);
+					addAdaptation(AdaptationType.SPIKE);
+				} else{
+					//addAdaptation(AdaptationType.MANDIBLE);
+					//addAdaptation(AdaptationType.SPIKESHOOTER);
+					addAdaptation(AdaptationType.SPIKE);
+					addAdaptation(AdaptationType.SPIKE);
 
-						
-					}
-					else if (z>=0.2 && z<0.4){
-						addAdaptation(AdaptationType.TENTACLE);
-						addAdaptation(AdaptationType.BUBBLEGUN);
-						addAdaptation(AdaptationType.SPIKESHOOTER);
-
-						
-					}
-					else if (z>=0.4 && z<0.6){
-						addAdaptation(AdaptationType.TENTACLE);
-						addAdaptation(AdaptationType.BUBBLEGUN);
-						addAdaptation(AdaptationType.MANDIBLE);
-
-						
-					}
-					else if (z>=0.6 && z<0.8){
-						addAdaptation(AdaptationType.TENTACLE);
-						addAdaptation(AdaptationType.SPIKESHOOTER);
-						addAdaptation(AdaptationType.MANDIBLE);
-
-						
-					}
-					else{
-						addAdaptation(AdaptationType.CLAW);
-						addAdaptation(AdaptationType.BUBBLEGUN);
-						addAdaptation(AdaptationType.SHELL);
-
-					}
 				}
+			}
+			if (appen == 3) {
+				if (z<0.2) {
+					addAdaptation(AdaptationType.TENTACLE);
+					addAdaptation(AdaptationType.SPIKE);
+					addAdaptation(AdaptationType.CLAW);
+				} else if (z>=0.2 && z<0.4) {
+					addAdaptation(AdaptationType.TENTACLE);
+					//addAdaptation(AdaptationType.BUBBLEGUN);
+					//addAdaptation(AdaptationType.SPIKESHOOTER);
+					addAdaptation(AdaptationType.SPIKE);
+					addAdaptation(AdaptationType.SPIKE);
+				} else if (z>=0.4 && z<0.6) {
+					addAdaptation(AdaptationType.TENTACLE);
+					//addAdaptation(AdaptationType.BUBBLEGUN);
+					addAdaptation(AdaptationType.SPIKE);
+					//addAdaptation(AdaptationType.MANDIBLE);
+					addAdaptation(AdaptationType.SPIKE);
+
+				} else if (z>=0.6 && z<0.8) {
+					addAdaptation(AdaptationType.TENTACLE);
+					//addAdaptation(AdaptationType.SPIKESHOOTER);
+					addAdaptation(AdaptationType.SPIKE);
+					//addAdaptation(AdaptationType.MANDIBLE);
+					addAdaptation(AdaptationType.SPIKE);
+				} else {
+					addAdaptation(AdaptationType.CLAW);
+					//addAdaptation(AdaptationType.BUBBLEGUN);
+					addAdaptation(AdaptationType.SPIKE);
+					addAdaptation(AdaptationType.SHELL);
+				}
+			}
 		}
 		
 		public static function generateRandomEnemy(app:int, behavior:String, x:Number, y:Number):AEEnemy
@@ -167,21 +160,24 @@ package
 		
 		override public function kill():void
 		{
+			if (this.killed) {
+				return;
+			}
 			unusedIDs.push(_id);
 
-			AEEnemy.enemies.splice(AEEnemy.enemies.indexOf(this),1); 
+			AEEnemy.enemies.splice(AEEnemy.enemies.indexOf(this),1);
 			super.kill();
         }
 		
 		public static function killAll():void {
-			/*while (AEEnemy.enemies.length > 0) {
+			while (AEEnemy.enemies.length > 0) {
 				AEWorld.debugText.text += " " + AEEnemy.enemies[0].getID();
 				AEEnemy.enemies[0].kill();
-			}*/
+			}
 		}
 
 		public static function updateEnemies():void {
-			for each (var enemy:AEEnemy in enemies) {
+			for each (var enemy:AEEnemy in AEEnemy.enemies) {
 				enemy.update();
 			}
 		}

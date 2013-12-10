@@ -428,7 +428,7 @@ package
 		override public function create():void
 		{
 			//FlxG.mouse.hide();
-			FlxG.mouse.load(cursor, 1, -25, -25);
+			FlxG.mouse.load(cursor, 1, -32, -32);
 			//FlxG.mouse.show(cursor);
 			
 			AEWorld.world = this;
@@ -451,7 +451,7 @@ package
 			//Debugging
 			setupB2Debug();
 			setupFlxDebug();
-			AEWorld.debugText = new FlxText(50, 50, 50);
+			AEWorld.debugText = new FlxText(50, 50, 100);
 			this.add(AEWorld.debugText);
 			
 			lights = new Array();
@@ -489,8 +489,22 @@ package
 		{
 			//TODO: revamp attacking::dependent on relative angle/speed
 			//TODO: detect player death in handle attack
-			
-
+			/*
+			//Deal damage
+			TENTACLEHEAD = speed/angle based
+			SPIKE = speed/angle based
+			MANDIBLEJAW = ???
+			BUBBLE = constant
+			SPIKESHOOTER
+			*/		
+			trace("victim:"+attackDef.victim);
+			trace("appendage:"+attackDef.attackAppendage);
+			attackDef.victim.takeDamage(attackDef.attackAppendage.attackDamage);
+		}
+		
+		private function relativeVelocity(v1:b2Vec2, v2:b2Vec2):b2Vec2
+		{
+			return new b2Vec2(v1.x - v2.x, v1.y - v2.y);
 		}
 		
 		private function processRemoveList():void
@@ -507,9 +521,6 @@ package
 				var evolutionDef:AEEvolutionDef = EvolveList.pop();
 				var evolver:AECreature = evolutionDef.creature;
 				var evolutionDrop:EvolutionDrop = evolutionDef.evolutionDrop;
-				//TODO: revamp evolving::can evolve with adaptations, not just appendages
-				trace("evolver:"+evolver);
-				trace("adaptation type:" + evolutionDrop.adaptationType);
 				evolver.addAdaptation(evolutionDrop.adaptationType);
 			}
 		}

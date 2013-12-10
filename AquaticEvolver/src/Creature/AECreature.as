@@ -5,6 +5,10 @@ package Creature
 	import Box2D.Collision.Shapes.b2PolygonShape;
 	import Box2D.Dynamics.Joints.b2RevoluteJoint;
 	
+	import Creature.Def.AEHeadDef;
+	import Creature.Def.AESegmentDef;
+	import Creature.Def.AETailDef;
+	import Creature.Def.AETorsoDef;
 	import Creature.Images.DefaultImage;
 	import Creature.Images.Head1;
 	import Creature.Images.Head2;
@@ -22,11 +26,6 @@ package Creature
 	import Creature.Images.Torso4;
 	import Creature.Images.Torso5;
 	import Creature.Schematics.AESchematic;
-	
-	import Creature.Def.AEHeadDef;
-	import Creature.Def.AESegmentDef;
-	import Creature.Def.AETailDef;
-	import Creature.Def.AETorsoDef;
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxText;
@@ -53,6 +52,7 @@ package Creature
 		public var maxHealth:int;
 		public var healthDisplay:FlxText;
 		public var speed:Number = 10;
+		protected var killed:Boolean;
 		
 		
 		public function AECreature(x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
@@ -79,6 +79,7 @@ package Creature
 			maxHealth = health;
 			this.healthDisplay = new FlxText(0, 0, 50);
 			this.healthDisplay.size = 10;
+			this.killed = false;
 		}
 		
 		public function getID():Number
@@ -145,9 +146,13 @@ package Creature
 		}
 		
 		//TODO: call this...?
-		private function takeDamage():void
+		public function takeDamage(damage:Number):void
 		{
-			//TODO: implement this
+			this.currentHealth -= damage;
+			if (this.currentHealth <= 0) {
+				this.currentHealth = 0;
+				this.kill();
+			}
 		}
 		
 		/*
@@ -188,34 +193,30 @@ package Creature
 		
 		public function kill():void
 		{
+			if (this.killed) {
+				return;
+			}
+			this.killed = true;
 			_head.kill();
 			_torso.kill();
 			_tail.kill();
-			trace("KILLING ENEMY")
 			
-			
-			//Get random adaptation
-			if (this._adaptations.length != 0)
-			{
-				var randomIndex:int = int(Math.random()*(this._adaptations.length - 1));
-				
-				var randomAdaptationType:Number = this._adaptations[randomIndex].adaptationType;
+			if (this._adaptations.length != 0) {
+				//Get random adaptation
+				var randomAdaptation:Number = this._adaptations[int(Math.random()*(this._adaptations.length - 1))].adaptationType;
 				
 				//Add evolution drop
-				var evolutionDrop:EvolutionDrop = new EvolutionDrop(getX(), getY(), randomAdaptationType);
+				var evolutionDrop:EvolutionDrop = new EvolutionDrop(getX(), getY(), randomAdaptation);
 				
 				//Add to world
 				AEWorld.world.add(evolutionDrop);
 			}
 			
-			
 			//var appendage = Appendage.createAppendageWithType(AppendageType.SPIKE		
 			
-			
 			healthDisplay.kill();
-			for each(var adaptation:Adaptation in _adaptations){
-				if (adaptation != null)
-				{
+			for each(var adaptation:Adaptation in _adaptations) {
+				if (adaptation != null) {
 					adaptation.kill();
 				}
 			}

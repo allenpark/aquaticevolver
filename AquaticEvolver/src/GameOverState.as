@@ -35,7 +35,7 @@ package
 			menuButton.loadGraphic(mainMenuImg);
 			add(menuButton);
 			
-			FlxG.mouse.load(cursorImg);
+			FlxG.mouse.load(cursorImg, 1, -32, -32);
 			FlxG.mouse.show();
 		
 			
