@@ -39,12 +39,15 @@ package
 			add(creditButton);
 			FlxG.mouse.show();
 			FlxG.mouse.load(cursorImg, 1, -32, -32);
+			FlxbattleMusic.stop();
+			FlxexploreMusic.stop();
 			FlxG.playMusic(mainMenuMusic);
 				
 		}
 		 public function startButtonCallback():void {
 			 AEEnemy.killAll();
 			 FlxG.switchState(new AEWorld);
+			 FlxG.music.stop();
 		 }
 		 public function creditButtonCallback():void {
 			 AEEnemy.killAll();
