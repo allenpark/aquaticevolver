@@ -44,7 +44,7 @@ package
 		public var paused:pausescreen;
 		
 		//Flx debugging
-		FlxG.debug = true;
+		FlxG.debug = false;
 		
 		public static var debugText:FlxText;
 		
@@ -57,11 +57,11 @@ package
 		/**
 		 * Boolean to spawn enemies
 		 */
-		private var SPAWNENEMIES:Boolean = true;
+		private var SPAWNENEMIES:Boolean = false;
 		/**
 		 * Drawing bubbles
 		 */
-		private var DRAWBUBBLES:Boolean = true;		
+		private var DRAWBUBBLES:Boolean = false;		
 		
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
@@ -481,8 +481,8 @@ package
 			AEEnemy.enemies = new Array();
 			
 			//Debugging
-			setupB2Debug();
-			setupFlxDebug();
+//			setupB2Debug();
+//			setupFlxDebug();
 			AEWorld.debugText = new FlxText(50, 50, 100);
 			this.add(AEWorld.debugText);
 			

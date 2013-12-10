@@ -1,5 +1,6 @@
 package
 {
+	import Box2D.Common.Math.b2Math;
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2Body;
 	
@@ -9,8 +10,8 @@ package
 	import Creature.Def.AETorsoDef;
 	
 	import org.flixel.FlxG;
-	import org.flixel.FlxU;
 	import org.flixel.FlxPoint;
+	import org.flixel.FlxU;
 	
 	public class AEPlayer extends AECreature
 	{	
@@ -35,7 +36,7 @@ package
 		public var Swim9SFX:Class;
 		public var swimNoises:Array = new Array();
 		
-		private var defaultMovementScheme:Boolean = false; 
+		private var defaultMovementScheme:Boolean = true; 
 		public var aboveTop: Boolean = false; 
 		
 		public function AEPlayer(x:Number, y:Number, health:Number)
@@ -126,7 +127,29 @@ package
 				}
 				
 				if(defaultMovementScheme) {
-					movementBody.ApplyImpulse(getForceVec(xDir, yDir), movementBody.GetPosition());					
+					var playerPosition:b2Vec2 = movementBody.GetPosition();
+					movementBody.ApplyImpulse(getForceVec(xDir, yDir, .5), movementBody.GetPosition());
+					
+					var mouseX:Number = FlxG.mouse.x;
+					var mouseY:Number = FlxG.mouse.y;
+					var playerX:Number = playerPosition.x;
+					var playerY:Number = playerPosition.y;
+					
+					var impulseSize:int = super.speed;
+					var dirX:int = (mouseX - this.getX());
+					var dirY:int = (mouseY - this.getY());
+					
+					var headAngle:Number = movementBody.GetAngle();
+					var headDirection:b2Vec2 = new b2Vec2(Math.sin(headAngle) * -1, Math.cos(headAngle));
+					var goalDirection:b2Vec2 = new b2Vec2(dirX, dirY);
+					var cross:Number = b2Math.CrossVV(headDirection, goalDirection);
+					var torque:Number = 7.0;
+					if (cross > 0) {
+						movementBody.SetAngularVelocity(-1 * torque);
+					} else {
+						movementBody.SetAngularVelocity(torque);
+					}
+					
 				} else {
 					var angle:Number = movementBody.GetAngle();
 					if (this.aboveTop){
@@ -136,7 +159,6 @@ package
 					var force:b2Vec2 = new b2Vec2(0.05 * Math.sin(angle) * yDir * -1, 0.05 * Math.cos(angle) * yDir);
 					
 					movementBody.ApplyImpulse(force, movementBody.GetPosition());
-					var torque:Number = 1.0;
 					movementBody.SetAngularVelocity(torque * xDir);
 				}
 			}
@@ -153,14 +175,11 @@ package
 			}
 		}
 		
-		private function getForceVec(xDir:Number, yDir:Number):b2Vec2 {
-			var vec:b2Vec2;
-			if ( xDir != 0 && yDir != 0) {
-				vec = new b2Vec2(xDir * 1/Math.sqrt(2), yDir * 1/Math.sqrt(2));
-			} else {
-				vec = new b2Vec2(xDir, yDir);
-			}
-			vec.Multiply(0.05);
+		// Returns a vector in the (xDir, yDir) direction with a magnitude of impulseSize * 0.001.
+		private function getForceVec(xDir:Number, yDir:Number, impulseSize:Number):b2Vec2 {
+			var vec:b2Vec2 = new b2Vec2(xDir, yDir);
+			vec.Normalize();
+			vec.Multiply(impulseSize * 0.1);
 			return vec;
 		}
 		public function goAboveTop():void{
