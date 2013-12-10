@@ -293,6 +293,10 @@ package
 					else
 						appen = 3;
 			}
+			if (Math.random() < 0.07)
+			{
+				behave = "bully"
+			}
 			
 			this.defaultHealth += 2
 			//Can't add enemies above the top bound

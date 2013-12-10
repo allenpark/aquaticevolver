@@ -248,8 +248,10 @@ package
 					passiveMovement(1);
 				else
 					passiveMovement(0);
-			} else {
+			} else if (attitude == "aggressive"){
 				aggressiveMovement();
+			} else{
+				bullyPlayer();
 			}
 			/*
 			if(Math.random()>0.8){
@@ -291,6 +293,19 @@ package
 
 		private function aggressiveMovement():void {
 			var creature:AECreature = nearestCreature();
+			this.moveCloseToEnemy(creature, 240);
+			//target = new FlxPoint(FlxG.width  / 2.0, FlxG.height / 2.0);
+			//TODO: convert to proper screen coords
+			var target:FlxPoint = new FlxPoint(creature.getX() - FlxG.camera.scroll.x, creature.getY() - FlxG.camera.scroll.y);
+			aim(target);
+			if (counter > 1) {
+				counter = 0;
+				attack(target);
+			}
+		}
+		
+		private function bullyPlayer():void{
+			var creature:AECreature = AEWorld.player;
 			this.moveCloseToEnemy(creature, 240);
 			//target = new FlxPoint(FlxG.width  / 2.0, FlxG.height / 2.0);
 			//TODO: convert to proper screen coords
