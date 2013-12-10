@@ -22,6 +22,9 @@ package
 		
 		private var bodyWidth:int = 32;
 		private var bodyHeight:int = 128;
+		
+		private var creature:AECreature;
+		private var appendage:Appendage;
 
 		public var pos:b2Vec2;
 		public var attackDamage:Number;
@@ -35,7 +38,7 @@ package
 			new b2Vec2(AEWorld.b2NumFromFlxNum(19.0/2),AEWorld.b2NumFromFlxNum(45.0/2)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(15.0/2),AEWorld.b2NumFromFlxNum(51.0/2)));
 		
-		public function SpikeBullet(pos:b2Vec2, width:Number, height:Number, attackDamage:Number, creatureID:Number, orientation:Number, speed:Number, targetPoint:FlxPoint)
+		public function SpikeBullet(pos:b2Vec2, width:Number, height:Number, attackDamage:Number, creature:AECreature, appendage:Appendage, orientation:Number, speed:Number, targetPoint:FlxPoint)
 			
 		{
 			//this.loadGraphic(ImgAttackBubble, false, false);
@@ -43,7 +46,9 @@ package
 			this.pos = pos;
 			this.SpikeBulletShape = new b2PolygonShape();
 			this.SpikeBulletShape.SetAsArray(polygonVerticies);
-			super(AEWorld.flxNumFromB2Num(pos.x), AEWorld.flxNumFromB2Num(pos.y),orientation, SpikeBulletImg, width, height, this.SpikeBulletShape, -creatureID);
+			this.creature = creature;
+			this.appendage = appendage;
+			super(AEWorld.flxNumFromB2Num(pos.x), AEWorld.flxNumFromB2Num(pos.y),orientation, SpikeBulletImg, width, height, this.SpikeBulletShape, -creature.getID());
 		}
 		override public function update():void{
 			if (!this.onScreen(null))
@@ -60,7 +65,7 @@ package
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
 				.withShape(shape)
 				.withType(b2Body.b2_kinematicBody)
-				.withData(new AECollisionData(SpriteType.SPIKEBULLET, this));
+				.withData(new AECollisionData(SpriteType.SPIKEBULLET, this, this.appendage, this.creature));
 			return b2bb;
 		}
 	}

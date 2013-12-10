@@ -286,14 +286,12 @@ package
 					appen = 2;
 			}
 			else {
-				
 					behave = "aggressive";
 					if(Math.random()>0.5){
 						appen = 2;
 					}
 					else
 						appen = 3;
-				
 			}
 			
 			this.defaultHealth += 2
@@ -463,11 +461,6 @@ package
 			}
 			return shortestDist;
 		}
-		
-		public function getInstance():AEWorld
-		{
-			return this;
-		}
 		 
 		private function updateVolume():void
 		{
@@ -485,9 +478,6 @@ package
 			}
 			FlxexploreMusic.volume = (1- battleVolume);
 			FlxbattleMusic.volume = battleVolume;
-			
-			
-			
 		}
 		
 		
@@ -523,7 +513,7 @@ package
 			lights = new Array();
 			var numLights:Number = Math.ceil(FlxG.width / 1024.0) + 1;
 			for (var i:Number = 0; i < numLights; i++) {
-				var newLight:FlxSprite = new FlxSprite(0, topLocation - FlxG.height / 2, lightsImage); 
+				var newLight:FlxSprite = new FlxSprite(0, topLocation - 100, lightsImage); 
 				lights.push(newLight);
 				this.add(newLight);
 			}
@@ -571,23 +561,26 @@ package
 			//trace("attackDef.attackAppendage" + attackDef.attackAppendage);
 			if (attackDef.victim)
 			{
+				var killed:Boolean = false;
 				if(attackDef.attackAppendage)
 				{
-					attackDef.victim.takeDamage(attackDef.attackAppendage.attackDamage);
-					
+					killed = attackDef.victim.takeDamage(attackDef.attackAppendage.attackDamage);
 				}
 				else
 				{
 					if (attackDef.attackType == SpriteType.BUBBLE)
 					{
 						var bubble:AttackBubble = (attackDef.attackB2FS as AttackBubble);
-						attackDef.victim.takeDamage(bubble.attackDamage);
+						killed = attackDef.victim.takeDamage(bubble.attackDamage);
 					}
 					else if (attackDef.attackType == SpriteType.SPIKEBULLET)
 					{
 						var bullet:SpikeBullet = (attackDef.attackB2FS as SpikeBullet);
-						attackDef.victim.takeDamage(bullet.attackDamage);
+						killed = attackDef.victim.takeDamage(bullet.attackDamage);
 					}
+				}
+				if (killed) {
+					attackDef.attacker.killCount += 1;
 				}
 			}
 		}
@@ -611,11 +604,7 @@ package
 				var evolutionDef:AEEvolutionDef = EvolveList.pop();
 				var evolver:AECreature = evolutionDef.creature;
 				var evolutionDrop:EvolutionDrop = evolutionDef.evolutionDrop;
-				evolver.addAdaptation(evolutionDrop.adaptationType);
-				evolver.flashingEvoState = 1;
-				evolver.flashingHealthState = 0;
-				evolver.flashFrame = 0;
-				evolver.lastAddedAdaptation = AdaptationType.toString(evolutionDrop.adaptationType);
+				evolver.gainAdaptation(evolutionDrop.adaptationType);
 			}
 		}
 		
@@ -625,14 +614,7 @@ package
 			{
 				var healthDef:AEHealthDef = HealthList.pop();
 				var creatureBeingHealed:AECreature = healthDef.creature;
-				creatureBeingHealed.flashingHealthState = 1;
-				creatureBeingHealed.flashingEvoState = 0;
-				creatureBeingHealed.flashFrame = 0;
-				creatureBeingHealed.lastAddedAdaptation = AdaptationType.toString(AdaptationType.HEALTHINCREASE);
-				if (creatureBeingHealed.currentHealth < creatureBeingHealed.maxHealth) {
-					var healthRegain:int = creatureBeingHealed.maxHealth - creatureBeingHealed.currentHealth;
-					creatureBeingHealed.currentHealth += healthRegain;
-				}
+				creatureBeingHealed.healCreature();
 			}	
 		}
 		
@@ -641,9 +623,16 @@ package
 			FlxexploreMusic.kill();
 			FlxbattleMusic.kill();
 			AEEnemy.killAll();
+			FlxG.score = player.killCount;
+			FlxG.level = player.evoGainCount;
 			FlxG.switchState(new GameOverState);
+			
+			// Stop wrong music from playing
+			FlxbattleMusic.stop();
+			FlxexploreMusic.stop();
 		}
-		override public function update():void 
+		
+		override public function update():void
 		{
 			if (!FlxG.paused) {
 				AEWorld.debugText.x = FlxG.camera.scroll.x + 50;
@@ -652,7 +641,7 @@ package
 				for (var i:Number = 0; i < lights.length; i++) {
 					lights[i].x = baseLightPos + 1024 * i;
 				}
-				if (player.getY() < topLocation) {
+				if (player.getY() < topLocation + FlxG.height / 2 - 100) {
 					FlxG.camera.follow(null);
 					FlxG.camera.scroll.x = player.getX() - FlxG.width/2;
 				} else {

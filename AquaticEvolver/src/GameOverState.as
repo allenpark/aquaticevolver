@@ -30,15 +30,21 @@ package
 			FlxG.mouse.load(cursorImg);
 			FlxG.mouse.show();
 			
-			var menuButton:FlxButton = new FlxButton(FlxG.width/2 - 135, 0.30*FlxG.height + 150, "", mainMenuCallback);
+			var menuButton:FlxButton = new FlxButton(FlxG.width/2 - 135, 0.30*FlxG.height + 120, "", mainMenuCallback);
 			menuButton.scrollFactor.x = menuButton.scrollFactor.y = 0 ;
 			menuButton.loadGraphic(mainMenuImg);
 			add(menuButton);
 			
 			FlxG.mouse.load(cursorImg, 1, -32, -32);
 			FlxG.mouse.show();
-		
+			var scoreText:String = "You killed " + FlxG.score + " creatures.\n You had " + FlxG.level + " evolutions.";
+			var scoreDisplay:FlxText = new FlxText(FlxG.width / 2 - 80, FlxG.height / 2 + 150, 500, scoreText);
+			scoreDisplay.size = 20;
+			add(scoreDisplay);
 			
+			// Stop wrong music from playing
+			FlxbattleMusic.stop();
+			FlxexploreMusic.stop();
 
 		}
 		

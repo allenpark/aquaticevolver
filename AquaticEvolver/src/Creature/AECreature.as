@@ -29,6 +29,7 @@ package Creature
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxText;
+	import FlxColor;
 	
 	public class AECreature
 	{		
@@ -55,8 +56,13 @@ package Creature
 		protected var killed:Boolean;
 		public var flashingHealthState:Number = 0;
 		public var flashingEvoState:Number = 0;
+		public var flashingInvincibleState:Number = 0;
+		public var invincibleTimer:Number = 0;
+		public var invFlashFrame:Number = 0;
 		public var flashFrame:Number = 0;
 		public var lastAddedAdaptation:String;
+		public var evoGainCount:Number;
+		public var killCount:Number;
 		
 		
 		public function AECreature(x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
@@ -84,6 +90,8 @@ package Creature
 			this.healthDisplay = new FlxText(0, 0, 50);
 			this.healthDisplay.size = 10;
 			this.killed = false;
+			evoGainCount = 0;
+			killCount = 0;
 		}
 		
 		public function getID():Number
@@ -105,19 +113,20 @@ package Creature
 				var ratio:Number = int(healthRatio * 16) / 16.0;
 				this.color(redColor * (1 - ratio) + whiteColor * ratio);
 			}
+			
 			if (flashingHealthState == 1) {
 				var greenColor:Number = 0xff00ff00;
-				var whiteColor:Number = 0xffffffff;
-				var ratio:Number = int(flashFrame) / 16.0;
-				this.color(greenColor * (ratio) + whiteColor * (1 - ratio));
+				var currentColor:Number = 0xffff0000 * (1 - (int((this.currentHealth * 1.0 / this.maxHealth) * 16) / 16.0))
+					+ 0xffffffff * (int((this.currentHealth * 1.0 / this.maxHealth) * 16) / 16.0);
+				this.color(FlxColor.interpolateColor(greenColor, currentColor, 16, flashFrame));
 				this.flashFrame += 1;
 				if (flashFrame == 15) flashingHealthState = 2;
 			}
 			if (flashingHealthState == 2) {
 				var greenColor:Number = 0xff00ff00;
-				var whiteColor:Number = 0xffffffff;
-				var ratio:Number = int(flashFrame) / 16.0;
-				this.color(greenColor * (ratio) + whiteColor * (1 - ratio));
+				var currentColor:Number = 0xffff0000 * (1 - (int((this.currentHealth * 1.0 / this.maxHealth) * 16) / 16.0))
+					+ 0xffffffff * (int((this.currentHealth * 1.0 / this.maxHealth) * 16) / 16.0);
+				this.color(FlxColor.interpolateColor(greenColor, currentColor, 16, flashFrame));
 				this.flashFrame -= 1;
 				if (flashFrame == 0) flashingHealthState = 3;
 			}
@@ -130,9 +139,9 @@ package Creature
 			}
 			if (flashingEvoState == 1) {
 				var yellowColor:Number = 0xffffff00;
-				var whiteColor:Number = 0xffffffff;
-				var ratio:Number = int(flashFrame) / 16.0;
-				this.color(yellowColor * (ratio) + whiteColor * (1 - ratio));
+				var currentColor:Number = 0xffff0000 * (1 - (int((this.currentHealth * 1.0 / this.maxHealth) * 16) / 16.0))
+					+ 0xffffffff * (int((this.currentHealth * 1.0 / this.maxHealth) * 16) / 16.0);
+				this.color(FlxColor.interpolateColor(yellowColor, currentColor, 16, flashFrame));
 				this.flashFrame += 1;
 				if (flashFrame == 15) flashingEvoState = 2;
 			}
@@ -151,7 +160,26 @@ package Creature
 					flashingEvoState = 0;
 				}
 			}
+			
+			// invincibility should last one second
+			if (flashingInvincibleState > 0 && flashingInvincibleState <= 3) {
+				var darkColor:Number = 0xff882222;
+				var currentColor:Number = 0xffff0000 * (1 - (int((this.currentHealth * 1.0 / this.maxHealth) * 16) / 16.0))
+					+ 0xffffffff * (int((this.currentHealth * 1.0 / this.maxHealth) * 16) / 16.0);
+				this.color(FlxColor.interpolateColor(darkColor, currentColor, 16, invFlashFrame));
+				this.invFlashFrame += 1;
+				if (this.invFlashFrame == 15) {
+					this.invFlashFrame = 0;
+					this.flashingInvincibleState += 1;
+				}
+				if (this.flashingInvincibleState == 4) { // Only do this flashy thing three times
+					this.invFlashFrame = 0;
+					this.flashingInvincibleState = 0;
+				}
+			}
+			
 			this.healthDisplay.text = this.currentHealth + "/" + this.maxHealth;
+			
 			//			this.adaptationGroup.setAll("x", this.x + 10);
 			
 			//			this.adaptationGroup.setAll("y", this.y);			
@@ -183,7 +211,27 @@ package Creature
 			return weakestAppendageSlot;
 		}
 		
-		public function addAdaptation(adaptationType:Number):Boolean
+		public function gainAdaptation(adaptationType:Number):void {
+			this.addAdaptation(adaptationType);
+			this.flashingEvoState = 1;
+			this.flashingHealthState = 0;
+			this.flashFrame = 0;
+			this.lastAddedAdaptation = AdaptationType.toString(adaptationType);
+			this.evoGainCount += 1;
+		}
+		
+		public function healCreature():void {
+			this.flashingHealthState = 1;
+			this.flashingEvoState = 0;
+			this.flashFrame = 0;
+			this.lastAddedAdaptation = AdaptationType.toString(AdaptationType.HEALTHINCREASE);
+			if (this.currentHealth < this.maxHealth) {
+				var healthRegain:int = this.maxHealth - this.currentHealth;
+				this.currentHealth += healthRegain;
+			}
+		}
+		
+		protected function addAdaptation(adaptationType:Number):Boolean
 		{
 			
 			// if the adaptation is not an appendage
@@ -228,23 +276,30 @@ package Creature
 			}
 		}
 		
-		//TODO: call this...?
-		public function takeDamage(damage:Number):void
+		// returns if creature is killed
+		public function takeDamage(damage:Number):Boolean
 		{
-			this.currentHealth -= damage;
-			if (this == AEWorld.player)
-			{
-				//this is for the sound effect
-				AEWorld.world.playerInDanger = true;
-			}
-			if (this.currentHealth <= 0) {
-				this.currentHealth = 0;
+			if (this.flashingInvincibleState == 0) {
+				this.currentHealth -= damage;
+				
+				// Make play less bursty, add invincibility frames when the player takes damage
+				this.flashingInvincibleState = 1;
+				
 				if (this == AEWorld.player)
 				{
-					AEWorld.world.gameOver();
+					//this is for the sound effect
+					AEWorld.world.playerInDanger = true;
 				}
-				this.kill();
+				if (this.currentHealth <= 0) {
+					this.currentHealth = 0;
+					if (this == AEWorld.player)
+					{
+						AEWorld.world.gameOver();
+					}
+					return this.kill();
+				}
 			}
+			return false;
 		}
 		
 		/*
@@ -283,10 +338,10 @@ package Creature
 		}
 		*/
 		
-		public function kill():void
+		public function kill():Boolean
 		{
 			if (this.killed) {
-				return;
+				return false;
 			}
 			this.killed = true;
 			_head.kill();
@@ -294,26 +349,23 @@ package Creature
 			_tail.kill();
 			
 			var generator:Number = Math.random();
-			if(generator < .5) {
-			//Get random adaptation
-			if (this._adaptations.length != 0) {
-			//Get random adaptation
-			var randomAdaptation:Number = this._adaptations[int(Math.random()*(this._adaptations.length - 1))].adaptationType;
-			
-			//Add evolution drop
-			var evolutionDrop:EvolutionDrop = new EvolutionDrop(getX(), getY(), randomAdaptation);
-			
-			//Add to world
-			AEWorld.world.add(evolutionDrop);
+			if (generator < .5) {
+				//Get random adaptation
+				if (this._adaptations.length != 0) {
+					//Get random adaptation
+					var randomAdaptation:Number = this._adaptations[int(Math.random()*(this._adaptations.length - 1))].adaptationType;
+					
+					//Add evolution drop
+					var evolutionDrop:EvolutionDrop = new EvolutionDrop(getX(), getY(), randomAdaptation);
+					
+					//Add to world
+					AEWorld.world.add(evolutionDrop);
+				}
+			} else if (generator > .5) {
+				var healthDrop:HealthDrop = new HealthDrop(getX(), getY());
+				AEWorld.world.add(healthDrop);
 			}
 			
-			}
-			else if (generator > .5){
-			var healthDrop = new HealthDrop(getX(), getY());
-			
-			AEWorld.world.add(healthDrop);
-			}
-	
 			healthDisplay.kill();
 			AEWorld.world.remove(healthDisplay);
 			for each(var adaptation:Adaptation in _adaptations) {
@@ -321,6 +373,7 @@ package Creature
 					adaptation.kill();
 				}
 			}
+			return true;
 		}
 		
 		public function getX():Number
