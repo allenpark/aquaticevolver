@@ -600,6 +600,8 @@ package
 				var evolutionDrop:EvolutionDrop = evolutionDef.evolutionDrop;
 				evolver.addAdaptation(evolutionDrop.adaptationType);
 				evolver.flashingEvoState = 1;
+				evolver.flashingHealthState = 0;
+				evolver.flashFrame = 0;
 			}
 		}
 		
@@ -610,6 +612,8 @@ package
 				var healthDef:AEHealthDef = HealthList.pop();
 				var creatureBeingHealed:AECreature = healthDef.creature;
 				creatureBeingHealed.flashingHealthState = 1;
+				creatureBeingHealed.flashingEvoState = 0;
+				creatureBeingHealed.flashFrame = 0;
 				if (creatureBeingHealed.currentHealth < creatureBeingHealed.maxHealth) {
 					var healthRegain:int = creatureBeingHealed.maxHealth - creatureBeingHealed.currentHealth;
 					creatureBeingHealed.currentHealth += healthRegain;

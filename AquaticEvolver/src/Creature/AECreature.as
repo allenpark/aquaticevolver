@@ -105,36 +105,36 @@ package Creature
 				this.color(redColor * (1 - ratio) + whiteColor * ratio);
 			}
 			if (flashingHealthState == 1) {
-				var redColor:Number = 0xff00ff00;
+				var greenColor:Number = 0xff00ff00;
 				var whiteColor:Number = 0xffffffff;
 				var ratio:Number = int(flashFrame) / 16.0;
-				this.color(redColor * (ratio) + whiteColor * (1 - ratio));
+				this.color(greenColor * (ratio) + whiteColor * (1 - ratio));
 				this.flashFrame += 1;
 				if (flashFrame == 15) flashingHealthState = 2;
 			}
 			if(flashingHealthState == 2)
 			{
-				var redColor:Number = 0xff00ff00;
+				var greenColor:Number = 0xff00ff00;
 				var whiteColor:Number = 0xffffffff;
 				var ratio:Number = int(flashFrame) / 16.0;
-				this.color(redColor * (ratio) + whiteColor * (1 - ratio));
+				this.color(greenColor * (ratio) + whiteColor * (1 - ratio));
 				this.flashFrame -= 1;
 				if (flashFrame == 0) flashingHealthState = 0;
 			}
 			if (flashingEvoState == 1) {
-				var redColor:Number = 0xffffff00;
+				var yellowColor:Number = 0xffffff00;
 				var whiteColor:Number = 0xffffffff;
 				var ratio:Number = int(flashFrame) / 16.0;
-				this.color(redColor * (ratio) + whiteColor * (1 - ratio));
+				this.color(yellowColor * (ratio) + whiteColor * (1 - ratio));
 				this.flashFrame += 1;
 				if (flashFrame == 15) flashingEvoState = 2;
 			}
 			if(flashingEvoState == 2)
 			{
-				var redColor:Number = 0xffffff00;
+				var yellowColor:Number = 0xffffff00;
 				var whiteColor:Number = 0xffffffff;
 				var ratio:Number = int(flashFrame) / 16.0;
-				this.color(redColor * (ratio) + whiteColor * (1 - ratio));
+				this.color(yellowColor * (ratio) + whiteColor * (1 - ratio));
 				this.flashFrame -= 1;
 				if (flashFrame == 0) flashingEvoState = 0;
 			}
