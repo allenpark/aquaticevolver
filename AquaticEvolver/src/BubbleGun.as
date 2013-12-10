@@ -6,8 +6,8 @@ package
 	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
 	
 	import org.flixel.FlxG;
-	import org.flixel.FlxU;
 	import org.flixel.FlxPoint;
+	import org.flixel.FlxU;
 	
 	public class BubbleGun extends Appendage
 	{
@@ -24,6 +24,10 @@ package
 		private var bubbleGun:BoxBubbleGun;
 		
 		private var jointAngleCorrection:Number = 0;
+		
+		private var lastAttackTime:Number = 0;
+		
+		private var ATTACKDELAY:Number = .5;
 		
 		// images
 		
@@ -66,18 +70,23 @@ package
 		
 		override public function attack(point:FlxPoint):void
 		{
-			var randomSong = FlxU.getRandom(bubbleGunNoises,0, 3);
-			FlxG.play(randomSong);				
-			super.attack(point);
-			//trace("bubble gun attacking");
-			// insert code to shoot a bubble here
+			if(lastAttackTime <= 0){
+				var randomSong = FlxU.getRandom(bubbleGunNoises,0, 3);
+				FlxG.play(randomSong);				
+				super.attack(point);
+				//trace("bubble gun attacking");
+				// insert code to shoot a bubble here
+				
+				var headPoint:b2Vec2 = bubbleGun.getBody().GetPosition();
+				var spawnPoint :b2Vec2 = calcBulletSpawnPoint(point, bubbleGun.getScreenXY(), headPoint);
+				var bubble:AttackBubble = new AttackBubble(spawnPoint, 64, 64, this.attackDamage, this.creature.getID(), 5, point);
+				AEWorld.world.add(bubble);
+				var bubbleBody:b2Body = bubble.getBody();
+				bubbleBody.SetLinearVelocity(calcBulletVelocity(point, bubbleGun.getScreenXY()));
+				//Set the delay for attacking
+				lastAttackTime = ATTACKDELAY;
+			}
 			
-			var headPoint:b2Vec2 = bubbleGun.getBody().GetPosition();
-			var spawnPoint :b2Vec2 = calcBulletSpawnPoint(point, bubbleGun.getScreenXY(), headPoint);
-			var bubble:AttackBubble = new AttackBubble(spawnPoint, 64, 64, this.attackDamage, this.creature.getID(), 5, point);
-			AEWorld.world.add(bubble);
-			var bubbleBody:b2Body = bubble.getBody();
-			bubbleBody.SetLinearVelocity(calcBulletVelocity(point, bubbleGun.getScreenXY()));
 		}
 		
 		protected function calcBulletVelocity(mousePoint:FlxPoint, bodyPoint:FlxPoint):b2Vec2 {
@@ -96,6 +105,11 @@ package
 		
 		override public function update():void
 		{
+			if(lastAttackTime > 0){
+				lastAttackTime -= FlxG.elapsed;
+			}else if (lastAttackTime < 0){
+				lastAttackTime = 0;
+			}
 			super.update();
 		}
 	}
