@@ -668,7 +668,7 @@ package
 				if (FlxG.keys.justPressed("I")) {
 					toggleB2DebugDrawing();
 				}
-				AEB2World.Step(1.0/60.0, 8, 3);
+				AEB2World.Step(1.0/60.0, 5, 2);
 				processLists();
 				enforceTop();
 				
