@@ -10,6 +10,7 @@ package Collisions
 			SpriteType.BUBBLE,
 			SpriteType.MANDIBLEJAW,
 			SpriteType.SPIKE,
+			SpriteType.SPIKEBULLET,
 			SpriteType.TENTACLEHEAD);
 		
 		protected static const DAMAGE_TAKING_SPRITES:Array = new Array(
@@ -36,7 +37,7 @@ package Collisions
 			//trace(attackerData);
 			//trace(victimData);
 			trace("attacker sprite type"+attackerData.spriteType);
-			var attackDef:AEAttackDef = new AEAttackDef(attackerData.creature, attackerData.appendage, victimData.creature);
+			var attackDef:AEAttackDef = new AEAttackDef(attackerData.creature, attackerData.spriteType, attackerData.b2FlxSprite, attackerData.appendage, victimData.creature);
 			AEWorld.AttackList.push(attackDef);
 		}
 		
@@ -97,7 +98,12 @@ package Collisions
 				AECollisionListener.handleAttack(data1, data2);
 				if (elemInArray(data1.spriteType, PROJECTILES))
 				{
+					trace("sprite should be killed!:" + data1.spriteType);
 					AEWorld.RemoveList.push(data1.b2FlxSprite);
+				}
+				else
+				{
+					trace(data1.spriteType+" spriteType should not be a projectile");
 				}
 				return
 				
@@ -108,7 +114,13 @@ package Collisions
 				AECollisionListener.handleAttack(data2, data1);
 				if (elemInArray(data2.spriteType, PROJECTILES))
 				{
+					trace("sprite should be killed!:" + data2.spriteType);
 					AEWorld.RemoveList.push(data2.b2FlxSprite);
+				}
+				else
+				{
+					trace(data2.spriteType+" spriteType should not be a projectile");
+
 				}
 				return
 				

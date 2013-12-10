@@ -48,14 +48,18 @@ package
 				attitude = "Aggressive";
 			}
 			*/
-			attitude = behavior;
+			attitude = 'aggressive';
 			trace("app " + appen);
 			var z:Number = Math.random();
 			if (appen == 1) {
 				if(z>0.5){
-					addAdaptation(AdaptationType.TENTACLE);
+					//addAdaptation(AdaptationType.TENTACLE);
+					//addAdaptation(AdaptationType.BUBBLEGUN);
+					addAdaptation(AdaptationType.SPIKESHOOTER);
 				} else {
-					addAdaptation(AdaptationType.SPIKE);
+					//addAdaptation(AdaptationType.SPIKE);
+					//addAdaptation(AdaptationType.BUBBLEGUN);
+					addAdaptation(AdaptationType.SPIKESHOOTER);
 				}
 			}
 			if (appen == 2) {
@@ -64,13 +68,13 @@ package
 					addAdaptation(AdaptationType.SPIKE);
 				} else if (z>=0.33 && z<0.66){
 					addAdaptation(AdaptationType.TENTACLE);
-					//addAdaptation(AdaptationType.BUBBLEGUN);
-					addAdaptation(AdaptationType.SPIKE);
+					addAdaptation(AdaptationType.BUBBLEGUN);
+					//addAdaptation(AdaptationType.SPIKE);
 				} else{
-					//addAdaptation(AdaptationType.MANDIBLE);
-					//addAdaptation(AdaptationType.SPIKESHOOTER);
-					addAdaptation(AdaptationType.SPIKE);
-					addAdaptation(AdaptationType.SPIKE);
+					addAdaptation(AdaptationType.MANDIBLE);
+					addAdaptation(AdaptationType.SPIKESHOOTER);
+					//addAdaptation(AdaptationType.SPIKE);
+					//addAdaptation(AdaptationType.SPIKE);
 
 				}
 			}
@@ -81,27 +85,27 @@ package
 					addAdaptation(AdaptationType.CLAW);
 				} else if (z>=0.2 && z<0.4) {
 					addAdaptation(AdaptationType.TENTACLE);
-					//addAdaptation(AdaptationType.BUBBLEGUN);
-					//addAdaptation(AdaptationType.SPIKESHOOTER);
-					addAdaptation(AdaptationType.SPIKE);
-					addAdaptation(AdaptationType.SPIKE);
+					addAdaptation(AdaptationType.BUBBLEGUN);
+					addAdaptation(AdaptationType.SPIKESHOOTER);
+					//addAdaptation(AdaptationType.SPIKE);
+					//addAdaptation(AdaptationType.SPIKE);
 				} else if (z>=0.4 && z<0.6) {
 					addAdaptation(AdaptationType.TENTACLE);
-					//addAdaptation(AdaptationType.BUBBLEGUN);
-					addAdaptation(AdaptationType.SPIKE);
-					//addAdaptation(AdaptationType.MANDIBLE);
-					addAdaptation(AdaptationType.SPIKE);
+					addAdaptation(AdaptationType.BUBBLEGUN);
+					//addAdaptation(AdaptationType.SPIKE);
+					addAdaptation(AdaptationType.MANDIBLE);
+					//addAdaptation(AdaptationType.SPIKE);
 
 				} else if (z>=0.6 && z<0.8) {
 					addAdaptation(AdaptationType.TENTACLE);
-					//addAdaptation(AdaptationType.SPIKESHOOTER);
-					addAdaptation(AdaptationType.SPIKE);
-					//addAdaptation(AdaptationType.MANDIBLE);
-					addAdaptation(AdaptationType.SPIKE);
+					addAdaptation(AdaptationType.SPIKESHOOTER);
+					//addAdaptation(AdaptationType.SPIKE);
+					addAdaptation(AdaptationType.MANDIBLE);
+					//addAdaptation(AdaptationType.SPIKE);
 				} else {
 					addAdaptation(AdaptationType.CLAW);
-					//addAdaptation(AdaptationType.BUBBLEGUN);
-					addAdaptation(AdaptationType.SPIKE);
+					addAdaptation(AdaptationType.BUBBLEGUN);
+					//addAdaptation(AdaptationType.SPIKE);
 					addAdaptation(AdaptationType.SHELL);
 				}
 			}

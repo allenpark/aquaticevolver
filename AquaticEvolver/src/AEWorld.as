@@ -497,9 +497,28 @@ package
 			BUBBLE = constant
 			SPIKESHOOTER
 			*/		
-			trace("victim:"+attackDef.victim);
-			trace("appendage:"+attackDef.attackAppendage);
-			attackDef.victim.takeDamage(attackDef.attackAppendage.attackDamage);
+			trace("attackDef.attackAppendage" + attackDef.attackAppendage);
+			if (attackDef.victim)
+			{
+				if(attackDef.attackAppendage)
+				{
+					attackDef.victim.takeDamage(attackDef.attackAppendage.attackDamage);
+					
+				}
+				else
+				{
+					if (attackDef.attackType == SpriteType.BUBBLE)
+					{
+						var bubble:AttackBubble = (attackDef.attackB2FS as AttackBubble);
+						attackDef.victim.takeDamage(bubble.attackDamage);
+					}
+					else if (attackDef.attackType == SpriteType.SPIKEBULLET)
+					{
+						var bullet:SpikeBullet = (attackDef.attackB2FS as SpikeBullet);
+						attackDef.victim.takeDamage(bullet.attackDamage);
+					}
+				}
+			}
 		}
 		
 		private function relativeVelocity(v1:b2Vec2, v2:b2Vec2):b2Vec2

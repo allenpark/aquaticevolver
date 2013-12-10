@@ -22,6 +22,7 @@ package
 		private var bodyWidth:int = 64;
 		private var bodyHeight:int = 64;
 
+		public var attackDamage:Number;
 		public var pos:b2Vec2;
 		private var bubbleBoxShape:b2PolygonShape;
 		private var polygonVerticies:Array = new Array(
@@ -38,14 +39,15 @@ package
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-14.0),AEWorld.b2NumFromFlxNum(-10.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-11.0),AEWorld.b2NumFromFlxNum(-14.0)));
 		
-		public function AttackBubble(pos:b2Vec2, width:Number, height:Number, speed:Number, targetPoint:FlxPoint)
+		public function AttackBubble(pos:b2Vec2, width:Number, height:Number, attackDamage:Number, creatureID:Number, speed:Number, targetPoint:FlxPoint)
 
 		{
+			this.attackDamage = attackDamage;
 			//this.loadGraphic(ImgAttackBubble, false, false);
 			this.pos = pos;
 			this.bubbleBoxShape = new b2PolygonShape();
 			this.bubbleBoxShape.SetAsArray(polygonVerticies);
-			super(AEWorld.flxNumFromB2Num(pos.x), AEWorld.flxNumFromB2Num(pos.y),0, ImgAttackBubble, width, height, this.bubbleBoxShape);
+			super(AEWorld.flxNumFromB2Num(pos.x), AEWorld.flxNumFromB2Num(pos.y),0, ImgAttackBubble, width, height, this.bubbleBoxShape, -creatureID);
 		}
 		override public function update():void{
 			if (!this.onScreen(null))
