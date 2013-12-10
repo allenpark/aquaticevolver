@@ -52,9 +52,9 @@ package
 			swimNoises[8] = Swim9SFX;
 			
 			//Player has special ID value of 1
-			var headDef:AEHeadDef = AECreature.head5Def(x,y);
-			var torsoDef:AETorsoDef = AECreature.torso1Def(x,y);
-			var tailDef:AETailDef = AECreature.tail1Def(x,y);
+			var headDef:AEHeadDef = AECreature.randomHeadDef(x,y);
+			var torsoDef:AETorsoDef = AECreature.randomTorsoDef(x,y);
+			var tailDef:AETailDef = AECreature.randomTailDef(x,y);
 			super(x, y, health, headDef, torsoDef, tailDef);
 
 			//attachAppendage(AdaptationType.POISONCANNON);	

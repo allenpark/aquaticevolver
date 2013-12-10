@@ -3,6 +3,7 @@ package
 	import org.flixel.FlxButton;
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
+	import org.flixel.FlxSound;
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxText;
 
@@ -14,6 +15,7 @@ package
 		[Embed (source = "res/credits.png")] public var creditsButtonImg:Class;
 		[Embed (source = "res/Cursor.png")] public var cursorImg:Class;
 		[Embed(source="res/Headwinds.mp3")] 	public var mainMenuMusic:Class;
+		public var FlxMainMenuMusic : FlxSound = new FlxSound();
 		
 		public var buttonOffset:FlxPoint = new FlxPoint(10,10)
 		
@@ -39,10 +41,12 @@ package
 			add(creditButton);
 			FlxG.mouse.show();
 			FlxG.mouse.load(cursorImg, 1, -32, -32);
-			FlxG.playMusic(mainMenuMusic);
+			FlxMainMenuMusic.loadEmbedded(mainMenuMusic,true);
+			FlxMainMenuMusic.play();
 				
 		}
 		 public function startButtonCallback():void {
+			 FlxMainMenuMusic.kill();
 			 AEEnemy.killAll();
 			 FlxG.switchState(new AEWorld);
 		 }

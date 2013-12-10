@@ -32,8 +32,8 @@ package
 		// music
 		[Embed(source="res/Evolving Horizon.mp3")] public var droplet:Class;
 		[Embed(source="res/Tailchasing.mp3")] public var battleMusic:Class;
-		private var Flxdroplet:FlxSound = new  FlxSound();
-		private var FlxbattleMusic:FlxSound = new FlxSound();
+		public var Flxdroplet:FlxSound = new  FlxSound();
+		public var FlxbattleMusic:FlxSound = new FlxSound();
 
 		[Embed(source="res/Cursor.png")] public var cursor:Class;
 
@@ -223,8 +223,14 @@ package
 		private function setupSound():void {
 			Flxdroplet.loadEmbedded(droplet,true);
 			FlxbattleMusic.loadEmbedded(battleMusic, true);
+			if (! ((this is  MenuWorld)||(this is  InstructionState)||(this is  CreditState)||(this is GameOverState))){
 			Flxdroplet.play();
+			}
 			FlxbattleMusic.play();
+			Flxdroplet.active = true;
+			FlxbattleMusic.active = true;
+			Flxdroplet.survive = false;
+			FlxbattleMusic.survive  = false;
 		}
 		
 		// Creates an enemy randomly slightly off screen.
@@ -479,6 +485,7 @@ package
 			FlxbattleMusic.volume = battleVolume;
 			
 			
+			
 		}
 		
 		
@@ -629,6 +636,8 @@ package
 		
 		public function gameOver():void
 		{
+			Flxdroplet.kill();
+			FlxbattleMusic.kill();
 			AEEnemy.killAll();
 			FlxG.switchState(new GameOverState);
 		}
