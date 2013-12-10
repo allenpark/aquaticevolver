@@ -88,7 +88,7 @@ package
 				}else if( z<= 0.5 && z > 0.4) {
 					addAdaptation(AdaptationType.MANDIBLE);
 				}else if( z<= 0.6 && z > 0.5) {
-					addAdaptation(AdaptationType.POISONCANNON);
+					//addAdaptation(AdaptationType.POISONCANNON);
 				}else if( z<= 0.7 && z > 0.8) {
 					addAdaptation(AdaptationType.SHELL);
 				}
@@ -136,7 +136,7 @@ package
 				}else if( z<= 0.5 && z > 0.4) {
 					addAdaptation(AdaptationType.MANDIBLE);
 				}else if( z<= 0.6 && z > 0.5) {
-					addAdaptation(AdaptationType.POISONCANNON);
+					//addAdaptation(AdaptationType.POISONCANNON);
 				}else if( z<= 0.7 && z > 0.8) {
 					addAdaptation(AdaptationType.SHELL);
 				}
@@ -182,7 +182,7 @@ package
 				}else if( n<= 0.5 && n > 0.4) {
 					addAdaptation(AdaptationType.MANDIBLE);
 				}else if( n<= 0.6 && n > 0.5) {
-					addAdaptation(AdaptationType.POISONCANNON);
+					//addAdaptation(AdaptationType.POISONCANNON);
 				}else if( n<= 0.7 && n > 0.8) {
 					addAdaptation(AdaptationType.SHELL);
 				}

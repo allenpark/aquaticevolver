@@ -37,8 +37,10 @@ package
 			
 			FlxG.mouse.load(cursorImg, 1, -32, -32);
 			FlxG.mouse.show();
-		
 			
+			// Stop wrong music from playing
+			FlxbattleMusic.stop();
+			FlxexploreMusic.stop();
 
 		}
 		

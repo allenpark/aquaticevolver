@@ -631,6 +631,10 @@ package
 		{
 			AEEnemy.killAll();
 			FlxG.switchState(new GameOverState);
+			
+			// Stop wrong music from playing
+			FlxbattleMusic.stop();
+			FlxexploreMusic.stop();
 		}
 		override public function update():void 
 		{
