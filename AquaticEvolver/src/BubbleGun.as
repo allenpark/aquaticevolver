@@ -36,7 +36,6 @@ package
 			
 			
 			// create the sprites
-			//trace(owner);
 			bubbleGun = new BoxBubbleGun(0, 0, owner, this, bubbleGunImg, 128, 128);
 			this.add(bubbleGun);
 			
@@ -61,8 +60,6 @@ package
 			FlxG.play(BubbleGunSFX);
 			
 			super.attack(point);
-			//trace("bubble gun attacking");
-			// insert code to shoot a bubble here
 
 			var headPoint:b2Vec2 = bubbleGun.getBody().GetPosition();
 			var spawnPoint :b2Vec2 = calcBulletSpawnPoint(point, bubbleGun.getScreenXY(), headPoint);
@@ -89,6 +86,11 @@ package
 		override public function update():void
 		{
 			super.update();
+		}
+		
+		override public function color(color:Number):void {
+			super.color(color);
+			this.bubbleGun.color = color;
 		}
 	}
 }

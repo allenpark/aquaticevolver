@@ -33,10 +33,7 @@ package Collisions
 		
 		
 		private static function handleAttack(attackerData:AECollisionData, victimData:AECollisionData):void
-		{			
-			//trace(attackerData);
-			//trace(victimData);
-			trace("attacker sprite type"+attackerData.spriteType);
+		{
 			var attackDef:AEAttackDef = new AEAttackDef(attackerData.creature, attackerData.spriteType, attackerData.b2FlxSprite, attackerData.appendage, victimData.creature);
 			AEWorld.AttackList.push(attackDef);
 		}
@@ -82,8 +79,6 @@ package Collisions
 			var fixture2:b2Fixture = contact.GetFixtureB();
 			var data1:AECollisionData = (fixture1.GetBody().GetUserData() as AECollisionData);
 			var data2:AECollisionData = (fixture2.GetBody().GetUserData() as AECollisionData);
-			//trace("Collision data1: \n" + data1);
-			//trace("Collision data2: \n" + data2);
 			if (data1.creature && data2.creature){
 				if (data1.creature.getID() == data2.creature.getID()) 
 				{
@@ -98,12 +93,12 @@ package Collisions
 				AECollisionListener.handleAttack(data1, data2);
 				if (elemInArray(data1.spriteType, PROJECTILES))
 				{
-					trace("sprite should be killed!:" + data1.spriteType);
+					//trace("sprite should be killed!:" + data1.spriteType);
 					AEWorld.RemoveList.push(data1.b2FlxSprite);
 				}
 				else
 				{
-					trace(data1.spriteType+" spriteType should not be a projectile");
+					//trace(data1.spriteType+" spriteType should not be a projectile");
 				}
 				return
 				
@@ -114,12 +109,12 @@ package Collisions
 				AECollisionListener.handleAttack(data2, data1);
 				if (elemInArray(data2.spriteType, PROJECTILES))
 				{
-					trace("sprite should be killed!:" + data2.spriteType);
+					//trace("sprite should be killed!:" + data2.spriteType);
 					AEWorld.RemoveList.push(data2.b2FlxSprite);
 				}
 				else
 				{
-					trace(data2.spriteType+" spriteType should not be a projectile");
+					//trace(data2.spriteType+" spriteType should not be a projectile");
 
 				}
 				return

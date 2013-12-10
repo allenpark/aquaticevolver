@@ -19,6 +19,7 @@ package
 	
 	public class AEWorld extends FlxState
 	{
+		public static var enemyCount:Number;
 		/**
 		 * Reference to the singleton instance of AEWorld
 		 */
@@ -222,7 +223,6 @@ package
 				}
 			}
 			
-			//trace(newX + " " + newY);
 			if(newY<=3000){
 				behave = "passive";
 				if(Math.random()>0.5){
@@ -257,13 +257,9 @@ package
 				
 			}
 			
-		
-			
-			
 			this.defaultHealth += 2
 			//Can't add enemies above the top bound
 			if(newY > topLocation){
-				//trace("Generate enemy at x:",+newX+", y:"+newY);
 				var newEnemy:AEEnemy = AEEnemy.generateRandomEnemy(appen, behave, newX, newY);
 				if (newEnemy)
 				{
@@ -427,6 +423,7 @@ package
 		
 		override public function create():void
 		{
+			AEWorld.enemyCount = 0;
 			//FlxG.mouse.hide();
 			FlxG.mouse.load(cursor, 1, -32, -32);
 			//FlxG.mouse.show(cursor);
@@ -497,7 +494,7 @@ package
 			BUBBLE = constant
 			SPIKESHOOTER
 			*/		
-			trace("attackDef.attackAppendage" + attackDef.attackAppendage);
+			//trace("attackDef.attackAppendage" + attackDef.attackAppendage);
 			if (attackDef.victim)
 			{
 				if(attackDef.attackAppendage)
@@ -545,6 +542,7 @@ package
 		}
 		override public function update():void 
 		{
+			AEWorld.debugText.text = AEWorld.enemyCount + " " + AEEnemy.enemies.length;
 			var baseLightPos:Number = Math.floor(FlxG.camera.scroll.x / 1024) * 1024;
 			for (var i:Number = 0; i < lights.length; i++) {
 				lights[i].x = baseLightPos + 1024 * i;

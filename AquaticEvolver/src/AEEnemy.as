@@ -49,7 +49,6 @@ package
 			}
 			*/
 			attitude = behavior;
-			//trace("app " + appen);
 			var z:Number = Math.random();
 			if (appen == 1) {
 				if(z>0.5){
@@ -126,13 +125,14 @@ package
 				var id:Number = unusedIDs.pop();
 				var newEnemy:AEEnemy = new AEEnemy(id, app,  behavior, x, y, 10, headDef, torsoDef, tailDef);
 				enemies.push(newEnemy);
+				AEWorld.enemyCount += 1;
+				trace("Creating enemy " + newEnemy.getID());
 				return newEnemy;
 			} else {
 				for each (var enemy:AEEnemy in enemies)
 				{
 					if (AEWorld.world.outOfBufferBounds(enemy.getX(), enemy.getY()))
 					{
-						//trace("enemy out of bounds killed");
 						enemy.kill();
 						// try again
 						return generateEnemy(app, behavior, x,y, headDef, torsoDef, tailDef);
@@ -163,6 +163,8 @@ package
 			if (this.killed) {
 				return;
 			}
+			AEWorld.enemyCount -= 1;
+			trace("Killing enemy " + this.getID());
 			unusedIDs.push(_id);
 
 			AEEnemy.enemies.splice(AEEnemy.enemies.indexOf(this),1);

@@ -22,6 +22,7 @@ package
 		private var bodyHeight:int = 64;
 		public var owner:EvolutionDrop;
 		public var creatureType:Number;
+		public var timeCreated:Number;
 		
 		public var adaptationType:Number;
 		public var pos:b2Vec2;
@@ -47,12 +48,16 @@ package
 			this.bubbleBoxShape.SetAsArray(polygonVerticies);
 			this.creatureType = SpriteType.EVOLUTIONDROP;
 			this.owner = this;
+			this.timeCreated = (new Date()).getTime();
 			
 			super(x, y, 0, ImgAttackBubble, width, height, this.bubbleBoxShape);
 		}
 		
 		override public function update():void{
 			super.update();
+			if ((new Date()).getTime() - this.timeCreated > 3600) {
+				this.kill();
+			}
 		}		
 		
 		override protected function bodyBuilder(position:b2Vec2, angle:Number, shape:b2PolygonShape = null):B2BodyBuilder

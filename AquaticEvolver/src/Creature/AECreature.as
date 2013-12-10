@@ -215,6 +215,7 @@ package Creature
 			//var appendage = Appendage.createAppendageWithType(AppendageType.SPIKE		
 			
 			healthDisplay.kill();
+			AEWorld.world.remove(healthDisplay);
 			for each(var adaptation:Adaptation in _adaptations) {
 				if (adaptation != null) {
 					adaptation.kill();
