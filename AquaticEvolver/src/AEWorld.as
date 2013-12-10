@@ -601,7 +601,7 @@ package
 				if (AquaticEvolver.box2dDebug) {
 					AEB2World.DrawDebugData();
 				}
-				if (FlxG.keys.justPressed("7")) {
+				if (FlxG.keys.justPressed("I")) {
 					toggleB2DebugDrawing();
 				}
 				AEB2World.Step(1.0/60.0, 10, 10);
