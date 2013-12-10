@@ -92,15 +92,13 @@ package
 				var yDir:Number = 0;
 				
 
-				if(FlxG.keys.justPressed("LEFT") || FlxG.keys.justPressed("RIGHT") || FlxG.keys.justPressed("UP") || FlxG.keys.justPressed("DOWN") || 
+				if (FlxG.keys.justPressed("LEFT") || FlxG.keys.justPressed("RIGHT") || FlxG.keys.justPressed("UP") || FlxG.keys.justPressed("DOWN") || 
 					FlxG.keys.justPressed("W") || FlxG.keys.justPressed("A") || FlxG.keys.justPressed("S") || FlxG.keys.justPressed("D")){
 					var randomSong = FlxU.getRandom(swimNoises,0, 9);
 					FlxG.play(randomSong);
 				}
-				if(FlxG.mouse.justPressed())
-					//if(FlxG.mouse.pressed())
+				if (FlxG.mouse.justPressed())
 				{
-					
 					var mousePoint:FlxPoint = new FlxPoint(FlxG.camera.scroll.x + FlxG.mouse.screenX, FlxG.camera.scroll.y + FlxG.mouse.screenY);
 					var playerPoint:FlxPoint = new FlxPoint(AEWorld.flxNumFromB2Num(movementBody.GetPosition().x), AEWorld.flxNumFromB2Num(movementBody.GetPosition().y));
 					movementBody.ApplyImpulse(calcB2Impulse(mousePoint, playerPoint), movementBody.GetPosition());

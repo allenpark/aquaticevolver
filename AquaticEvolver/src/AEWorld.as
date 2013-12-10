@@ -29,6 +29,7 @@ package
 		 */
 		public static var world:AEWorld;
 		
+		public var timer:Number = 0;
 		// music
 		[Embed(source="res/Evolving Horizon.mp3")] public var exploreMusic:Class;
 		[Embed(source="res/Tailchasing.mp3")] public var battleMusic:Class;
@@ -683,7 +684,7 @@ package
 						// On the horizontal edges.
 						var newY:Number = (Math.random() > 0.5 ? lowerYbound : upperYbound) + player.getY();	
 					}
-					
+					/*
 					if(newY<=2000){
 						if (Math.random() < 0.003) {
 							addOffscreenEnemy(15, 15);
@@ -701,8 +702,24 @@ package
 						}
 						
 					}
-
-					
+		*/
+					if(timer<30){
+						if (Math.random() < 0.002) {
+							addOffscreenEnemy(15, 15);
+						}
+					}
+						
+					else if(timer<90){
+						if (Math.random() < 0.01) {
+							addOffscreenEnemy(15, 15);
+						}
+					}
+					else {
+						if (Math.random() < 0.02) {
+							addOffscreenEnemy(15, 15);
+						}
+						
+					}
 				}
 				
 				//If the player has descended more than PIXELSPERDEPTH pixels
@@ -770,7 +787,6 @@ package
 				
 				if (FlxG.keys.justPressed("G")) {
 					gameOver();
-					
 				}
 				
 				if (FlxG.keys.justPressed("K")) {

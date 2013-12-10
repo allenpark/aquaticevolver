@@ -205,8 +205,6 @@ package Creature
 				{
 					weakestAppendageSlot = appendageSlot;
 				}
-				
-				
 			}
 			return weakestAppendageSlot;
 		}
@@ -239,6 +237,9 @@ package Creature
 			{
 				var adaptation:Adaptation = Adaptation.createAdaptationWithType(adaptationType,this);
 				_adaptations.push(adaptation);
+				if (adaptationType == AdaptationType.SPEEDINCREASE) {
+					this.speed += 5;
+				}
 				return true;
 			}
 			else
