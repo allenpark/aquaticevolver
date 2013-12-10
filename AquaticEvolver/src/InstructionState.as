@@ -16,9 +16,9 @@ package
 		[Embed (source = "res/wasd-arrow.png")] public var movementKeysImg:Class;
 		[Embed (source = "res/full_tentacle.png")] public var tentacleImg:Class;
 		//ADD HEALTH DROP IMAGE HERE
-		[Embed (source = "res/red-bubble.png")] public var healthDropImg:Class;
+		[Embed (source = "res/HealthDrop.png")] public var healthDropImg:Class;
 		//ADD POWERUP DROP IMAGE HERE
-		[Embed(source="res/yellow-bubble.png")] public var powerUpDropImg:Class;
+		[Embed(source="res/EvoDrop.png")] public var powerUpDropImg:Class;
 		
 		[Embed (source = "res/player-movement.png")] public var playerMovementImg:Class;
 		
@@ -62,7 +62,7 @@ package
 			spike.scale.x = spike.scale.y = imageScale;
 			add(spike);
 			
-			var spikeText:String = "-When enemies begin to invade your personal space use your spikes to point enemies in the correct direction";
+			var spikeText:String = "-Use the spike to attack enemies that get too close";
 			var spikeDesc:FlxText = new FlxText(cannon.width + textXOffset, currentYpos + spike.height/2, FlxG.width - 300, spikeText);
 			spikeDesc.scale.x = spikeDesc.scale.y = textScale;
 			add(spikeDesc);
@@ -80,8 +80,8 @@ package
 			add(tentacleDesc);
 			
 			currentYpos += tentacle.height - 30;			
-			var healthDrop:FlxSprite = new FlxSprite(125, currentYpos, healthDropImg);
-			healthDrop.scale.x = healthDrop.scale.y = imageScale;
+			var healthDrop:FlxSprite = new FlxSprite(135, currentYpos, healthDropImg);
+			healthDrop.scale.x = healthDrop.scale.y = .75;
 			add(healthDrop);
 			
 			var healthDropText:String = "-Be sure to replenish your health after fighting a tough enemy";
@@ -100,8 +100,8 @@ package
 			add(powerUpDropDesc) ;
 			//Add images/description for movement here
 			
-			var movementText:String = "Use the w-a-s-d keys or arrow keys to maneuver your creature";
-			var movementDesc:FlxText = new FlxText(FlxG.width/2 + 100, FlxG.height - 200, FlxG.width - 100, movementText);
+			var movementText:String = "Use the mouse to rotate the creature and w-a-s-d keys or arrow keys to move your creature around";
+			var movementDesc:FlxText = new FlxText(FlxG.width/2, FlxG.height - 200, FlxG.width - 100, movementText);
 			movementDesc.scale.x = movementDesc.scale.y = textScale;
 			add(movementDesc);
 			
@@ -114,9 +114,11 @@ package
 			var menuButton:FlxButton = new FlxButton(FlxG.width/2 - 100, FlxG.height - 60, "", mainMenuCallback);
 			menuButton.scrollFactor.x = menuButton.scrollFactor.y = 0 ;
 			menuButton.loadGraphic(mainMenuImg);
-			add(menuButton);	
+			add(menuButton);
 			
-			
+			// Stop wrong music from playing
+			FlxbattleMusic.stop();
+			FlxexploreMusic.stop();
 		}
 		public function mainMenuCallback():void{
 			AEEnemy.killAll();

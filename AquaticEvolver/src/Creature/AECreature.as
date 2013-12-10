@@ -29,6 +29,7 @@ package Creature
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxText;
+	import FlxColor;
 	
 	public class AECreature
 	{		
@@ -55,6 +56,9 @@ package Creature
 		protected var killed:Boolean;
 		public var flashingHealthState:Number = 0;
 		public var flashingEvoState:Number = 0;
+		public var flashingInvincibleState:Number = 0;
+		public var invincibleTimer:Number = 0;
+		public var invFlashFrame:Number = 0;
 		public var flashFrame:Number = 0;
 		public var lastAddedAdaptation:String;
 		public var evoGainCount:Number;
@@ -109,19 +113,20 @@ package Creature
 				var ratio:Number = int(healthRatio * 16) / 16.0;
 				this.color(redColor * (1 - ratio) + whiteColor * ratio);
 			}
+			
 			if (flashingHealthState == 1) {
 				var greenColor:Number = 0xff00ff00;
-				var whiteColor:Number = 0xffffffff;
-				var ratio:Number = int(flashFrame) / 16.0;
-				this.color(greenColor * (ratio) + whiteColor * (1 - ratio));
+				var currentColor:Number = 0xffff0000 * (1 - (int((this.currentHealth * 1.0 / this.maxHealth) * 16) / 16.0))
+					+ 0xffffffff * (int((this.currentHealth * 1.0 / this.maxHealth) * 16) / 16.0);
+				this.color(FlxColor.interpolateColor(greenColor, currentColor, 16, flashFrame));
 				this.flashFrame += 1;
 				if (flashFrame == 15) flashingHealthState = 2;
 			}
 			if (flashingHealthState == 2) {
 				var greenColor:Number = 0xff00ff00;
-				var whiteColor:Number = 0xffffffff;
-				var ratio:Number = int(flashFrame) / 16.0;
-				this.color(greenColor * (ratio) + whiteColor * (1 - ratio));
+				var currentColor:Number = 0xffff0000 * (1 - (int((this.currentHealth * 1.0 / this.maxHealth) * 16) / 16.0))
+					+ 0xffffffff * (int((this.currentHealth * 1.0 / this.maxHealth) * 16) / 16.0);
+				this.color(FlxColor.interpolateColor(greenColor, currentColor, 16, flashFrame));
 				this.flashFrame -= 1;
 				if (flashFrame == 0) flashingHealthState = 3;
 			}
@@ -134,9 +139,9 @@ package Creature
 			}
 			if (flashingEvoState == 1) {
 				var yellowColor:Number = 0xffffff00;
-				var whiteColor:Number = 0xffffffff;
-				var ratio:Number = int(flashFrame) / 16.0;
-				this.color(yellowColor * (ratio) + whiteColor * (1 - ratio));
+				var currentColor:Number = 0xffff0000 * (1 - (int((this.currentHealth * 1.0 / this.maxHealth) * 16) / 16.0))
+					+ 0xffffffff * (int((this.currentHealth * 1.0 / this.maxHealth) * 16) / 16.0);
+				this.color(FlxColor.interpolateColor(yellowColor, currentColor, 16, flashFrame));
 				this.flashFrame += 1;
 				if (flashFrame == 15) flashingEvoState = 2;
 			}
@@ -155,7 +160,26 @@ package Creature
 					flashingEvoState = 0;
 				}
 			}
+			
+			// invincibility should last one second
+			if (flashingInvincibleState > 0 && flashingInvincibleState <= 3) {
+				var darkColor:Number = 0xff882222;
+				var currentColor:Number = 0xffff0000 * (1 - (int((this.currentHealth * 1.0 / this.maxHealth) * 16) / 16.0))
+					+ 0xffffffff * (int((this.currentHealth * 1.0 / this.maxHealth) * 16) / 16.0);
+				this.color(FlxColor.interpolateColor(darkColor, currentColor, 16, invFlashFrame));
+				this.invFlashFrame += 1;
+				if (this.invFlashFrame == 15) {
+					this.invFlashFrame = 0;
+					this.flashingInvincibleState += 1;
+				}
+				if (this.flashingInvincibleState == 4) { // Only do this flashy thing three times
+					this.invFlashFrame = 0;
+					this.flashingInvincibleState = 0;
+				}
+			}
+			
 			this.healthDisplay.text = this.currentHealth + "/" + this.maxHealth;
+			
 			//			this.adaptationGroup.setAll("x", this.x + 10);
 			
 			//			this.adaptationGroup.setAll("y", this.y);			
@@ -253,23 +277,28 @@ package Creature
 			}
 		}
 		
-		//TODO: call this...?
 		// returns if creature is killed
 		public function takeDamage(damage:Number):Boolean
 		{
-			this.currentHealth -= damage;
-			if (this == AEWorld.player)
-			{
-				//this is for the sound effect
-				AEWorld.world.playerInDanger = true;
-			}
-			if (this.currentHealth <= 0) {
-				this.currentHealth = 0;
+			if (this.flashingInvincibleState == 0) {
+				this.currentHealth -= damage;
+				
+				// Make play less bursty, add invincibility frames when the player takes damage
+				this.flashingInvincibleState = 1;
+				
 				if (this == AEWorld.player)
 				{
-					AEWorld.world.gameOver();
+					//this is for the sound effect
+					AEWorld.world.playerInDanger = true;
 				}
-				return this.kill();
+				if (this.currentHealth <= 0) {
+					this.currentHealth = 0;
+					if (this == AEWorld.player)
+					{
+						AEWorld.world.gameOver();
+					}
+					return this.kill();
+				}
 			}
 			return false;
 		}
