@@ -16,7 +16,7 @@ package
 		
 		public function BoxTentacleMid(x:Number, y:Number, creature:AECreature, adaptOwner:Adaptation, Graphic:Class=null, width:Number=0, height:Number=0)
 		{
-			trace("Constructing tentacle mid");
+			//trace("Constructing tentacle mid");
 			this.creature = creature;
 			this.adaptOwner = adaptOwner;
 			super(x, y, 0, Graphic, width, height, null, -creature.getID());

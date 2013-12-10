@@ -14,7 +14,7 @@ package
 	import org.flixel.FlxText;
 	
 	public class AEWorld extends FlxState
-	{	
+	{
 		/**
 		 * Reference to the singleton instance of AEWorld
 		 */
@@ -218,7 +218,7 @@ package
 				}
 			}
 			
-			trace(newX + " " + newY);
+			//trace(newX + " " + newY);
 			if(newY<=3000){
 				behave = "passive";
 				if(Math.random()>0.5){
@@ -259,7 +259,7 @@ package
 			this.defaultHealth += 2
 			//Can't add enemies above the top bound
 			if(newY > topLocation){
-				trace("Generate enemy at x:",+newX+", y:"+newY);
+				//trace("Generate enemy at x:",+newX+", y:"+newY);
 				var newEnemy:AEEnemy = AEEnemy.generateRandomEnemy(appen, behave, newX, newY);
 				if (newEnemy)
 				{

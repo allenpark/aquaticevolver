@@ -39,7 +39,7 @@ package
 			
 			
 			// create the sprites
-			trace(owner);
+			//trace(owner);
 			spikeShooter = new BoxSpikeShooter(0, 0, owner, this, spikeShooterImg, 128, 128);
 			this.add(spikeShooter);
 			

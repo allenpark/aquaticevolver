@@ -11,9 +11,9 @@ package
 		
 		private function handleAttack(attackerData:CollisionData, enemyData:CollisionData):void
 		{
-			trace("player attacked enemy");
-			trace(attackerData);
-			trace(enemyData);
+			//trace("player attacked enemy");
+			//trace(attackerData);
+			//trace(enemyData);
 			var attackDescription:Array = new Array();
 			attackDescription.push(attackerData.owner);
 			attackDescription.push(enemyData.owner);
@@ -24,9 +24,9 @@ package
 		private function handleEvolution(creatureData:CollisionData, evolutionData:CollisionData):void
 		{
 			//Add adaptation to player
-			trace("Evolution Collision");
-			trace(creatureData.owner);
-			trace(AdaptationType.TENTACLE);
+			//trace("Evolution Collision");
+			//trace(creatureData.owner);
+			//trace(AdaptationType.TENTACLE);
 			var evolveDescription:Array = new Array();
 			evolveDescription.push(creatureData.owner as AECreature);
 			evolveDescription.push(AdaptationType.TENTACLE);
@@ -49,8 +49,8 @@ package
 			var fixture2:b2Fixture = contact.GetFixtureB();
 			var data1:CollisionData = (fixture1.GetBody().GetUserData() as CollisionData);
 			var data2:CollisionData = (fixture2.GetBody().GetUserData() as CollisionData);
-			trace(data1.owner + " " + data1.colliderType + " " + data1.adaptation);
-			trace(data2.owner + " " + data2.colliderType + " " + data2.adaptation);
+			//trace(data1.owner + " " + data1.colliderType + " " + data1.adaptation);
+			//trace(data2.owner + " " + data2.colliderType + " " + data2.adaptation);
 			
 			if (!data1.owner.getID() || !data2.owner.getID() || data1.owner.getID() == data2.owner.getID()) {
 				return;

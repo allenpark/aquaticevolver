@@ -53,7 +53,7 @@ package
 			for (var i:int = 0; i < tentacleMidSegments; i++) {
 				
 				// create the sprite
-				trace(creature);
+				//trace(creature);
 				
 				flixelPos = convertJointPosToFlixel(segment,jointPos);
 				sprite = new BoxTentacleMid(flixelPos.x, flixelPos.y, creature, this, tentacleMidImg, 32, 64);
