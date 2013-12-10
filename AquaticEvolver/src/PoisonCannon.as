@@ -74,5 +74,10 @@ package
 		{
 			super.update();
 		}
+		
+		override public function color(color:Number):void {
+			super.color(color);
+			this.poisonCannon.color = color;
+		}
 	}
 }

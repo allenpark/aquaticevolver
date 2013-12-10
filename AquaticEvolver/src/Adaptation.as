@@ -69,5 +69,10 @@ package {
 		}
 		
 		public function color(color:Number):void {}
+		
+		override public function kill():void {
+			super.kill();
+			AEWorld.world.remove(this);
+		}
 	}
 }

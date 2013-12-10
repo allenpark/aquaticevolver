@@ -50,7 +50,6 @@ package
 			
 			
 			// create the sprites
-			//trace(owner);
 			bubbleGun = new BoxBubbleGun(0, 0, creature, this, bubbleGunImg, 128, 128);
 			this.add(bubbleGun);
 			
@@ -72,7 +71,7 @@ package
 		
 		override public function attack(point:FlxPoint):void
 		{
-			if(lastAttackTime <= 0){
+			if(lastAttackTime <= 0) {
 				var randomSong = FlxU.getRandom(bubbleGunNoises,0, 3);
 				FlxG.play(randomSong);				
 				super.attack(point);
@@ -88,7 +87,6 @@ package
 				//Set the delay for attacking
 				lastAttackTime = ATTACKDELAY;
 			}
-			
 		}
 		
 		protected function calcBulletVelocity(mousePoint:FlxPoint, bodyPoint:FlxPoint):b2Vec2 {
@@ -113,6 +111,11 @@ package
 				lastAttackTime = 0;
 			}
 			super.update();
+		}
+		
+		override public function color(color:Number):void {
+			super.color(color);
+			this.bubbleGun.color = color;
 		}
 	}
 }

@@ -99,27 +99,22 @@ package
 					var playerPoint:FlxPoint = new FlxPoint(AEWorld.flxNumFromB2Num(movementBody.GetPosition().x), AEWorld.flxNumFromB2Num(movementBody.GetPosition().y));
 					movementBody.ApplyImpulse(calcB2Impulse(mousePoint, playerPoint), movementBody.GetPosition());
 					attack();
-					//trace("attack!");
 				}
 					
 					// moving the player based on the arrow keys inputs
 				else if (FlxG.keys.LEFT && FlxG.keys.RIGHT || FlxG.keys.A && FlxG.keys.D) {
 				}
 				else if (FlxG.keys.LEFT || FlxG.keys.A) {
-					//					trace("BoxPlayer: left");
 					xDir = -1*this.speed;
 				} else if (FlxG.keys.RIGHT || FlxG.keys.D) {
-					//					trace("BoxPlayer: right");
 					xDir = 1*this.speed;
 				}
 				
 				if (FlxG.keys.UP && FlxG.keys.DOWN || FlxG.keys.W && FlxG.keys.S)	{
 				}
 				else if (FlxG.keys.UP || FlxG.keys.W) {
-					//					trace("BoxPlayer: up");
 					yDir = -1*this.speed;
 				} else if (FlxG.keys.DOWN || FlxG.keys.S) {
-					//					trace("BoxPlayer: down");
 					yDir = 1*this.speed;
 				}
 				if (this.aboveTop){
