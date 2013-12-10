@@ -123,7 +123,7 @@ package
 				
 				if(defaultMovementScheme) {
 					var playerPosition:b2Vec2 = movementBody.GetPosition();
-					movementBody.ApplyImpulse(getForceVec(xDir, yDir, .5), movementBody.GetPosition());
+					movementBody.ApplyImpulse(getForceVec(xDir, yDir, 2), movementBody.GetPosition());
 					
 					var mouseX:Number = FlxG.mouse.x;
 					var mouseY:Number = FlxG.mouse.y;
@@ -138,7 +138,7 @@ package
 					var headDirection:b2Vec2 = new b2Vec2(Math.sin(headAngle) * -1, Math.cos(headAngle));
 					var goalDirection:b2Vec2 = new b2Vec2(dirX, dirY);
 					var cross:Number = b2Math.CrossVV(headDirection, goalDirection);
-					var torque:Number = 7.0;
+					var torque:Number = 14.0;
 					if (cross > 0) {
 						movementBody.SetAngularVelocity(-1 * torque);
 					} else {

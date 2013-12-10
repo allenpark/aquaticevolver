@@ -63,11 +63,11 @@ package
 		/**
 		 * Boolean to spawn enemies
 		 */
-		private var SPAWNENEMIES:Boolean = false;
+		private var SPAWNENEMIES:Boolean = true;
 		/**
 		 * Drawing bubbles
 		 */
-		private var DRAWBUBBLES:Boolean = false;		
+		private var DRAWBUBBLES:Boolean = true;		
 		
 		/**
 		 * The player character, sharing a common inherited ancestor as other NPC creatures.
