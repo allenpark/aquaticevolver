@@ -11,6 +11,7 @@ package
 	
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
+	import org.flixel.FlxText;
 	import org.flixel.FlxU;
 	
 	public class AEPlayer extends AECreature
@@ -38,6 +39,7 @@ package
 		
 		private var defaultMovementScheme:Boolean = true; 
 		public var aboveTop: Boolean = false; 
+		private var teaserText:FlxText; 
 		
 		public function AEPlayer(x:Number, y:Number, health:Number)
 		{	
@@ -56,6 +58,11 @@ package
 			var torsoDef:AETorsoDef = AECreature.randomTorsoDef(x,y);
 			var tailDef:AETailDef = AECreature.randomTailDef(x,y);
 			super(x, y, health, headDef, torsoDef, tailDef);
+			teaserText =  new FlxText(60  ,FlxG.height +50 ,FlxG.width,"The shallows are calm... \n but what lies below");
+			teaserText.alignment = "center" ; 
+			teaserText.size = 60;
+			AEWorld.world.add (teaserText);
+			teaserText.velocity.y = -50
 
 			//attachAppendage(AdaptationType.POISONCANNON);	
 			//addAdaptation(AdaptationType.SPIKESHOOTER);
@@ -197,6 +204,7 @@ package
 		
 		override public function kill():Boolean
 		{
+			teaserText.kill();
 			for each (var adaptation:Adaptation in this._adaptations)
 			{
 				adaptation.kill();
