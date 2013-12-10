@@ -12,7 +12,7 @@ package
 	
 	public class Spike extends Appendage
 	{
-		private var spike:B2FlxSprite;
+		private var spike:BoxSpike;
 		
 		// spike joint location
 		private var spikeJoint:b2Vec2 = new b2Vec2(0,45);

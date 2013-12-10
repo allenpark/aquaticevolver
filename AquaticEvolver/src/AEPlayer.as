@@ -52,9 +52,9 @@ package
 			swimNoises[8] = Swim9SFX;
 			
 			//Player has special ID value of 1
-			var headDef:AEHeadDef = AECreature.head5Def(x,y);
-			var torsoDef:AETorsoDef = AECreature.torso1Def(x,y);
-			var tailDef:AETailDef = AECreature.tail1Def(x,y);
+			var headDef:AEHeadDef = AECreature.randomHeadDef(x,y);
+			var torsoDef:AETorsoDef = AECreature.randomTorsoDef(x,y);
+			var tailDef:AETailDef = AECreature.randomTailDef(x,y);
 			super(x, y, health, headDef, torsoDef, tailDef);
 
 			//attachAppendage(AdaptationType.POISONCANNON);	
@@ -144,7 +144,7 @@ package
 					var headDirection:b2Vec2 = new b2Vec2(Math.sin(headAngle) * -1, Math.cos(headAngle));
 					var goalDirection:b2Vec2 = new b2Vec2(dirX, dirY);
 					var cross:Number = b2Math.CrossVV(headDirection, goalDirection);
-					var torque:Number = 14.0;
+					var torque:Number = 30.0;
 					if (cross > 0) {
 						movementBody.SetAngularVelocity(-1 * torque);
 					} else {
@@ -197,14 +197,14 @@ package
 			return new b2Vec2(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
 		}
 		
-		override public function kill():void
+		override public function kill():Boolean
 		{
 			for each (var adaptation:Adaptation in this._adaptations)
 			{
 				adaptation.kill();
 			}
 			this._adaptations = new Array();
-			super.kill();
+			return super.kill();
 		}
 	}
 }
