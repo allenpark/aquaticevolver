@@ -6,13 +6,19 @@ package
 	import Box2D.Dynamics.b2World;
 	
 	import org.flixel.FlxG;
+	import org.flixel.FlxU;
 	import org.flixel.FlxPoint;
 	
 	public class PoisonCannon extends Appendage
 	{
 		[Embed(source='res/sfx/PoisonSpray1.mp3')]
-		public var PoisonCannonSFX:Class;
+		public var PoisonCannonSFX1:Class;
+		[Embed(source='res/sfx/PoisonSpray2.mp3')]
+		public var PoisonCannonSFX2:Class;
+		[Embed(source='res/sfx/PoisonSpray3.mp3')]
+		public var PoisonCannonSFX3:Class;
 		// bubble gun joint locations
+		public var poisonNoises:Array = new Array();
 		private var poisonCannonJoint:b2Vec2 = new b2Vec2(0,32);
 		
 		private var poisonCannon:BoxPoisonCannon;
@@ -26,6 +32,9 @@ package
 		
 		public function PoisonCannon(jointPos:b2Vec2, jointAngle:Number, owner:*, segment:B2FlxSprite)
 		{
+			poisonNoises [0] =  PoisonCannonSFX1;
+			poisonNoises [1] =  PoisonCannonSFX2;
+			poisonNoises [2] =  PoisonCannonSFX2;
 			jointAngle = jointAngle + jointAngleCorrection;
 			super(AdaptationType.POISONCANNON, 30, true, 2, jointPos, jointAngle, owner, segment);
 			
@@ -57,12 +66,18 @@ package
 		
 		override public function attack(point:FlxPoint):void
 		{
-			FlxG.play(PoisonCannonSFX);
+			var randomSong = FlxU.getRandom(poisonNoises,0, 3);
+			FlxG.play(randomSong);	
 		}
 		
 		override public function update():void
 		{
 			super.update();
+		}
+		
+		override public function color(color:Number):void {
+			super.color(color);
+			this.poisonCannon.color = color;
 		}
 	}
 }

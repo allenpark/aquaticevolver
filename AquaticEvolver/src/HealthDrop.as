@@ -12,15 +12,15 @@ package
 	import org.flixel.FlxPoint;
 	import org.flixel.FlxSprite;
 	import Collisions.AECollisionData;
-
-	public class EvolutionDrop extends B2FlxSprite
+	
+	public class HealthDrop extends B2FlxSprite
 	{
-		[Embed(source='res/yellow-bubble.png')]
+		[Embed(source='res/red-bubble.png')]
 		public static var ImgAttackBubble:Class;
 		
 		private var bodyWidth:int = 64;
 		private var bodyHeight:int = 64;
-		public var owner:EvolutionDrop;
+		public var owner:HealthDrop;
 		public var creatureType:Number;
 		public var timeCreated:Number;
 		
@@ -41,16 +41,16 @@ package
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-14.0),AEWorld.b2NumFromFlxNum(-10.0)),
 			new b2Vec2(AEWorld.b2NumFromFlxNum(-11.0),AEWorld.b2NumFromFlxNum(-14.0)));
 		
-		public function EvolutionDrop(x:Number, y:Number, adaptationType:Number)
-		{			
-			this.adaptationType = adaptationType;
+		public function HealthDrop(x:Number, y:Number)
+		{
 			this.bubbleBoxShape = new b2PolygonShape();
 			this.bubbleBoxShape.SetAsArray(polygonVerticies);
-			this.creatureType = SpriteType.EVOLUTIONDROP;
+			this.creatureType = SpriteType.HEALTHDROP;
 			this.owner = this;
+			//this.color = 0xffff0000;
 			this.timeCreated = (new Date()).getTime();
 			
-			super(x, y, 0, ImgAttackBubble, width, height, this.bubbleBoxShape);
+			super(x, y, 0, ImgAttackBubble, width, height, this.bubbleBoxShape);		
 		}
 		
 		override public function update():void{
@@ -65,7 +65,7 @@ package
 			var b2bb:B2BodyBuilder = super.bodyBuilder(position, angle)
 				.withShape(shape)
 				.withType(b2Body.b2_staticBody)
-				.withData(new AECollisionData(SpriteType.EVOLUTIONDROP, this));
+				.withData(new AECollisionData(SpriteType.HEALTHDROP, this));
 			return b2bb;
 		}
 		

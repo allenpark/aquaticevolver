@@ -16,10 +16,12 @@ package
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
 	import org.flixel.FlxText;
+	import org.flixel.FlxU;
+	import org.flixel.FlxPoint;
+	import Collisions.AEHealthDef;
 	
 	public class AEWorld extends FlxState
 	{
-		public static var enemyCount:Number;
 		/**
 		 * Reference to the singleton instance of AEWorld
 		 */
@@ -116,6 +118,8 @@ package
 		
 		public static var EvolveList:Array = new Array();
 		
+		public static var HealthList:Array = new Array();
+		
 		/**
 		 * Number keeping track of the last position the background's color
 		 * was changed in order to figure out whether to change the background
@@ -144,6 +148,15 @@ package
 		 * JTW 12/3/13
 		 */
 		public static var topLocation :Number = -10;
+		
+		/**
+		 * Sound stuff, the safeDistance will be the distance at which the 
+		 * battle music volume will go to zero. The battle music volume will 
+		 * be a function of player's distance to nearest enemy. 
+		 * JTW 12/9/13
+		 */
+		private var safeDistance : Number  = 50;
+		private var battleVolume : Number = 0;
 		
 		/**
 		 * Constructs and initializes the Box2D b2World.
@@ -223,7 +236,8 @@ package
 				}
 			}
 			
-			if(newY<=3000){
+			//trace(newX + " " + newY);
+			if(newY<=2000){
 				behave = "passive";
 				if(Math.random()>0.5){
 					appen = 1;
@@ -232,7 +246,7 @@ package
 					appen = 0;
 			}
 			
-			else if(newY<=6000 && newY >3000){
+			else if(newY<=5000 && newY >2000){
 				if(Math.random()>0.4){
 					behave = "passive";
 					
@@ -246,7 +260,7 @@ package
 				else
 					appen = 2;
 			}
-			else if(newY<=9000 && newY > 6000){
+			else {
 				
 					behave = "aggressive";
 					if(Math.random()>0.5){
@@ -296,6 +310,7 @@ package
 			return outsideXbounds || outsideYbounds;
 
 		}
+		
 		
 		public function drawBackgroundObject(xBuffer:int = 0, yBuffer: int =0):void{
 			var newX:Number;
@@ -415,15 +430,30 @@ package
 			paused = new pausescreen;
 		}
 		
+		private function distanceToNearestEnemy():Number
+		{
+			var shortestDist: Number = 100000; 
+			for each (var enemy:AEEnemy in AEEnemy.enemies){
+				shortestDist = Math.min(shortestDist, FlxU.getDistance(new FlxPoint(player.getX(),player.getY()), new FlxPoint(enemy.getX(),enemy.getY())))
+			}
+			return shortestDist;
+		}
+		
 		public function getInstance():AEWorld
 		{
 			return this;
 		}
+		 
+//		private function updateBattleVolume():void
+//		{
+//			var distance:Number = distanceToNearestEnemy();
+//			if (
+//			
+//		}
 		
 		
 		override public function create():void
 		{
-			AEWorld.enemyCount = 0;
 			//FlxG.mouse.hide();
 			FlxG.mouse.load(cursor, 1, -32, -32);
 			//FlxG.mouse.show(cursor);
@@ -469,6 +499,7 @@ package
 		private function processLists():void
 		{
 			processEvolveList();
+			processHealthList();
 			processAttackList();
 			processRemoveList();
 		}
@@ -540,9 +571,27 @@ package
 				evolver.addAdaptation(evolutionDrop.adaptationType);
 			}
 		}
+		
+		private function processHealthList():void
+		{
+			while (HealthList.length > 0)
+			{
+				var healthDef:AEHealthDef = HealthList.pop();
+				var creatureBeingHealed:AECreature = healthDef.creature;
+				if (creatureBeingHealed.currentHealth < creatureBeingHealed.maxHealth) {
+					var healthRegain:int = creatureBeingHealed.maxHealth - creatureBeingHealed.currentHealth;
+					creatureBeingHealed.currentHealth += healthRegain;
+				}
+			}	
+		}
+		
+		public function gameOver():void
+		{
+			AEEnemy.killAll();
+			FlxG.switchState(new GameOverState);
+		}
 		override public function update():void 
 		{
-			AEWorld.debugText.text = AEWorld.enemyCount + " " + AEEnemy.enemies.length;
 			var baseLightPos:Number = Math.floor(FlxG.camera.scroll.x / 1024) * 1024;
 			for (var i:Number = 0; i < lights.length; i++) {
 				lights[i].x = baseLightPos + 1024 * i;
@@ -559,11 +608,12 @@ package
 				super.update();
 				player.update();
 				AEEnemy.updateEnemies();
+				distanceToNearestEnemy();
 				//Box2D debug stuff
 				if (AquaticEvolver.box2dDebug) {
 					AEB2World.DrawDebugData();
 				}
-				if (FlxG.keys.justPressed("D")) {
+				if (FlxG.keys.justPressed("I")) {
 					toggleB2DebugDrawing();
 				}
 				AEB2World.Step(1.0/60.0, 10, 10);
@@ -642,7 +692,8 @@ package
 				} 
 				
 				if (FlxG.keys.justPressed("G")) {
-					FlxG.switchState(new GameOverState);				
+					gameOver();
+					
 				}
 				
 				if (FlxG.keys.justPressed("K")) {
