@@ -1,5 +1,6 @@
 package
 {	
+	import Box2D.Collision.b2Distance;
 	import Box2D.Common.Math.b2Math;
 	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.b2Body;
@@ -20,7 +21,7 @@ package
 		/**
 		 * The target that the creature is moving towards and therefore also attacking.
 		 */
-		private var target:FlxPoint = new FlxPoint(AEWorld.player.getX(), AEWorld.player.getY());
+		//private var target:FlxPoint = new FlxPoint(AEWorld.player.getX(), AEWorld.player.getY());
         private var counter:Number = 0;
 		public var aggroRadius:int = 200;
 		private var movementBody:b2Body;
@@ -35,6 +36,7 @@ package
 		private static var unusedIDs:Array = new Array(2,3,4,5);
 		
 		private var _id:Number;
+		private static var creatures:Array = new Array();
 		
 		public function AEEnemy(id:Number, appen:int, behavior:String, x:Number, y:Number, health:Number, headDef:AEHeadDef, torsoDef:AETorsoDef, tailDef:AETailDef)
 		{
@@ -88,7 +90,7 @@ package
 				}else if( z<= 0.5 && z > 0.4) {
 					addAdaptation(AdaptationType.MANDIBLE);
 				}else if( z<= 0.6 && z > 0.5) {
-					addAdaptation(AdaptationType.POISONCANNON);
+					//addAdaptation(AdaptationType.POISONCANNON);
 				}else if( z<= 0.7 && z > 0.8) {
 					addAdaptation(AdaptationType.SHELL);
 				}
@@ -111,7 +113,7 @@ package
 				}else if( m<= 0.5 && m > 0.4) {
 					addAdaptation(AdaptationType.MANDIBLE);
 				}else if( m<= 0.6 && m > 0.5) {
-					addAdaptation(AdaptationType.POISONCANNON);
+					//addAdaptation(AdaptationType.POISONCANNON);
 				}else if( m<= 0.7 && m > 0.8) {
 					addAdaptation(AdaptationType.SHELL);
 				}
@@ -136,7 +138,7 @@ package
 				}else if( z<= 0.5 && z > 0.4) {
 					addAdaptation(AdaptationType.MANDIBLE);
 				}else if( z<= 0.6 && z > 0.5) {
-					addAdaptation(AdaptationType.POISONCANNON);
+					//addAdaptation(AdaptationType.POISONCANNON);
 				}else if( z<= 0.7 && z > 0.8) {
 					addAdaptation(AdaptationType.SHELL);
 				}
@@ -159,7 +161,7 @@ package
 				}else if( m<= 0.5 && m > 0.4) {
 					addAdaptation(AdaptationType.MANDIBLE);
 				}else if( m<= 0.6 && m > 0.5) {
-					addAdaptation(AdaptationType.POISONCANNON);
+					//addAdaptation(AdaptationType.POISONCANNON);
 				}else if( m<= 0.7 && m > 0.8) {
 					addAdaptation(AdaptationType.SHELL);
 				}
@@ -182,7 +184,7 @@ package
 				}else if( n<= 0.5 && n > 0.4) {
 					addAdaptation(AdaptationType.MANDIBLE);
 				}else if( n<= 0.6 && n > 0.5) {
-					addAdaptation(AdaptationType.POISONCANNON);
+					//addAdaptation(AdaptationType.POISONCANNON);
 				}else if( n<= 0.7 && n > 0.8) {
 					addAdaptation(AdaptationType.SHELL);
 				}
@@ -195,6 +197,7 @@ package
 					addAdaptation(AdaptationType.SPIKESHOOTER);
 				}
 			}
+			creatures.push(this);
 		}
 		
 		public static function generateRandomEnemy(app:int, behavior:String, x:Number, y:Number):AEEnemy
@@ -245,8 +248,10 @@ package
 					passiveMovement(1);
 				else
 					passiveMovement(0);
-			} else {
+			} else if (attitude == "aggressive"){
 				aggressiveMovement();
+			} else{
+				bullyPlayer();
 			}
 			/*
 			if(Math.random()>0.8){
@@ -265,6 +270,7 @@ package
 			if (this.killed) {
 				return false;
 			}
+			creatures.splice(creatures.indexOf(this), 1);
 			unusedIDs.push(_id);
 
 			AEEnemy.enemies.splice(AEEnemy.enemies.indexOf(this),1);
@@ -272,6 +278,7 @@ package
         }
 		
 		public static function killAll():void {
+
 			while (AEEnemy.enemies.length > 0) {
 				AEWorld.debugText.text += " " + AEEnemy.enemies[0].getID();
 				AEEnemy.enemies[0].kill();
@@ -285,14 +292,57 @@ package
 		}
 
 		private function aggressiveMovement():void {
-			
-			this.moveCloseToEnemy(AEWorld.player, 240);
-			target = new FlxPoint(FlxG.width  / 2.0, FlxG.height / 2.0);
+			var creature:AECreature = nearestCreature();
+			this.moveCloseToEnemy(creature, 200);
+			//target = new FlxPoint(FlxG.width  / 2.0, FlxG.height / 2.0);
+			//TODO: convert to proper screen coords
+			var target:FlxPoint = new FlxPoint(creature.getX() - FlxG.camera.scroll.x, creature.getY() - FlxG.camera.scroll.y);
 			aim(target);
 			if (counter > 1) {
 				counter = 0;
 				attack(target);
 			}
+		}
+		
+		private function bullyPlayer():void{
+			var creature:AECreature = AEWorld.player;
+			this.moveCloseToEnemy(creature, 220);
+			//target = new FlxPoint(FlxG.width  / 2.0, FlxG.height / 2.0);
+			//TODO: convert to proper screen coords
+			var target:FlxPoint = new FlxPoint(creature.getX() - FlxG.camera.scroll.x, creature.getY() - FlxG.camera.scroll.y);
+			aim(target);
+			if (counter > 1) {
+				counter = 0;
+				attack(target);
+			}
+		}
+		
+		private function nearestCreature():AECreature
+		{
+			var nearestCreature:AECreature = null;
+			var nearestDistanceSq:Number = undefined;
+			var thisLocation:b2Vec2 = this._head.headSegment.getBody().GetPosition();
+			for each (var creature:AECreature in creatures)
+			{
+				if (!nearestCreature)
+				{
+					nearestCreature = creature;
+					nearestDistanceSq = distanceSqFromCreature(creature);
+				}
+				else if (this.distanceSqFromCreature(creature) <= nearestDistanceSq) 
+				{
+					nearestCreature = creature;
+					nearestDistanceSq = distanceSqFromCreature(creature);
+				}
+			}
+			return nearestCreature;
+		}
+
+		private function distanceSqFromCreature(other:AECreature):Number
+		{
+			var otherX:Number = 0;
+			var otherY:Number = 0;
+			return (this.getX() - other.getX())^2 + (this.getY() - other.getY())^2;
 		}
 		
 		private function runAwayFromEnemy(enemy:AECreature):void {
@@ -369,13 +419,13 @@ package
 		
 		private function attack(attackPoint:FlxPoint):void {
 			for each (var adapt:Adaptation in _adaptations) {
-				adapt.attack(target);
+				adapt.attack(attackPoint);
 			}
 		}
 		
 		private function aim(attackPoint:FlxPoint):void {
 			for each (var adapt:Adaptation in _adaptations) {
-				adapt.aim(target);
+				adapt.aim(attackPoint);
 			}
 		}
 		

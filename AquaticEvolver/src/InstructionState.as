@@ -114,9 +114,11 @@ package
 			var menuButton:FlxButton = new FlxButton(FlxG.width/2 - 100, FlxG.height - 60, "", mainMenuCallback);
 			menuButton.scrollFactor.x = menuButton.scrollFactor.y = 0 ;
 			menuButton.loadGraphic(mainMenuImg);
-			add(menuButton);	
+			add(menuButton);
 			
-			
+			// Stop wrong music from playing
+			FlxbattleMusic.stop();
+			FlxexploreMusic.stop();
 		}
 		public function mainMenuCallback():void{
 			AEEnemy.killAll();

@@ -15,7 +15,7 @@ package
 	
 	public class SpikeShooter extends Appendage
 	{
-		[Embed(source='res/sfx/BubbleCannonShoot2.mp3')]
+		[Embed(source='res/sfx/Swipe5.mp3')]
 		public var SpikeShooterSFX:Class;
 		
 		// bubble gun joint locations
@@ -35,7 +35,7 @@ package
 		
 		//for now this is the bubble shooter image, the spike shooter may need its own image at some point
 
-		[Embed(source='res/BubbleCannon1.png')]
+		[Embed(source='res/SpikeCannon1.png')]
 
 		public static var spikeShooterImg:Class;
 		
