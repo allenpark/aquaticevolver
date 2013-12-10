@@ -513,7 +513,7 @@ package
 			lights = new Array();
 			var numLights:Number = Math.ceil(FlxG.width / 1024.0) + 1;
 			for (var i:Number = 0; i < numLights; i++) {
-				var newLight:FlxSprite = new FlxSprite(0, topLocation - FlxG.height / 2, lightsImage); 
+				var newLight:FlxSprite = new FlxSprite(0, topLocation - 100, lightsImage); 
 				lights.push(newLight);
 				this.add(newLight);
 			}
@@ -641,7 +641,7 @@ package
 				for (var i:Number = 0; i < lights.length; i++) {
 					lights[i].x = baseLightPos + 1024 * i;
 				}
-				if (player.getY() < topLocation) {
+				if (player.getY() < topLocation + FlxG.height / 2 - 100) {
 					FlxG.camera.follow(null);
 					FlxG.camera.scroll.x = player.getX() - FlxG.width/2;
 				} else {
