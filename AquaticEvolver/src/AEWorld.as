@@ -16,6 +16,8 @@ package
 	import org.flixel.FlxSprite;
 	import org.flixel.FlxState;
 	import org.flixel.FlxText;
+	import org.flixel.FlxU;
+	import org.flixel.FlxPoint;
 	
 	public class AEWorld extends FlxState
 	{
@@ -143,6 +145,15 @@ package
 		 * JTW 12/3/13
 		 */
 		public static var topLocation :Number = -10;
+		
+		/**
+		 * Sound stuff, the safeDistance will be the distance at which the 
+		 * battle music volume will go to zero. The battle music volume will 
+		 * be a function of player's distance to nearest enemy. 
+		 * JTW 12/9/13
+		 */
+		private var safeDistance : Number  = 50;
+		private var battleVolume : Number = 0;
 		
 		/**
 		 * Constructs and initializes the Box2D b2World.
@@ -302,6 +313,7 @@ package
 
 		}
 		
+		
 		public function drawBackgroundObject(xBuffer:int = 0, yBuffer: int =0):void{
 			var newX:Number;
 			var newY:Number;
@@ -420,10 +432,26 @@ package
 			paused = new pausescreen;
 		}
 		
+		private function distanceToNearestEnemy():Number
+		{
+			var shortestDist: Number = 100000; 
+			for each (var enemy:AEEnemy in AEEnemy.enemies){
+				shortestDist = Math.min(shortestDist, FlxU.getDistance(new FlxPoint(player.getX(),player.getY()), new FlxPoint(enemy.getX(),enemy.getY())))
+			}
+			return shortestDist;
+		}
+		
 		public function getInstance():AEWorld
 		{
 			return this;
 		}
+		 
+//		private function updateBattleVolume():void
+//		{
+//			var distance:Number = distanceToNearestEnemy();
+//			if (
+//			
+//		}
 		
 		
 		override public function create():void
@@ -568,11 +596,12 @@ package
 				super.update();
 				player.update();
 				AEEnemy.updateEnemies();
+				distanceToNearestEnemy();
 				//Box2D debug stuff
 				if (AquaticEvolver.box2dDebug) {
 					AEB2World.DrawDebugData();
 				}
-				if (FlxG.keys.justPressed("D")) {
+				if (FlxG.keys.justPressed("7")) {
 					toggleB2DebugDrawing();
 				}
 				AEB2World.Step(1.0/60.0, 10, 10);

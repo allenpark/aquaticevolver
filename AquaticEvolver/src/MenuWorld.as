@@ -13,6 +13,7 @@ package
 		[Embed (source = "res/instructions.png")] public var instructionButtonImg:Class;
 		[Embed (source = "res/credits.png")] public var creditsButtonImg:Class;
 		[Embed (source = "res/Cursor.png")] public var cursorImg:Class;
+		[Embed(source="res/Headwinds.mp3")] 	public var mainMenuMusic:Class;
 		
 		public var buttonOffset:FlxPoint = new FlxPoint(10,10)
 		
@@ -38,6 +39,7 @@ package
 			add(creditButton);
 			FlxG.mouse.show();
 			FlxG.mouse.load(cursorImg, 1, -32, -32);
+			FlxG.playMusic(mainMenuMusic);
 		}
 		 public function startButtonCallback():void {
 			 AEEnemy.killAll();
