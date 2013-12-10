@@ -5,6 +5,8 @@ package
 	import Box2D.Dynamics.b2World;
 	import Box2D.Dynamics.Joints.b2RevoluteJointDef;
 	
+	import Creature.AECreature;
+	
 	import org.flixel.FlxG;
 	import org.flixel.FlxPoint;
 	import org.flixel.FlxU;
@@ -34,13 +36,13 @@ package
 		[Embed(source='res/BubbleCannon1.png')]
 		public static var bubbleGunImg:Class;
 		
-		public function BubbleGun(jointPos:b2Vec2, jointAngle:Number, owner:*, segment:B2FlxSprite)
+		public function BubbleGun(jointPos:b2Vec2, jointAngle:Number, creature:AECreature, segment:B2FlxSprite)
 		{
 			bubbleGunNoises[0] = BubbleGunSFX1;
 			bubbleGunNoises[1] = BubbleGunSFX2;
 			bubbleGunNoises[2] = BubbleGunSFX3;
 			jointAngle = jointAngle + jointAngleCorrection;
-			super(AdaptationType.BUBBLEGUN, 30, true, 1, jointPos, jointAngle, owner, segment);
+			super(AdaptationType.BUBBLEGUN, 30, true, 1, jointPos, jointAngle, creature, segment);
 			
 			var world:b2World = AEWorld.AEB2World;
 			
@@ -49,7 +51,7 @@ package
 			
 			// create the sprites
 			//trace(owner);
-			bubbleGun = new BoxBubbleGun(0, 0, owner, this, bubbleGunImg, 128, 128);
+			bubbleGun = new BoxBubbleGun(0, 0, creature, this, bubbleGunImg, 128, 128);
 			this.add(bubbleGun);
 			
 			// create the joint from base to creature
