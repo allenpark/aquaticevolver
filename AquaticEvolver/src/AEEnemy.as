@@ -53,13 +53,9 @@ package
 			var z:Number = Math.random();
 			if (appen == 1) {
 				if(z>0.5){
-					//addAdaptation(AdaptationType.TENTACLE);
-					//addAdaptation(AdaptationType.BUBBLEGUN);
-					addAdaptation(AdaptationType.SPIKESHOOTER);
+					addAdaptation(AdaptationType.TENTACLE);
 				} else {
-					//addAdaptation(AdaptationType.SPIKE);
-					//addAdaptation(AdaptationType.BUBBLEGUN);
-					addAdaptation(AdaptationType.SPIKESHOOTER);
+					addAdaptation(AdaptationType.SPIKE);
 				}
 			}
 			if (appen == 2) {
