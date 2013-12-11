@@ -197,6 +197,35 @@ package
 					addAdaptation(AdaptationType.SPIKESHOOTER);
 				}
 			}
+			if (appen == 10) {
+				addAdaptation(AdaptationType.CLAW);
+				addAdaptation(AdaptationType.MANDIBLE);	
+				addAdaptation(AdaptationType.SPIKE);
+				addAdaptation(AdaptationType.SPIKE);
+				addAdaptation(AdaptationType.TENTACLE);
+				addAdaptation(AdaptationType.TENTACLE);
+				addAdaptation(AdaptationType.TENTACLE);
+				addAdaptation(AdaptationType.SPIKESHOOTER);
+				addAdaptation(AdaptationType.BUBBLEGUN);
+				addAdaptation(AdaptationType.SPEEDINCREASE);
+				addAdaptation(AdaptationType.SPEEDINCREASE);
+				addAdaptation(AdaptationType.SPEEDINCREASE);
+				addAdaptation(AdaptationType.SPEEDINCREASE);
+				addAdaptation(AdaptationType.SPEEDINCREASE);
+
+
+
+	
+			}
+				
+				
+
+
+
+//do you know how to make things spawn in a specific place?
+				
+				
+
 			creatures.push(this);
 		}
 		
@@ -208,6 +237,15 @@ package
 			return generateEnemy(app, behavior, x, y, headDef, torsoDef, tailDef);
 		}
 		
+		
+		public static function generateBossEnemy(x:Number, y:Number):AEEnemy
+		{
+			var headDef:AEHeadDef = AECreature.randomHeadDef(x,y);
+			var torsoDef:AETorsoDef = AECreature.randomTorsoDef(x,y);
+			var tailDef:AETailDef = AECreature.randomTailDef(x,y);
+			return generateEnemy(10, "boss", x, y, headDef, torsoDef, tailDef);
+		}
+		
 		/**
 		 * @param x In flixel coords
 		 * @param y In flixel coords
@@ -217,7 +255,14 @@ package
 			if (unusedIDs.length != 0)
 			{
 				var id:Number = unusedIDs.pop();
-				var newEnemy:AEEnemy = new AEEnemy(id, app,  behavior, x, y, 10, headDef, torsoDef, tailDef);
+				if(behavior == "boss"){
+					var newEnemy:AEEnemy = new AEEnemy(id, app,  behavior, x, y, 100, headDef, torsoDef, tailDef);
+
+				}
+				else{
+					var newEnemy:AEEnemy = new AEEnemy(id, app,  behavior, x, y, 10, headDef, torsoDef, tailDef);
+
+				}
 				enemies.push(newEnemy);
 				return newEnemy;
 			} else {
@@ -250,7 +295,16 @@ package
 					passiveMovement(0);
 			} else if (attitude == "aggressive"){
 				aggressiveMovement();
-			} else{
+			}
+			else if (attitude == "boss"){
+				
+				if(this.currentHealth < this.maxHealth)
+					bossMovement(1);
+				else
+					bossMovement(0);			
+			}
+			
+			else{
 				bullyPlayer();
 			}
 			/*
@@ -426,6 +480,31 @@ package
 		private function aim(attackPoint:FlxPoint):void {
 			for each (var adapt:Adaptation in _adaptations) {
 				adapt.aim(attackPoint);
+			}
+		}
+		
+		private function bossMovement(attacked:int):void{
+			if(attacked==0){			
+				if(Math.abs(this.getX()-original.x)<20 && Math.abs(this.getY()-original.y)<20){
+					current = new FlxPoint(original.x + boxBound, original.y);
+				}
+				else if(Math.abs(this.getX()-(original.x + boxBound))<20 && Math.abs(this.getY()-original.y)<20){
+					current = new FlxPoint(original.x + boxBound, original.y - boxBound);
+				}
+				else if(Math.abs(this.getX()-(original.x + boxBound))<20 && Math.abs(this.getY()-(original.y - boxBound))<20){
+					current = new FlxPoint(original.x, original.y - boxBound);
+				}
+				else if(Math.abs(this.getX()-original.x)<20 && Math.abs(this.getY()-(original.y - boxBound))<20){
+					current = new FlxPoint(original.x, original.y);
+				}
+				
+				movetoPoint(current, 10);
+			}
+			else{
+				var distanceFromPoint:int = Math.sqrt(Math.pow(this.getX() - AEWorld.player.getX(), 2) + Math.pow(this.getY() - AEWorld.player.getY(), 2));
+				if(distanceFromPoint < 250){
+					bullyPlayer();
+				}
 			}
 		}
 		
